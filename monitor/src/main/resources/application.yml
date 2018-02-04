@@ -1,0 +1,131 @@
+# 端口号
+server:
+  port: 8080
+  # address: 127.0.0.1
+  contextPath: /
+  
+spring:
+  # 环境配置
+  # profiles:
+    # 开发环境
+    # active: dev
+    
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://123.207.39.209:3306/Detection?useUnicode=true&characterEncoding=utf-8
+    username: dba
+    password: hnzdjc@
+    # 使用druid数据源
+    druid:
+      # 配置监控统计拦截的filters
+      filters: stat,wall,slf4j
+      # 配置初始化大小、最小、最大
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      # 用来检测连接是否有效的sql，要求是一个查询语句
+      validation-query: select 'x'
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时执行validationQuery检测连接是否有效,开启会降低性能
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效,开启会降低性能
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      
+      # 监控配置
+      # WebStatFilter配置,用于采集web-jdbc关联监控的数据
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        # 排除一些不必要的url，比如.js,/jslib/等等
+        exclusions: /druid/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico
+        # 是否开启session统计功能
+        session-stat-enable: false
+        session-stat-max-count: 1000
+        # 使druid能够知道当前的session的用户是谁--currentUser为你user信息保存在session中的sessionName
+        principal-session-name: currentUser
+        # 如果你的user信息保存在cookie中,使druid知道当前的user是谁--currentUser为你user信息保存在cookie中的cookieName
+        principal-cookie-name: currentUser
+        # 是否开启监控单个url调用的sql列表
+        profile-enable: true
+        
+      # StatViewServlet配置,session监控
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        # 是否允许清空统计数据
+        reset-enable: true
+        login-username: druid
+        login-password: druid
+        # IP白名单
+        allow: 127.0.0.1
+        # IP黑名单(共同存在时，deny优先于allow)
+        deny: 10.88.89.100
+        
+      # Spring监控配置,配置_Druid和Spring关联监控配置
+      aop-patterns: com.zhongda.monitor.service.*
+      
+  # 开启cglib动态代理    
+  aop:
+    proxy-target-class: true
+          
+  #邮箱配置
+  mail:
+    host: smtp.hnzdjt.com.cn 
+    username: zdjcyun@hnzdjt.com.cn
+    password: Ab123456
+    protocol: smtp
+    port: 465
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: false 
+            required: false
+        
+#mybatis扫描xml以及实体路径   
+mybatis:
+  config-location: classpath:mybatis/mybatis-config.xml 
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.zhongda.monitor.model
+
+#pagehelper分页插件
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+  
+# 日志配置    
+logging: 
+  level:
+    com.zhongda.monitor: DEBUG
+
+# JWT 认证配置
+jwt:
+  header: Authorization
+  secret: 2018YangFanQiHang
+  tokenHead: "Bearer "
+  exceptUrl: "/auth/**"
+
+# shiro过滤路径拦截配置    
+shiroFilter:  
+  filterChainDefinitionMap:  
+    /v2/api-docs: anon  
+    /swagger-ui.html: anon  
+    /swagger-resources: anon  
+    /swagger-resources/**: anon  
+    /webjars/springfox-swagger-ui/**: anon  

@@ -1,0 +1,52 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+   updateCheck="false" name="shiroCache"
+   maxBytesLocalHeap="50M">
+	<!-- 配置磁盘缓存使用的物理路径，磁盘缓存使用的文件后缀名是.data和.index -->
+	<diskStore path="java.io.tmpdir"/>
+	<defaultCache
+            eternal="true"
+            timeToIdleSeconds="120"
+            timeToLiveSeconds="120"
+            overflowToDisk="false"
+            diskPersistent="false"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU"
+            />
+			<!-- maxElementsInMemory 内存中最大缓存对象数  -->
+			<!-- eternal 缓存中对象是否为永久的，如果是，超时设置将被忽略，对象从不过期，timeout将不起作用  -->
+			<!-- timeToIdleSeconds 缓存创建以后，最后一次访问缓存的日期至失效之时的时间间隔 即 对象在失效前的允许闲置时间（单位：秒）。仅当eternal=false对象不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大 -->
+			<!-- timeToLiveSeconds 缓存自创建日期起至失效时的间隔时间 即 缓存数据的生存时间（TTL），也就是一个元素从构建到消亡的最大时间间隔值，这只能在元素不是永久驻留时有效，如果该值是0就意味着元素可以停顿无穷长的时间-->
+			<!-- maxEntriesLocalDisk 当内存中对象数量达到maxElementsInMemory时，Ehcache就把这些元素持久化到硬盘 -->
+			<!-- overflowToDisk=true 意思是内存不足时，就把这些元素持久化到硬盘 -->
+			<!-- diskPersistent 是否缓存虚拟机重启期数据  是否在VM重启时存储硬盘的缓存数据。默认值是false-->
+			<!-- maxElementsOnDisk 硬盘最大缓存个数 是否缓存虚拟机重启期数据 -->
+			<!-- diskExpiryThreadIntervalSeconds 磁盘失效线程运行时间间隔，默认是120秒 -->
+            <!-- diskSpoolBufferSizeMB=30MB 这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区 -->
+            <!-- memoryStoreEvictionPolicy 当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用） -->
+
+    <!-- 登录记录缓存 锁定3分钟 -->
+    <cache name="userRetryCache" eternal="false"
+        timeToIdleSeconds="180" timeToLiveSeconds="0" overflowToDisk="false"
+        statistics="true">
+    </cache>
+
+	<!-- 记录改密状态缓存 锁定3分钟 -->
+    <cache name="passwordCache" eternal="false"
+        timeToIdleSeconds="180" timeToLiveSeconds="0" overflowToDisk="false"
+        statistics="true">
+    </cache>
+
+    <!-- 验证码缓存 锁定5分钟 -->
+    <cache name="vcodeCache" eternal="false"
+        timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false"
+        statistics="true">
+    </cache>
+    
+    <!-- 多张图片上传 缓存图片 锁定1小时 -->
+    <cache name="multipleImageCache" eternal="false"
+        timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="false"
+        statistics="true">
+    </cache>
+    
+</ehcache>
