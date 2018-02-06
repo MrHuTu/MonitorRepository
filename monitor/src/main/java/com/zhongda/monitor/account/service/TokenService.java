@@ -1,10 +1,10 @@
 package com.zhongda.monitor.account.service;
 
-import java.util.Map;
-
 import io.jsonwebtoken.Claims;
 
-import javax.crypto.SecretKey;
+import java.util.Map;
+
+import org.springframework.mobile.device.Device;
 
 /**
  * Title: Token 业务接口
@@ -22,27 +22,36 @@ public interface TokenService {
 	String createToken(Map<String, Object> claims);
 	
 	/**
-	 * 检查token是否失效
-	 * @param token 需检查的token
-	 * @return true 有效,false 无效
+	 * 创建一个token
+	 * @param claims 添加到token中的信息
+	 * @param device device检测访问主体
+	 * @return 返回创建好的token
 	 */
-    boolean checkToken(String token); 
-    
-    /**
-     * 删除token
-     * @param token 需删除的token
-     */
-    void deleteToken(String token);
-    
-    /**
-     *  生成加密key
-     */
-    SecretKey generalKey();
-    
-    /**
+	String createToken(Map<String, Object> claims, Device device);
+	
+	/**
      * 解析token
      * @param token 需解析的token
      * @return 返回token中的信息
      */
     Claims parseToken(String token);
+    
+    /**
+     * 刷新token,改变token创建时间
+     * @param token 需刷新的token
+     * @return 返回刷新之后的token
+     */
+    String refreshToken(String token);
+    
+	/**
+	 * 检查token是否失效
+	 * @param token 需检查的token
+	 * @return true 有效,false 无效
+	 */
+    boolean checkToken(String token);  
+    
+    /**
+	 * 使当前token失效
+	 */
+    void deleteToken(String token); 
 }

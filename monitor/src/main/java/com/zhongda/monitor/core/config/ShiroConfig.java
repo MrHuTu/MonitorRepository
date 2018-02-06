@@ -1,32 +1,34 @@
 package com.zhongda.monitor.core.config;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.shiro.session.SessionListener;
-import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
-import com.zhongda.monitor.account.security.SecurityRealm;
-import com.zhongda.monitor.core.listener.ShiroSessionListener;
+import com.zhongda.monitor.account.StatelessDefaultSubjectFactory;
+import com.zhongda.monitor.account.filter.StatelessTokenFilter;
+import com.zhongda.monitor.account.security.StatelessRealm;
 
 @Configuration
-@ConfigurationProperties(prefix = "shiroFilter")
+//@ConfigurationProperties(prefix = "shiroFilter")
 public class ShiroConfig {
 
 	/**
@@ -57,12 +59,17 @@ public class ShiroConfig {
 		shiroFilterFactoryBean.setSuccessUrl("/index");
 		shiroFilterFactoryBean.setUnauthorizedUrl("/error");
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-		/*filterChainDefinitionMap.put("/v2/api-docs", "anon");
+		filterChainDefinitionMap.put("/v2/api-docs", "anon");
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 		filterChainDefinitionMap.put("/swagger-resources", "anon");
 		filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");*/
+		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+		filterChainDefinitionMap.put("/token", "anon");
+		//filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+        filters.put("authcx", new StatelessTokenFilter());
+		shiroFilterFactoryBean.setFilters(filters);
 		return shiroFilterFactoryBean;
 	}
 	
@@ -80,20 +87,21 @@ public class ShiroConfig {
 	/**
 	 * shiro安全认证授权realm
 	 */
-	@Bean(name = "securityRealm")
-	public SecurityRealm getSecurityRealm() {
-		SecurityRealm securityRealm = new SecurityRealm();
-		securityRealm.setCredentialsMatcher(getHashedCredentialsMatcher());
-		return securityRealm;
+	@Bean(name = "statelessRealm")
+	public AuthorizingRealm getAuthorizingRealm() {
+		StatelessRealm statelessRealm = new StatelessRealm();
+		statelessRealm.setCredentialsMatcher(getHashedCredentialsMatcher());
+		return statelessRealm;
 	}
-
+	
 	/**
-	 * shiro会话DAO
-	 */
-	@Bean(name = "sessionDAO")
-	public MemorySessionDAO getMemorySessionDAO(){
-		return new MemorySessionDAO();
-	}
+     * Subject工厂管理器(使用自定义无状态工厂)
+     * @return
+     */
+    @Bean
+    public DefaultWebSubjectFactory getSubjectFactory(){
+    	return new StatelessDefaultSubjectFactory();
+    }
 	
 	/**
 	 * shiro缓存管理器,使用Ehcache实现
@@ -111,10 +119,8 @@ public class ShiroConfig {
 	@Bean(name = "sessionManager")
 	public DefaultWebSessionManager getDefaultWebSessionManager(){
 		DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-		sessionManager.setSessionDAO(getMemorySessionDAO());
-		List<SessionListener> SessionListenerList = new ArrayList<SessionListener>();
-		SessionListenerList.add(new ShiroSessionListener());
-		sessionManager.setSessionListeners(SessionListenerList);
+		// 关闭session定时检查，通过setSessionValidationSchedulerEnabled禁用掉会话调度器
+        sessionManager.setSessionValidationSchedulerEnabled(false);
 		return sessionManager;
 	}
 	
@@ -124,10 +130,15 @@ public class ShiroConfig {
 	@Bean(name = "securityManager")
 	public DefaultWebSecurityManager getDefaultWebSecurityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-		securityManager.setRealm(getSecurityRealm());
+		securityManager.setRealm(getAuthorizingRealm());
+		// 替换默认的DefaultSubjectFactory，用于关闭session功能
+        securityManager.setSubjectFactory(getSubjectFactory());
+        securityManager.setSessionManager(getDefaultWebSessionManager());
 		securityManager.setCacheManager(getEhCacheManager());
-		securityManager.setSessionManager(getDefaultWebSessionManager());
-		return securityManager;
+		// 关闭session存储，禁用Session作为存储策略的实现，但它没有完全地禁用Session所以需要配合SubjectFactory中的context.setSessionCreationEnabled(false)
+        ((DefaultSessionStorageEvaluator) ((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
+        SecurityUtils.setSecurityManager(securityManager);
+        return securityManager;
 	}
 	
 	/**

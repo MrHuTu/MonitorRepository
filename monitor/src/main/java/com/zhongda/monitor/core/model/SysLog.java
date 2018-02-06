@@ -3,7 +3,7 @@ package com.zhongda.monitor.core.model;
 import java.util.Date;
 
 public class SysLog {
-    private Long sysLogId;
+    private Long slId;
 
     private Integer userId;
 
@@ -19,12 +19,12 @@ public class SysLog {
 
     private Date createDate;
 
-    public Long getSysLogId() {
-        return sysLogId;
+    public Long getSlId() {
+        return slId;
     }
 
-    public void setSysLogId(Long sysLogId) {
-        this.sysLogId = sysLogId;
+    public void setSlId(Long slId) {
+        this.slId = slId;
     }
 
     public Integer getUserId() {

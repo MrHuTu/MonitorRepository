@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.TerminalsProjectMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.TerminalsProject">
+    <id column="tp_id" jdbcType="INTEGER" property="tpId" />
+    <result column="smu_id" jdbcType="VARCHAR" property="smuId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    tp_id, smu_id, project_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from terminals_project
+    where tp_id = #{tpId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from terminals_project
+    where tp_id = #{tpId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.TerminalsProject">
+    insert into terminals_project (tp_id, smu_id, project_id
+      )
+    values (#{tpId,jdbcType=INTEGER}, #{smuId,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.TerminalsProject">
+    insert into terminals_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tpId != null">
+        tp_id,
+      </if>
+      <if test="smuId != null">
+        smu_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tpId != null">
+        #{tpId,jdbcType=INTEGER},
+      </if>
+      <if test="smuId != null">
+        #{smuId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.TerminalsProject">
+    update terminals_project
+    <set>
+      <if test="smuId != null">
+        smu_id = #{smuId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where tp_id = #{tpId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.TerminalsProject">
+    update terminals_project
+    set smu_id = #{smuId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER}
+    where tp_id = #{tpId,jdbcType=INTEGER}
+  </update>
+</mapper>

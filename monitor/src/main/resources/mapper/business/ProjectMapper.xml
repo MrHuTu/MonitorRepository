@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.ProjectMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Project">
+    <id column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
+    <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
+    <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
+    <result column="project_end_time" jdbcType="TIMESTAMP" property="projectEndTime" />
+    <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
+    <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    project_id, user_id, project_name, project_type, project_address, project_longitude, 
+    project_latitude, project_begin_time, project_end_time, project_status, project_description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Project">
+    insert into project (project_id, user_id, project_name, 
+      project_type, project_address, project_longitude, 
+      project_latitude, project_begin_time, project_end_time, 
+      project_status, project_description)
+    values (#{projectId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=INTEGER}, #{projectAddress,jdbcType=VARCHAR}, #{projectLongitude,jdbcType=VARCHAR}, 
+      #{projectLatitude,jdbcType=VARCHAR}, #{projectBeginTime,jdbcType=TIMESTAMP}, #{projectEndTime,jdbcType=TIMESTAMP}, 
+      #{projectStatus,jdbcType=INTEGER}, #{projectDescription,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Project">
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="projectAddress != null">
+        project_address,
+      </if>
+      <if test="projectLongitude != null">
+        project_longitude,
+      </if>
+      <if test="projectLatitude != null">
+        project_latitude,
+      </if>
+      <if test="projectBeginTime != null">
+        project_begin_time,
+      </if>
+      <if test="projectEndTime != null">
+        project_end_time,
+      </if>
+      <if test="projectStatus != null">
+        project_status,
+      </if>
+      <if test="projectDescription != null">
+        project_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="projectAddress != null">
+        #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLongitude != null">
+        #{projectLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLatitude != null">
+        #{projectLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBeginTime != null">
+        #{projectBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectEndTime != null">
+        #{projectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        #{projectStatus,jdbcType=INTEGER},
+      </if>
+      <if test="projectDescription != null">
+        #{projectDescription,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Project">
+    update project
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="projectAddress != null">
+        project_address = #{projectAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLongitude != null">
+        project_longitude = #{projectLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLatitude != null">
+        project_latitude = #{projectLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBeginTime != null">
+        project_begin_time = #{projectBeginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectEndTime != null">
+        project_end_time = #{projectEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectStatus != null">
+        project_status = #{projectStatus,jdbcType=INTEGER},
+      </if>
+      <if test="projectDescription != null">
+        project_description = #{projectDescription,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Project">
+    update project
+    set user_id = #{userId,jdbcType=INTEGER},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=INTEGER},
+      project_address = #{projectAddress,jdbcType=VARCHAR},
+      project_longitude = #{projectLongitude,jdbcType=VARCHAR},
+      project_latitude = #{projectLatitude,jdbcType=VARCHAR},
+      project_begin_time = #{projectBeginTime,jdbcType=TIMESTAMP},
+      project_end_time = #{projectEndTime,jdbcType=TIMESTAMP},
+      project_status = #{projectStatus,jdbcType=INTEGER},
+      project_description = #{projectDescription,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+</mapper>

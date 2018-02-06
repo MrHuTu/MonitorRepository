@@ -5,18 +5,17 @@ import java.util.List;
 import com.zhongda.monitor.core.model.SysLog;
 
 public interface SysLogMapper {
+    int deleteByPrimaryKey(Long slId);
 
-	int deleteByPrimaryKey(Long sysLogId);
+    int insert(SysLog record);
 
-	int insert(SysLog record);
+    int insertSelective(SysLog record);
 
-	int insertSelective(SysLog record);
+    SysLog selectByPrimaryKey(Long slId);
 
-	SysLog selectByPrimaryKey(Long sysLogId);
+    int updateByPrimaryKeySelective(SysLog record);
 
-	int updateByPrimaryKeySelective(SysLog record);
-
-	int updateByPrimaryKey(SysLog record);
+    int updateByPrimaryKey(SysLog record);
 
 	List<SysLog> selectAllSysLog();
 }

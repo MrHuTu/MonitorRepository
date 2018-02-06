@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.SensorMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Sensor">
+    <id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
+    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+    <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
+    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+    <result column="sensor_type" jdbcType="VARCHAR" property="sensorType" />
+    <result column="sensor_model" jdbcType="VARCHAR" property="sensorModel" />
+    <result column="sensor_longitude" jdbcType="VARCHAR" property="sensorLongitude" />
+    <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
+    <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
+    <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sensor_id, project_id, monitor_point, monitor_type, smu_number, smu_channel, sensor_number, 
+    sensor_type, sensor_model, sensor_longitude, sensor_latitude, sensor_place, sensor_depth
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sensor
+    where sensor_id = #{sensorId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sensor
+    where sensor_id = #{sensorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Sensor">
+    insert into sensor (sensor_id, project_id, monitor_point, 
+      monitor_type, smu_number, smu_channel, 
+      sensor_number, sensor_type, sensor_model, 
+      sensor_longitude, sensor_latitude, sensor_place, 
+      sensor_depth)
+    values (#{sensorId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{monitorPoint,jdbcType=VARCHAR}, 
+      #{monitorType,jdbcType=INTEGER}, #{smuNumber,jdbcType=VARCHAR}, #{smuChannel,jdbcType=VARCHAR}, 
+      #{sensorNumber,jdbcType=VARCHAR}, #{sensorType,jdbcType=VARCHAR}, #{sensorModel,jdbcType=VARCHAR}, 
+      #{sensorLongitude,jdbcType=VARCHAR}, #{sensorLatitude,jdbcType=VARCHAR}, #{sensorPlace,jdbcType=VARCHAR}, 
+      #{sensorDepth,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Sensor">
+    insert into sensor
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="monitorPoint != null">
+        monitor_point,
+      </if>
+      <if test="monitorType != null">
+        monitor_type,
+      </if>
+      <if test="smuNumber != null">
+        smu_number,
+      </if>
+      <if test="smuChannel != null">
+        smu_channel,
+      </if>
+      <if test="sensorNumber != null">
+        sensor_number,
+      </if>
+      <if test="sensorType != null">
+        sensor_type,
+      </if>
+      <if test="sensorModel != null">
+        sensor_model,
+      </if>
+      <if test="sensorLongitude != null">
+        sensor_longitude,
+      </if>
+      <if test="sensorLatitude != null">
+        sensor_latitude,
+      </if>
+      <if test="sensorPlace != null">
+        sensor_place,
+      </if>
+      <if test="sensorDepth != null">
+        sensor_depth,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorPoint != null">
+        #{monitorPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="smuNumber != null">
+        #{smuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smuChannel != null">
+        #{smuChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorNumber != null">
+        #{sensorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorType != null">
+        #{sensorType,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorModel != null">
+        #{sensorModel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorLongitude != null">
+        #{sensorLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorLatitude != null">
+        #{sensorLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorPlace != null">
+        #{sensorPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorDepth != null">
+        #{sensorDepth,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Sensor">
+    update sensor
+    <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorPoint != null">
+        monitor_point = #{monitorPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        monitor_type = #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="smuNumber != null">
+        smu_number = #{smuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smuChannel != null">
+        smu_channel = #{smuChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorNumber != null">
+        sensor_number = #{sensorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorType != null">
+        sensor_type = #{sensorType,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorModel != null">
+        sensor_model = #{sensorModel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorLongitude != null">
+        sensor_longitude = #{sensorLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorLatitude != null">
+        sensor_latitude = #{sensorLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorPlace != null">
+        sensor_place = #{sensorPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorDepth != null">
+        sensor_depth = #{sensorDepth,jdbcType=REAL},
+      </if>
+    </set>
+    where sensor_id = #{sensorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Sensor">
+    update sensor
+    set project_id = #{projectId,jdbcType=INTEGER},
+      monitor_point = #{monitorPoint,jdbcType=VARCHAR},
+      monitor_type = #{monitorType,jdbcType=INTEGER},
+      smu_number = #{smuNumber,jdbcType=VARCHAR},
+      smu_channel = #{smuChannel,jdbcType=VARCHAR},
+      sensor_number = #{sensorNumber,jdbcType=VARCHAR},
+      sensor_type = #{sensorType,jdbcType=VARCHAR},
+      sensor_model = #{sensorModel,jdbcType=VARCHAR},
+      sensor_longitude = #{sensorLongitude,jdbcType=VARCHAR},
+      sensor_latitude = #{sensorLatitude,jdbcType=VARCHAR},
+      sensor_place = #{sensorPlace,jdbcType=VARCHAR},
+      sensor_depth = #{sensorDepth,jdbcType=REAL}
+    where sensor_id = #{sensorId,jdbcType=INTEGER}
+  </update>
+</mapper>

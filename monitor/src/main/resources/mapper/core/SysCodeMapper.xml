@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.core.mapper.SysCodeMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.core.model.SysCode">
+    <id column="sc_id" jdbcType="INTEGER" property="scId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="type_value" jdbcType="VARCHAR" property="typeValue" />
+    <result column="type_code" jdbcType="INTEGER" property="typeCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sc_id, type_name, type_value, type_code, item_name, item_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_code
+    where sc_id = #{scId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_code
+    where sc_id = #{scId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.core.model.SysCode">
+    insert into sys_code (sc_id, type_name, type_value, 
+      type_code, item_name, item_value
+      )
+    values (#{scId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{typeValue,jdbcType=VARCHAR}, 
+      #{typeCode,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.core.model.SysCode">
+    insert into sys_code
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="scId != null">
+        sc_id,
+      </if>
+      <if test="typeName != null">
+        type_name,
+      </if>
+      <if test="typeValue != null">
+        type_value,
+      </if>
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="itemValue != null">
+        item_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="scId != null">
+        #{scId,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeValue != null">
+        #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        #{itemValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.core.model.SysCode">
+    update sys_code
+    <set>
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeValue != null">
+        type_value = #{typeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        type_code = #{typeCode,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        item_value = #{itemValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where sc_id = #{scId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.core.model.SysCode">
+    update sys_code
+    set type_name = #{typeName,jdbcType=VARCHAR},
+      type_value = #{typeValue,jdbcType=VARCHAR},
+      type_code = #{typeCode,jdbcType=INTEGER},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_value = #{itemValue,jdbcType=VARCHAR}
+    where sc_id = #{scId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.TerminalsMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Terminals">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="smu_id" jdbcType="VARCHAR" property="smuId" />
+    <result column="smu_rssi" jdbcType="INTEGER" property="smuRssi" />
+    <result column="smu_status" jdbcType="INTEGER" property="smuStatus" />
+    <result column="smu_pow_st" jdbcType="VARCHAR" property="smuPowSt" />
+    <result column="smu_bat_st" jdbcType="VARCHAR" property="smuBatSt" />
+    <result column="smu_voltage" jdbcType="VARCHAR" property="smuVoltage" />
+    <result column="smu_versions" jdbcType="VARCHAR" property="smuVersions" />
+    <result column="times_interval" jdbcType="INTEGER" property="timesInterval" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, create_time, update_time, smu_id, smu_rssi, smu_status, smu_pow_st, smu_bat_st, 
+    smu_voltage, smu_versions, times_interval
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from terminals
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from terminals
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Terminals">
+    insert into terminals (Id, create_time, update_time, 
+      smu_id, smu_rssi, smu_status, 
+      smu_pow_st, smu_bat_st, smu_voltage, 
+      smu_versions, times_interval)
+    values (#{id,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{smuId,jdbcType=VARCHAR}, #{smuRssi,jdbcType=INTEGER}, #{smuStatus,jdbcType=INTEGER}, 
+      #{smuPowSt,jdbcType=VARCHAR}, #{smuBatSt,jdbcType=VARCHAR}, #{smuVoltage,jdbcType=VARCHAR}, 
+      #{smuVersions,jdbcType=VARCHAR}, #{timesInterval,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Terminals">
+    insert into terminals
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="smuId != null">
+        smu_id,
+      </if>
+      <if test="smuRssi != null">
+        smu_rssi,
+      </if>
+      <if test="smuStatus != null">
+        smu_status,
+      </if>
+      <if test="smuPowSt != null">
+        smu_pow_st,
+      </if>
+      <if test="smuBatSt != null">
+        smu_bat_st,
+      </if>
+      <if test="smuVoltage != null">
+        smu_voltage,
+      </if>
+      <if test="smuVersions != null">
+        smu_versions,
+      </if>
+      <if test="timesInterval != null">
+        times_interval,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smuId != null">
+        #{smuId,jdbcType=VARCHAR},
+      </if>
+      <if test="smuRssi != null">
+        #{smuRssi,jdbcType=INTEGER},
+      </if>
+      <if test="smuStatus != null">
+        #{smuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="smuPowSt != null">
+        #{smuPowSt,jdbcType=VARCHAR},
+      </if>
+      <if test="smuBatSt != null">
+        #{smuBatSt,jdbcType=VARCHAR},
+      </if>
+      <if test="smuVoltage != null">
+        #{smuVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="smuVersions != null">
+        #{smuVersions,jdbcType=VARCHAR},
+      </if>
+      <if test="timesInterval != null">
+        #{timesInterval,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Terminals">
+    update terminals
+    <set>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="smuId != null">
+        smu_id = #{smuId,jdbcType=VARCHAR},
+      </if>
+      <if test="smuRssi != null">
+        smu_rssi = #{smuRssi,jdbcType=INTEGER},
+      </if>
+      <if test="smuStatus != null">
+        smu_status = #{smuStatus,jdbcType=INTEGER},
+      </if>
+      <if test="smuPowSt != null">
+        smu_pow_st = #{smuPowSt,jdbcType=VARCHAR},
+      </if>
+      <if test="smuBatSt != null">
+        smu_bat_st = #{smuBatSt,jdbcType=VARCHAR},
+      </if>
+      <if test="smuVoltage != null">
+        smu_voltage = #{smuVoltage,jdbcType=VARCHAR},
+      </if>
+      <if test="smuVersions != null">
+        smu_versions = #{smuVersions,jdbcType=VARCHAR},
+      </if>
+      <if test="timesInterval != null">
+        times_interval = #{timesInterval,jdbcType=INTEGER},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Terminals">
+    update terminals
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      smu_id = #{smuId,jdbcType=VARCHAR},
+      smu_rssi = #{smuRssi,jdbcType=INTEGER},
+      smu_status = #{smuStatus,jdbcType=INTEGER},
+      smu_pow_st = #{smuPowSt,jdbcType=VARCHAR},
+      smu_bat_st = #{smuBatSt,jdbcType=VARCHAR},
+      smu_voltage = #{smuVoltage,jdbcType=VARCHAR},
+      smu_versions = #{smuVersions,jdbcType=VARCHAR},
+      times_interval = #{timesInterval,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -13,7 +13,7 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://123.207.39.209:3306/Detection?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://123.207.39.209:3306/monitor?useUnicode=true&characterEncoding=utf-8
     username: dba
     password: hnzdjc@
     # 使用druid数据源
@@ -99,7 +99,7 @@ spring:
 #mybatis扫描xml以及实体路径   
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml 
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapper-locations: classpath:mapper/*/*Mapper.xml
   type-aliases-package: com.zhongda.monitor.model
 
 #pagehelper分页插件
@@ -113,6 +113,8 @@ pagehelper:
 logging: 
   level:
     com.zhongda.monitor: DEBUG
+    
+#debug: true
 
 # JWT 认证配置
 jwt:

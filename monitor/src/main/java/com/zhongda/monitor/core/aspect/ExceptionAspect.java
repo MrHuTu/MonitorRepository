@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.zhongda.monitor.account.exception.TokenException;
+import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.core.model.Result;
 
 /**
@@ -32,7 +32,7 @@ import com.zhongda.monitor.core.model.Result;
 @ResponseBody
 public class ExceptionAspect {
 
-	private static final Logger logger = Logger.getLogger(ExceptionAspect.class);
+	private final Logger logger = Logger.getLogger(ExceptionAspect.class);
 
 	/**
 	 * 400 - Bad Request。处理 HttpMessageNotReadableException 异常
@@ -184,15 +184,15 @@ public class ExceptionAspect {
 	}
 	
 	/**
-	 * 500 - Internal Server Error。处理 TokenException 异常
+	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(TokenException.class)
-	public Result<String> handleTokenException(TokenException e) {
-		logger.error("Token已经失效...", e);
+	@ExceptionHandler(NoStatelessTokenException.class)
+	public Result<String> handleNoStatelessTokenException(NoStatelessTokenException e) {
+		logger.error("没有传入token，验证失败...", e);
 		Result<String> result = new Result<String>();
 		result.setCode(Result.FAILURE);
-		result.setMsg("Token已经失效");
+		result.setMsg("没有传入token，验证失败");
 		return result;
 	}
 	

@@ -1,15 +1,14 @@
 package com.zhongda.monitor.account.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.annotation.IgnoreSecurity;
-import com.zhongda.monitor.account.security.Token;
+import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
@@ -61,15 +60,12 @@ public class TokenController {
 	public Result<String> login(String userName, String password, HttpServletResponse response) {
 		Result<String> result = userService.login(userName, password);
 		if (result.getCode() == Result.SUCCESS) {
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("userName", userName);
-			map.put("password", password);
-			String token = tokenService.createToken(map);
+			Map<String,Object> claims = new HashMap<String,Object>();
+			claims.put("userName", userName);
+			String token = tokenService.createToken(claims);
 			logger.debug(userName +" 用户登录生成的Token: " + token);
-			Cookie cookie = new Cookie(Token.DEFAULT_TOKEN_NAME, token);
-			logger.debug("把token写入cookie, 生成的cookie : " + cookie.toString());
-			response.addCookie(cookie);
 			result.setMsg("登录成功");
+			result.setData(token);
 		}else{
 			result.setMsg("登录失败," + result.getMsg());
 		}
@@ -86,7 +82,7 @@ public class TokenController {
 	@ApiOperation(value = "注销", httpMethod = "DELETE", response = Result.class, notes = "注销")
 	public Result<String> logout(HttpServletRequest request) {
 		Result<String> result = new Result<String>();
-		String token = request.getHeader(Token.DEFAULT_TOKEN_NAME);
+		String token = request.getHeader(StatelessToken.HEADER);
 		//清除token
 		logger.debug("清除Token: " + token);
 		tokenService.deleteToken(token);

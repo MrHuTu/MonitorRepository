@@ -6,10 +6,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.slf4j.Logger;
@@ -23,7 +19,6 @@ import com.zhongda.monitor.account.annotation.IgnoreSecurity;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.core.utils.ShiroUtils;
 
 /**
  * Title : 用户管理 Description : 处理用户的增删改查操作
@@ -50,8 +45,8 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/validUserName", method = RequestMethod.GET)
 	@ApiOperation(value = "账号唯一校验", httpMethod = "GET", response = Result.class, notes = "验证账号是否唯一")
-	public Result<String> validUserName(
-			@ApiParam(name = "userName", value = "用户名", required = true) String userName) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query") })
+	public Result<String> validUserName(String userName) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.vaildUserName(userName);
 		return flag ? result.setCode(Result.FAILURE).setMsg("账户不唯一") : result
@@ -102,8 +97,8 @@ public class UserController {
 	@RequestMapping(value = "/sendUpdatePasswordEmail", method = RequestMethod.GET)
 	@ApiOperation(value = "发送改密邮件", httpMethod = "GET", response = Result.class, notes = "发送改密邮件")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "body"),
-			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "body") })
+			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "form"),
+			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "form") })
 	public Result<String> sendUpdatePasswordEmail(String email, String password) {
 		// emailService.sendUpdatePasswordEmail(email);
 		// cacheService.setPasswordCache(email, password);
@@ -119,7 +114,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/updatePassword", method = RequestMethod.PUT)
 	@ApiOperation(value = "修改密码", httpMethod = "PUT", response = Result.class, notes = "根据邮箱修改密码")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "body") })
+	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "query") })
 	public Result<String> updatePassword(String email) {
 		Result<String> result = new Result<String>();
 		/*
@@ -132,20 +127,6 @@ public class UserController {
 	}
 
 	/**
-	 * 显示所有用户和告警联系人
-	 */
-	@RequestMapping(value = "/userList", method = RequestMethod.GET)
-	@ApiOperation(value = "用户列表", httpMethod = "GET", response = Result.class, notes = "显示所有用户")
-	public Result<Map<String, Object>> userList() {
-		Result<Map<String, Object>> result = new Result<Map<String, Object>>();
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		dataMap.put("userList",
-				userService.selectList(ShiroUtils.getUser().getUserId()));
-		// dataMap.put("alarmLinkmanList", alarmLinkmanService.selectAll());
-		return result.setCode(Result.SUCCESS).setMsg("获取数据成功").setData(dataMap);
-	}
-
-	/**
 	 * 根据用户名查找用户
 	 * 
 	 * @param userName
@@ -155,12 +136,12 @@ public class UserController {
 	@IgnoreSecurity
 	@RequestMapping(value = "/findUserByUserName", method = RequestMethod.GET)
 	@ApiOperation(value = "查找用户", httpMethod = "GET", response = Result.class, notes = "根据用户名查找用户")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "body") })
-	public Result<List<User>> findUserByUserName(String userName) {
-		Result<List<User>> result = new Result<List<User>>();
-		List<User> userList = userService.selectAllByUsername(userName);
-		if (null != userList && userList.size() > 0) {
-			result.setCode(Result.SUCCESS).setMsg("获取数据成功").setData(userList);
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query") })
+	public Result<User> findUserByUserName(String userName) {
+		Result<User> result = new Result<User>();
+		User user = userService.selectByUserName(userName);
+		if (null != user) {
+			result.setCode(Result.SUCCESS).setMsg("获取数据成功").setData(user);
 		} else {
 			result.setCode(Result.FAILURE).setMsg("用户名不存在");
 		}
@@ -181,23 +162,6 @@ public class UserController {
 		boolean flag = userService.insertUser(user);
 		return flag ? result.setCode(Result.SUCCESS).setMsg("添加成功") : result
 				.setCode(Result.FAILURE).setMsg("添加失败");
-	}
-
-	/**
-	 * 根据当前选中的用户名删除用户
-	 * 
-	 * @param userName
-	 *            用户名
-	 * @return
-	 */
-	@RequestMapping(value = "/deleteUser", method = RequestMethod.DELETE)
-	@ApiOperation(value = "删除用户", httpMethod = "DELETE", response = Result.class, notes = "删除一个用户")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "body") })
-	public Result<String> deleteUser(String userName) {
-		Result<String> result = new Result<String>();
-		boolean flag = userService.deleteUser(userName);
-		return flag ? result.setCode(Result.SUCCESS).setMsg("删除成功") : result
-				.setCode(Result.FAILURE).setMsg("删除失败");
 	}
 
 	/**

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.ImageMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Image">
+    <id column="image_id" jdbcType="INTEGER" property="imageId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+    <result column="heat_image_url" jdbcType="VARCHAR" property="heatImageUrl" />
+    <result column="physical_image_url" jdbcType="VARCHAR" property="physicalImageUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    image_id, user_id, project_id, project_type, monitor_type, heat_image_url, physical_image_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from image
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Image">
+    insert into image (image_id, user_id, project_id, 
+      project_type, monitor_type, heat_image_url, 
+      physical_image_url)
+    values (#{imageId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, 
+      #{projectType,jdbcType=INTEGER}, #{monitorType,jdbcType=INTEGER}, #{heatImageUrl,jdbcType=VARCHAR}, 
+      #{physicalImageUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Image">
+    insert into image
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        image_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="monitorType != null">
+        monitor_type,
+      </if>
+      <if test="heatImageUrl != null">
+        heat_image_url,
+      </if>
+      <if test="physicalImageUrl != null">
+        physical_image_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imageId != null">
+        #{imageId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorType != null">
+        #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="heatImageUrl != null">
+        #{heatImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalImageUrl != null">
+        #{physicalImageUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Image">
+    update image
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorType != null">
+        monitor_type = #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="heatImageUrl != null">
+        heat_image_url = #{heatImageUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalImageUrl != null">
+        physical_image_url = #{physicalImageUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Image">
+    update image
+    set user_id = #{userId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      project_type = #{projectType,jdbcType=INTEGER},
+      monitor_type = #{monitorType,jdbcType=INTEGER},
+      heat_image_url = #{heatImageUrl,jdbcType=VARCHAR},
+      physical_image_url = #{physicalImageUrl,jdbcType=VARCHAR}
+    where image_id = #{imageId,jdbcType=INTEGER}
+  </update>
+</mapper>

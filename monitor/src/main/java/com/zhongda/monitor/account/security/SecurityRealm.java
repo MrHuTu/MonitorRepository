@@ -43,6 +43,12 @@ public class SecurityRealm extends AuthorizingRealm {
 
     @Resource
     private PermissionService permissionService;
+    
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        //表示此Realm只支持JwtToken类型
+        return token instanceof StatelessToken;
+    }
 
     /**
      * 权限检查
@@ -52,7 +58,7 @@ public class SecurityRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = String.valueOf(principals.getPrimaryPrincipal());
         logger.error(username);
-        final User user = userService.selectByUsername(username);
+        final User user = userService.selectByUserName(username);
         final List<Role> roleInfos = roleService.selectRolesByUserId(user.getUserId());
         for (Role role : roleInfos) {
             // 添加角色
@@ -76,7 +82,7 @@ public class SecurityRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     	String username = String.valueOf(token.getPrincipal());
         // 通过数据库进行验证
-        final User user = userService.selectByUsername(username);
+        final User user = userService.selectByUserName(username);
         if (user == null) {
             throw new UnknownAccountException("该帐号不存在！");
         }else if("禁用".equals(user.getStatus())){

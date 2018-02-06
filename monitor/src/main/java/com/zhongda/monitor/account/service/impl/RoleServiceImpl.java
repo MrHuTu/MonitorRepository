@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.account.mapper.RoleMapper;
 import com.zhongda.monitor.account.model.Role;
-import com.zhongda.monitor.account.security.SecurityRealm;
+import com.zhongda.monitor.account.security.StatelessRealm;
 import com.zhongda.monitor.account.service.RoleService;
 import com.zhongda.monitor.core.model.Result;
 
@@ -24,7 +24,7 @@ public class RoleServiceImpl implements RoleService{
 	private RoleMapper roleMapper;
 	
 	@Resource
-	private SecurityRealm securityRealm;
+	private StatelessRealm statelessRealm;
 
 	@Override
 	public List<Role> selectRolesByUserId(Integer userId) {
@@ -135,7 +135,7 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public void clearRoleCache() {
-		securityRealm.clearAllCachedAuthorizationInfo();
+		statelessRealm.clearAllCachedAuthorizationInfo();
 	}
 
 }

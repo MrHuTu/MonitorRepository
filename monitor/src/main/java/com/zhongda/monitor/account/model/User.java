@@ -1,48 +1,27 @@
 package com.zhongda.monitor.account.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+public class User {
+    private Integer userId;
 
-@ApiModel(value = "用户对象")
-public class User implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-	
-	@ApiModelProperty(value = "用户Id", hidden=true)
-	private Integer userId;
-
-    @ApiModelProperty(value = "用户名", required = true)
     private String userName;
-    
-    @ApiModelProperty(value = "密码", required = true)
+
     private String password;
-    
-    @ApiModelProperty(value = "电话号码", required = true)
+
     private String phone;
-    
-    @ApiModelProperty(value = "邮箱", required = true)
+
     private String email;
-    
-    @ApiModelProperty(value = "所属公司", required = true)
+
     private String company;
-    
-    @ApiModelProperty(value = "联系人", required = true)
-    private String linkman;
-    
-    @ApiModelProperty(value = "创建时间", required = true)
+
+    private String realName;
+
     private Date createTime;
-    
-    @ApiModelProperty(value = "用户状态", required = true)
+
     private String status;
 
-    private Integer roleId;
-
-	public Integer getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -50,15 +29,7 @@ public class User implements Serializable{
         this.userId = userId;
     }
 
-    public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
@@ -98,15 +69,14 @@ public class User implements Serializable{
         this.company = company == null ? null : company.trim();
     }
 
-    public String getLinkman() {
-        return linkman;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setLinkman(String linkman) {
-        this.linkman = linkman == null ? null : linkman.trim();
+    public void setRealName(String realName) {
+        this.realName = realName == null ? null : realName.trim();
     }
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

@@ -7,6 +7,8 @@ public class Role {
 
     private String roleSign;
 
+    private Integer roleLevel;
+
     private String roleDescription;
 
     public Integer getRoleId() {
@@ -31,6 +33,14 @@ public class Role {
 
     public void setRoleSign(String roleSign) {
         this.roleSign = roleSign == null ? null : roleSign.trim();
+    }
+
+    public Integer getRoleLevel() {
+        return roleLevel;
+    }
+
+    public void setRoleLevel(Integer roleLevel) {
+        this.roleLevel = roleLevel;
     }
 
     public String getRoleDescription() {

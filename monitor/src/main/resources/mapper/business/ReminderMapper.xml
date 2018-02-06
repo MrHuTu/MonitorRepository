@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.ReminderMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Reminder">
+    <id column="reminder_id" jdbcType="INTEGER" property="reminderId" />
+    <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
+    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+    <result column="reminder_context" jdbcType="VARCHAR" property="reminderContext" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
+    <result column="frequency" jdbcType="INTEGER" property="frequency" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    reminder_id, smu_number, smu_channel, sensor_number, reminder_context, create_time, 
+    last_update_time, frequency, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reminder
+    where reminder_id = #{reminderId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reminder
+    where reminder_id = #{reminderId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Reminder">
+    insert into reminder (reminder_id, smu_number, smu_channel, 
+      sensor_number, reminder_context, create_time, 
+      last_update_time, frequency, status
+      )
+    values (#{reminderId,jdbcType=INTEGER}, #{smuNumber,jdbcType=VARCHAR}, #{smuChannel,jdbcType=VARCHAR}, 
+      #{sensorNumber,jdbcType=VARCHAR}, #{reminderContext,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateTime,jdbcType=TIMESTAMP}, #{frequency,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Reminder">
+    insert into reminder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reminderId != null">
+        reminder_id,
+      </if>
+      <if test="smuNumber != null">
+        smu_number,
+      </if>
+      <if test="smuChannel != null">
+        smu_channel,
+      </if>
+      <if test="sensorNumber != null">
+        sensor_number,
+      </if>
+      <if test="reminderContext != null">
+        reminder_context,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time,
+      </if>
+      <if test="frequency != null">
+        frequency,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reminderId != null">
+        #{reminderId,jdbcType=INTEGER},
+      </if>
+      <if test="smuNumber != null">
+        #{smuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smuChannel != null">
+        #{smuChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorNumber != null">
+        #{sensorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reminderContext != null">
+        #{reminderContext,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frequency != null">
+        #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Reminder">
+    update reminder
+    <set>
+      <if test="smuNumber != null">
+        smu_number = #{smuNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="smuChannel != null">
+        smu_channel = #{smuChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorNumber != null">
+        sensor_number = #{sensorNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="reminderContext != null">
+        reminder_context = #{reminderContext,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null">
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frequency != null">
+        frequency = #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reminder_id = #{reminderId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Reminder">
+    update reminder
+    set smu_number = #{smuNumber,jdbcType=VARCHAR},
+      smu_channel = #{smuChannel,jdbcType=VARCHAR},
+      sensor_number = #{sensorNumber,jdbcType=VARCHAR},
+      reminder_context = #{reminderContext,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      frequency = #{frequency,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where reminder_id = #{reminderId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.ThresholdMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Threshold">
+    <id column="threshold_id" jdbcType="INTEGER" property="thresholdId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+    <result column="threshold_type" jdbcType="INTEGER" property="thresholdType" />
+    <result column="min_threshold_value" jdbcType="DOUBLE" property="minThresholdValue" />
+    <result column="max_threshold_value" jdbcType="DOUBLE" property="maxThresholdValue" />
+    <result column="min_drastic_threshold_value" jdbcType="DOUBLE" property="minDrasticThresholdValue" />
+    <result column="max_drastic_threshold_value" jdbcType="DOUBLE" property="maxDrasticThresholdValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    threshold_id, user_id, project_id, project_type, monitor_type, threshold_type, min_threshold_value, 
+    max_threshold_value, min_drastic_threshold_value, max_drastic_threshold_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from threshold
+    where threshold_id = #{thresholdId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from threshold
+    where threshold_id = #{thresholdId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Threshold">
+    insert into threshold (threshold_id, user_id, project_id, 
+      project_type, monitor_type, threshold_type, 
+      min_threshold_value, max_threshold_value, min_drastic_threshold_value, 
+      max_drastic_threshold_value)
+    values (#{thresholdId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, 
+      #{projectType,jdbcType=INTEGER}, #{monitorType,jdbcType=INTEGER}, #{thresholdType,jdbcType=INTEGER}, 
+      #{minThresholdValue,jdbcType=DOUBLE}, #{maxThresholdValue,jdbcType=DOUBLE}, #{minDrasticThresholdValue,jdbcType=DOUBLE}, 
+      #{maxDrasticThresholdValue,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Threshold">
+    insert into threshold
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="thresholdId != null">
+        threshold_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="monitorType != null">
+        monitor_type,
+      </if>
+      <if test="thresholdType != null">
+        threshold_type,
+      </if>
+      <if test="minThresholdValue != null">
+        min_threshold_value,
+      </if>
+      <if test="maxThresholdValue != null">
+        max_threshold_value,
+      </if>
+      <if test="minDrasticThresholdValue != null">
+        min_drastic_threshold_value,
+      </if>
+      <if test="maxDrasticThresholdValue != null">
+        max_drastic_threshold_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="thresholdId != null">
+        #{thresholdId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorType != null">
+        #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="thresholdType != null">
+        #{thresholdType,jdbcType=INTEGER},
+      </if>
+      <if test="minThresholdValue != null">
+        #{minThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxThresholdValue != null">
+        #{maxThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="minDrasticThresholdValue != null">
+        #{minDrasticThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxDrasticThresholdValue != null">
+        #{maxDrasticThresholdValue,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.Threshold">
+    update threshold
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorType != null">
+        monitor_type = #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="thresholdType != null">
+        threshold_type = #{thresholdType,jdbcType=INTEGER},
+      </if>
+      <if test="minThresholdValue != null">
+        min_threshold_value = #{minThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxThresholdValue != null">
+        max_threshold_value = #{maxThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="minDrasticThresholdValue != null">
+        min_drastic_threshold_value = #{minDrasticThresholdValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxDrasticThresholdValue != null">
+        max_drastic_threshold_value = #{maxDrasticThresholdValue,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where threshold_id = #{thresholdId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Threshold">
+    update threshold
+    set user_id = #{userId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER},
+      project_type = #{projectType,jdbcType=INTEGER},
+      monitor_type = #{monitorType,jdbcType=INTEGER},
+      threshold_type = #{thresholdType,jdbcType=INTEGER},
+      min_threshold_value = #{minThresholdValue,jdbcType=DOUBLE},
+      max_threshold_value = #{maxThresholdValue,jdbcType=DOUBLE},
+      min_drastic_threshold_value = #{minDrasticThresholdValue,jdbcType=DOUBLE},
+      max_drastic_threshold_value = #{maxDrasticThresholdValue,jdbcType=DOUBLE}
+    where threshold_id = #{thresholdId,jdbcType=INTEGER}
+  </update>
+</mapper>
