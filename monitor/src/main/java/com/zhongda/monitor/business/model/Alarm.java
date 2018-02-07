@@ -13,7 +13,7 @@ public class Alarm {
 
     private String projectName;
 
-    private Integer detectionId;
+    private String monitorPoint;
 
     private String smuNumber;
 
@@ -73,12 +73,12 @@ public class Alarm {
         this.projectName = projectName == null ? null : projectName.trim();
     }
 
-    public Integer getDetectionId() {
-        return detectionId;
+    public String getMonitorPoint() {
+        return monitorPoint;
     }
 
-    public void setDetectionId(Integer detectionId) {
-        this.detectionId = detectionId;
+    public void setMonitorPoint(String monitorPoint) {
+        this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
     }
 
     public String getSmuNumber() {

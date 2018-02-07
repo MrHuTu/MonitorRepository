@@ -7,7 +7,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
-    <result column="detection_id" jdbcType="INTEGER" property="detectionId" />
+    <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
     <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
     <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
     <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
@@ -19,7 +19,7 @@
     <result column="frequency" jdbcType="INTEGER" property="frequency" />
   </resultMap>
   <sql id="Base_Column_List">
-    alarm_id, user_id, user_name, project_id, project_name, detection_id, smu_number, 
+    alarm_id, user_id, user_name, project_id, project_name, monitor_point, smu_number, 
     smu_channel, sensor_number, alarm_type, alarm_context, create_time, alarm_status, 
     alarm_level, frequency
   </sql>
@@ -35,13 +35,13 @@
   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.Alarm">
     insert into alarm (alarm_id, user_id, user_name, 
-      project_id, project_name, detection_id, 
+      project_id, project_name, monitor_point, 
       smu_number, smu_channel, sensor_number, 
       alarm_type, alarm_context, create_time, 
       alarm_status, alarm_level, frequency
       )
     values (#{alarmId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, 
-      #{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{detectionId,jdbcType=INTEGER}, 
+      #{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{monitorPoint,jdbcType=VARCHAR}, 
       #{smuNumber,jdbcType=VARCHAR}, #{smuChannel,jdbcType=VARCHAR}, #{sensorNumber,jdbcType=VARCHAR}, 
       #{alarmType,jdbcType=INTEGER}, #{alarmContext,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{alarmStatus,jdbcType=INTEGER}, #{alarmLevel,jdbcType=INTEGER}, #{frequency,jdbcType=INTEGER}
@@ -65,8 +65,8 @@
       <if test="projectName != null">
         project_name,
       </if>
-      <if test="detectionId != null">
-        detection_id,
+      <if test="monitorPoint != null">
+        monitor_point,
       </if>
       <if test="smuNumber != null">
         smu_number,
@@ -112,8 +112,8 @@
       <if test="projectName != null">
         #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="detectionId != null">
-        #{detectionId,jdbcType=INTEGER},
+      <if test="monitorPoint != null">
+        #{monitorPoint,jdbcType=VARCHAR},
       </if>
       <if test="smuNumber != null">
         #{smuNumber,jdbcType=VARCHAR},
@@ -159,8 +159,8 @@
       <if test="projectName != null">
         project_name = #{projectName,jdbcType=VARCHAR},
       </if>
-      <if test="detectionId != null">
-        detection_id = #{detectionId,jdbcType=INTEGER},
+      <if test="monitorPoint != null">
+        monitor_point = #{monitorPoint,jdbcType=VARCHAR},
       </if>
       <if test="smuNumber != null">
         smu_number = #{smuNumber,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
       user_name = #{userName,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=INTEGER},
       project_name = #{projectName,jdbcType=VARCHAR},
-      detection_id = #{detectionId,jdbcType=INTEGER},
+      monitor_point = #{monitorPoint,jdbcType=VARCHAR},
       smu_number = #{smuNumber,jdbcType=VARCHAR},
       smu_channel = #{smuChannel,jdbcType=VARCHAR},
       sensor_number = #{sensorNumber,jdbcType=VARCHAR},

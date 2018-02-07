@@ -5,8 +5,6 @@ import java.util.Date;
 public class Project {
     private Integer projectId;
 
-    private Integer userId;
-
     private String projectName;
 
     private Integer projectType;
@@ -31,14 +29,6 @@ public class Project {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getProjectName() {
