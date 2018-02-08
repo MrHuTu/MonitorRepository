@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.StatisticChartMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.StatisticChart">
+    <id column="statistic_chart_id" jdbcType="INTEGER" property="statisticChartId" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="detection_type_id" jdbcType="INTEGER" property="detectionTypeId" />
+    <result column="detection_type_name" jdbcType="VARCHAR" property="detectionTypeName" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+    <result column="attributes" jdbcType="VARCHAR" property="attributes" />
+    <result column="sensor_id" jdbcType="VARCHAR" property="sensorId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    statistic_chart_id, project_id, detection_type_id, detection_type_name, table_name, 
+    attributes, sensor_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from statistic_chart
+    where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from statistic_chart
+    where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.StatisticChart">
+    insert into statistic_chart (statistic_chart_id, project_id, detection_type_id, 
+      detection_type_name, table_name, attributes, 
+      sensor_id)
+    values (#{statisticChartId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{detectionTypeId,jdbcType=INTEGER}, 
+      #{detectionTypeName,jdbcType=VARCHAR}, #{tableName,jdbcType=VARCHAR}, #{attributes,jdbcType=VARCHAR}, 
+      #{sensorId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.StatisticChart">
+    insert into statistic_chart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="statisticChartId != null">
+        statistic_chart_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="detectionTypeId != null">
+        detection_type_id,
+      </if>
+      <if test="detectionTypeName != null">
+        detection_type_name,
+      </if>
+      <if test="tableName != null">
+        table_name,
+      </if>
+      <if test="attributes != null">
+        attributes,
+      </if>
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="statisticChartId != null">
+        #{statisticChartId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTypeId != null">
+        #{detectionTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTypeName != null">
+        #{detectionTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="attributes != null">
+        #{attributes,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.StatisticChart">
+    update statistic_chart
+    <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTypeId != null">
+        detection_type_id = #{detectionTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTypeName != null">
+        detection_type_name = #{detectionTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="tableName != null">
+        table_name = #{tableName,jdbcType=VARCHAR},
+      </if>
+      <if test="attributes != null">
+        attributes = #{attributes,jdbcType=VARCHAR},
+      </if>
+      <if test="sensorId != null">
+        sensor_id = #{sensorId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.StatisticChart">
+    update statistic_chart
+    set project_id = #{projectId,jdbcType=INTEGER},
+      detection_type_id = #{detectionTypeId,jdbcType=INTEGER},
+      detection_type_name = #{detectionTypeName,jdbcType=VARCHAR},
+      table_name = #{tableName,jdbcType=VARCHAR},
+      attributes = #{attributes,jdbcType=VARCHAR},
+      sensor_id = #{sensorId,jdbcType=VARCHAR}
+    where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
+  </update>
+</mapper>

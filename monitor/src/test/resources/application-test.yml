@@ -13,7 +13,7 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://123.207.39.209:3306/Detection?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://123.207.39.209:3306/lactiviti?useUnicode=true&characterEncoding=utf-8
     username: dba
     password: hnzdjc@
     # 使用druid数据源
