@@ -13,6 +13,32 @@
     <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
     <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
   </resultMap>
+  <resultMap id="ProCharThMap" type="com.zhongda.monitor.business.model.Project">
+    <id column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
+    <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
+    <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
+    <result column="project_end_time" jdbcType="TIMESTAMP" property="projectEndTime" />
+    <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
+    <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
+    <result column="al_count" jdbcType="INTEGER" property="alCount" />
+    <result column="item_name" jdbcType="VARCHAR" property="projectTypeName" />
+    <collection property="statisticChartList" javaType="java.util.List" ofType="com.zhongda.monitor.business.model.StatisticChart">
+	    <result column="detection_type_id" jdbcType="INTEGER" property="detectionTypeId" />
+	    <result column="detection_type_name" jdbcType="VARCHAR" property="detectionTypeName" />
+	    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+	    <association property="threshold" javaType="com.zhongda.monitor.business.model.Threshold" >
+		    <result column="threshold_type" jdbcType="INTEGER" property="thresholdType" />
+		    <result column="min_threshold_value" jdbcType="DOUBLE" property="minThresholdValue" />
+		    <result column="max_threshold_value" jdbcType="DOUBLE" property="maxThresholdValue" />
+		    <result column="min_drastic_threshold_value" jdbcType="DOUBLE" property="minDrasticThresholdValue" />
+		    <result column="max_drastic_threshold_value" jdbcType="DOUBLE" property="maxDrasticThresholdValue" />
+    	</association>
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List">
     project_id, project_name, project_type, project_address, project_longitude, project_latitude, 
     project_begin_time, project_end_time, project_status, project_description
@@ -22,6 +48,17 @@
     <include refid="Base_Column_List" />
     from project
     where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <select id="selectProCharThByUserId" parameterType="java.lang.Integer" resultMap="ProCharThMap">
+  select palsc.*,th.threshold_type,th.min_drastic_threshold_value,th.max_threshold_value,th.min_drastic_threshold_value,th.max_drastic_threshold_value from (
+		(select pals.*,sc.detection_type_id,sc.detection_type_name,sc.table_name from (
+			(select pal.*,sc.item_name from (
+				(select COUNT(al.project_id) as al_count,prou.* from (
+					(select pro.* from (project pro LEFT JOIN user_project up on pro.project_id=up.project_id) where up.user_id= #{userId,jdbcType=INTEGER}) prou
+				LEFT JOIN alarm al on prou.project_id=al.project_id) GROUP BY al.project_id) pal
+			LEFT JOIN sys_code sc on pal.project_type=sc.sc_id)) pals
+		LEFT JOIN statistic_chart sc on pals.project_id=sc.project_id)) palsc
+  left join threshold th on palsc.project_id=th.project_id and palsc.detection_type_id=th.monitor_type and th.threshold_type=20)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project

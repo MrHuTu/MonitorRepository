@@ -1,103 +1,93 @@
 package com.zhongda.monitor.business.model;
 
 public class Threshold {
-    private Integer thresholdId;
+	private Integer thresholdId;
 
-    private Integer userId;
+	private Integer projectId;
 
-    private Integer projectId;
+	private Integer projectType;
 
-    private Integer projectType;
+	private Integer monitorType;
 
-    private Integer monitorType;
+	private Integer thresholdType;
 
-    private Integer thresholdType;
+	private Double minThresholdValue;
 
-    private Double minThresholdValue;
+	private Double maxThresholdValue;
 
-    private Double maxThresholdValue;
+	private Double minDrasticThresholdValue;
 
-    private Double minDrasticThresholdValue;
+	private Double maxDrasticThresholdValue;
 
-    private Double maxDrasticThresholdValue;
+	public Integer getThresholdId() {
+		return thresholdId;
+	}
 
-    public Integer getThresholdId() {
-        return thresholdId;
-    }
+	public void setThresholdId(Integer thresholdId) {
+		this.thresholdId = thresholdId;
+	}
 
-    public void setThresholdId(Integer thresholdId) {
-        this.thresholdId = thresholdId;
-    }
+	public Integer getProjectId() {
+		return projectId;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public Integer getProjectType() {
+		return projectType;
+	}
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+	public void setProjectType(Integer projectType) {
+		this.projectType = projectType;
+	}
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
+	public Integer getMonitorType() {
+		return monitorType;
+	}
 
-    public Integer getProjectType() {
-        return projectType;
-    }
+	public void setMonitorType(Integer monitorType) {
+		this.monitorType = monitorType;
+	}
 
-    public void setProjectType(Integer projectType) {
-        this.projectType = projectType;
-    }
+	public Integer getThresholdType() {
+		return thresholdType;
+	}
 
-    public Integer getMonitorType() {
-        return monitorType;
-    }
+	public void setThresholdType(Integer thresholdType) {
+		this.thresholdType = thresholdType;
+	}
 
-    public void setMonitorType(Integer monitorType) {
-        this.monitorType = monitorType;
-    }
+	public Double getMinThresholdValue() {
+		return minThresholdValue;
+	}
 
-    public Integer getThresholdType() {
-        return thresholdType;
-    }
+	public void setMinThresholdValue(Double minThresholdValue) {
+		this.minThresholdValue = minThresholdValue;
+	}
 
-    public void setThresholdType(Integer thresholdType) {
-        this.thresholdType = thresholdType;
-    }
+	public Double getMaxThresholdValue() {
+		return maxThresholdValue;
+	}
 
-    public Double getMinThresholdValue() {
-        return minThresholdValue;
-    }
+	public void setMaxThresholdValue(Double maxThresholdValue) {
+		this.maxThresholdValue = maxThresholdValue;
+	}
 
-    public void setMinThresholdValue(Double minThresholdValue) {
-        this.minThresholdValue = minThresholdValue;
-    }
+	public Double getMinDrasticThresholdValue() {
+		return minDrasticThresholdValue;
+	}
 
-    public Double getMaxThresholdValue() {
-        return maxThresholdValue;
-    }
+	public void setMinDrasticThresholdValue(Double minDrasticThresholdValue) {
+		this.minDrasticThresholdValue = minDrasticThresholdValue;
+	}
 
-    public void setMaxThresholdValue(Double maxThresholdValue) {
-        this.maxThresholdValue = maxThresholdValue;
-    }
+	public Double getMaxDrasticThresholdValue() {
+		return maxDrasticThresholdValue;
+	}
 
-    public Double getMinDrasticThresholdValue() {
-        return minDrasticThresholdValue;
-    }
-
-    public void setMinDrasticThresholdValue(Double minDrasticThresholdValue) {
-        this.minDrasticThresholdValue = minDrasticThresholdValue;
-    }
-
-    public Double getMaxDrasticThresholdValue() {
-        return maxDrasticThresholdValue;
-    }
-
-    public void setMaxDrasticThresholdValue(Double maxDrasticThresholdValue) {
-        this.maxDrasticThresholdValue = maxDrasticThresholdValue;
-    }
+	public void setMaxDrasticThresholdValue(Double maxDrasticThresholdValue) {
+		this.maxDrasticThresholdValue = maxDrasticThresholdValue;
+	}
 }

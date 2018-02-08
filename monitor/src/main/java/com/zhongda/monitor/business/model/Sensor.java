@@ -1,133 +1,145 @@
 package com.zhongda.monitor.business.model;
 
 public class Sensor {
-    private Integer sensorId;
+	private Integer sensorId;
 
-    private Integer projectId;
+	private Integer projectId;
 
-    private String monitorPoint;
+	private String monitorPoint;
 
-    private Integer monitorType;
+	private Integer monitorType;
 
-    private String smuNumber;
+	private String smuNumber;
 
-    private String smuChannel;
+	private String smuChannel;
 
-    private String sensorNumber;
+	private String sensorNumber;
 
-    private String sensorType;
+	private String sensorType;
 
-    private String sensorModel;
+	private String sensorModel;
 
-    private String sensorLongitude;
+	private String sensorLongitude;
 
-    private String sensorLatitude;
+	private String sensorLatitude;
 
-    private String sensorPlace;
+	private String sensorPlace;
 
-    private Float sensorDepth;
+	private Float sensorDepth;
 
-    public Integer getSensorId() {
-        return sensorId;
-    }
+	private PublicSensorData publicSensorData;// 传感器数据公共对象 数据库没有字段
 
-    public void setSensorId(Integer sensorId) {
-        this.sensorId = sensorId;
-    }
+	public Integer getSensorId() {
+		return sensorId;
+	}
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+	public void setSensorId(Integer sensorId) {
+		this.sensorId = sensorId;
+	}
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
+	public Integer getProjectId() {
+		return projectId;
+	}
 
-    public String getMonitorPoint() {
-        return monitorPoint;
-    }
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setMonitorPoint(String monitorPoint) {
-        this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
-    }
+	public String getMonitorPoint() {
+		return monitorPoint;
+	}
 
-    public Integer getMonitorType() {
-        return monitorType;
-    }
+	public void setMonitorPoint(String monitorPoint) {
+		this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
+	}
 
-    public void setMonitorType(Integer monitorType) {
-        this.monitorType = monitorType;
-    }
+	public Integer getMonitorType() {
+		return monitorType;
+	}
 
-    public String getSmuNumber() {
-        return smuNumber;
-    }
+	public void setMonitorType(Integer monitorType) {
+		this.monitorType = monitorType;
+	}
 
-    public void setSmuNumber(String smuNumber) {
-        this.smuNumber = smuNumber == null ? null : smuNumber.trim();
-    }
+	public String getSmuNumber() {
+		return smuNumber;
+	}
 
-    public String getSmuChannel() {
-        return smuChannel;
-    }
+	public void setSmuNumber(String smuNumber) {
+		this.smuNumber = smuNumber == null ? null : smuNumber.trim();
+	}
 
-    public void setSmuChannel(String smuChannel) {
-        this.smuChannel = smuChannel == null ? null : smuChannel.trim();
-    }
+	public String getSmuChannel() {
+		return smuChannel;
+	}
 
-    public String getSensorNumber() {
-        return sensorNumber;
-    }
+	public void setSmuChannel(String smuChannel) {
+		this.smuChannel = smuChannel == null ? null : smuChannel.trim();
+	}
 
-    public void setSensorNumber(String sensorNumber) {
-        this.sensorNumber = sensorNumber == null ? null : sensorNumber.trim();
-    }
+	public String getSensorNumber() {
+		return sensorNumber;
+	}
 
-    public String getSensorType() {
-        return sensorType;
-    }
+	public void setSensorNumber(String sensorNumber) {
+		this.sensorNumber = sensorNumber == null ? null : sensorNumber.trim();
+	}
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType == null ? null : sensorType.trim();
-    }
+	public String getSensorType() {
+		return sensorType;
+	}
 
-    public String getSensorModel() {
-        return sensorModel;
-    }
+	public void setSensorType(String sensorType) {
+		this.sensorType = sensorType == null ? null : sensorType.trim();
+	}
 
-    public void setSensorModel(String sensorModel) {
-        this.sensorModel = sensorModel == null ? null : sensorModel.trim();
-    }
+	public String getSensorModel() {
+		return sensorModel;
+	}
 
-    public String getSensorLongitude() {
-        return sensorLongitude;
-    }
+	public void setSensorModel(String sensorModel) {
+		this.sensorModel = sensorModel == null ? null : sensorModel.trim();
+	}
 
-    public void setSensorLongitude(String sensorLongitude) {
-        this.sensorLongitude = sensorLongitude == null ? null : sensorLongitude.trim();
-    }
+	public String getSensorLongitude() {
+		return sensorLongitude;
+	}
 
-    public String getSensorLatitude() {
-        return sensorLatitude;
-    }
+	public void setSensorLongitude(String sensorLongitude) {
+		this.sensorLongitude = sensorLongitude == null ? null : sensorLongitude
+				.trim();
+	}
 
-    public void setSensorLatitude(String sensorLatitude) {
-        this.sensorLatitude = sensorLatitude == null ? null : sensorLatitude.trim();
-    }
+	public String getSensorLatitude() {
+		return sensorLatitude;
+	}
 
-    public String getSensorPlace() {
-        return sensorPlace;
-    }
+	public void setSensorLatitude(String sensorLatitude) {
+		this.sensorLatitude = sensorLatitude == null ? null : sensorLatitude
+				.trim();
+	}
 
-    public void setSensorPlace(String sensorPlace) {
-        this.sensorPlace = sensorPlace == null ? null : sensorPlace.trim();
-    }
+	public String getSensorPlace() {
+		return sensorPlace;
+	}
 
-    public Float getSensorDepth() {
-        return sensorDepth;
-    }
+	public void setSensorPlace(String sensorPlace) {
+		this.sensorPlace = sensorPlace == null ? null : sensorPlace.trim();
+	}
 
-    public void setSensorDepth(Float sensorDepth) {
-        this.sensorDepth = sensorDepth;
-    }
+	public Float getSensorDepth() {
+		return sensorDepth;
+	}
+
+	public void setSensorDepth(Float sensorDepth) {
+		this.sensorDepth = sensorDepth;
+	}
+
+	public PublicSensorData getPublicSensorData() {
+		return publicSensorData;
+	}
+
+	public void setPublicSensorData(PublicSensorData publicSensorData) {
+		this.publicSensorData = publicSensorData;
+	}
 }

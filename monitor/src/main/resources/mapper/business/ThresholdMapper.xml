@@ -3,7 +3,6 @@
 <mapper namespace="com.zhongda.monitor.business.mapper.ThresholdMapper">
   <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.Threshold">
     <id column="threshold_id" jdbcType="INTEGER" property="thresholdId" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
     <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
