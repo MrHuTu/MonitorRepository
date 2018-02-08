@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.ItemMapper">
+<resultMap id="ItemMap" type="com.zhongda.monitor.business.model.Item">
+	<id column="project_id" property="project_id"/>
+	<result column="project_name" property="project_name"/>
+	<result column="real_name" property="real_name"/>
+	<result column="project_begin_time" property="project_begin_time"/>
+	<result column="project_end_time" property="project_end_time"/>
+	<result column="project_type" property="project_type"/>
+	<result column="project_address" property="project_address"/>
+	<result column="project_description" property="project_description"/>
+	<result column="project_description_" property="project_description_"/>
+	<result column="project_status" property="project_status"/>
+	<result column="project_alarmNum" property="project_alarmNum"/>
+	<result column="project_sensorNum" property="project_sensorNum"/>
+	<result column="project_smuNum" property="project_smuNum"/>
+</resultMap>
+ 	<select id="getAllItem" resultMap="ItemMap">
+ 		SELECT 
+p.project_id as project_id,
+p.project_name as project_name,u.real_name as real_name,p.project_begin_time ,p.project_end_time ,
+ (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type, p.project_address as project_address,
+p.project_description as project_description,p.project_description as project_description_ ,  (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status,
+(select COUNT(*) from alarm a where p.project_id =a.project_id and a.alarm_status=0) as project_alarmNum,  
+(	select COUNT(*) from project pr,(SELECT sen.project_id as senproject_id  from sensor sen,project po  
+	where sen.project_id =po.project_id GROUP BY  sen.smu_number,sen.project_id) a 
+	where pr.project_id=p.project_id and a.senproject_id= pr.project_id) as project_sensorNum,
+(SELECT COUNT(1) from sensor sen where sen.project_id =p.project_id )as project_smuNum
+from project p ,`user` u ,user_project up  where p.project_id = up.project_id and up.user_id=u.user_id;
+ 	</select>
+</mapper>
