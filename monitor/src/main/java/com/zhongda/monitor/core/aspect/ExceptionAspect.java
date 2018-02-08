@@ -1,5 +1,8 @@
 package com.zhongda.monitor.core.aspect;
 
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -14,10 +17,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.core.model.Result;
@@ -28,8 +30,7 @@ import com.zhongda.monitor.core.model.Result;
  * @Author dengzm
  * @Date 2018年1月11日 下午3:55:14
  */
-@ControllerAdvice   // 控制器增强
-@ResponseBody
+@RestControllerAdvice   // 控制器增强
 public class ExceptionAspect {
 
 	private final Logger logger = Logger.getLogger(ExceptionAspect.class);
@@ -171,6 +172,19 @@ public class ExceptionAspect {
 	}
 	
 	/**
+	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
+	 */
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(NoStatelessTokenException.class)
+	public Result<String> handleNoStatelessTokenException(NoStatelessTokenException e) {
+		logger.error("没有传入token，验证失败...", e);
+		Result<String> result = new Result<String>();
+		result.setCode(Result.FAILURE);
+		result.setMsg("没有传入token，验证失败");
+		return result;
+	}
+	
+	/**
 	 * 500 - Internal Server Error。处理 AuthenticationException 异常
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -187,12 +201,25 @@ public class ExceptionAspect {
 	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(NoStatelessTokenException.class)
-	public Result<String> handleNoStatelessTokenException(NoStatelessTokenException e) {
-		logger.error("没有传入token，验证失败...", e);
+	@ExceptionHandler(MalformedJwtException.class)
+	public Result<String> handleMalformedJwtException(MalformedJwtException e) {
+		logger.error("token无效，验证失败...", e);
 		Result<String> result = new Result<String>();
 		result.setCode(Result.FAILURE);
-		result.setMsg("没有传入token，验证失败");
+		result.setMsg("token无效，验证失败");
+		return result;
+	}
+	
+	/**
+	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
+	 */
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(SignatureException.class)
+	public Result<String> handleSignatureException(SignatureException e) {
+		logger.error("token无效，验证失败...", e);
+		Result<String> result = new Result<String>();
+		result.setCode(Result.FAILURE);
+		result.setMsg("token无效，验证失败");
 		return result;
 	}
 	

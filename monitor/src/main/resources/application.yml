@@ -119,7 +119,6 @@ logging:
 # JWT 认证配置
 jwt:
   header: Authorization
-  secret: 2018YangFanQiHang
   tokenHead: "Bearer "
   exceptUrl: "/auth/**"
 

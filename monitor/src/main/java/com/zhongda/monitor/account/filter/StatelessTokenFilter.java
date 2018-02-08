@@ -2,113 +2,65 @@ package com.zhongda.monitor.account.filter;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.security.StatelessToken;
+import com.zhongda.monitor.account.service.TokenService;
+import com.zhongda.monitor.account.service.impl.TokenServiceImpl;
 
 /**
  * Title: 跨域访问处理(跨域资源共享) 
- * Description: 解决前后端分离架构中的跨域问题 (代码的执行流程 preHandle->isAccessAllowed->isLoginAttempt->executeLogin)
+ * Description: 解决前后端分离架构中的跨域问题
  * @Author dengzm
  * @Date 2018年1月16日 上午9:11:42
  */
-public class StatelessTokenFilter extends BasicHttpAuthenticationFilter {
+public class StatelessTokenFilter extends AccessControlFilter {
 
 	private final Logger logger = LoggerFactory.getLogger(StatelessTokenFilter.class);
-
-	/**
-	 * 跨域访问处理(跨域资源共享) 解决前后端分离架构中的跨域问题
-	 */
-	@Override
-	protected boolean preHandle(ServletRequest request, ServletResponse response)
-			throws Exception {
-		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-		httpServletResponse.setHeader("Access-Control-Allow-Origin",
-				httpServletRequest.getHeader("Origin"));
-		httpServletResponse.setHeader("Access-Control-Allow-Methods",
-				"GET,POST,OPTIONS,PUT,DELETE");
-		httpServletResponse.setHeader("Access-Control-Allow-Headers",
-				httpServletRequest.getHeader("Access-Control-Request-Headers"));
-		// 跨域时会首先发送一个option请求，这里我们给option请求直接返回正常状态
-		if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
-			httpServletResponse.setStatus(HttpStatus.OK.value());
-			return false;
-		}
-		logger.error("进入TokenFilter preHandle");
-		return super.preHandle(request, response);
-	}
 	
-	/**
-	 * 这里我们详细说 明下为什么最终返回的都是true，即允许访问 例如我们提供一个地址 GET /article 登入用户和游客看到的内容是不同的
-	 * 如果在这里返回了false，请求会被直接拦截，用户看不到任何东西 所以我们在这里返回true，Controller中可以通过
-	 * subject.isAuthenticated() 来判断用户是否登入 如果有些资源只有登入用户才能访问，我们只需要在方法上面加上 @RequiresAuthentication
-	 * 注解即可 但是这样做有一个缺点，就是不能够对GET,POST等请求进行分别过滤鉴权(因为我们重写了官方的方法)，但实际上对应用影响不大
-	 */
+	@Resource
+	private TokenService tokenService = new TokenServiceImpl();
+	
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request,
-			ServletResponse response, Object mappedValue) {
-		logger.error("进入TokenFilter isAccessAllowed" + request.getParameterMap());
-		if (isLoginAttempt(request, response)) {
-			try {
-				executeLogin(request, response);
-			} catch (Exception e) {
-				response401(request, response);
-			}
-		} else {
-			throw new NoStatelessTokenException("没有传入token，验证失败");
-		}
-		return true;
+			ServletResponse response, Object mappedValue) throws Exception {
+		return false;
 	}
-
-	/**
-	 * 判断用户是否想要登入。 检测header里面是否包含Authorization字段即可
-	 */
+	
 	@Override
-	protected boolean isLoginAttempt(ServletRequest request,
-			ServletResponse response) {
-		logger.error("进入TokenFilter isLoginAttempt");
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+
+		logger.info("StatelessTokenFilter onAccessDenied");
 		HttpServletRequest req = (HttpServletRequest) request;
 		String authorization = req.getHeader(StatelessToken.HEADER);
-		return authorization != null;
-	}
-
-	/**
-    *
-    */
-	@Override
-	protected boolean executeLogin(ServletRequest request,
-			ServletResponse response) throws Exception {
-		logger.error("进入TokenFilter executeLogin");
-		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		String authorization = httpServletRequest.getHeader(StatelessToken.HEADER);
-		StatelessToken token = new StatelessToken(authorization);
-		// 提交给realm进行登入，如果错误他会抛出异常并被捕获
-		getSubject(request, response).login(token);
-		// 如果没有抛出异常则代表登入成功，返回true
-		return true;
-	}
-
-	/**
-     * 将非法请求跳转到 /401
-     */
-    private void response401(ServletRequest req, ServletResponse resp) {
-        try {
-            HttpServletResponse httpServletResponse = (HttpServletResponse) resp;
-            httpServletResponse.sendRedirect("/401");
-        } catch (IOException e) {
-        	logger.error(e.getMessage());
-        }
-    }
+		String password = req.getParameter("password");
+		String userName = req.getParameter("userName");
+		StatelessToken token = new StatelessToken(userName, password, authorization);
+		System.out.println(token.getToken());
+	    try {  
+	    	//5、委托给Realm进行登录  
+	    	getSubject(request, response).login(token);  
+	    } catch (Exception e) {  
+	    	e.printStackTrace();  
+	    	onLoginFail(response); //6、登录失败  
+	    	return false;  
+	    }  
+	    return true;  
+	}  
+	
+	//登录失败时默认返回401状态码  
+	private void onLoginFail(ServletResponse response) throws IOException {  
+	    HttpServletResponse httpResponse = (HttpServletResponse) response;  
+	    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  
+	    httpResponse.getWriter().write("login error");  
+	}  
 
 }

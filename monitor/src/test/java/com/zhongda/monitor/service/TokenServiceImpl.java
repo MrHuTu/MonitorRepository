@@ -1,4 +1,4 @@
-package com.zhongda.monitor.account.service.impl;
+package com.zhongda.monitor.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
@@ -10,20 +10,19 @@ import io.jsonwebtoken.impl.TextCodec;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mobile.device.Device;
-import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.exception.NoStatelessTokenException;
-import com.zhongda.monitor.account.service.TokenService;
 
 /**
  * Title: Token的业务实现类
@@ -31,10 +30,9 @@ import com.zhongda.monitor.account.service.TokenService;
  * @Author dengzm
  * @Date 2018年1月11日 下午4:13:48
  */
-@Service
-public class TokenServiceImpl implements TokenService{
+public class TokenServiceImpl{
 	
-	private final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+	//private final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
 	
 	/** 创建时间标志 */
 	static final String CLAIM_KEY_CREATED = "created"; 
@@ -53,13 +51,24 @@ public class TokenServiceImpl implements TokenService{
 	/** Token默认过期时间7天(单位毫秒) */
 	private static final int JWT_EXP = 7 * 24 * 60 * 60 * 1000;
 	
-	@Override
-	public String createToken(Map<String, Object> claims, String password) {
+	private static ObjectMapper objectMapper = new ObjectMapper();
+	
+	public static void main(String[] args) throws IOException {
+		String password = "123456";
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("username", "xxxx");
+		String token = createToken(map, password);
+		System.out.println(token);
+		Map<String, Object> parseTokenClaims = parseTokenClaims(token);
+		String asString = objectMapper.writeValueAsString(parseTokenClaims);
+		System.out.println(asString);
+	}
+	
+	public static String createToken(Map<String, Object> claims, String password) {
 		return createJsonWebToken(claims, null, password);
 	}
 
-	@Override
-	public String createToken(Map<String, Object> claims, Device device, String password) {
+	public static String createToken(Map<String, Object> claims, Device device, String password) {
 		return createJsonWebToken(claims, device, password);
 	}
 	
@@ -69,9 +78,8 @@ public class TokenServiceImpl implements TokenService{
 	 * @param device device检测访问主体
 	 * @return 返回创建好的token
 	 */
-	private String createJsonWebToken(Map<String, Object> claims, Device device, String password) {
+	private static String createJsonWebToken(Map<String, Object> claims, Device device, String password) {
 		long nowMillis = System.currentTimeMillis();
-		System.out.println(nowMillis);
 		Date nowDate = new Date(nowMillis);
 		SecretKey key = getKey(password);
 		JwtBuilder builder = Jwts.builder()
@@ -91,9 +99,8 @@ public class TokenServiceImpl implements TokenService{
 	 * 获取密钥
 	 * @param password 使用密码加密后作为密钥
 	 */
-	private SecretKey getKey(String password) {
+	private static SecretKey getKey(String password) {
 		String stringKey = JWT_SECRET + password;
-		System.out.println(stringKey);
 		byte[] encodedKey = Base64.getDecoder().decode(stringKey);
 		SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 		return key;
@@ -105,7 +112,7 @@ public class TokenServiceImpl implements TokenService{
 	 * @param builder     JwtBuilder对象
 	 * @param jwtExpTime  过期时间(单位毫秒)
 	 */
-	private void setExpTime(long nowMillis, JwtBuilder builder,
+	private static void setExpTime(long nowMillis, JwtBuilder builder,
 			Object jwtExpTime) {
 		if (null != jwtExpTime) { // 自定义了过期时间，使用自定义过期时间
 			long jwtExpTime_ = (long) jwtExpTime;
@@ -126,7 +133,7 @@ public class TokenServiceImpl implements TokenService{
 	/**
      * 通过spring-mobile-device的device检测访问主体
      */
-    private String getAudience(Device device) {
+    private static String getAudience(Device device) {
         String audience = AUDIENCE_UNKNOWN;
         if (device.isNormal()) {
             audience = AUDIENCE_WEB;//PC端
@@ -138,8 +145,7 @@ public class TokenServiceImpl implements TokenService{
         return audience;
     }
 	
-    @Override
-	public Map<String, Object> parseTokenBody(String token){
+	public static Map<String, Object> parseTokenClaims(String token) throws JsonParseException, JsonMappingException, IOException {
 		if(null == token){
 			throw new NoStatelessTokenException("没有token令牌,验证失败...");
 		}else{
@@ -150,45 +156,30 @@ public class TokenServiceImpl implements TokenService{
 				throw new MalformedJwtException("token令牌格式错误,验证失败...");
 			}else{
 				String payload = TextCodec.BASE64URL.decodeToString(tokenArray[1]);
-				ObjectMapper objectMapper = new ObjectMapper();
+				System.out.println(payload);
 				JavaType javaType = objectMapper.getTypeFactory().constructParametricType(Map.class, String.class, Object.class);
-				try {
-					return objectMapper.readValue(payload, javaType);
-				} catch (IOException e) {
-					logger.error("解析token的荷载部分失败,解码后的json字符串不能转换成Map集合" + e.getMessage());
-					return null;
-				}
+				return objectMapper.readValue(payload, javaType);
 			}
 		}
+		
 	}
     
-	@Override
-	public Claims parseToken(String token, String password) {
+	public static Claims parseToken(String token, String password) {
 		SecretKey key = getKey(password);
 		return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
 	}
 	
-	@Override
-	public String refreshToken(String token, String password) {
+	public static String refreshToken(String token, String password) {
         final Claims claims = parseToken(token, password);
         claims.put(CLAIM_KEY_CREATED, new Date());
         return createToken(claims, password);
 	}
 
-	@Override
-	public boolean checkToken(String token, String password) {
-		try {
-			Jwts.parser().setSigningKey(getKey(password)).parseClaimsJws(token);
-			return true;
-		} catch (Exception e) {
-			logger.error("token令牌无效, 验证失败..." + e.getMessage());
-			return false;
-		}
-		
+	public static void checkToken(String token, String password) {
+		Jwts.parser().setSigningKey(getKey(password)).parseClaimsJws(token).getBody();
 	}
 
-	@Override
-	public void deleteToken(String token, String password) {
+	public static void deleteToken(String token, String password) {
 		 final Claims claims = parseToken(token, password);
 		 claims.put(CLAIM_KEY_EXPIRATiON, 0);
 		 createToken(claims, password);

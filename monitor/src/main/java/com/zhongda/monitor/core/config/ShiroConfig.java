@@ -65,10 +65,10 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
 		filterChainDefinitionMap.put("/token", "anon");
-		//filterChainDefinitionMap.put("/**", "authc");
+		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
-        filters.put("authcx", new StatelessTokenFilter());
+        filters.put("authc", new StatelessTokenFilter());
 		shiroFilterFactoryBean.setFilters(filters);
 		return shiroFilterFactoryBean;
 	}

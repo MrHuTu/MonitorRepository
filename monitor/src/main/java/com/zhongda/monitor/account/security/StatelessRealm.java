@@ -1,6 +1,9 @@
 package com.zhongda.monitor.account.security;
 
+import io.jsonwebtoken.SignatureException;
+
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,11 +21,13 @@ import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.model.Permission;
 import com.zhongda.monitor.account.model.Role;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.PermissionService;
 import com.zhongda.monitor.account.service.RoleService;
+import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
 
 /**
@@ -33,8 +38,11 @@ import com.zhongda.monitor.account.service.UserService;
  */
 public class StatelessRealm extends AuthorizingRealm {
 
-	public static final Logger logger = LoggerFactory.getLogger(StatelessRealm.class);
-
+	private static final Logger logger = LoggerFactory.getLogger(StatelessRealm.class);
+	
+	@Resource
+	private TokenService tokenService;
+	 
     @Resource
     private UserService userService;
 
@@ -80,19 +88,38 @@ public class StatelessRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-    	
     	StatelessToken statelessToken = (StatelessToken) token;
-        String userName = (String) statelessToken.getPrincipal();
-        // 通过数据库进行验证
+    	String userName = (String) statelessToken.getPrincipal();
+    	if(null != userName && null != statelessToken.getCredentials()){
+    		// 通过数据库进行验证
+            final User user = userService.selectByUserName(userName);
+            if (user == null) {
+                throw new UnknownAccountException("该帐号不存在！");
+            }else if("禁用".equals(user.getStatus())){
+            	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
+            }
+            return  new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
+    	}
+    	Map<String, Object> tokenBody = tokenService.parseTokenBody(statelessToken.getToken());
+    	 
+    	if (null == tokenBody) { 
+    		throw new SignatureException("token令牌无效"); 
+    	} 
+    	if(null == tokenBody.get("userName")){
+			throw new SignatureException("token令牌无效"); 
+		}
+		userName = (String) tokenBody.get("userName");
+		// 通过数据库进行验证
         final User user = userService.selectByUserName(userName);
         if (user == null) {
             throw new UnknownAccountException("该帐号不存在！");
         }else if("禁用".equals(user.getStatus())){
         	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
         }
-        //创建SimpleAuthenticationInfo对象时传入自定义的principal对象后，以后通过subject取出来的principal对象就是自己定义的principal
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
-        return authenticationInfo;
+    	if (!tokenService.checkToken(statelessToken.getToken(), user.getPassword())) { 
+    		throw new SignatureException("token令牌无效"); 
+    	} 
+        return  new SimpleAuthenticationInfo(userName, Boolean.TRUE, getName());
     }
     
     /**

@@ -62,7 +62,7 @@ public class TokenController {
 		if (result.getCode() == Result.SUCCESS) {
 			Map<String,Object> claims = new HashMap<String,Object>();
 			claims.put("userName", userName);
-			String token = tokenService.createToken(claims);
+			String token = tokenService.createToken(claims, ShiroUtils.encryptPassword(password, userName));
 			logger.debug(userName +" 用户登录生成的Token: " + token);
 			result.setMsg("登录成功");
 			result.setData(token);
@@ -85,7 +85,7 @@ public class TokenController {
 		String token = request.getHeader(StatelessToken.HEADER);
 		//清除token
 		logger.debug("清除Token: " + token);
-		tokenService.deleteToken(token);
+		//tokenService.deleteToken(token);
 		// 登出操作
 		ShiroUtils.logout();
 		logger.debug("注销成功");
