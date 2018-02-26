@@ -4,12 +4,14 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
-import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.ShiroUtils;
@@ -53,13 +55,22 @@ public class UserServiceImpl implements UserService {
 		Result<String> result = new Result<String>();
 		// 判断用户是否已经登录
 		if (ShiroUtils.isLogin()) {
-			result.setCode(Result.FAILURE);
-			result.setMsg("该用户已经登录");
+			result.setCode(Result.FAILURE).setMsg("该用户已经登录");
 		}else{
-			StatelessToken shiroToken = new StatelessToken(userName, password);
-			// 身份验证
-			ShiroUtils.login(shiroToken);
-			result.setCode(Result.SUCCESS);
+			// 通过数据库进行验证
+			final User user = userMapper.selectByUserName(userName);
+			if (user == null) {
+	            throw new UnknownAccountException("该帐号不存在！");
+	        }else if("禁用".equals(user.getStatus())){
+	        	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
+	        }
+			//验证密码是否正确
+			password = ShiroUtils.encryptPassword(password, userName);
+			if(password.equals(user.getPassword())){
+				result.setCode(Result.SUCCESS);
+			} else {
+				throw new IncorrectCredentialsException("用户名或密码错误 ！");
+			}
 		}
 		return result;
 	}

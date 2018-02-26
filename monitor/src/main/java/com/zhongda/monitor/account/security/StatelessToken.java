@@ -6,12 +6,14 @@ public class StatelessToken implements AuthenticationToken {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static final String HEADER = "Authorization";
+	//用于验证使用：Header中的名字
+    public static final String DEFAULT_TOKEN_NAME = "Authorization";
+
+    //约定以什么信息开头
+    public static final String TOKEN_HEADER_PREFIX = "Bearer";
 	
 	/** 用户名  */
 	private String principal;
-	/** 密码  */
-	private String credentials;
 	/** token  */
 	private String token;
 	
@@ -23,14 +25,8 @@ public class StatelessToken implements AuthenticationToken {
 		this.token = token;
 	}
 	
-	public StatelessToken(String principal, String credentials) {
+	public StatelessToken(String principal, String token) {
 		this.principal = principal;
-		this.credentials = credentials;
-	}
-	
-	public StatelessToken(String principal, String credentials, String token) {
-		this.principal = principal;
-		this.credentials = credentials;
 		this.token = token;
 	}
 
@@ -41,7 +37,7 @@ public class StatelessToken implements AuthenticationToken {
 
 	@Override
 	public Object getCredentials() {
-		return credentials;
+		return token;
 	}
 
 	public String getToken() {
@@ -53,7 +49,7 @@ public class StatelessToken implements AuthenticationToken {
 	}
 
 	public void setCredentials(String credentials) {
-		this.credentials = credentials;
+		this.token = credentials;
 	}
 
 	public void setToken(String token) {

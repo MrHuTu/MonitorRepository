@@ -1,9 +1,9 @@
 package com.zhongda.monitor.business.controller;
 
-import java.util.List;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.business.model.Item;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
-import com.zhongda.monitor.core.model.Result;
 /**
  * 
  * @author Chao.hu 2018年2月7日15:42:47

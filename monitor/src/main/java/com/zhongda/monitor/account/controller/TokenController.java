@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.annotation.IgnoreSecurity;
+import com.zhongda.monitor.account.exception.ForbiddenException;
 import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.ShiroUtils;
+import com.zhongda.monitor.core.utils.StringUtils;
 
 /**
  * Title: Token管理    
@@ -48,7 +50,7 @@ public class TokenController {
 	 * @param userName 用户名
 	 * @param password value
 	 */
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value="/login", method = RequestMethod.POST)
 	@IgnoreSecurity
 	@ApiOperation(value = "登录", httpMethod = "POST", response = Result.class, notes = "根据用户名和密码登录")
 	@ApiImplicitParams({  
@@ -58,14 +60,17 @@ public class TokenController {
                 required = true, dataType = "String", paramType = "form")
 	})
 	public Result<String> login(String userName, String password, HttpServletResponse response) {
+		if(StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
+			throw new ForbiddenException("用户名或密码不可为空！");
+		}		
 		Result<String> result = userService.login(userName, password);
 		if (result.getCode() == Result.SUCCESS) {
 			Map<String,Object> claims = new HashMap<String,Object>();
 			claims.put("userName", userName);
 			String token = tokenService.createToken(claims, ShiroUtils.encryptPassword(password, userName));
 			logger.debug(userName +" 用户登录生成的Token: " + token);
-			result.setMsg("登录成功");
-			result.setData(token);
+			result.setMsg("登录成功").setData(token);
+
 		}else{
 			result.setMsg("登录失败," + result.getMsg());
 		}
@@ -77,12 +82,12 @@ public class TokenController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.DELETE)
+	@RequestMapping(value="/logout", method = RequestMethod.DELETE)
 	@IgnoreSecurity
 	@ApiOperation(value = "注销", httpMethod = "DELETE", response = Result.class, notes = "注销")
 	public Result<String> logout(HttpServletRequest request) {
 		Result<String> result = new Result<String>();
-		String token = request.getHeader(StatelessToken.HEADER);
+		String token = request.getHeader(StatelessToken.DEFAULT_TOKEN_NAME);
 		//清除token
 		logger.debug("清除Token: " + token);
 		//tokenService.deleteToken(token);

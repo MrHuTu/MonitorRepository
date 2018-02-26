@@ -1,8 +1,5 @@
 package com.zhongda.monitor.core.aspect;
 
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
-
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -21,7 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.zhongda.monitor.account.exception.NoStatelessTokenException;
+import com.zhongda.monitor.account.exception.ForbiddenException;
 import com.zhongda.monitor.core.model.Result;
 
 /**
@@ -33,7 +30,7 @@ import com.zhongda.monitor.core.model.Result;
 @RestControllerAdvice   // 控制器增强
 public class ExceptionAspect {
 
-	private final Logger logger = Logger.getLogger(ExceptionAspect.class);
+	private static final Logger logger = Logger.getLogger(ExceptionAspect.class);
 
 	/**
 	 * 400 - Bad Request。处理 HttpMessageNotReadableException 异常
@@ -44,8 +41,7 @@ public class ExceptionAspect {
 			HttpMessageNotReadableException e) {
 		logger.error("请求参数不能转换...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("请求参数不能转换");
+		result.setCode(Result.FAILURE).setMsg("请求参数不能转换");
 		return result;
 	}
 
@@ -58,8 +54,7 @@ public class ExceptionAspect {
 			MethodArgumentNotValidException e) {
 		logger.error("请求的参数出现异常...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("请求的参数出现异常");
+		result.setCode(Result.FAILURE).setMsg("请求的参数出现异常");
 		return result;
 	}
 
@@ -73,8 +68,7 @@ public class ExceptionAspect {
 			HttpRequestMethodNotSupportedException e) {
 		logger.error("请求的方法不支持...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("请求的方法不支持");
+		result.setCode(Result.FAILURE).setMsg("请求的方法不支持");
 		return result;
 	}
 
@@ -88,8 +82,7 @@ public class ExceptionAspect {
 			HttpMediaTypeNotSupportedException e) {
 		logger.error("请求数据格式不支持...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("请求数据格式不支持");
+		result.setCode(Result.FAILURE).setMsg("请求数据格式不支持");
 		return result;
 	}
 	
@@ -101,8 +94,7 @@ public class ExceptionAspect {
     public Result<String> handleSQLException(SQLException e) {  
 		logger.error("Sql出现错误...", e);  
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("Sql出现错误");
+		result.setCode(Result.FAILURE).setMsg("Sql出现错误");
 		return result;  
     }  
 
@@ -114,8 +106,19 @@ public class ExceptionAspect {
 	public Result<String> handleLockedAccountException(LockedAccountException e) {
 		logger.error("登录失败3次，账户已被锁定 ，请3分钟后再试...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("登录失败3次，账户已被锁定 ，请3分钟后再试");
+		result.setCode(Result.FAILURE).setMsg("登录失败3次，账户已被锁定 ，请3分钟后再试");
+		return result;
+	}
+	
+	/**
+	 * 500 - Internal Server Error。处理 UnauthorizedException 异常
+	 */
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ForbiddenException.class)
+	public Result<String> handleForbiddenException(ForbiddenException e) {
+		logger.error("用户名或密码不可为空...", e);
+		Result<String> result = new Result<String>();
+		result.setCode(Result.FAILURE).setMsg("用户名或密码不可为空");
 		return result;
 	}
 	
@@ -127,8 +130,7 @@ public class ExceptionAspect {
 	public Result<String> handleDisabledAccountException(DisabledAccountException e) {
 		logger.error("该账户已被禁用 ，请联系管理员...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("该账户已被禁用 ，请联系管理员！");
+		result.setCode(Result.FAILURE).setMsg("该账户已被禁用 ，请联系管理员！");
 		return result;
 	}
 	
@@ -140,8 +142,7 @@ public class ExceptionAspect {
 	public Result<String> handleUnknownAccountException(UnknownAccountException e) {
 		logger.error("该账户不存在...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("该账户不存在 ");
+		result.setCode(Result.FAILURE).setMsg("该账户不存在 ");
 		return result;
 	}
 	
@@ -153,8 +154,7 @@ public class ExceptionAspect {
 	public Result<String> handleIncorrectCredentialsException(IncorrectCredentialsException e) {
 		logger.error("用户名或密码错误...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("用户名或密码错误 ");
+		result.setCode(Result.FAILURE).setMsg("用户名或密码错误 ");
 		return result;
 	}
 	
@@ -166,21 +166,7 @@ public class ExceptionAspect {
 	public Result<String> handleUnauthorizedException(UnauthorizedException e) {
 		logger.error("没有该权限...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("没有该权限");
-		return result;
-	}
-	
-	/**
-	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
-	 */
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(NoStatelessTokenException.class)
-	public Result<String> handleNoStatelessTokenException(NoStatelessTokenException e) {
-		logger.error("没有传入token，验证失败...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("没有传入token，验证失败");
+		result.setCode(Result.FAILURE).setMsg("没有该权限");
 		return result;
 	}
 	
@@ -192,34 +178,7 @@ public class ExceptionAspect {
 	public Result<String> handleAuthenticationException(AuthenticationException e) {
 		logger.error("权限认证异常...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("权限认证异常 ");
-		return result;
-	}
-	
-	/**
-	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
-	 */
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(MalformedJwtException.class)
-	public Result<String> handleMalformedJwtException(MalformedJwtException e) {
-		logger.error("token无效，验证失败...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("token无效，验证失败");
-		return result;
-	}
-	
-	/**
-	 * 500 - Internal Server Error。处理 NoStatelessTokenException 异常
-	 */
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(SignatureException.class)
-	public Result<String> handleSignatureException(SignatureException e) {
-		logger.error("token无效，验证失败...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("token无效，验证失败");
+		result.setCode(Result.FAILURE).setMsg("权限认证异常 ");
 		return result;
 	}
 	
@@ -231,8 +190,7 @@ public class ExceptionAspect {
 	public Result<String> handleException(Exception e) {
 		logger.error("系统错误...", e);
 		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE);
-		result.setMsg("系统错误");
+		result.setCode(Result.FAILURE).setMsg("系统错误");
 		return result;
 	}
 }

@@ -71,7 +71,6 @@ public class TokenServiceImpl implements TokenService{
 	 */
 	private String createJsonWebToken(Map<String, Object> claims, Device device, String password) {
 		long nowMillis = System.currentTimeMillis();
-		System.out.println(nowMillis);
 		Date nowDate = new Date(nowMillis);
 		SecretKey key = getKey(password);
 		JwtBuilder builder = Jwts.builder()
@@ -93,7 +92,6 @@ public class TokenServiceImpl implements TokenService{
 	 */
 	private SecretKey getKey(String password) {
 		String stringKey = JWT_SECRET + password;
-		System.out.println(stringKey);
 		byte[] encodedKey = Base64.getDecoder().decode(stringKey);
 		SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 		return key;
@@ -143,9 +141,7 @@ public class TokenServiceImpl implements TokenService{
 		if(null == token){
 			throw new NoStatelessTokenException("没有token令牌,验证失败...");
 		}else{
-			System.out.println(token);
 			String[] tokenArray = token.split("\\.");
-			System.out.println(tokenArray.length);
 			if(tokenArray.length != 3){
 				throw new MalformedJwtException("token令牌格式错误,验证失败...");
 			}else{

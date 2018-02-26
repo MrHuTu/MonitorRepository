@@ -10,18 +10,14 @@ import javax.annotation.Resource;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.model.Permission;
 import com.zhongda.monitor.account.model.Role;
 import com.zhongda.monitor.account.model.User;
@@ -90,36 +86,20 @@ public class StatelessRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     	StatelessToken statelessToken = (StatelessToken) token;
     	String userName = (String) statelessToken.getPrincipal();
-    	if(null != userName && null != statelessToken.getCredentials()){
-    		// 通过数据库进行验证
-            final User user = userService.selectByUserName(userName);
-            if (user == null) {
-                throw new UnknownAccountException("该帐号不存在！");
-            }else if("禁用".equals(user.getStatus())){
-            	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
-            }
-            return  new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(userName), getName());
-    	}
-    	Map<String, Object> tokenBody = tokenService.parseTokenBody(statelessToken.getToken());
-    	 
-    	if (null == tokenBody) { 
-    		throw new SignatureException("token令牌无效"); 
+     	Map<String, Object> tokenBody = tokenService.parseTokenBody(statelessToken.getToken());
+    	if (null == tokenBody || null == tokenBody.get("userName")) { 
+    		throw new SignatureException("token令牌失效，请重新申请！"); 
     	} 
-    	if(null == tokenBody.get("userName")){
-			throw new SignatureException("token令牌无效"); 
-		}
 		userName = (String) tokenBody.get("userName");
 		// 通过数据库进行验证
         final User user = userService.selectByUserName(userName);
-        if (user == null) {
-            throw new UnknownAccountException("该帐号不存在！");
-        }else if("禁用".equals(user.getStatus())){
-        	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
+        if (null == user || "禁用".equals(user.getStatus())) {
+            throw new SignatureException("token令牌失效，请重新申请！");
         }
     	if (!tokenService.checkToken(statelessToken.getToken(), user.getPassword())) { 
-    		throw new SignatureException("token令牌无效"); 
+    		throw new SignatureException("token令牌失效，请重新申请！"); 
     	} 
-        return  new SimpleAuthenticationInfo(userName, Boolean.TRUE, getName());
+        return  new SimpleAuthenticationInfo(userName, statelessToken.getToken(), getName());
     }
     
     /**

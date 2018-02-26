@@ -7,9 +7,7 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -64,7 +62,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger-resources", "anon");
 		filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
-		filterChainDefinitionMap.put("/token", "anon");
+		filterChainDefinitionMap.put("/token/login", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
@@ -74,24 +72,11 @@ public class ShiroConfig {
 	}
 	
 	/**
-	 * shiro密码加密器
-	 */
-	@Bean(name = "md5CredentialsMatcher")
-	public HashedCredentialsMatcher getHashedCredentialsMatcher() {
-		HashedCredentialsMatcher md5CredentialsMatcher = new HashedCredentialsMatcher(
-				Md5Hash.ALGORITHM_NAME);
-		md5CredentialsMatcher.setHashIterations(1024);
-		return md5CredentialsMatcher;
-	}
-	
-	/**
 	 * shiro安全认证授权realm
 	 */
 	@Bean(name = "statelessRealm")
 	public AuthorizingRealm getAuthorizingRealm() {
-		StatelessRealm statelessRealm = new StatelessRealm();
-		statelessRealm.setCredentialsMatcher(getHashedCredentialsMatcher());
-		return statelessRealm;
+		return new StatelessRealm();
 	}
 	
 	/**
