@@ -1,14 +1,19 @@
 package com.zhongda.monitor.business.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zhongda.monitor.business.mapper.AlarmMapper;
 import com.zhongda.monitor.business.model.Alarm;
 import com.zhongda.monitor.business.service.AlarmService;
+import com.zhongda.monitor.core.model.Result;
 
 /**
  * Title : 告警Service实现类
@@ -22,10 +27,50 @@ public class AlarmServiceImpl implements AlarmService{
 	@Resource
 	private AlarmMapper alarmMapper;
 
+	
+	public Map<String , Object> selectPageAlarmByQuery(Alarm alarm) {
+		//设置分页信息
+		PageHelper.startPage(alarm.getPageNum(),alarm.getPageSize());
+		//查询信息
+		List<Alarm>alarmList= alarmMapper.selectPageAlarmByQuery(alarm);
+		PageInfo<Alarm> alarmPageInfo = new PageInfo<Alarm>(alarmList);
+		//返回的数据
+		Map<String, Object> alarmMap = new HashMap<String, Object>();
+		alarmMap.put("total", alarmPageInfo.getTotal());
+		alarmMap.put("alarmList", alarmList);
+		return alarmMap;
+	}
+
+
+	
+	public Result<Alarm>  updateAlarmStatusByAlarmId(Integer alarmId) {
+		int index = alarmMapper.updateAlarmStatusByAlarmId(alarmId);
+		Result<Alarm> result = new Result<Alarm>();
+		if(index > 0){
+			result.setCode(Result.SUCCESS);
+			result.setMsg("修改状态成功");
+		}else{
+			result.setCode(Result.FAILURE);
+			result.setMsg("修改状态失败");
+		}
+		return result;
+	
+	}
+
+
+
 	@Override
-	public List<Alarm> selectPageAlarmByQuery(Alarm alarm) {
-		//PageHelper.startPage(alarm.getPageNum(), alarm.getPageSize());
-		return alarmMapper.selectPageAlarmByQuery(alarm);
+	public Result<String> deleteAlarm(Alarm alarm) {
+		 int num =alarmMapper.deleteAlarm(alarm);
+		 Result<String > result = new Result<String>();
+		if(num != 0){
+			result.setCode(Result.SUCCESS);
+			result.setMsg("删除成功");
+		}else{
+			result.setCode(Result.FAILURE);
+			result.setMsg("条件有误");
+		}
+		return result;
 	}
 
 

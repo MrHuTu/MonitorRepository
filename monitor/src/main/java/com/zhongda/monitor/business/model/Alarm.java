@@ -1,155 +1,251 @@
 package com.zhongda.monitor.business.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Alarm {
-    private Integer alarmId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-    private Integer userId;
+@ApiModel(value = "告警信息对象")
+public class Alarm implements Serializable {
 
-    private String userName;
+	private static final long serialVersionUID = 1L;
 
-    private Integer projectId;
+	@ApiModelProperty(value = "告警信息ID")
+	private Integer alarmId;
 
-    private String projectName;
+	@ApiModelProperty(value = "用户ID", hidden = true)
+	private Integer userId;
 
-    private String monitorPoint;
+	@ApiModelProperty(value = "用户名" )
+	private String userName;
 
-    private String smuNumber;
+	@ApiModelProperty(value = "项目ID" , hidden = true)
+	private Integer projectId;
 
-    private String smuChannel;
+	@ApiModelProperty(value = "项目名")
+	private String projectName;
 
-    private String sensorNumber;
+	@ApiModelProperty(value = "测点名")
+	private String monitorPoint;
 
-    private Integer alarmType;
+	@ApiModelProperty(value = "采集器编号")
+	private String smuNumber;
 
-    private String alarmContext;
+	@ApiModelProperty(value = "采集器通道", hidden = true)
+	private String smuChannel;
 
-    private Date createTime;
+	@ApiModelProperty(value = "传感器编号")
+	private String sensorNumber;
 
-    private Integer alarmStatus;
+	@ApiModelProperty(value = "告警类型")
+	private Integer alarmType;// 告警类型( 1:设备类告警 ; 2:数据类告警)
 
-    private Integer alarmLevel;
+	@ApiModelProperty(value = "告警內容")
+	private String alarmContext;
 
-    private Integer frequency;
+	@ApiModelProperty(value = "创建时间" , hidden = true)
+	private Date createTime;
 
-    public Integer getAlarmId() {
-        return alarmId;
-    }
+	@ApiModelProperty(value = "告警状态")
+	private Integer alarmStatus;// ( 0:未确认 ; 1:已确认)
 
-    public void setAlarmId(Integer alarmId) {
-        this.alarmId = alarmId;
-    }
+	@ApiModelProperty(value = "告警等级" , hidden = true)
+	private Integer alarmLevel;// 默认为1
 
-    public Integer getUserId() {
-        return userId;
-    }
+	@ApiModelProperty(value = "同类消息产生次数" , hidden = true)
+	private Integer frequency;
+	
+	@ApiModelProperty(value = "告警类型名", hidden = true)
+	private String alarmTypeName;// 告警类型名字 数据库没有
+	
+	@ApiModelProperty(value = "告警状态名", hidden = true)
+	private String alarmStatusName;// 告警状态名
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	// 数据库不存在该字段，只作为查询时判断查询条件创建时间是否在该范围内时使用
+	@ApiModelProperty(value = "根据时间查询的起始时间")
+	private Date startCreateTime;
 
-    public String getUserName() {
-        return userName;
-    }
+	// 数据库不存在该字段，只作为查询时判断查询条件创建时间是否在该范围内时使用
+	@ApiModelProperty(value = "根据时间查询的借宿时间")
+	private Date endCreateTime;
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	// 数据库不存在该字段，只作为分页时存储当前页数据时使用
+	@ApiModelProperty(value = "分页信息当前页面")
+	private Integer pageNum;
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+	// 数据库不存在该字段，只作为分页时存储每页记录条数数据时使用
+	@ApiModelProperty(value = "分页信息一个的条数")
+	private Integer pageSize;
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
+	public Integer getPageNum() {
+		return pageNum;
+	}
 
-    public String getProjectName() {
-        return projectName;
-    }
+	public void setPageNum(Integer pageNum) {
+		this.pageNum = pageNum;
+	}
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName == null ? null : projectName.trim();
-    }
+	public Integer getPageSize() {
+		return pageSize;
+	}
 
-    public String getMonitorPoint() {
-        return monitorPoint;
-    }
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
 
-    public void setMonitorPoint(String monitorPoint) {
-        this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
-    }
+	public Date getStartCreateTime() {
+		return startCreateTime;
+	}
 
-    public String getSmuNumber() {
-        return smuNumber;
-    }
+	public void setStartCreateTime(Date startCreateTime) {
+		this.startCreateTime = startCreateTime;
+	}
 
-    public void setSmuNumber(String smuNumber) {
-        this.smuNumber = smuNumber == null ? null : smuNumber.trim();
-    }
+	public Date getEndCreateTime() {
+		return endCreateTime;
+	}
 
-    public String getSmuChannel() {
-        return smuChannel;
-    }
+	public void setEndCreateTime(Date endCreateTime) {
+		this.endCreateTime = endCreateTime;
+	}
 
-    public void setSmuChannel(String smuChannel) {
-        this.smuChannel = smuChannel == null ? null : smuChannel.trim();
-    }
+	public String getAlarmStatusName() {
+		return alarmStatusName;
+	}
 
-    public String getSensorNumber() {
-        return sensorNumber;
-    }
+	public void setAlarmStatusName(String alarmStatusName) {
+		this.alarmStatusName = alarmStatusName;
+	}
 
-    public void setSensorNumber(String sensorNumber) {
-        this.sensorNumber = sensorNumber == null ? null : sensorNumber.trim();
-    }
+	public String getAlarmTypeName() {
+		return alarmTypeName;
+	}
 
-    public Integer getAlarmType() {
-        return alarmType;
-    }
+	public void setAlarmTypeName(String alarmTypeName) {
+		this.alarmTypeName = alarmTypeName;
+	}
 
-    public void setAlarmType(Integer alarmType) {
-        this.alarmType = alarmType;
-    }
+	public Integer getAlarmId() {
+		return alarmId;
+	}
 
-    public String getAlarmContext() {
-        return alarmContext;
-    }
+	public void setAlarmId(Integer alarmId) {
+		this.alarmId = alarmId;
+	}
 
-    public void setAlarmContext(String alarmContext) {
-        this.alarmContext = alarmContext == null ? null : alarmContext.trim();
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public Integer getAlarmStatus() {
-        return alarmStatus;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public void setAlarmStatus(Integer alarmStatus) {
-        this.alarmStatus = alarmStatus;
-    }
+	public Integer getProjectId() {
+		return projectId;
+	}
 
-    public Integer getAlarmLevel() {
-        return alarmLevel;
-    }
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
 
-    public void setAlarmLevel(Integer alarmLevel) {
-        this.alarmLevel = alarmLevel;
-    }
+	public String getProjectName() {
+		return projectName;
+	}
 
-    public Integer getFrequency() {
-        return frequency;
-    }
+	public void setProjectName(String projectName) {
+		this.projectName = projectName == null ? null : projectName.trim();
+	}
 
-    public void setFrequency(Integer frequency) {
-        this.frequency = frequency;
-    }
+	public String getMonitorPoint() {
+		return monitorPoint;
+	}
+
+	public void setMonitorPoint(String monitorPoint) {
+		this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
+	}
+
+	public String getSmuNumber() {
+		return smuNumber;
+	}
+
+	public void setSmuNumber(String smuNumber) {
+		this.smuNumber = smuNumber == null ? null : smuNumber.trim();
+	}
+
+	public String getSmuChannel() {
+		return smuChannel;
+	}
+
+	public void setSmuChannel(String smuChannel) {
+		this.smuChannel = smuChannel == null ? null : smuChannel.trim();
+	}
+
+	public String getSensorNumber() {
+		return sensorNumber;
+	}
+
+	public void setSensorNumber(String sensorNumber) {
+		this.sensorNumber = sensorNumber == null ? null : sensorNumber.trim();
+	}
+
+	public Integer getAlarmType() {
+		return alarmType;
+	}
+
+	public void setAlarmType(Integer alarmType) {
+		this.alarmType = alarmType;
+	}
+
+	public String getAlarmContext() {
+		return alarmContext;
+	}
+
+	public void setAlarmContext(String alarmContext) {
+		this.alarmContext = alarmContext == null ? null : alarmContext.trim();
+	}
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getAlarmStatus() {
+		return alarmStatus;
+	}
+
+	public void setAlarmStatus(Integer alarmStatus) {
+		this.alarmStatus = alarmStatus;
+	}
+
+	public Integer getAlarmLevel() {
+		return alarmLevel;
+	}
+
+	public void setAlarmLevel(Integer alarmLevel) {
+		this.alarmLevel = alarmLevel;
+	}
+
+	public Integer getFrequency() {
+		return frequency;
+	}
+
+	public void setFrequency(Integer frequency) {
+		this.frequency = frequency;
+	}
 }

@@ -1,8 +1,9 @@
 package com.zhongda.monitor.business.service;
 
-import java.util.List;
+import java.util.Map;
 
 import com.zhongda.monitor.business.model.Alarm;
+import com.zhongda.monitor.core.model.Result;
 
 /**
  * Title : 告警 业务 接口
@@ -14,9 +15,22 @@ public interface AlarmService {
 	
 	/**
 	 * 根据查询条件分页查询出当前用户下的告警信息
-	 * @param alarm 封装了查询条件的alarm对象(包含当前页和每页记录数)
-	 * @return
+	 * @param userId 用户id
+	 * @return  List<Alarm>
 	 */
-	List<Alarm> selectPageAlarmByQuery(Alarm alarm);
-
+	Map<String , Object> selectPageAlarmByQuery(Alarm alarm);
+	
+	/**
+	 *根据id修改alarm状态信息
+	 * @param alarmId 告警id
+	 * 
+	 */
+	Result<Alarm> updateAlarmStatusByAlarmId(Integer alarmId);
+	
+	 
+	/**
+	 * 根据条件删除alarm信息
+	 */
+	Result<String> deleteAlarm(Alarm alarm);
+	
 }

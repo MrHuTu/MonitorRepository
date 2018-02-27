@@ -16,6 +16,24 @@ public interface AlarmMapper {
     int updateByPrimaryKeySelective(Alarm record);
 
     int updateByPrimaryKey(Alarm record);
+    
+	/**
+	 * 分頁查询当前用户下的所有告警信息(可加查询条件)
+	 * @param alarm 查询条件
+	 * 
+	 */
+    List<Alarm> selectPageAlarmByQuery(Alarm alarm);
 
-	List<Alarm> selectPageAlarmByQuery(Alarm alarm);
+	/**
+	 * 更改告警信息状态 
+	 * @param alarmId 告警id
+	 * 
+	 */
+	 int updateAlarmStatusByAlarmId(Integer alarmId);
+	
+	 /**
+	  * 按条件删除告警信息
+	  */
+	 int deleteAlarm(Alarm alarm);
+	
 }
