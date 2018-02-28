@@ -10,14 +10,13 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zhongda.monitor.account.annotation.IgnoreSecurity;
 import com.zhongda.monitor.account.exception.ForbiddenException;
 import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.TokenService;
@@ -50,8 +49,7 @@ public class TokenController {
 	 * @param userName 用户名
 	 * @param password value
 	 */
-	@RequestMapping(value="/login", method = RequestMethod.POST)
-	@IgnoreSecurity
+	@PostMapping("/login")
 	@ApiOperation(value = "登录", httpMethod = "POST", response = Result.class, notes = "根据用户名和密码登录")
 	@ApiImplicitParams({  
     	@ApiImplicitParam(name = "userName", value = "用户名",  
@@ -59,7 +57,7 @@ public class TokenController {
         @ApiImplicitParam(name = "password", value = "密码",  
                 required = true, dataType = "String", paramType = "form")
 	})
-	public Result<String> login(String userName, String password, HttpServletResponse response) {
+	public Result<String> login(String userName, String password) {
 		if(StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
 			throw new ForbiddenException("用户名或密码不可为空！");
 		}		
@@ -82,8 +80,7 @@ public class TokenController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value="/logout", method = RequestMethod.DELETE)
-	@IgnoreSecurity
+	@DeleteMapping("/logout")
 	@ApiOperation(value = "注销", httpMethod = "DELETE", response = Result.class, notes = "注销")
 	public Result<String> logout(HttpServletRequest request) {
 		Result<String> result = new Result<String>();
@@ -94,8 +91,7 @@ public class TokenController {
 		// 登出操作
 		ShiroUtils.logout();
 		logger.debug("注销成功");
-		result.setCode(Result.SUCCESS);
-		result.setMsg("注销成功");
+		result.setCode(Result.SUCCESS).setMsg("注销成功");
 		return result;
 	}
 }

@@ -17,6 +17,12 @@
     from role
     where role_id = #{roleId,jdbcType=INTEGER}
   </select>
+  <select id="selectRolesByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    r.*
+    from role r, user_role ur
+    where r.role_id = ur.role_id and ur.user_id = #{userId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role
     where role_id = #{roleId,jdbcType=INTEGER}

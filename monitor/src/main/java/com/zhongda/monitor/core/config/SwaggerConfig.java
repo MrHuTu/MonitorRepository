@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.zhongda.monitor.account.security.StatelessToken;
+
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -65,7 +67,7 @@ public class SwaggerConfig {
 	private List<Parameter> setHeaderToken(){
 		ParameterBuilder tokenParam = new ParameterBuilder();  
         List<Parameter> paramList = new ArrayList<Parameter>();  
-        tokenParam.name("Authorization").description("Token令牌").modelRef(new ModelRef("string")).parameterType("header").required(false).build();  
+        tokenParam.name("Authorization").description("Token令牌(" + StatelessToken.TOKEN_HEADER_PREFIX + "开头)").modelRef(new ModelRef("string")).parameterType("header").required(false).build();  
         paramList.add(tokenParam.build());
         return paramList;
 	}

@@ -10,12 +10,14 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zhongda.monitor.account.annotation.IgnoreSecurity;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
@@ -43,10 +45,10 @@ public class UserController {
 	 *            用户名（账号）
 	 * @return
 	 */
-	@RequestMapping(value = "/validUserName", method = RequestMethod.GET)
+	@GetMapping("/validUserName/{userName}")
 	@ApiOperation(value = "账号唯一校验", httpMethod = "GET", response = Result.class, notes = "验证账号是否唯一")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query") })
-	public Result<String> validUserName(String userName) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path") })
+	public Result<String> validUserName(@PathVariable String userName) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.vaildUserName(userName);
 		return flag ? result.setCode(Result.FAILURE).setMsg("账户不唯一") : result
@@ -60,10 +62,10 @@ public class UserController {
 	 *            邮箱
 	 * @return
 	 */
-	@RequestMapping(value = "/validEmail", method = RequestMethod.GET)
+	@GetMapping("/validEmail/{email}")
 	@ApiOperation(value = "邮箱唯一校验", httpMethod = "GET", response = Result.class, notes = "验证邮箱是否唯一")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "query") })
-	public Result<String> validEmail(String email) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "path") })
+	public Result<String> validEmail(@PathVariable String email) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.validEmail(email);
 		return flag ? result.setCode(Result.FAILURE).setMsg("邮箱不唯一") : result
@@ -76,10 +78,10 @@ public class UserController {
 	 * @param phone
 	 * @param response
 	 */
-	@RequestMapping(value = "/validPhone", method = RequestMethod.GET)
+	@GetMapping("/validPhone/{phone}")
 	@ApiOperation(value = "手机号码唯一校验", httpMethod = "GET", response = Result.class, notes = "验证手机号码是否唯一")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "phone", value = "手机号码", required = true, dataType = "String", paramType = "query") })
-	public Result<String> validPhone(String phone) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "phone", value = "手机号码", required = true, dataType = "String", paramType = "path") })
+	public Result<String> validPhone(@PathVariable String phone) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.validPhone(phone);
 		return flag ? result.setCode(Result.FAILURE).setMsg("手机号码不唯一") : result
@@ -88,13 +90,12 @@ public class UserController {
 
 	/**
 	 * 发送修改密码邮件
-	 * 
 	 * @param email
 	 *            邮箱
 	 * @param password
 	 *            密码
 	 */
-	@RequestMapping(value = "/sendUpdatePasswordEmail", method = RequestMethod.GET)
+	@GetMapping("/sendEmail")
 	@ApiOperation(value = "发送改密邮件", httpMethod = "GET", response = Result.class, notes = "发送改密邮件")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "form"),
@@ -106,38 +107,16 @@ public class UserController {
 	}
 
 	/**
-	 * 根据邮箱修改密码
-	 * 
-	 * @param email
-	 *            邮箱
-	 * @return
-	 */
-	@RequestMapping(value = "/updatePassword", method = RequestMethod.PUT)
-	@ApiOperation(value = "修改密码", httpMethod = "PUT", response = Result.class, notes = "根据邮箱修改密码")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "query") })
-	public Result<String> updatePassword(String email) {
-		Result<String> result = new Result<String>();
-		/*
-		 * String password = cacheService.getPasswordCache(email); if (null !=
-		 * email && null != password) { userService.updatePassword(email,
-		 * password); result.setCode(Result.SUCCESS).setMsg("修改密码成功"); } else {
-		 * result.setCode(Result.FAILURE).setMsg("修改密码失败"); }
-		 */
-		return result;
-	}
-
-	/**
 	 * 根据用户名查找用户
 	 * 
 	 * @param userName
 	 *            用户名
 	 * @return
 	 */
-	@IgnoreSecurity
-	@RequestMapping(value = "/findUserByUserName", method = RequestMethod.GET)
+	@GetMapping("/userName/{userName}")
 	@ApiOperation(value = "查找用户", httpMethod = "GET", response = Result.class, notes = "根据用户名查找用户")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query") })
-	public Result<User> findUserByUserName(String userName) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "path") })
+	public Result<User> findUserByUserName(@PathVariable String userName) {
 		Result<User> result = new Result<User>();
 		User user = userService.selectByUserName(userName);
 		if (null != user) {
@@ -154,7 +133,7 @@ public class UserController {
 	 * @param user
 	 *            用户
 	 */
-	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
+	@PostMapping
 	@ApiOperation(value = "添加用户", httpMethod = "POST", response = Result.class, notes = "添加一个用户")
 	public Result<User> addUser(
 			@ApiParam(name = "user", value = "传入json格式", required = true) @RequestBody User user) {
@@ -171,7 +150,7 @@ public class UserController {
 	 *            用户
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUser", method = RequestMethod.PUT)
+	@PutMapping
 	@ApiOperation(value = "修改用户", httpMethod = "PUT", response = Result.class, notes = "修改用户信息")
 	public Result<User> updateUser(
 			@ApiParam(name = "user", value = "传入json格式", required = true) @RequestBody User user) {

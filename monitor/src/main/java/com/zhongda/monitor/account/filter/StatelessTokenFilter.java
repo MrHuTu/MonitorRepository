@@ -33,13 +33,14 @@ public class StatelessTokenFilter extends AccessControlFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+    	System.out.println("StatelessTokenFilter");
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
             httpResponse.setHeader("Access-control-Allow-Origin", "*");
             httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             httpResponse.setHeader("Access-Control-Allow-Headers", httpRequest.getHeader("Access-Control-Request-Headers"));
-            httpResponse.setHeader("Access-Control-Expose-Headers", httpRequest.getHeader("Access-Control-Expose-Headers"));
+            //httpResponse.setHeader("Access-Control-Expose-Headers", httpRequest.getHeader("Access-Control-Expose-Headers"));
             httpResponse.setStatus(HttpStatus.OK.value());
             return false;
         }

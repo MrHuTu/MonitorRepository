@@ -3,7 +3,6 @@ package com.zhongda.monitor.core.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
 import org.apache.shiro.SecurityUtils;
@@ -16,35 +15,15 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.DelegatingFilterProxy;
 
 import com.zhongda.monitor.account.StatelessDefaultSubjectFactory;
 import com.zhongda.monitor.account.filter.StatelessTokenFilter;
 import com.zhongda.monitor.account.security.StatelessRealm;
 
 @Configuration
-//@ConfigurationProperties(prefix = "shiroFilter")
 public class ShiroConfig {
-
-	/**
-	 * DelegatingFilterProxy通过代理模式将Spring容器中的bean和filter关联起来
-	 */
-	@Bean
-	public FilterRegistrationBean delegatingFilterProxy() {
-		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-		DelegatingFilterProxy delegatingFilterProxy = new DelegatingFilterProxy();
-		// 设置targetFilterLifecycle为true, 由servlet控制filter生命周期
-		delegatingFilterProxy.setTargetFilterLifecycle(true); 
-		delegatingFilterProxy.setTargetBeanName("shiroFilter");
-		filterRegistrationBean.setFilter(delegatingFilterProxy);
-		filterRegistrationBean.setEnabled(true);  
-		filterRegistrationBean.addUrlPatterns("/*");   
-		filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST);
-		return filterRegistrationBean;
-	}
 	
 	/**
 	 * shiro的filter对应的bean Shiro的web过滤器

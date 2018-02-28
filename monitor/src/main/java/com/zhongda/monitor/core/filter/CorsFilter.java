@@ -8,9 +8,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Component;
   
 /**
  * Title: 跨域访问处理(跨域资源共享)    
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Component;
  * @Author dengzm
  * @Date 2018年1月16日 上午9:11:42
  */
-@Component
 public class CorsFilter implements Filter {
 
     @Override
@@ -30,12 +28,13 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 
         HttpServletResponse response = (HttpServletResponse)res;
-
+        System.out.println("start CorsFilter............ url:"+ ((HttpServletRequest)req).getRequestURL());
         response.setHeader("Access-Control-Allow-Origin", "*");// 允许所有域进行访问,可以指定多个Access-Control-Allow-Origin:http://localhost:8080/
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");// 允许的方法
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Authorization, username");
         //response.setHeader("Access-Control-Expose-Headers", "content-type" + ", " + Constant.EXPOSE_HEADER);//如果不设置，js获取不到头信息
+        System.out.println("end CorsFilter............url:"+ ((HttpServletRequest)req).getRequestURL());
         chain.doFilter(req, res);
     }
 

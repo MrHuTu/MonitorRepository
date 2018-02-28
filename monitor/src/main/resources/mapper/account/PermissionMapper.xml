@@ -21,6 +21,12 @@
     from permission
     where permission_id = #{permissionId,jdbcType=INTEGER}
   </select>
+  <select id="selectPermissionsByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    p.*
+    from permission p, role_permission rp
+    where p.permission_id = rp.permission_id and rp.role_id = #{roleId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from permission
     where permission_id = #{permissionId,jdbcType=INTEGER}
