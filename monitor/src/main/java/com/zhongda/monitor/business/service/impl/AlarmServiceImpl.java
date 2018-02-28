@@ -30,6 +30,11 @@ public class AlarmServiceImpl implements AlarmService{
 	
 	public Map<String , Object> selectPageAlarmByQuery(Alarm alarm) {
 		//设置分页信息
+		if(alarm.getPageNum() ==null){
+			alarm.setPageNum(1);
+		}if(alarm.getPageSize()==null){
+			alarm.setPageSize(10);
+		}
 		PageHelper.startPage(alarm.getPageNum(),alarm.getPageSize());
 		//查询信息
 		List<Alarm>alarmList= alarmMapper.selectPageAlarmByQuery(alarm);
