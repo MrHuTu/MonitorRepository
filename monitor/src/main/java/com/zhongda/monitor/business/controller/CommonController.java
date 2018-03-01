@@ -21,17 +21,17 @@ public class CommonController {
 
 	@RequestMapping("/index")
 	public Result<String> index() {
-		return new Result<String>().setCode(Result.SUCCESS).setMsg("进入首页");
+		return new Result<String>().success("进入首页");
 	}
 	
 	@RequestMapping("/login")
 	public Result<String> login() {
-		return new Result<String>().setCode(Result.SUCCESS).setMsg("进入登录页");
+		return new Result<String>().success("进入登录页");
 	}
 	
 	@RequestMapping("/error")
 	public Result<String> error() {
-		return new Result<String>().setCode(Result.SUCCESS).setMsg("进入错误页");
+		return new Result<String>().success("进入错误页");
 	}
 
 }

@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.model.User;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.annotation.SysLogAnnotation;
 import com.zhongda.monitor.core.model.SysLog;
 import com.zhongda.monitor.core.service.SysLogService;
-import com.zhongda.monitor.core.utils.ShiroUtils;
 
 /**
  * 类SysLogAspect的功能描述:

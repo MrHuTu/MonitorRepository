@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.core.model.Result;
+import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
  * Title: 跨域访问处理(跨域资源共享) 
@@ -33,7 +34,6 @@ public class StatelessTokenFilter extends AccessControlFilter {
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
-    	System.out.println("StatelessTokenFilter");
         HttpServletRequest httpRequest = (HttpServletRequest)request;
         HttpServletResponse httpResponse = (HttpServletResponse)response;
         if (httpRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
@@ -70,12 +70,9 @@ public class StatelessTokenFilter extends AccessControlFilter {
 	@Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		HttpServletRequest req = (HttpServletRequest) request;
-		String authorization = req.getHeader(StatelessToken.DEFAULT_TOKEN_NAME);
-		if (null != authorization && authorization.startsWith(StatelessToken.TOKEN_HEADER_PREFIX)){
-			//截取token得到jwt格式的token信息
-            String tokenString = authorization.substring(StatelessToken.TOKEN_HEADER_PREFIX.length() + 1);
-            //2、生成无状态Token
-            StatelessToken statelessToken = new StatelessToken(tokenString);
+		if(null != HeaderUtils.getTokenFromRequest(req)){
+			//2、生成无状态Token
+            StatelessToken statelessToken = new StatelessToken(HeaderUtils.getTokenFromRequest(req));
             try {
                 //3、委托给Realm进行登录
                 super.getSubject(request, response).login(statelessToken);

@@ -6,8 +6,8 @@ import io.swagger.annotations.ApiOperation;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.business.model.Item;
@@ -23,7 +23,8 @@ import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
 public class ItemController {
 	@Autowired
 	ItemServiceImpl ItemServiceImpl;
-	@RequestMapping(value="/getAllItem",method = RequestMethod.GET)
+	
+	@GetMapping("/getAllItem")
 	@ApiOperation(value = "项目信息", notes = "项目信息", code = 200, produces = "application/json" ,httpMethod = "GET")
 	private List<Item> getAllItem(){
 		return ItemServiceImpl.getAllItem();

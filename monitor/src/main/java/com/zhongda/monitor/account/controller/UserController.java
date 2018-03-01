@@ -51,8 +51,7 @@ public class UserController {
 	public Result<String> validUserName(@PathVariable String userName) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.vaildUserName(userName);
-		return flag ? result.setCode(Result.FAILURE).setMsg("账户不唯一") : result
-				.setCode(Result.FAILURE).setMsg("账户唯一");
+		return flag ? result.success("账户不唯一") : result.failure("账户唯一");
 	}
 
 	/**
@@ -68,8 +67,7 @@ public class UserController {
 	public Result<String> validEmail(@PathVariable String email) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.validEmail(email);
-		return flag ? result.setCode(Result.FAILURE).setMsg("邮箱不唯一") : result
-				.setCode(Result.FAILURE).setMsg("邮箱唯一");
+		return flag ? result.success("邮箱不唯一") : result.failure("邮箱唯一");
 	}
 
 	/**
@@ -84,8 +82,7 @@ public class UserController {
 	public Result<String> validPhone(@PathVariable String phone) {
 		Result<String> result = new Result<String>();
 		boolean flag = userService.validPhone(phone);
-		return flag ? result.setCode(Result.FAILURE).setMsg("手机号码不唯一") : result
-				.setCode(Result.FAILURE).setMsg("手机号码唯一");
+		return flag ? result.success("手机号码不唯一") : result.failure("手机号码唯一");
 	}
 
 	/**
@@ -103,7 +100,7 @@ public class UserController {
 	public Result<String> sendUpdatePasswordEmail(String email, String password) {
 		// emailService.sendUpdatePasswordEmail(email);
 		// cacheService.setPasswordCache(email, password);
-		return new Result<String>().setCode(Result.SUCCESS).setMsg("发送邮件成功");
+		return new Result<String>().success("发送邮件成功");
 	}
 
 	/**
@@ -120,9 +117,9 @@ public class UserController {
 		Result<User> result = new Result<User>();
 		User user = userService.selectByUserName(userName);
 		if (null != user) {
-			result.setCode(Result.SUCCESS).setMsg("获取数据成功").setData(user);
+			result.success("获取数据成功", user);
 		} else {
-			result.setCode(Result.FAILURE).setMsg("用户名不存在");
+			result.failure("用户名不存在");
 		}
 		return result;
 	}
@@ -139,8 +136,7 @@ public class UserController {
 			@ApiParam(name = "user", value = "传入json格式", required = true) @RequestBody User user) {
 		Result<User> result = new Result<User>();
 		boolean flag = userService.insertUser(user);
-		return flag ? result.setCode(Result.SUCCESS).setMsg("添加成功") : result
-				.setCode(Result.FAILURE).setMsg("添加失败");
+		return flag ? result.success("添加成功") : result.failure("添加失败");
 	}
 
 	/**
@@ -156,8 +152,7 @@ public class UserController {
 			@ApiParam(name = "user", value = "传入json格式", required = true) @RequestBody User user) {
 		Result<User> result = new Result<User>();
 		boolean flag = userService.updateUser(user);
-		return flag ? result.setCode(Result.SUCCESS).setMsg("修改成功") : result
-				.setCode(Result.FAILURE).setMsg("修改失败");
+		return flag ? result.success("修改成功") : result.failure("修改失败");
 	}
 
 }

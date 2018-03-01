@@ -1,22 +1,23 @@
 package com.zhongda.monitor.business.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zhongda.monitor.account.model.User;
+import com.zhongda.monitor.account.utils.TokenUtils;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
  * 
@@ -36,13 +37,12 @@ public class ProjectController {
 	@Resource
 	private ProjectService projectService;
 
-	@RequestMapping(value = "/home/{userId}", method = RequestMethod.GET)
+	@GetMapping("/home")
 	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "加载首页的数据")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "int", paramType = "path") })
-	public Result<List<Project>> loadMap(@PathVariable Integer userId) {
-		System.out.println("userId:" + userId);
-		return new Result<List<Project>>().setCode(Result.SUCCESS)
-				.setMsg("操作成功").setData(projectService.loadHome(userId));
+	public Result<List<Project>> loadMap(HttpServletRequest request) {
+		String token = HeaderUtils.getTokenFromRequest(request);
+		User user = TokenUtils.getUserFromeToken(token);
+		return new Result<List<Project>>().success("操作成功", projectService.loadHome(user.getUserId()));
 	}
 
 }

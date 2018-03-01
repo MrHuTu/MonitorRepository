@@ -10,11 +10,13 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.core.utils.ShiroUtils;
 
 /**
  * Title : 用户管理实现类
@@ -26,7 +28,10 @@ import com.zhongda.monitor.core.utils.ShiroUtils;
 public class UserServiceImpl implements UserService {
 
 	@Resource
-	private UserMapper userMapper;	
+	private UserMapper userMapper;
+	
+	@Resource
+	private ObjectMapper objectMapper;
 	
 	@Override
 	public boolean insertUser(User user) {
@@ -55,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		Result<String> result = new Result<String>();
 		// 判断用户是否已经登录
 		if (ShiroUtils.isLogin()) {
-			result.setCode(Result.FAILURE).setMsg("该用户已经登录");
+			result.failure("该用户已经登录");
 		}else{
 			// 通过数据库进行验证
 			final User user = userMapper.selectByUserName(userName);
@@ -67,7 +72,12 @@ public class UserServiceImpl implements UserService {
 			//验证密码是否正确
 			password = ShiroUtils.encryptPassword(password, userName);
 			if(password.equals(user.getPassword())){
-				result.setCode(Result.SUCCESS);
+				try {
+					user.setPassword(null);
+					result.success("登录成功", objectMapper.writeValueAsString(user));
+				} catch (JsonProcessingException e) {
+					throw new RuntimeException("用户信息异常，无法转换成json字符串，请联系管理员 -> " + e.getMessage());
+				}
 			} else {
 				throw new IncorrectCredentialsException("用户名或密码错误 ！");
 			}

@@ -52,11 +52,9 @@ public class AlarmServiceImpl implements AlarmService{
 		int index = alarmMapper.updateAlarmStatusByAlarmId(alarmId);
 		Result<Alarm> result = new Result<Alarm>();
 		if(index > 0){
-			result.setCode(Result.SUCCESS);
-			result.setMsg("修改状态成功");
+			result.success("修改状态成功");
 		}else{
-			result.setCode(Result.FAILURE);
-			result.setMsg("修改状态失败");
+			result.failure("修改状态失败");
 		}
 		return result;
 	
@@ -69,11 +67,9 @@ public class AlarmServiceImpl implements AlarmService{
 		 int num =alarmMapper.deleteAlarm(alarm);
 		 Result<String > result = new Result<String>();
 		if(num != 0){
-			result.setCode(Result.SUCCESS);
-			result.setMsg("删除成功");
+			result.success("删除成功");
 		}else{
-			result.setCode(Result.FAILURE);
-			result.setMsg("条件有误");
+			result.failure("条件有误");
 		}
 		return result;
 	}

@@ -3,15 +3,14 @@ package com.zhongda.monitor.account.service.impl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.TextCodec;
 
-import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -20,9 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.service.TokenService;
 
 /**
@@ -35,6 +32,9 @@ import com.zhongda.monitor.account.service.TokenService;
 public class TokenServiceImpl implements TokenService{
 	
 	private final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
+	
+	@Resource
+	private ObjectMapper objectMapper;
 	
 	/** 创建时间标志 */
 	static final String CLAIM_KEY_CREATED = "created"; 
@@ -57,11 +57,25 @@ public class TokenServiceImpl implements TokenService{
 	public String createToken(Map<String, Object> claims, String password) {
 		return createJsonWebToken(claims, null, password);
 	}
+	
+	@Override
+	public String createToken(String userJsonData, String password) {
+		Map<String, Object> claims = new HashMap<String, Object>();
+		claims.put("userJsonString", userJsonData);
+		return createToken(claims, password);
+	}
 
 	@Override
 	public String createToken(Map<String, Object> claims, Device device, String password) {
 		return createJsonWebToken(claims, device, password);
 	}
+	
+	@Override
+	public String createToken(String userJsonData, Device device, String password) {
+		Map<String, Object> claims = new HashMap<String, Object>();
+		claims.put("userJsonString", userJsonData);
+		return createToken(claims, device, password);
+	}	
 	
 	/**
 	 * 创建一个JsonWebToken
@@ -76,8 +90,6 @@ public class TokenServiceImpl implements TokenService{
 		JwtBuilder builder = Jwts.builder()
 				.setIssuedAt(nowDate)
 				.addClaims(claims)
-				//.setHeaderParam("zip", "DEF")
-				//.compressWith(CompressionCodecs.DEFLATE)//压缩，可选GZIP
 				.signWith(SignatureAlgorithm.HS256, key);
 		if(null != device){
 			builder.setAudience(getAudience(device));
@@ -136,28 +148,6 @@ public class TokenServiceImpl implements TokenService{
         return audience;
     }
 	
-    @Override
-	public Map<String, Object> parseTokenBody(String token){
-		if(null == token){
-			throw new NoStatelessTokenException("没有token令牌,验证失败...");
-		}else{
-			String[] tokenArray = token.split("\\.");
-			if(tokenArray.length != 3){
-				throw new MalformedJwtException("token令牌格式错误,验证失败...");
-			}else{
-				String payload = TextCodec.BASE64URL.decodeToString(tokenArray[1]);
-				ObjectMapper objectMapper = new ObjectMapper();
-				JavaType javaType = objectMapper.getTypeFactory().constructParametricType(Map.class, String.class, Object.class);
-				try {
-					return objectMapper.readValue(payload, javaType);
-				} catch (IOException e) {
-					logger.error("解析token的荷载部分失败,解码后的json字符串不能转换成Map集合" + e.getMessage());
-					return null;
-				}
-			}
-		}
-	}
-    
 	@Override
 	public Claims parseToken(String token, String password) {
 		SecretKey key = getKey(password);
@@ -188,5 +178,5 @@ public class TokenServiceImpl implements TokenService{
 		 final Claims claims = parseToken(token, password);
 		 claims.put(CLAIM_KEY_EXPIRATiON, 0);
 		 createToken(claims, password);
-	}	
+	}
 }

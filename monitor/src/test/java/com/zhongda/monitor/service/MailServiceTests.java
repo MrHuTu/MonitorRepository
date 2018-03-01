@@ -34,4 +34,5 @@ public class MailServiceTests {
 	public void sendInlineResourceMail() {
 		mailService.sendInlineResourceMail("731583657@qq.com", "就笑一笑", "springboot I come ", "", "");
 	}
+	
 }

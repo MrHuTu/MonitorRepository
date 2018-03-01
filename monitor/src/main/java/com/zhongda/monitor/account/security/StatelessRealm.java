@@ -3,7 +3,6 @@ package com.zhongda.monitor.account.security;
 import io.jsonwebtoken.SignatureException;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -25,6 +24,7 @@ import com.zhongda.monitor.account.service.PermissionService;
 import com.zhongda.monitor.account.service.RoleService;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.account.utils.TokenUtils;
 
 /**
  * Title : StatelessRealm管理(无状态)
@@ -85,21 +85,19 @@ public class StatelessRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
     	StatelessToken statelessToken = (StatelessToken) token;
-    	String userName = (String) statelessToken.getPrincipal();
-     	Map<String, Object> tokenBody = tokenService.parseTokenBody(statelessToken.getToken());
-    	if (null == tokenBody || null == tokenBody.get("userName")) { 
+    	User user = TokenUtils.getUserFromeToken(statelessToken.getToken());
+    	if (null == user || null == user.getUserName()) { 
     		throw new SignatureException("token令牌失效，请重新申请！"); 
     	} 
-		userName = (String) tokenBody.get("userName");
 		// 通过数据库进行验证
-        final User user = userService.selectByUserName(userName);
+        user = userService.selectByUserName(user.getUserName());
         if (null == user || "禁用".equals(user.getStatus())) {
             throw new SignatureException("token令牌失效，请重新申请！");
         }
     	if (!tokenService.checkToken(statelessToken.getToken(), user.getPassword())) { 
     		throw new SignatureException("token令牌失效，请重新申请！"); 
     	} 
-        return  new SimpleAuthenticationInfo(userName, statelessToken.getToken(), getName());
+        return  new SimpleAuthenticationInfo(user, statelessToken.getToken(), getName());
     }
     
     /**

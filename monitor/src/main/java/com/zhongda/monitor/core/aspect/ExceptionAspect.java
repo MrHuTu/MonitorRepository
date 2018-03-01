@@ -39,10 +39,8 @@ public class ExceptionAspect {
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public Result<String> handleHttpMessageNotReadableException(
 			HttpMessageNotReadableException e) {
-		logger.error("请求参数不能转换...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("请求参数不能转换");
-		return result;
+		logger.error("请求参数不能转换...->" + e.getMessage());
+		return new Result<String>().failure("请求参数不能转换");
 	}
 
 	/**
@@ -52,10 +50,8 @@ public class ExceptionAspect {
 	@ExceptionHandler({MethodArgumentNotValidException.class})
 	public Result<String> handleMethodArgumentNotValidException(
 			MethodArgumentNotValidException e) {
-		logger.error("请求的参数出现异常...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("请求的参数出现异常");
-		return result;
+		logger.error("请求的参数出现异常...->" + e.getMessage());
+		return new Result<String>().failure("请求的参数出现异常");
 	}
 
 	/**
@@ -66,10 +62,8 @@ public class ExceptionAspect {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public Result<String> handleHttpRequestMethodNotSupportedException(
 			HttpRequestMethodNotSupportedException e) {
-		logger.error("请求的方法不支持...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("请求的方法不支持");
-		return result;
+		logger.error("请求的方法不支持...->" + e.getMessage());
+		return new Result<String>().failure("请求的方法不支持");
 	}
 
 	/**
@@ -80,10 +74,8 @@ public class ExceptionAspect {
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
 	public Result<String> handleHttpMediaTypeNotSupportedException(
 			HttpMediaTypeNotSupportedException e) {
-		logger.error("请求数据格式不支持...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("请求数据格式不支持");
-		return result;
+		logger.error("请求数据格式不支持...->" + e.getMessage());
+		return new Result<String>().failure("请求数据格式不支持");
 	}
 	
 	/**
@@ -92,10 +84,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(SQLException.class)  
     public Result<String> handleSQLException(SQLException e) {  
-		logger.error("Sql出现错误...", e);  
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("Sql出现错误");
-		return result;  
+		logger.error("Sql出现错误...->" + e.getMessage());  
+		return new Result<String>().failure("Sql出现错误");
     }  
 
 	/**
@@ -104,10 +94,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(LockedAccountException.class)
 	public Result<String> handleLockedAccountException(LockedAccountException e) {
-		logger.error("登录失败3次，账户已被锁定 ，请3分钟后再试...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("登录失败3次，账户已被锁定 ，请3分钟后再试");
-		return result;
+		logger.error("登录失败3次，账户已被锁定 ，请3分钟后再试...->" + e.getMessage());
+		return new Result<String>().failure("登录失败3次，账户已被锁定 ，请3分钟后再试");
 	}
 	
 	/**
@@ -116,10 +104,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ForbiddenException.class)
 	public Result<String> handleForbiddenException(ForbiddenException e) {
-		logger.error("用户名或密码不可为空...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("用户名或密码不可为空");
-		return result;
+		logger.error("用户名或密码不可为空...->" + e.getMessage());
+		return new Result<String>().failure("用户名或密码不可为空");
 	}
 	
 	/**
@@ -128,10 +114,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(DisabledAccountException.class)
 	public Result<String> handleDisabledAccountException(DisabledAccountException e) {
-		logger.error("该账户已被禁用 ，请联系管理员...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("该账户已被禁用 ，请联系管理员！");
-		return result;
+		logger.error("该账户已被禁用 ，请联系管理员...->" + e.getMessage());
+		return new Result<String>().failure("该账户已被禁用 ，请联系管理员");
 	}
 	
 	/**
@@ -140,10 +124,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UnknownAccountException.class)
 	public Result<String> handleUnknownAccountException(UnknownAccountException e) {
-		logger.error("该账户不存在...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("该账户不存在 ");
-		return result;
+		logger.error("该账户不存在...->" + e.getMessage());
+		return new Result<String>().failure("该账户不存在");
 	}
 	
 	/**
@@ -152,10 +134,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(IncorrectCredentialsException.class)
 	public Result<String> handleIncorrectCredentialsException(IncorrectCredentialsException e) {
-		logger.error("用户名或密码错误...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("用户名或密码错误 ");
-		return result;
+		logger.error("用户名或密码错误...->" + e.getMessage());
+		return new Result<String>().failure("用户名或密码错误");
 	}
 	
 	/**
@@ -164,10 +144,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UnauthorizedException.class)
 	public Result<String> handleUnauthorizedException(UnauthorizedException e) {
-		logger.error("没有该权限...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("没有该权限");
-		return result;
+		logger.error("没有该权限...->" + e.getMessage());
+		return new Result<String>().failure("没有该权限");
 	}
 	
 	/**
@@ -176,10 +154,8 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(AuthenticationException.class)
 	public Result<String> handleAuthenticationException(AuthenticationException e) {
-		logger.error("权限认证异常...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("权限认证异常 ");
-		return result;
+		logger.error("权限认证异常...->" + e.getMessage());
+		return new Result<String>().failure("权限认证异常");
 	}
 	
 	/**
@@ -188,9 +164,7 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Result<String> handleException(Exception e) {
-		logger.error("系统错误...", e);
-		Result<String> result = new Result<String>();
-		result.setCode(Result.FAILURE).setMsg("系统错误");
-		return result;
+		logger.error("系统错误...->" + e.getMessage());
+		return new Result<String>().failure("系统错误");
 	}
 }

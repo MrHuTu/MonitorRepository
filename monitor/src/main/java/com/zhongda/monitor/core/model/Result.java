@@ -51,5 +51,52 @@ public class Result<T> {
 		this.data = data;
 		return this;
 	}
-
+	
+	/**
+	 * 返回失败结果
+	 * @param msg 错误信息
+	 * @return
+	 */
+	public Result<T> failure(String msg) {
+		this.code = FAILURE;
+		this.msg = msg;
+		return this;
+	}
+	
+	/**
+	 * 返回失败结果
+	 * @param msg 错误信息
+	 * @param data 数据
+	 * @return
+	 */
+	public Result<T> failure(String msg, T data) {
+		this.code = FAILURE;
+		this.msg = msg;
+		this.data = data;
+		return this;
+	}
+	
+	/**
+	 * 返回成功结果
+	 * @param msg 成功信息
+	 * @return
+	 */
+	public Result<T> success(String msg) {
+		this.code = SUCCESS;
+		this.msg = msg;
+		return this;
+	}
+	
+	/**
+	 * 返回成功结果
+	 * @param msg 成功信息
+	 * @param data 数据
+	 * @return
+	 */
+	public Result<T> success(String msg, T data) {
+		this.code = SUCCESS;
+		this.msg = msg;
+		this.data = data;
+		return this;
+	}
 }

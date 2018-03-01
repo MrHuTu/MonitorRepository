@@ -5,9 +5,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,8 +18,8 @@ import com.zhongda.monitor.account.exception.ForbiddenException;
 import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.core.utils.ShiroUtils;
 import com.zhongda.monitor.core.utils.StringUtils;
 
 /**
@@ -63,12 +60,9 @@ public class TokenController {
 		}		
 		Result<String> result = userService.login(userName, password);
 		if (result.getCode() == Result.SUCCESS) {
-			Map<String,Object> claims = new HashMap<String,Object>();
-			claims.put("userName", userName);
-			String token = tokenService.createToken(claims, ShiroUtils.encryptPassword(password, userName));
+			String token = tokenService.createToken(result.getData(), ShiroUtils.encryptPassword(password, userName));
 			logger.debug(userName +" 用户登录生成的Token: " + token);
-			result.setMsg("登录成功").setData(token);
-
+			result.setData(token);
 		}else{
 			result.setMsg("登录失败," + result.getMsg());
 		}
@@ -91,7 +85,7 @@ public class TokenController {
 		// 登出操作
 		ShiroUtils.logout();
 		logger.debug("注销成功");
-		result.setCode(Result.SUCCESS).setMsg("注销成功");
+		result.success("注销成功");
 		return result;
 	}
 }

@@ -48,8 +48,7 @@ public class AlarmController {
 		}
 		Map <String, Object> map = alarmService.selectPageAlarmByQuery(alarm);
 		Result <Map <String, Object>> result = new Result <Map <String, Object>>();
-		result.setData(map);
-		return result;
+		return result.success("查询成功", map);
 	} 
 	
 	@PutMapping("/{alarmId}")
