@@ -83,7 +83,7 @@
 			(select pal.*,sc.item_name from (
 				(select COUNT(al.project_id) as al_count,prou.* from (
 					(select pro.* from (project pro LEFT JOIN user_project up on pro.project_id=up.project_id) where up.user_id= #{userId,jdbcType=INTEGER}) prou
-				LEFT JOIN alarm al on prou.project_id=al.project_id) GROUP BY al.project_id) pal
+				LEFT JOIN alarm al on prou.project_id=al.project_id) GROUP BY prou.project_id) pal
 			LEFT JOIN sys_code sc on pal.project_type=sc.sc_id)) pals
 		LEFT JOIN statistic_chart sc on pals.project_id=sc.project_id)) palsc
   left join threshold th on palsc.project_id=th.project_id and palsc.detection_type_id=th.monitor_type and th.threshold_type=20)

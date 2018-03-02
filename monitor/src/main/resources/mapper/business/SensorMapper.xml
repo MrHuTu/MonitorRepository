@@ -21,42 +21,9 @@
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
     <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
-    <result column="sen_sensor_number" jdbcType="VARCHAR" property="smuNumber" />
+    <result column="sen_sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
     <result column="sen_smu_channel" jdbcType="VARCHAR" property="smuChannel" />
-    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
-    <result column="sensor_type" jdbcType="VARCHAR" property="sensorType" />
-    <result column="sensor_model" jdbcType="VARCHAR" property="sensorModel" />
-    <result column="sensor_longitude" jdbcType="VARCHAR" property="sensorLongitude" />
-    <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
-    <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
-    <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
-    <association property="publicSensorData" javaType="com.zhongda.monitor.business.model.PublicSensorData" >
-    	<id column="id" jdbcType="INTEGER" property="id" />
-	    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
-	    <result column="first_time" jdbcType="TIMESTAMP" property="firstTime" />
-	    <result column="first_data" jdbcType="DOUBLE" property="firstData" />
-	    <result column="previous_time" jdbcType="TIMESTAMP" property="previousTime" />
-	    <result column="previous_data" jdbcType="DOUBLE" property="previousData" />
-	    <result column="current_times" jdbcType="TIMESTAMP" property="currentTimes" />
-	    <result column="current_data" jdbcType="DOUBLE" property="currentData" />
-	    <result column="current_temperature" jdbcType="DOUBLE" property="currentTemperature" />
-	    <result column="current_laser_change" jdbcType="DOUBLE" property="currentLaserChange" />
-	    <result column="total_laser_change" jdbcType="DOUBLE" property="totalLaserChange" />
-	    <result column="speed_change" jdbcType="DOUBLE" property="speedChange" />
-	    <result column="sensor_status" jdbcType="INTEGER" property="sensorStatus" />
-	    <result column="create_type" jdbcType="VARCHAR" property="createType" />
-	    <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
-	    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
-	    <result column="smu_status" jdbcType="INTEGER" property="smuStatus" />
-    </association>
-  </resultMap>
-  <resultMap id="ProSensorDataMap" type="com.zhongda.monitor.business.model.Sensor">
-    <id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
-    <result column="project_id" jdbcType="INTEGER" property="projectId" />
-    <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
-    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
-   	<result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
-    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+    <result column="sen_smu_number" jdbcType="VARCHAR" property="smuNumber" />
     <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
     <result column="sensor_type" jdbcType="VARCHAR" property="sensorType" />
     <result column="sensor_model" jdbcType="VARCHAR" property="sensorModel" />
@@ -95,21 +62,21 @@
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </select>
   <select id="selectSensorDataByProIdAndMoniType" resultMap="SensorDataMap">
- 	select ssld.sensor_id,ssld.monitor_point,ssld.monitor_type,ssld.smu_channel as sen_smu_channel,ssld.sensor_number as sen_sensor_number,ssld.sensor_type,ssld.sensor_model,ssld.sensor_place,ssld.sensor_depth,sl.* from (
+ 	select ssld.sensor_id,ssld.monitor_point,ssld.monitor_type,ssld.smu_number as sen_smu_number,ssld.smu_channel as sen_smu_channel,ssld.sensor_number as sen_sensor_number,ssld.sensor_type,ssld.sensor_model,ssld.sensor_place,ssld.sensor_depth,sl.* from (
 		(select sen.*,MAX(sld.id) as max_id from (sensor sen LEFT JOIN ${_parameter.param1} sld on sen.sensor_number=sld.sensor_id and sen.smu_number=sld.smu_cms_id and sen.smu_channel=sld.smu_cms_channel) 
 	where sen.project_id= #{projectId,jdbcType=INTEGER} and sen.monitor_type= #{monitorType,jdbcType=INTEGER} GROUP BY sen.sensor_number) ssld
 	LEFT JOIN ${_parameter.param1} sl on ssld.max_id=sl.id)
   </select>
-  <select id="selectLastData" resultMap="ProSensorDataMap">
-	  	SELECT
-		*
+  <select id="selectLastData" resultMap="SensorDataMap">
+	SELECT
+		mmap.monitor_point,mmap.smu_number as sen_smu_number,mmap.smu_channel as sen_smu_channel,mmap.sensor_number as sen_sensor_number,datas.total_laser_change,datas.speed_change,datas.sensor_status
 	FROM
 		(
 			SELECT
 				se.*, max(mdata.id) AS maxid
 			FROM
 				sensor se
-			LEFT JOIN ${_parameter.param1} mdata ON se.sensor_number = mdata.sensor_id
+			LEFT JOIN ${_parameter.param1} mdata ON se.sensor_number = mdata.sensor_id and se.smu_number=mdata.smu_cms_id and se.smu_channel=mdata.smu_cms_channel
 			WHERE
 				se.project_id = #{projectId,jdbcType=INTEGER}
 			AND se.monitor_type = #{monitorType,jdbcType=INTEGER}
