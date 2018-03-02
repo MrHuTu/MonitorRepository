@@ -60,9 +60,9 @@ public class StatelessRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        String username = String.valueOf(principals.getPrimaryPrincipal());
+        User user = (User) principals.getPrimaryPrincipal();
+        String username = user.getUserName();
         logger.error(username);
-        final User user = userService.selectByUserName(username);
         final List<Role> roleInfos = roleService.selectRolesByUserId(user.getUserId());
         for (Role role : roleInfos) {
             // 添加角色
