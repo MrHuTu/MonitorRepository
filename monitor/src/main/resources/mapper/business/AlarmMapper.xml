@@ -222,15 +222,14 @@
 	</update>
 	<select id="selectPageAlarmByQuery" parameterType="java.lang.Integer"
 		resultMap="alarmTypeNametMap">
-		SELECT alarm_id, user_id, user_name, project_id, project_name,
-		monitor_point, smu_number,
-		smu_channel, sensor_number,
+		SELECT alarm_id, user_name, project_id, project_name,
+		monitor_point, smu_number
+		, sensor_number,
 		CASE alarm_type WHEN 1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
-		AS 'alarm_type_name',
-		alarm_context, create_time,
+		AS 'alarm_type_name',alarm_context, create_time,
 		CASE alarm_status WHEN 0 THEN '未确认' WHEN 1 THEN '已确认' ELSE '数据异常' END AS
-		'alarm_status_name',
-		alarm_level, frequency ,alarm_status,alarm_type
+		'alarm_status_name'
+		 
 		FROM alarm
 		<where>
 			<if test="userId != null">
