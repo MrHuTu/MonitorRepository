@@ -3,6 +3,8 @@ package com.zhongda.monitor.business.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Project {
 	private Integer projectId;
 
@@ -32,6 +34,8 @@ public class Project {
 
 	private List<StatisticChart> statisticChartList;// 一个强大的表、很难解释自己看数据看意会 -by
 													// 胡超
+
+	private List<Sensor> sensorList;// 传感器集合
 
 	public Integer getProjectId() {
 		return projectId;
@@ -84,6 +88,7 @@ public class Project {
 				.trim();
 	}
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	public Date getProjectBeginTime() {
 		return projectBeginTime;
 	}
@@ -92,6 +97,7 @@ public class Project {
 		this.projectBeginTime = projectBeginTime;
 	}
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	public Date getProjectEndTime() {
 		return projectEndTime;
 	}
@@ -147,6 +153,14 @@ public class Project {
 
 	public void setMonitorTypeList(List<MonitorType> monitorTypeList) {
 		this.monitorTypeList = monitorTypeList;
+	}
+
+	public List<Sensor> getSensorList() {
+		return sensorList;
+	}
+
+	public void setSensorList(List<Sensor> sensorList) {
+		this.sensorList = sensorList;
 	}
 
 }

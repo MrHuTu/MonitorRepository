@@ -20,6 +20,9 @@
     from statistic_chart
     where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
   </select>
+  <select id="selectStatisCharByProjectId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select * from statistic_chart sc where sc.project_id= #{projectId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from statistic_chart
     where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}

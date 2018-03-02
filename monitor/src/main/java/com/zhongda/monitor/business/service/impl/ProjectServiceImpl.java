@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.mapper.ProjectMapper;
 import com.zhongda.monitor.business.mapper.SensorMapper;
+import com.zhongda.monitor.business.mapper.StatisticChartMapper;
 import com.zhongda.monitor.business.model.MonitorType;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.Sensor;
@@ -23,6 +24,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Resource
 	private SensorMapper sensorMapper;
+
+	@Resource
+	private StatisticChartMapper statisticChartMapper;
 
 	@Override
 	public List<Project> loadHome(Integer userId) {
@@ -54,6 +58,35 @@ public class ProjectServiceImpl implements ProjectService {
 
 		}
 		return ProCharThList;
+	}
+
+	@Override
+	public List<Project> queryProSenItemNameByUserId(Integer userId) {
+		return projectMapper.selectProSenScByUserId(userId);
+	}
+
+	@Override
+	public List<Project> queryProjectByUserId(Integer userId) {
+		return projectMapper.selectProjectByUserId(userId);
+	}
+
+	@Override
+	public List<MonitorType> queryProMonitor(Integer projectId) {
+		List<StatisticChart> statisCharList = statisticChartMapper
+				.selectStatisCharByProjectId(projectId);
+		ArrayList<MonitorType> monitorTypes = new ArrayList<MonitorType>();
+		for (StatisticChart statisticChart : statisCharList) {
+			List<Sensor> sensors = sensorMapper.selectLastData(
+					statisticChart.getTableName(), projectId,
+					statisticChart.getDetectionTypeId());
+			MonitorType monitorType = new MonitorType();
+			monitorType.setSensorList(sensors);
+			monitorType.setMonitorType(statisticChart.getDetectionTypeId());
+			monitorType.setMonitorTypeName(statisticChart
+					.getDetectionTypeName());
+			monitorTypes.add(monitorType);
+		}
+		return monitorTypes;
 	}
 
 }

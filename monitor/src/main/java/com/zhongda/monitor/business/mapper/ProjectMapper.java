@@ -27,4 +27,20 @@ public interface ProjectMapper {
 	 */
 	List<Project> selectProCharThByUserId(
 			@Param(value = "userId") Integer userId);
+
+	/**
+	 * 查询用户下的所有项目及其所有测点
+	 * 
+	 * @param userId
+	 * @return project集合
+	 */
+	List<Project> selectProSenScByUserId(@Param(value = "userId") Integer userId);
+
+	/**
+	 * 查询用户下所有项目
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<Project> selectProjectByUserId(@Param(value = "userId") Integer userId);
 }

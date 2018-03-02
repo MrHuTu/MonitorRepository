@@ -13,6 +13,34 @@
     <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
     <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
   </resultMap>
+  <resultMap id="ProSenMap" type="com.zhongda.monitor.business.model.Project">
+    <id column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
+    <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
+    <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
+    <result column="project_end_time" jdbcType="TIMESTAMP" property="projectEndTime" />
+    <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
+    <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
+    <collection property="sensorList" javaType="java.util.List" ofType="com.zhongda.monitor.business.model.Sensor">
+    	<id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+	    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+	    <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
+	    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+	    <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
+	    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+	    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+	    <result column="sensor_type" jdbcType="VARCHAR" property="sensorType" />
+	    <result column="sensor_model" jdbcType="VARCHAR" property="sensorModel" />
+	    <result column="sensor_longitude" jdbcType="VARCHAR" property="sensorLongitude" />
+	    <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
+	    <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
+	    <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
+	    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    </collection>
+  </resultMap>
   <resultMap id="ProCharThMap" type="com.zhongda.monitor.business.model.Project">
     <id column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
@@ -59,6 +87,24 @@
 			LEFT JOIN sys_code sc on pal.project_type=sc.sc_id)) pals
 		LEFT JOIN statistic_chart sc on pals.project_id=sc.project_id)) palsc
   left join threshold th on palsc.project_id=th.project_id and palsc.detection_type_id=th.monitor_type and th.threshold_type=20)
+  </select>
+  <select id="selectProSenScByUserId" parameterType="java.lang.Integer" resultMap="ProSenMap">
+	  	SELECT
+		pro.*, se.*, sc.item_name
+	FROM
+		(
+			(
+				project pro
+				LEFT JOIN user_project up ON pro.project_id = up.project_id
+			)
+			LEFT JOIN sensor se ON pro.project_id = se.project_id
+		)
+	LEFT JOIN sys_code sc ON se.monitor_type = sc.sc_id
+	WHERE
+		up.user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectProjectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select * from project pro left join user_project up on pro.project_id=up.project_id where up.user_id= #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project

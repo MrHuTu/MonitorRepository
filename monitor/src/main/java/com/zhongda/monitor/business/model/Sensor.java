@@ -27,6 +27,8 @@ public class Sensor {
 
 	private Float sensorDepth;
 
+	private String itemName;// 数据库sys_code字段
+
 	private PublicSensorData publicSensorData;// 传感器数据公共对象 数据库没有字段
 
 	public Integer getSensorId() {
@@ -142,4 +144,13 @@ public class Sensor {
 	public void setPublicSensorData(PublicSensorData publicSensorData) {
 		this.publicSensorData = publicSensorData;
 	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
 }
