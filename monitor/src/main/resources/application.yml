@@ -92,9 +92,12 @@ spring:
       mail:
         smtp:
           auth: true
-          starttls:
-            enable: false 
-            required: false
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
+          ssl:
+            enable: true 
+            required: true
         
 #mybatis扫描xml以及实体路径   
 mybatis:

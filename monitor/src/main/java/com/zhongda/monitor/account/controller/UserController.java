@@ -1,5 +1,8 @@
 package com.zhongda.monitor.account.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -21,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.core.model.Result;
+import com.zhongda.monitor.core.service.MailService;
+import com.zhongda.monitor.core.utils.MailUtils;
 
 /**
  * Title : 用户管理 Description : 处理用户的增删改查操作
@@ -37,6 +42,9 @@ public class UserController {
 
 	@Resource
 	private UserService userService;
+	
+	@Resource
+	private MailService mailService;
 
 	/**
 	 * 验证账号是否唯一
@@ -92,13 +100,21 @@ public class UserController {
 	 * @param password
 	 *            密码
 	 */
-	@GetMapping("/sendEmail")
-	@ApiOperation(value = "发送改密邮件", httpMethod = "GET", response = Result.class, notes = "发送改密邮件")
+	@GetMapping("/sendEmail/{email}")
+	@ApiOperation(value = "发送邮件", httpMethod = "GET", response = Result.class, notes = "发送改密邮件")
 	@ApiImplicitParams({
-			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "form"),
-			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String", paramType = "form") })
-	public Result<String> sendUpdatePasswordEmail(String email, String password) {
+			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "path")})
+	public Result<String> sendUpdatePasswordEmail(@PathVariable String email) {
 		// emailService.sendUpdatePasswordEmail(email);
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put("userName", "admin");
+		paramsMap.put("creatDate", "2018-03-02 17:16:30");
+		paramsMap.put("monitorType", "沉降");
+		paramsMap.put("projectName", "测试项目");
+		paramsMap.put("smuNumber", "A001");
+		paramsMap.put("sensorNumber", "B0002");
+		paramsMap.put("alarmContext", "警告，警告");
+		mailService.sendHtmlTemplateMail(email, MailUtils.ALARM_SUBJECT, MailUtils.DEVICE_ALARM_TEMPLATE, paramsMap);;
 		// cacheService.setPasswordCache(email, password);
 		return new Result<String>().success("发送邮件成功");
 	}

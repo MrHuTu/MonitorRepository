@@ -129,9 +129,9 @@ public class ExceptionAspect {
 	}
 	
 	/**
-	 * 500 - Internal Server Error。处理 IncorrectCredentialsException 异常
+	 * 处理 IncorrectCredentialsException 异常
 	 */
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.OK)
 	@ExceptionHandler(IncorrectCredentialsException.class)
 	public Result<String> handleIncorrectCredentialsException(IncorrectCredentialsException e) {
 		logger.error("用户名或密码错误...->" + e.getMessage());

@@ -17,17 +17,17 @@ public class MailServiceTests {
 
 	@Test
 	public void sendSimpleMail() {
-		mailService.sendSimpleMail("731583657@qq.com", "就笑一笑", "springboot I come ");
+		mailService.sendSimpleMail("731583657@qq.com", "就笑一笑", "springboot I come Simple ");
 	}
 
 	@Test
 	public void sendHtmlMail() {
-		mailService.sendHtmlMail("731583657@qq.com", "就笑一笑", "springboot I come ");
+		mailService.sendHtmlMail("731583657@qq.com", "就笑一笑", "springboot I come Html ");
 	}
 
 	@Test
 	public void sendAttachmentsMail() {
-		mailService.sendAttachmentsMail("731583657@qq.com", "就笑一笑", "springboot I come ", "");
+		mailService.sendAttachmentsMail("731583657@qq.com", "就笑一笑", "springboot I come Attachment", "D:\\YoudaoNote\\res\\attachmentIcon.png");
 	}
 
 	@Test

@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -44,11 +45,11 @@ public class ProjectController {
 
 	@GetMapping("/home")
 	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "加载首页的数据")
-	public Result<List<Project>> loadMap(HttpServletRequest request) {
+	public Result<Map<String, Object>> loadMap(HttpServletRequest request) {
 		String token = HeaderUtils.getTokenFromRequest(request);
 		User user = TokenUtils.getUserFromeToken(token);
-		return new Result<List<Project>>().setCode(Result.SUCCESS).success(
-				"操作成功", projectService.loadHome(user.getUserId()));
+		return new Result<Map<String, Object>>().success("操作成功", projectService.loadHome(user.getUserId()));
+
 	}
 
 	@RequestMapping(value = "/queryProSen}", method = RequestMethod.GET)

@@ -3,6 +3,9 @@ package com.zhongda.monitor.core.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Title : 请求统一返回结果 Description : 对所有请求返回的数据封装到该类型对象中返回
  * 
@@ -10,6 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @Date 2018年1月16日 下午3:18:23
  */
 @ApiModel
+@JsonInclude(Include.NON_NULL)
 public class Result<T> {
 
 	public static final Integer SUCCESS = 0;// 请求成功

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>设备告警</title>
+    </head>
+    <body>
+    	<div>       
+       		<span th:text="'尊敬的' + ${userName} + '用户：'"></span><br/>
+       		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="'您好！您的项目于' + ${creatDate} + '监测到' + ${monitorType} + '的设备类告警。'"></span><br/>
+       		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="'项目名称：' + ${projectName}"></span><br/>
+       		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="'采集终端：' + ${smuNumber} + ' 传感器编号：' + ${sensorNumber}"></span><br/>
+       		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${alarmContext}"></span><br/>
+       		    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>详情请点击<a href="http://123.207.39.209/Detection">中大检测在线检测服务平台</a>查看，谢谢！</span><br/>
+       		<span>公司：湖南中大检测建设工程技术有限公司</span><br/>
+        	<span>地址：长沙市岳麓区学士路755号</span><br/>
+        	<span>联系电话：18673101894    座机：0731-88137366转8000  4008930909（转分机号）</span><br/>
+       	    <a href="http://www.hnzdjc.com">中大检测官网网址</a>
+    	</div>
+    </body>
+</html>
