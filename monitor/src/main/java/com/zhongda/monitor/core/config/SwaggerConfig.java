@@ -26,49 +26,54 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
-@ComponentScan(basePackages = {"com.zhongda.monitor.*.controller"})
+@ComponentScan(basePackages = { "com.zhongda.monitor.*.controller" })
 public class SwaggerConfig {
 
 	@Bean
-    public Docket user() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .groupName("user")
-                .globalOperationParameters(setHeaderToken())
-        		.select()
-        		.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-        		.apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-        		.paths(PathSelectors.ant("/user/**"))
-        		.build();
+	public Docket user() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.apiInfo(apiInfo())
+				.groupName("user")
+				.globalOperationParameters(setHeaderToken())
+				.select()
+				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+				.apis(RequestHandlerSelectors
+						.withMethodAnnotation(ApiOperation.class))
+				.paths(PathSelectors.ant("/user/**")).build();
 	}
-	
+
 	@Bean
-    public Docket data() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .groupName("data")
-                .globalOperationParameters(setHeaderToken())
-                .select()
-                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .paths(PathSelectors.ant("/**"))
-                .build();
-    }
+	public Docket data() {
+		return new Docket(DocumentationType.SWAGGER_2)
+				.apiInfo(apiInfo())
+				.groupName("data")
+				.globalOperationParameters(setHeaderToken())
+				.select()
+				.apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+				.apis(RequestHandlerSelectors
+						.withMethodAnnotation(ApiOperation.class))
+				.paths(PathSelectors.ant("/**")).build();
+	}
 
 	private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-        		.title("中大在线监测平台rest api接口")
-        		.contact(new Contact("罗杰", "http://localhost:8080/monitor", "1250368725@qq.com"))
-        		.description("HTTP对外开放rest接口")
-        		.version("2.7.0")
-        		.build();
+		return new ApiInfoBuilder()
+				.title("中大在线监测平台rest api接口")
+				.contact(
+						new Contact("罗杰", "http://localhost:8080/monitor",
+								"1250368725@qq.com"))
+				.description("HTTP对外开放rest接口").version("2.7.0").build();
 	}
-	
-	private List<Parameter> setHeaderToken(){
-		ParameterBuilder tokenParam = new ParameterBuilder();  
-        List<Parameter> paramList = new ArrayList<Parameter>();  
-        tokenParam.name("Authorization").description("Token令牌(" + StatelessToken.TOKEN_HEADER_PREFIX + "开头)").modelRef(new ModelRef("string")).parameterType("header").required(false).build();  
-        paramList.add(tokenParam.build());
-        return paramList;
+
+	private List<Parameter> setHeaderToken() {
+		ParameterBuilder tokenParam = new ParameterBuilder();
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		tokenParam
+				.name("Authorization")
+				.defaultValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjAyMTg1MTIsInVzZXJKc29uU3RyaW5nIjoie1widXNlcklkXCI6MyxcInVzZXJOYW1lXCI6XCJhZG1pblwiLFwicGFzc3dvcmRcIjpudWxsLFwicGhvbmVcIjpcIjE4NjA4NDc5NDY3XCIsXCJlbWFpbFwiOlwiMTAxMTU5MjI4OEBxcS5jb21cIixcImNvbXBhbnlcIjpcIuS4reWkp-ajgOa1i1wiLFwicmVhbE5hbWVcIjpcImFkbWluXCIsXCJjcmVhdGVUaW1lXCI6XCIyMDE3LTA5LTI1IDE5OjQ1OjMyXCIsXCJzdGF0dXNcIjpcIuato-W4uFwifSIsImV4cCI6MTUyMDgyMzMxMn0.sBSHNKneaBQuRtlHZGZe9bDG2XyjN_d59dSl42vFFyk")
+				.description("Token令牌( " + StatelessToken.TOKEN_HEADER_PREFIX + " 开头)")
+				.modelRef(new ModelRef("string")).parameterType("header")
+				.required(false).build();
+		paramList.add(tokenParam.build());
+		return paramList;
 	}
 }

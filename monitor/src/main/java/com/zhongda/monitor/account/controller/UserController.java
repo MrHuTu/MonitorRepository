@@ -1,6 +1,8 @@
 package com.zhongda.monitor.account.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.swagger.annotations.Api;
@@ -69,7 +71,7 @@ public class UserController {
 	 *            邮箱
 	 * @return
 	 */
-	@GetMapping("/validEmail/{email}")
+	@GetMapping("/validEmail/{email:.+}")
 	@ApiOperation(value = "邮箱唯一校验", httpMethod = "GET", response = Result.class, notes = "验证邮箱是否唯一")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "path") })
 	public Result<String> validEmail(@PathVariable String email) {
@@ -100,12 +102,14 @@ public class UserController {
 	 * @param password
 	 *            密码
 	 */
-	@GetMapping("/sendEmail/{email}")
+	@GetMapping("/sendEmail/{email:.+}")
 	@ApiOperation(value = "发送邮件", httpMethod = "GET", response = Result.class, notes = "发送改密邮件")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String", paramType = "path")})
 	public Result<String> sendUpdatePasswordEmail(@PathVariable String email) {
-		// emailService.sendUpdatePasswordEmail(email);
+		List<String> emailList = new ArrayList<String>();
+		emailList.add(email);
+		emailList.add("771588005@qq.com");
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put("userName", "admin");
 		paramsMap.put("creatDate", "2018-03-02 17:16:30");
@@ -114,7 +118,7 @@ public class UserController {
 		paramsMap.put("smuNumber", "A001");
 		paramsMap.put("sensorNumber", "B0002");
 		paramsMap.put("alarmContext", "警告，警告");
-		mailService.sendHtmlTemplateMail(email, MailUtils.ALARM_SUBJECT, MailUtils.DEVICE_ALARM_TEMPLATE, paramsMap);;
+		mailService.sendBatchHtmlTemplateMail(emailList, MailUtils.ALARM_SUBJECT, MailUtils.DEVICE_ALARM_TEMPLATE, paramsMap);;
 		// cacheService.setPasswordCache(email, password);
 		return new Result<String>().success("发送邮件成功");
 	}

@@ -1,5 +1,6 @@
 package com.zhongda.monitor.core.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface MailService {
@@ -21,6 +22,14 @@ public interface MailService {
 	void sendHtmlMail(String to, String subject, String content);
 	
 	/**
+	 * 批量发送html格式的邮件（群发html格式的邮件）
+	 * @param toList 所有接受方的邮箱地址（以List集合的形式存储）
+	 * @param subject 邮件主题
+	 * @param content 邮件内容
+	 */
+	void sendBatchHtmlMail(List<String> toList, String subject, String content);
+	
+	/**
 	 * 发送html格式的模板邮件
 	 * @param to 接受方的邮箱地址
 	 * @param subject 邮件主题
@@ -28,6 +37,15 @@ public interface MailService {
 	 * @param params 填充模板占位符的参数
 	 */
 	void sendHtmlTemplateMail(String to, String subject, String template, Map<String, String> params);
+	
+	/**
+	 * 批量发送html格式的模板邮件（群发html格式的模板邮件）
+	 * @param toList 所有接受方的邮箱地址（以List集合的形式存储）
+	 * @param subject 邮件主题
+	 * @param template 邮件模板标识
+	 * @param params 填充模板占位符的参数
+	 */
+	void sendBatchHtmlTemplateMail(List<String> toList, String subject, String template, Map<String, String> params);
 
 	/**
 	 * 发送带附件的邮件

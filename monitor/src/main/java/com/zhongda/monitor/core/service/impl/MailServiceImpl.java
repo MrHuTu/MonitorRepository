@@ -1,6 +1,7 @@
 package com.zhongda.monitor.core.service.impl;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -79,6 +80,30 @@ public class MailServiceImpl implements MailService{
 	}
 	
 	/**
+	 * 批量发送html格式的邮件（群发html格式的邮件）
+	 * @param toList 所有接受方的邮箱地址（以List集合的形式存储）
+	 * @param subject 邮件主题
+	 * @param content 邮件内容
+	 */
+	@Override
+	public void sendBatchHtmlMail(List<String> toList, String subject,
+			String content) {
+		MimeMessage message = sender.createMimeMessage();
+		try {
+			// true表示需要创建一个multipart message
+			MimeMessageHelper helper = new MimeMessageHelper(message, true);
+			helper.setFrom(from);
+			helper.setTo(toList.toArray(new String[toList.size()]));
+			helper.setSubject(subject);
+			helper.setText(content, true);
+			sender.send(message);
+			logger.info("html邮件已经发送。");
+		} catch (MessagingException e) {
+			logger.error("发送html邮件时发生异常！", e);
+		}
+	}
+	
+	/**
 	 * 发送html格式的模板邮件
 	 * @param to 接受方的邮箱地址
 	 * @param subject 邮件主题
@@ -91,6 +116,22 @@ public class MailServiceImpl implements MailService{
         context.setVariables(params);  
         String emailContent = templateEngine.process(template, context);  
         sendHtmlMail(to, subject, emailContent);
+	}
+	
+	/**
+	 * 批量发送html格式的模板邮件（群发html格式的模板邮件）
+	 * @param toList 所有接受方的邮箱地址（以List集合的形式存储）
+	 * @param subject 邮件主题
+	 * @param template 邮件模板标识
+	 * @param params 填充模板占位符的参数
+	 */
+	@Override
+	public void sendBatchHtmlTemplateMail(List<String> toList, String subject,
+			String template, Map<String, String> params) {
+		Context context = new Context();
+        context.setVariables(params);  
+        String emailContent = templateEngine.process(template, context);  
+        sendBatchHtmlMail(toList, subject, emailContent);
 	}
 
 	/**
