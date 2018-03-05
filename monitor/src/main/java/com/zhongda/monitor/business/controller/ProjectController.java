@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
@@ -52,7 +51,7 @@ public class ProjectController {
 
 	}
 
-	@RequestMapping(value = "/queryProSen}", method = RequestMethod.GET)
+	@GetMapping("/queryProSen")
 	@ApiOperation(value = "测点数据", httpMethod = "GET", response = Result.class, notes = "查询项目信息及其所有测点信息")
 	public Result<List<Project>> queryProSenItName(HttpServletRequest request) {
 		String token = HeaderUtils.getTokenFromRequest(request);
@@ -65,7 +64,7 @@ public class ProjectController {
 								.getUserId()));
 	}
 
-	@RequestMapping(value = "/queryProjects}")
+	@GetMapping(value = "/queryProjects")
 	@ApiOperation(value = "项目数据", httpMethod = "GET", response = Result.class, notes = "查询用户下的所有项目")
 	public Result<List<Project>> queryProject(HttpServletRequest request) {
 		String token = HeaderUtils.getTokenFromRequest(request);
@@ -75,7 +74,7 @@ public class ProjectController {
 				.setData(projectService.queryProjectByUserId(user.getUserId()));
 	}
 
-	@RequestMapping(value = "/queryProMoData/{projectId}")
+	@GetMapping(value = "/queryProMoData/{projectId}")
 	@ApiOperation(value = "传感器最近一次数据", httpMethod = "GET", response = Result.class, notes = "查询项目下所有传感器最近一次数据")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "projectId", value = "项目ID", required = true, dataType = "int", paramType = "path") })
 	public Result<List<MonitorType>> queryPromonitor(
