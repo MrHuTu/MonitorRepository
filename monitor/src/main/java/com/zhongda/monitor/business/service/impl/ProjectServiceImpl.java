@@ -138,5 +138,12 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return monitorTypes;
 	}
+	
+	@Override
+	public List<Project> getAllProject(int userId) {
+		return projectMapper.getAllProject(userId);
+	}
+
+
 
 }

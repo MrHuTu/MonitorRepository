@@ -162,6 +162,17 @@ public class ExceptionAspect {
 	 * 500 - Internal Server Error。处理 Exception 异常
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(NullPointerException.class)
+	public Result<String> handleNullPointerException(NullPointerException e) {
+		logger.error("系统错误...->" + e.getMessage());
+		logger.error("系统错误...->", e);
+		return new Result<String>().failure("系统错误");
+	}
+	
+	/**
+	 * 500 - Internal Server Error。处理 Exception 异常
+	 */
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Result<String> handleException(Exception e) {
 		logger.error("系统错误...->" + e.getMessage());

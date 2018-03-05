@@ -4,7 +4,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class Project {
 	private Integer projectId;
 
@@ -25,10 +28,18 @@ public class Project {
 	private Integer projectStatus;
 
 	private String projectDescription;
+	
+	private String projectPrincipal; //项目负责人
+	
+	private Integer projectSensorNumber;//传感器数量
+	
+	private Integer projectSmuNumber;//传感器数量
 
 	private Integer alCount;// 项目告警次数 数据库没有字段
 
 	private String projectTypeName;// 项目类型名称
+	
+	private String projectStatusName;// 项目状态字符串标识
 
 	private List<MonitorType> monitorTypeList; // 检测指标对象集合
 
@@ -161,6 +172,38 @@ public class Project {
 
 	public void setSensorList(List<Sensor> sensorList) {
 		this.sensorList = sensorList;
+	}
+
+	public String getProjectPrincipal() {
+		return projectPrincipal;
+	}
+
+	public void setProjectPrincipal(String projectPrincipal) {
+		this.projectPrincipal = projectPrincipal;
+	}
+
+	public Integer getProjectSensorNumber() {
+		return projectSensorNumber;
+	}
+
+	public void setProjectSensorNumber(Integer projectSensorNumber) {
+		this.projectSensorNumber = projectSensorNumber;
+	}
+
+	public Integer getProjectSmuNumber() {
+		return projectSmuNumber;
+	}
+
+	public void setProjectSmuNumber(Integer projectSmuNumber) {
+		this.projectSmuNumber = projectSmuNumber;
+	}
+
+	public String getProjectStatusName() {
+		return projectStatusName;
+	}
+
+	public void setProjectStatusName(String projectStatusName) {
+		this.projectStatusName = projectStatusName;
 	}
 
 }

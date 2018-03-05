@@ -14,14 +14,9 @@ public interface ProjectService {
 	 * @param userId
 	 * @return
 	 */
-	/*List<Project> loadHome(Integer userId);*/
 	
-	/**
-	 * 首页数据处理
-	 * 
-	 * @param userId
-	 * @return
-	 */
+	/*List<Project> loadHome(Integer userId);*/
+
 	Map<String, Object> loadHome(Integer userId);
 
 	/**
@@ -47,5 +42,7 @@ public interface ProjectService {
 	 * @return
 	 */
 	List<MonitorType> queryProMonitor(Integer projectId);
+
+	List<Project> getAllProject(int userId);
 
 }

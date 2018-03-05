@@ -24,4 +24,7 @@ public interface StatisticChartMapper {
 	 * @return
 	 */
 	List<StatisticChart> selectStatisCharByProjectId(Integer projectId);
+
+    List<StatisticChart> selectByPojoId(int poJoId);
+
 }

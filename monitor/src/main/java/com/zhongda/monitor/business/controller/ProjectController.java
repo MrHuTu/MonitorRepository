@@ -83,4 +83,14 @@ public class ProjectController {
 				.setMsg("操作成功")
 				.setData(projectService.queryProMonitor(projectId));
 	}
+	
+	@GetMapping("/getAllProject")
+	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载所有项目")
+	private List<Project> getAllProject(HttpServletRequest request){
+		String token = HeaderUtils.getTokenFromRequest(request);
+		User user = TokenUtils.getUserFromeToken(token);
+		int userId = user.getUserId();
+		return projectService.getAllProject(userId);
+		
+	}
 }

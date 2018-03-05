@@ -1,9 +1,10 @@
 package com.zhongda.monitor.business.mapper;
 
-import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-import com.zhongda.monitor.business.model.Item;
+import com.zhongda.monitor.business.model.ItemAvgData;
 
 public interface ItemMapper {
- List<Item> getAllItem();
+ 
+ ItemAvgData selectItemAvgData(String tableName,@Param("poJoId")String poJoId);
 }

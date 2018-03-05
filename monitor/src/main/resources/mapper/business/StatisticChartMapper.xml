@@ -118,4 +118,10 @@
       sensor_id = #{sensorId,jdbcType=VARCHAR}
     where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
   </update>
+  <select id="selectByPojoId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from statistic_chart
+    where project_id = #{poJoId,jdbcType=INTEGER}
+  </select>
 </mapper>

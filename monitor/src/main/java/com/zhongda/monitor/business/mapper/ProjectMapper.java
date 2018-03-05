@@ -43,4 +43,6 @@ public interface ProjectMapper {
 	 * @return
 	 */
 	List<Project> selectProjectByUserId(@Param(value = "userId") Integer userId);
+
+	List<Project> getAllProject(int userId);
 }

@@ -16,17 +16,23 @@
 	<result column="project_sensorNum" property="project_sensorNum"/>
 	<result column="project_smuNum" property="project_smuNum"/>
 </resultMap>
- 	<select id="getAllItem" resultMap="ItemMap">
- 		SELECT 
-p.project_id as project_id,
-p.project_name as project_name,u.real_name as real_name,p.project_begin_time ,p.project_end_time ,
- (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type, p.project_address as project_address,
-p.project_description as project_description,p.project_description as project_description_ ,  (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status,
-(select COUNT(*) from alarm a where p.project_id =a.project_id and a.alarm_status=0) as project_alarmNum,  
-(	select COUNT(*) from project pr,(SELECT sen.project_id as senproject_id  from sensor sen,project po  
-	where sen.project_id =po.project_id GROUP BY  sen.smu_number,sen.project_id) a 
-	where pr.project_id=p.project_id and a.senproject_id= pr.project_id) as project_sensorNum,
-(SELECT COUNT(1) from sensor sen where sen.project_id =p.project_id )as project_smuNum
-from project p ,`user` u ,user_project up  where p.project_id = up.project_id and up.user_id=u.user_id;
+<resultMap id="ItemAvgDataMap" type="com.zhongda.monitor.business.model.ItemAvgData">
+	
+	<result column="project_name" property="detectionTypeName"/>
+	<result column="current_data1" property="avgCurrentData"/>
+	<result column="current_laser_change" property="currentLaserChange"/>
+	<result column="speed_change" property="speedChange"/>
+	<result column="minThresholdValue" property="minThresholdValue"/>
+	<result column="max_threshold_value" property="max_threshold_value"/>
+	
+</resultMap>
+ 	<select id="selectItemAvgData" resultMap="ItemAvgDataMap"   >
+ 			select AVG(mytable.current_data) as current_data1  ,AVG(mytable.current_laser_change) as current_laser_change,
+			AVG(mytable.speed_change)*100 as speed_change,
+			threshold.min_threshold_value as minThresholdValue,
+			threshold.max_threshold_value  as MaxThresholdValue
+			from ${_parameter.param1}  mytable  ,sensor ,threshold where sensor.project_id=#{poJoId} 
+			and mytable.sensor_id=sensor.sensor_number and date(mytable.current_times)='2017-10-30'
+			and threshold.project_id=sensor.project_id and threshold.threshold_type='20'
  	</select>
 </mapper>

@@ -67,6 +67,14 @@
     	</association>
     </collection>
   </resultMap>
+  <resultMap id="ProjectDetailMap" extends="BaseResultMap" type="com.zhongda.monitor.business.model.Project">
+    <result column="project_principal" jdbcType="VARCHAR" property="projectPrincipal" />
+    <result column="project_sensor_number" jdbcType="VARCHAR" property="projectSensorNumber" />
+    <result column="project_smu_number" jdbcType="VARCHAR" property="projectSmuNumber" />
+    <result column="al_count" jdbcType="INTEGER" property="alCount" />
+    <result column="project_type_name" jdbcType="VARCHAR" property="projectTypeName" />
+    <result column="project_status_name" jdbcType="VARCHAR" property="projectStatusName" />
+  </resultMap>
   <sql id="Base_Column_List">
     project_id, project_name, project_type, project_address, project_longitude, project_latitude, 
     project_begin_time, project_end_time, project_status, project_description
@@ -106,6 +114,18 @@
   <select id="selectProjectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select * from project pro left join user_project up on pro.project_id=up.project_id where up.user_id= #{userId,jdbcType=INTEGER}
   </select>
+  <select id="getAllProject" resultMap="ProjectDetailMap" parameterType="java.lang.Integer">
+ 		SELECT 
+p.project_id, p.project_name, u.real_name as project_principal, p.project_begin_time, p.project_end_time,
+ (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type_name, p.project_address as project_address,
+p.project_description, (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status_name,
+(select COUNT(*) from alarm a where p.project_id =a.project_id and a.alarm_status=0) as al_count,  
+(	select COUNT(*) from project pr,(SELECT sen.project_id as senproject_id  from sensor sen,project po  
+	where sen.project_id =po.project_id GROUP BY  sen.smu_number,sen.project_id) a 
+	where pr.project_id=p.project_id and a.senproject_id= pr.project_id) as project_sensor_number,
+(SELECT COUNT(1) from sensor sen where sen.project_id =p.project_id )as project_smu_number
+from project p ,`user` u where p.project_id in (SELECT up.project_id from user_project up where up.user_id=#{userid}) and u.user_id=#{userid};
+ 	</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project
     where project_id = #{projectId,jdbcType=INTEGER}
