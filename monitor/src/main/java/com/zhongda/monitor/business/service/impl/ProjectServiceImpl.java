@@ -15,6 +15,7 @@ import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.mapper.StatisticChartMapper;
 import com.zhongda.monitor.business.model.MonitorType;
 import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.Sensor;
 import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.service.ProjectService;
@@ -140,7 +141,7 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 	
 	@Override
-	public List<Project> getAllProject(int userId) {
+	public List<Project> getAllProject(ProjectSelectCondition userId) {
 		return projectMapper.getAllProject(userId);
 	}
 

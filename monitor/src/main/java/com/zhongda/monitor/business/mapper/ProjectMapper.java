@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.ProjectSelectCondition;
 
 public interface ProjectMapper {
 	int deleteByPrimaryKey(Integer projectId);
@@ -44,5 +45,5 @@ public interface ProjectMapper {
 	 */
 	List<Project> selectProjectByUserId(@Param(value = "userId") Integer userId);
 
-	List<Project> getAllProject(int userId);
+	List<Project> getAllProject(ProjectSelectCondition userId);
 }

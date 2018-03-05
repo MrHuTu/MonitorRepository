@@ -20,6 +20,7 @@ import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.TokenUtils;
 import com.zhongda.monitor.business.model.MonitorType;
 import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.HeaderUtils;
@@ -85,12 +86,14 @@ public class ProjectController {
 	}
 	
 	@GetMapping("/getAllProject")
-	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载所有项目")
+	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息")
 	private List<Project> getAllProject(HttpServletRequest request){
 		String token = HeaderUtils.getTokenFromRequest(request);
 		User user = TokenUtils.getUserFromeToken(token);
 		int userId = user.getUserId();
-		return projectService.getAllProject(userId);
+		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
+	//	projectSelectCondition.setUserId(userId);
+		return projectService.getAllProject(projectSelectCondition);
 		
 	}
 }

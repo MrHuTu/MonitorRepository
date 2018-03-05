@@ -114,7 +114,7 @@
   <select id="selectProjectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select * from project pro left join user_project up on pro.project_id=up.project_id where up.user_id= #{userId,jdbcType=INTEGER}
   </select>
-  <select id="getAllProject" resultMap="ProjectDetailMap" parameterType="java.lang.Integer">
+  <select id="getAllProject" resultMap="ProjectDetailMap" parameterType="com.zhongda.monitor.business.model.ProjectSelectCondition">
  		SELECT 
 p.project_id, p.project_name, u.real_name as project_principal, p.project_begin_time, p.project_end_time,
  (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type_name, p.project_address as project_address,
@@ -124,8 +124,14 @@ p.project_description, (SELECT sc.item_name from  sys_code sc where sc.sc_id = p
 	where sen.project_id =po.project_id GROUP BY  sen.smu_number,sen.project_id) a 
 	where pr.project_id=p.project_id and a.senproject_id= pr.project_id) as project_sensor_number,
 (SELECT COUNT(1) from sensor sen where sen.project_id =p.project_id )as project_smu_number
-from project p ,`user` u where p.project_id in (SELECT up.project_id from user_project up where up.user_id=#{userid}) and u.user_id=#{userid};
- 	</select>
+from project p,`user` u,user_project up where 1=1
+	<if test="userId != 3">
+	  and p.project_id in (SELECT up.project_id from user_project up where up.user_id=#{userId}) and u.user_id=up.user_id and p.project_id = up.project_id and u.user_id=#{userId}
+	</if>
+	<if test="userId == 3">
+	and p.project_id = up.project_id and up.user_id=u.user_id
+	</if>	
+</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project
     where project_id = #{projectId,jdbcType=INTEGER}

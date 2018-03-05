@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.zhongda.monitor.business.model.MonitorType;
 import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.ProjectSelectCondition;
 
 public interface ProjectService {
 
@@ -43,6 +44,6 @@ public interface ProjectService {
 	 */
 	List<MonitorType> queryProMonitor(Integer projectId);
 
-	List<Project> getAllProject(int userId);
+	List<Project> getAllProject(ProjectSelectCondition userId);
 
 }
