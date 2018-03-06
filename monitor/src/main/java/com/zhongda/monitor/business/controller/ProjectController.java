@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.TokenUtils;
-import com.zhongda.monitor.business.model.MonitorType;
+import com.zhongda.monitor.business.model.MonitorIndicator;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.service.ProjectService;
@@ -48,21 +48,9 @@ public class ProjectController {
 	public Result<Map<String, Object>> loadMap(HttpServletRequest request) {
 		String token = HeaderUtils.getTokenFromRequest(request);
 		User user = TokenUtils.getUserFromeToken(token);
-		return new Result<Map<String, Object>>().success("操作成功", projectService.loadHome(user.getUserId()));
+		return new Result<Map<String, Object>>().success("操作成功",
+				projectService.loadHome(user.getUserId()));
 
-	}
-
-	@GetMapping("/queryProSen")
-	@ApiOperation(value = "测点数据", httpMethod = "GET", response = Result.class, notes = "查询项目信息及其所有测点信息")
-	public Result<List<Project>> queryProSenItName(HttpServletRequest request) {
-		String token = HeaderUtils.getTokenFromRequest(request);
-		User user = TokenUtils.getUserFromeToken(token);
-		return new Result<List<Project>>()
-				.setCode(Result.SUCCESS)
-				.setMsg("操作成功")
-				.setData(
-						projectService.queryProSenItemNameByUserId(user
-								.getUserId()));
 	}
 
 	@GetMapping(value = "/queryProjects")
@@ -78,9 +66,9 @@ public class ProjectController {
 	@GetMapping(value = "/queryProMoData/{projectId}")
 	@ApiOperation(value = "传感器最近一次数据", httpMethod = "GET", response = Result.class, notes = "查询项目下所有传感器最近一次数据")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "projectId", value = "项目ID", required = true, dataType = "int", paramType = "path") })
-	public Result<List<MonitorType>> queryPromonitor(
+	public Result<List<MonitorIndicator>> queryPromonitor(
 			@PathVariable Integer projectId) {
-		return new Result<List<MonitorType>>().setCode(Result.SUCCESS)
+		return new Result<List<MonitorIndicator>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
 				.setData(projectService.queryProMonitor(projectId));
 	}

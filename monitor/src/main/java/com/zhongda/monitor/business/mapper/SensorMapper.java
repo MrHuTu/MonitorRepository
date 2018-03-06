@@ -41,4 +41,5 @@ public interface SensorMapper {
 	List<Sensor> selectLastData(String tableName,
 			@Param(value = "projectId") Integer projectId,
 			@Param(value = "monitorType") Integer monitorType);
+
 }

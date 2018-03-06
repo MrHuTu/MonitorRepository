@@ -5,14 +5,24 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+/**
+ * <p>
+ * 检测指标实体类，代表一个项目下的一个检测指标对象
+ * </p>
+ * 
+ * @author 研发中心-LiIverson<1061734892@qq.com>
+ * @sine 2018年3月5日
+ */
 @JsonInclude(Include.NON_NULL)
-public class MonitorType {
+public class MonitorIndicator {
 
 	private Integer monitorType;
 
 	private String monitorTypeName;
 
 	private Threshold threshold;
+
+	private String tableName;
 
 	private List<Sensor> sensorList;
 
@@ -38,6 +48,14 @@ public class MonitorType {
 
 	public void setThreshold(Threshold threshold) {
 		this.threshold = threshold;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 
 	public List<Sensor> getSensorList() {

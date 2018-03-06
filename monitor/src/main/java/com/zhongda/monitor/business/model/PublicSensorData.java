@@ -182,4 +182,19 @@ public class PublicSensorData {
 		this.smuStatus = smuStatus;
 	}
 
+	@Override
+	public String toString() {
+		return "PublicSensorData [id=" + id + ", sensorNumber=" + sensorNumber
+				+ ", firstTime=" + firstTime + ", firstData=" + firstData
+				+ ", previousTime=" + previousTime + ", previousData="
+				+ previousData + ", currentTimes=" + currentTimes
+				+ ", currentData=" + currentData + ", currentTemperature="
+				+ currentTemperature + ", currentLaserChange="
+				+ currentLaserChange + ", totalLaserChange=" + totalLaserChange
+				+ ", speedChange=" + speedChange + ", sensorStatus="
+				+ sensorStatus + ", createType=" + createType + ", smuNumber="
+				+ smuNumber + ", smuChannel=" + smuChannel + ", smuStatus="
+				+ smuStatus + "]";
+	}
+
 }

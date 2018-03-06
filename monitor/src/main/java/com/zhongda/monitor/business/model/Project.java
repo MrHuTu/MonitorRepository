@@ -41,7 +41,7 @@ public class Project {
 	
 	private String projectStatusName;// 项目状态字符串标识
 
-	private List<MonitorType> monitorTypeList; // 检测指标对象集合
+	private List<MonitorIndicator> monitorTypeList; // 检测指标对象集合
 
 	private List<StatisticChart> statisticChartList;// 一个强大的表、很难解释自己看数据看意会 -by
 													// 胡超
@@ -158,11 +158,11 @@ public class Project {
 		this.statisticChartList = statisticChartList;
 	}
 
-	public List<MonitorType> getMonitorTypeList() {
+	public List<MonitorIndicator> getMonitorTypeList() {
 		return monitorTypeList;
 	}
 
-	public void setMonitorTypeList(List<MonitorType> monitorTypeList) {
+	public void setMonitorTypeList(List<MonitorIndicator> monitorTypeList) {
 		this.monitorTypeList = monitorTypeList;
 	}
 

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.business.mapper.PublicSensorDataMapper">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.PublicSensorData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+    <result column="first_time" jdbcType="TIMESTAMP" property="firstTime" />
+    <result column="first_data" jdbcType="DOUBLE" property="firstData" />
+    <result column="previous_time" jdbcType="TIMESTAMP" property="previousTime" />
+    <result column="previous_data" jdbcType="DOUBLE" property="previousData" />
+    <result column="current_times" jdbcType="TIMESTAMP" property="currentTimes" />
+    <result column="current_data" jdbcType="DOUBLE" property="currentData" />
+    <result column="current_temperature" jdbcType="DOUBLE" property="currentTemperature" />
+    <result column="current_laser_change" jdbcType="DOUBLE" property="currentLaserChange" />
+    <result column="total_laser_change" jdbcType="DOUBLE" property="totalLaserChange" />
+    <result column="speed_change" jdbcType="DOUBLE" property="speedChange" />
+    <result column="sensor_status" jdbcType="INTEGER" property="sensorStatus" />
+    <result column="create_type" jdbcType="VARCHAR" property="createType" />
+    <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
+    <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+    <result column="smu_status" jdbcType="INTEGER" property="smuStatus" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sensor_id, first_time, first_data, previous_time, previous_data, current_times, 
+    current_data, current_temperature, current_laser_change, total_laser_change, speed_change, 
+    sensor_status, create_type, smu_cms_id, smu_cms_channel, smu_status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PublicSensorData
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectSenDataByDate" resultMap="BaseResultMap">
+  	select * from ${_parameter.param1} maps where sensor_id=#{sensorId,jdbcType=VARCHAR} and smu_cms_id=#{smuNumber,jdbcType=VARCHAR} and smu_cms_channel=#{smuChannel,jdbcType=VARCHAR} and current_times BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from PublicSensorData
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+    insert into PublicSensorData (id, sensor_id, first_time, 
+      first_data, previous_time, previous_data, 
+      current_times, current_data, current_temperature, 
+      current_laser_change, total_laser_change, speed_change, 
+      sensor_status, create_type, smu_cms_id, 
+      smu_cms_channel, smu_status)
+    values (#{id,jdbcType=INTEGER}, #{sensorId,jdbcType=VARCHAR}, #{firstTime,jdbcType=TIMESTAMP}, 
+      #{firstData,jdbcType=DOUBLE}, #{previousTime,jdbcType=TIMESTAMP}, #{previousData,jdbcType=DOUBLE}, 
+      #{currentTimes,jdbcType=TIMESTAMP}, #{currentData,jdbcType=DOUBLE}, #{currentTemperature,jdbcType=DOUBLE}, 
+      #{currentLaserChange,jdbcType=DOUBLE}, #{totalLaserChange,jdbcType=DOUBLE}, #{speedChange,jdbcType=DOUBLE}, 
+      #{sensorStatus,jdbcType=INTEGER}, #{createType,jdbcType=VARCHAR}, #{smuCmsId,jdbcType=VARCHAR}, 
+      #{smuCmsChannel,jdbcType=VARCHAR}, #{smuStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+    insert into PublicSensorData
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+      <if test="firstTime != null">
+        first_time,
+      </if>
+      <if test="firstData != null">
+        first_data,
+      </if>
+      <if test="previousTime != null">
+        previous_time,
+      </if>
+      <if test="previousData != null">
+        previous_data,
+      </if>
+      <if test="currentTimes != null">
+        current_times,
+      </if>
+      <if test="currentData != null">
+        current_data,
+      </if>
+      <if test="currentTemperature != null">
+        current_temperature,
+      </if>
+      <if test="currentLaserChange != null">
+        current_laser_change,
+      </if>
+      <if test="totalLaserChange != null">
+        total_laser_change,
+      </if>
+      <if test="speedChange != null">
+        speed_change,
+      </if>
+      <if test="sensorStatus != null">
+        sensor_status,
+      </if>
+      <if test="createType != null">
+        create_type,
+      </if>
+      <if test="smuCmsId != null">
+        smu_cms_id,
+      </if>
+      <if test="smuCmsChannel != null">
+        smu_cms_channel,
+      </if>
+      <if test="smuStatus != null">
+        smu_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null">
+        #{firstTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstData != null">
+        #{firstData,jdbcType=DOUBLE},
+      </if>
+      <if test="previousTime != null">
+        #{previousTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="previousData != null">
+        #{previousData,jdbcType=DOUBLE},
+      </if>
+      <if test="currentTimes != null">
+        #{currentTimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentData != null">
+        #{currentData,jdbcType=DOUBLE},
+      </if>
+      <if test="currentTemperature != null">
+        #{currentTemperature,jdbcType=DOUBLE},
+      </if>
+      <if test="currentLaserChange != null">
+        #{currentLaserChange,jdbcType=DOUBLE},
+      </if>
+      <if test="totalLaserChange != null">
+        #{totalLaserChange,jdbcType=DOUBLE},
+      </if>
+      <if test="speedChange != null">
+        #{speedChange,jdbcType=DOUBLE},
+      </if>
+      <if test="sensorStatus != null">
+        #{sensorStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createType != null">
+        #{createType,jdbcType=VARCHAR},
+      </if>
+      <if test="smuCmsId != null">
+        #{smuCmsId,jdbcType=VARCHAR},
+      </if>
+      <if test="smuCmsChannel != null">
+        #{smuCmsChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="smuStatus != null">
+        #{smuStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+    update PublicSensorData
+    <set>
+      <if test="sensorId != null">
+        sensor_id = #{sensorId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstTime != null">
+        first_time = #{firstTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="firstData != null">
+        first_data = #{firstData,jdbcType=DOUBLE},
+      </if>
+      <if test="previousTime != null">
+        previous_time = #{previousTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="previousData != null">
+        previous_data = #{previousData,jdbcType=DOUBLE},
+      </if>
+      <if test="currentTimes != null">
+        current_times = #{currentTimes,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentData != null">
+        current_data = #{currentData,jdbcType=DOUBLE},
+      </if>
+      <if test="currentTemperature != null">
+        current_temperature = #{currentTemperature,jdbcType=DOUBLE},
+      </if>
+      <if test="currentLaserChange != null">
+        current_laser_change = #{currentLaserChange,jdbcType=DOUBLE},
+      </if>
+      <if test="totalLaserChange != null">
+        total_laser_change = #{totalLaserChange,jdbcType=DOUBLE},
+      </if>
+      <if test="speedChange != null">
+        speed_change = #{speedChange,jdbcType=DOUBLE},
+      </if>
+      <if test="sensorStatus != null">
+        sensor_status = #{sensorStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createType != null">
+        create_type = #{createType,jdbcType=VARCHAR},
+      </if>
+      <if test="smuCmsId != null">
+        smu_cms_id = #{smuCmsId,jdbcType=VARCHAR},
+      </if>
+      <if test="smuCmsChannel != null">
+        smu_cms_channel = #{smuCmsChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="smuStatus != null">
+        smu_status = #{smuStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+    update PublicSensorData
+    set sensor_id = #{sensorId,jdbcType=VARCHAR},
+      first_time = #{firstTime,jdbcType=TIMESTAMP},
+      first_data = #{firstData,jdbcType=DOUBLE},
+      previous_time = #{previousTime,jdbcType=TIMESTAMP},
+      previous_data = #{previousData,jdbcType=DOUBLE},
+      current_times = #{currentTimes,jdbcType=TIMESTAMP},
+      current_data = #{currentData,jdbcType=DOUBLE},
+      current_temperature = #{currentTemperature,jdbcType=DOUBLE},
+      current_laser_change = #{currentLaserChange,jdbcType=DOUBLE},
+      total_laser_change = #{totalLaserChange,jdbcType=DOUBLE},
+      speed_change = #{speedChange,jdbcType=DOUBLE},
+      sensor_status = #{sensorStatus,jdbcType=INTEGER},
+      create_type = #{createType,jdbcType=VARCHAR},
+      smu_cms_id = #{smuCmsId,jdbcType=VARCHAR},
+      smu_cms_channel = #{smuCmsChannel,jdbcType=VARCHAR},
+      smu_status = #{smuStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
