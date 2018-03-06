@@ -42,6 +42,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/swagger-resources/**", "anon");
 		filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
 		filterChainDefinitionMap.put("/token/login", "anon");
+		filterChainDefinitionMap.put("/webSocket/**", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();

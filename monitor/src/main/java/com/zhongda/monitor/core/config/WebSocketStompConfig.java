@@ -32,7 +32,7 @@ public class WebSocketStompConfig extends
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// 注册websocket，客户端用ws://host:port/项目名/webSocket 访问
 		//为js客户端提供连接,客户端需要注册这个端点进行链接
-		registry.addEndpoint("/webSocket")
+		registry.addEndpoint("/webSocket").setAllowedOrigins("*")
 				.withSockJS();// 表示支持以SockJS方式连接服务器,提供浏览器兼容性
 	}
 
@@ -52,6 +52,6 @@ public class WebSocketStompConfig extends
 		// applicationDestinationPrefixes应用前缀，所有请求的消息将会路由到@MessageMapping的controller上
 		registry.setApplicationDestinationPrefixes("/ws");
 		// 这句话表示服务端给客户端指定用户发送一对一的主题，前缀是"/user"
-		registry.setUserDestinationPrefix("/user/");
+		registry.setUserDestinationPrefix("/user");
 	}
 }
