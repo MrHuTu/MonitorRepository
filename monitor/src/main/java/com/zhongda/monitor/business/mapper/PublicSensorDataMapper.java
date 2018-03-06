@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.zhongda.monitor.business.model.PublicSensorData;
+import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 
 public interface PublicSensorDataMapper {
 	int deleteByPrimaryKey(Integer id);

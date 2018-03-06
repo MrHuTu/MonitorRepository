@@ -31,7 +31,7 @@
     <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
     <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
     <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
-    <association property="publicSensorData" javaType="com.zhongda.monitor.business.model.PublicSensorData" >
+    <association property="publicSensorData" javaType="com.zhongda.monitor.business.model.fictitious.PublicSensorData" >
     	<id column="id" jdbcType="INTEGER" property="id" />
 	    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
 	    <result column="first_time" jdbcType="TIMESTAMP" property="firstTime" />

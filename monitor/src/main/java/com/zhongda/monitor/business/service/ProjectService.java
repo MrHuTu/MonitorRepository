@@ -3,9 +3,9 @@ package com.zhongda.monitor.business.service;
 import java.util.List;
 import java.util.Map;
 
-import com.zhongda.monitor.business.model.MonitorIndicator;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
+import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 
 /**
  * 

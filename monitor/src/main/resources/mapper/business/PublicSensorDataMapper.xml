@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhongda.monitor.business.mapper.PublicSensorDataMapper">
-  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.PublicSensorData">
+  <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
     <result column="first_time" jdbcType="TIMESTAMP" property="firstTime" />
@@ -38,7 +38,7 @@
     delete from PublicSensorData
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     insert into PublicSensorData (id, sensor_id, first_time, 
       first_data, previous_time, previous_data, 
       current_times, current_data, current_temperature, 
@@ -52,7 +52,7 @@
       #{sensorStatus,jdbcType=INTEGER}, #{createType,jdbcType=VARCHAR}, #{smuCmsId,jdbcType=VARCHAR}, 
       #{smuCmsChannel,jdbcType=VARCHAR}, #{smuStatus,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     insert into PublicSensorData
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -161,7 +161,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     update PublicSensorData
     <set>
       <if test="sensorId != null">
@@ -215,7 +215,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.PublicSensorData">
+  <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     update PublicSensorData
     set sensor_id = #{sensorId,jdbcType=VARCHAR},
       first_time = #{firstTime,jdbcType=TIMESTAMP},

@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.TokenUtils;
-import com.zhongda.monitor.business.model.MonitorIndicator;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
+import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.HeaderUtils;

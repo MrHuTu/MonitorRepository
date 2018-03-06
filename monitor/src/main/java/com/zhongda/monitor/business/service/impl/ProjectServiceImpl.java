@@ -14,11 +14,11 @@ import com.google.common.collect.Multiset;
 import com.zhongda.monitor.business.mapper.ProjectMapper;
 import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.mapper.StatisticChartMapper;
-import com.zhongda.monitor.business.model.MonitorIndicator;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.Sensor;
 import com.zhongda.monitor.business.model.StatisticChart;
+import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.utils.CountUtils;
 

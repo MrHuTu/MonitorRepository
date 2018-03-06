@@ -1,9 +1,11 @@
-package com.zhongda.monitor.business.model;
+package com.zhongda.monitor.business.model.fictitious;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.zhongda.monitor.business.model.Sensor;
+import com.zhongda.monitor.business.model.Threshold;
 
 /**
  * <p>

@@ -13,8 +13,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.mapper.PublicSensorDataMapper;
-import com.zhongda.monitor.business.model.PublicSensorData;
 import com.zhongda.monitor.business.model.fictitious.DataEchart;
+import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
 
 /**

@@ -2,6 +2,7 @@ package com.zhongda.monitor.business.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 
 @JsonInclude(Include.NON_NULL)
 public class Sensor {
