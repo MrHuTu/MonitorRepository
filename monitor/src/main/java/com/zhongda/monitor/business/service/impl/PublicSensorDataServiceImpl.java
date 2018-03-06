@@ -59,7 +59,7 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 		System.out.println("begindate:" + beginDate + "  endDate:" + endDate);
 		List<PublicSensorData> sensorDatas = pSenDataMapper
 				.selectSenDataByDate(tableName, sensorNumber, smuNumber,
-						smuChannel, "2018-02-03", "2018-02-04");
+						smuChannel, beginDate, endDate);
 		ArrayList<DataEchart> currentLaserChangeList = new ArrayList<DataEchart>();// 单次变化
 		ArrayList<DataEchart> totalLaserChangeList = new ArrayList<DataEchart>();// 总变化量
 		ArrayList<DataEchart> speedChangeList = new ArrayList<DataEchart>();// 变化速率speedChange

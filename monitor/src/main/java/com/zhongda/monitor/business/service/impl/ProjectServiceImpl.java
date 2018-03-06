@@ -1,6 +1,7 @@
 package com.zhongda.monitor.business.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Map<String, Object> loadHome(Integer userId) {
+		long start = new Date().getTime();
 		Map<String, Object> projectMap = new HashMap<String, Object>();
 		// 创建一个统计监测类型集合
 		Multiset<String> monitorTypeMultiset = CountUtils.createMultiset();
@@ -107,6 +109,8 @@ public class ProjectServiceImpl implements ProjectService {
 		projectMap.put("projectList", ProCharThList);
 		projectMap.put("monitorTypeCount", monitorTypeCountMap);
 		projectMap.put("projectTypeCount", projectTypeCountMap);
+		long end = new Date().getTime();
+		System.out.println(end - start);
 		return projectMap;
 	}
 
@@ -134,12 +138,10 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return monitorTypes;
 	}
-	
+
 	@Override
 	public List<Project> getAllProject(ProjectSelectCondition userId) {
 		return projectMapper.getAllProject(userId);
 	}
-
-
 
 }
