@@ -1,5 +1,7 @@
 package com.zhongda.monitor.business.mapper;
 
+import java.util.List;
+
 import com.zhongda.monitor.business.model.AlarmLinkman;
 
 public interface AlarmLinkmanMapper {
@@ -14,4 +16,9 @@ public interface AlarmLinkmanMapper {
     int updateByPrimaryKeySelective(AlarmLinkman record);
 
     int updateByPrimaryKey(AlarmLinkman record);
+    /**
+     * 获取告警联系人信息及项目信息
+     */
+    List <AlarmLinkman> selectAlarmLinkMan();
+    
 }

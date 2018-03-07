@@ -10,6 +10,15 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+  <resultMap id="AlarmResultMap" type="com.zhongda.monitor.business.model.AlarmLinkman" extends="BaseResultMap">
+  	<result column= "item_name" jdbcType="VARCHAR" property="itemName"/>
+  	<result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+  	<result column="alarm_type"  jdbcType="VARCHAR" property="alarmType"/>
+  	<result column= "sensor_number" jdbcType="INTEGER" property="sensorNumber"/>
+  	<result column= "smu_number" jdbcType="INTEGER" property="smuNumber"/>
+  	<result column= "smu_channel" jdbcType="INTEGER" property="smuChannel"/>
+  	<result column="alarm_context" jdbcType="VARCHAR" property="alarmContext" />
+  </resultMap>
   <sql id="Base_Column_List">
     alarm_linkman_id, user_name, project_id, project_name, phone, email, status
   </sql>
@@ -114,4 +123,22 @@
       status = #{status,jdbcType=INTEGER}
     where alarm_linkman_id = #{alarmLinkmanId,jdbcType=INTEGER}
   </update>
+  <select id="selectAlarmLinkMan" resultMap="AlarmResultMap">
+		SELECT C.item_name , R.alarm_type ,
+								R.create_time,R.project_name,R.sensor_number,R.smu_number,R.phone,R.email,R.smu_channel,R.user_name,R.project_id,R.alarm_context
+	FROM sys_code C,(
+		SELECT S.monitor_type ,T.* 
+			FROM sensor S,(
+				SELECT A.alarm_context,A.alarm_type,A.create_time,A.project_name,A.sensor_number,A.smu_number ,M.phone,M.email,M.user_name ,A.project_id,A.smu_channel
+					FROM alarm A LEFT JOIN alarm_linkman M  ON A.project_id=M.project_id  ) T 
+
+									WHERE S.sensor_number = T.sensor_number 
+										AND S.smu_number = T.smu_number AND S.project_id = T.project_id AND S.smu_channel = T.smu_channel 
+											AND ((unix_timestamp(NOW())-unix_timestamp(T.create_time))/60) &lt;=10) R 
+											
+												WHERE R.monitor_type = C.sc_id;
+  </select>
+  
+  
+  
 </mapper>

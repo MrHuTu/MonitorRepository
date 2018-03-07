@@ -82,7 +82,8 @@ public class Alarm implements Serializable {
 	// 数据库不存在该字段，只作为分页时存储每页记录条数数据时使用
 	@ApiModelProperty(value = "分页信息一个的条数")
 	private Integer pageSize;
-
+	
+	private String realName;
 	public Integer getPageNum() {
 		return pageNum;
 	}
@@ -189,6 +190,14 @@ public class Alarm implements Serializable {
 
 	public String getSmuChannel() {
 		return smuChannel;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 
 	public void setSmuChannel(String smuChannel) {

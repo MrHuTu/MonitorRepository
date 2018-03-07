@@ -20,6 +20,7 @@
 	</resultMap>
 	<resultMap id="alarmTypeNametMap" type="com.zhongda.monitor.business.model.Alarm"
 		extends="BaseResultMap">
+		<result column="real_name" jdbcType="VARCHAR" property="realName" />
 		<result column="alarm_type_name" jdbcType="VARCHAR" property="alarmTypeName" />
 		<result column="alarm_status_name" jdbcType="VARCHAR" property="alarmStatusName" />
 	</resultMap>
@@ -222,53 +223,51 @@
 	</update>
 	<select id="selectPageAlarmByQuery" parameterType="java.lang.Integer"
 		resultMap="alarmTypeNametMap">
-		SELECT alarm_id, user_name, project_id, project_name,
-		monitor_point, smu_number
-		, sensor_number,
-		CASE alarm_type WHEN 1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
-		AS 'alarm_type_name',alarm_context, create_time,
-		CASE alarm_status WHEN 0 THEN '未确认' WHEN 1 THEN '已确认' ELSE '数据异常' END AS
+		SELECT A.alarm_id, U.real_name, A.project_id, A.project_name,
+		 A.monitor_point,  A.smu_number
+		,  A.sensor_number,
+		CASE  A.alarm_type WHEN 1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
+		AS 'alarm_type_name', A.alarm_context,  A.create_time,
+		CASE  A.alarm_status WHEN 0 THEN '未确认' WHEN 1 THEN '已确认' ELSE '数据异常' END AS
 		'alarm_status_name'
-		 
-		FROM alarm
-		<where>
+		FROM alarm A, user U WHERE U.user_name = A.user_name 
+		
 			<if test="userId != null">
-				and user_id = #{userId,jdbcType=INTEGER}
+				and A.user_id = #{userId,jdbcType=INTEGER}
 			</if>
 			<if test="userName != null">
-				and user_name = #{userName,jdbcType=VARCHAR}
+				and A.user_name = #{userName,jdbcType=VARCHAR}
 			</if>
 			<if test="projectName != null">
-				and project_name = #{projectName,jdbcType=VARCHAR}
+				and A.project_name = #{projectName,jdbcType=VARCHAR}
 			</if>
 			<if test="monitorPoint != null">
-				and monitor_point = #{monitorPoint,jdbcType=VARCHAR}
+				and A.monitor_point = #{monitorPoint,jdbcType=VARCHAR}
 			</if>
 			<if test="smuNumber != null">
-				and smu_number = #{smuNumber,jdbcType=VARCHAR}
+				and A.smu_number = #{smuNumber,jdbcType=VARCHAR}
 			</if>
 			<if test="sensorNumber != null">
-				and sensor_number = #{sensorNumber,jdbcType=VARCHAR}
+				and A.sensor_number = #{sensorNumber,jdbcType=VARCHAR}
 			</if>
 			<if test="alarmType != null">
-				and alarm_type = #{alarmType,jdbcType=INTEGER}
+				and A.alarm_type = #{alarmType,jdbcType=INTEGER}
 			</if>
 			<if test="alarmContext != null">
-				and alarm_context = #{alarmContext,jdbcType=VARCHAR}
+				and A.alarm_context = #{alarmContext,jdbcType=VARCHAR}
 			</if>
 			<if test="startCreateTime != null">
-				and (create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP})
+				and (A.create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP})
 			</if>
 			<if test="endCreateTime != null">
-				and (create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP})
+				and (A.create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP})
 			</if>
 			<if test="alarmStatus != null">
-				and alarm_status = #{alarmStatus,jdbcType=INTEGER}
+				and A.alarm_status = #{alarmStatus,jdbcType=INTEGER}
 			</if>
 			<if test="alarmLevel != null">
-				and alarm_level = #{alarmLevel,jdbcType=INTEGER}
+				and A.alarm_level = #{alarmLevel,jdbcType=INTEGER}
 			</if>
-		</where>
 		ORDER BY create_time desc
 	</select>
 
