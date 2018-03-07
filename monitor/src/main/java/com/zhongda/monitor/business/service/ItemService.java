@@ -19,9 +19,10 @@ public interface ItemService {
 	ItemAvgData selectItemAvgData(String tableName,String poJoId);
 	
 	/**
-	 * 根据项目ID取全部的表名等消息
+	 * 根据项目ID取全部的日均值
+	 * 是最终返回给前台的数据
 	 * @param poJoId
-	 * @return
+	 * @returnList<ItemAvgData>
 	 */
 	List<ItemAvgData> selectItemAvgDataByPojoId(String poJoId);
 	

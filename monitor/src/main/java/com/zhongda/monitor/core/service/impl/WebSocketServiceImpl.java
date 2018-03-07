@@ -9,7 +9,11 @@ import org.springframework.stereotype.Service;
 import com.zhongda.monitor.business.model.WiselyResponse;
 import com.zhongda.monitor.core.service.WebSocketService;
 
-
+/**
+ * 
+ * @author hucao 2018年3月7日11:26:38
+ *
+ */
 @Service
 public class WebSocketServiceImpl  implements WebSocketService{
 	 @Autowired
