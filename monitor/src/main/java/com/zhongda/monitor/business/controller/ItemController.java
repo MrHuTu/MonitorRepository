@@ -5,15 +5,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,10 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.TokenUtils;
 import com.zhongda.monitor.business.model.ItemAvgData;
-import com.zhongda.monitor.business.model.WiselyResponse;
-import com.zhongda.monitor.business.service.StatisticChartService;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
-import com.zhongda.monitor.core.service.WebSocketService;
 import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
@@ -41,17 +35,8 @@ public class ItemController {
 
 	@Autowired
 	ItemServiceImpl ItemServiceImpl;
-
-	@Autowired
-	StatisticChartService statisticChartService;
-
-	@Autowired
-	WebSocketService webSocketService;
-
-	String token = null;
-	String myPoJoId = null;
-
-	HashMap<String, String> userMsg = new HashMap<String, String>();
+	
+	public static HashMap<String, String> userMsg = new HashMap<String, String>();
 
 	/*
 	 * @GetMapping("/getAllItem")
@@ -81,31 +66,15 @@ public class ItemController {
 	private List<ItemAvgData> getItemAvgData(@RequestParam String poJoId,
 			HttpServletRequest request) {
 		synchronized (request) {
-			token = HeaderUtils.getTokenFromRequest(request);
+			String token = HeaderUtils.getTokenFromRequest(request);
 			User user = TokenUtils.getUserFromeToken(token);
 			String userid = String.valueOf(user.getUserId());
-			myPoJoId = poJoId;
+			String myPoJoId = poJoId;
 			userMsg.put(userid, myPoJoId);
 		}
 
 		return ItemServiceImpl.selectItemAvgDataByPojoId(poJoId);
 	}
 
-	/**
-	 * 这是一个定时任务，基于/getItemAvgData这个请求 对全局变量userMsg里的所有数据进行遍历
-	 * 向发起了该请求的用户提供指定项目的日均值数据
-	 * 
-	 * @throws Exception
-	 */
-	@Scheduled(fixedRate = 1000)
-	public void callback() throws Exception {		
-		Iterator<Entry<String, String>> map = userMsg.entrySet().iterator();
-		while (map.hasNext()) {
-			Entry<String, String> Entry = map.next();
-			String userid = Entry.getKey();
-			String myPoJoId = Entry.getValue();
-			List<ItemAvgData> itemAvgData = ItemServiceImpl.selectItemAvgDataByPojoId(myPoJoId);
-			webSocketService.send2Users(userid, new WiselyResponse(itemAvgData));
-		}
-	}
+	
 }
