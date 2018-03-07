@@ -4,8 +4,6 @@ import io.jsonwebtoken.SignatureException;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -16,6 +14,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.zhongda.monitor.account.model.Permission;
 import com.zhongda.monitor.account.model.Role;
@@ -25,6 +24,7 @@ import com.zhongda.monitor.account.service.RoleService;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.account.utils.TokenUtils;
+import com.zhongda.monitor.core.utils.SpringUtils;
 
 /**
  * Title : StatelessRealm管理(无状态)
@@ -32,23 +32,20 @@ import com.zhongda.monitor.account.utils.TokenUtils;
  * @Author dengzm
  * @Date 2018年1月25日 下午8:29:37
  */
+@Component("statelessRealm")
 public class StatelessRealm extends AuthorizingRealm {
 
 	private static final Logger logger = LoggerFactory.getLogger(StatelessRealm.class);
 	
-	@Resource
 	private TokenService tokenService;
-	 
-    @Resource
+	
     private UserService userService;
-
-    @Resource
-    private RoleService roleService;
-
-    @Resource
-    private PermissionService permissionService;
     
-    @Override
+    private RoleService roleService;
+	
+    private PermissionService permissionService;
+
+	@Override
     public boolean supports(AuthenticationToken token) {
         //表示此Realm只支持JwtToken类型
         return token instanceof StatelessToken;
@@ -59,10 +56,10 @@ public class StatelessRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    	roleService = SpringUtils.getBean(RoleService.class);
+    	permissionService = SpringUtils.getBean(PermissionService.class);
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         User user = (User) principals.getPrimaryPrincipal();
-        String username = user.getUserName();
-        logger.error(username);
         final List<Role> roleInfos = roleService.selectRolesByUserId(user.getUserId());
         for (Role role : roleInfos) {
             // 添加角色
@@ -84,6 +81,8 @@ public class StatelessRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    	tokenService = SpringUtils.getBean(TokenService.class);
+    	userService = SpringUtils.getBean(UserService.class);
     	StatelessToken statelessToken = (StatelessToken) token;
     	User user = TokenUtils.getUserFromeToken(statelessToken.getToken());
     	if (null == user || null == user.getUserName()) { 

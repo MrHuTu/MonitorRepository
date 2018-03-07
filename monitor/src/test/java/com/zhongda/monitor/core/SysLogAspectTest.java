@@ -1,4 +1,4 @@
-package com.zhongda.monitor;
+package com.zhongda.monitor.core;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,23 +7,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.zhongda.monitor.account.service.UserService;
-import com.zhongda.monitor.business.service.ItemService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
-public class MonitorApplicationTests {
+@SpringBootTest
+public class SysLogAspectTest {
 	
 	@Autowired
-    private UserService userService;
-	
-	@Autowired
-    private ItemService itemService;
+	private UserService userService;
 	
 	@Test
-	public void contextLoads() {
+	public void findUserNameTest() {
 		userService.selectByUserName("admin");
-		System.out.println(userService.getClass());
-		System.out.println(itemService.getClass());
 	}
-
 }

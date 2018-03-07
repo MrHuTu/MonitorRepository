@@ -1,0 +1,19 @@
+                                                                                                                                                                                                                                                                       
+MMMMMMMM               MMMMMMMM                                     iiii           tttt                                               
+M:::::::M             M:::::::M                                    i::::i       ttt:::t                                               
+M::::::::M           M::::::::M                                     iiii        t:::::t                                               
+M:::::::::M         M:::::::::M                                                 t:::::t                                               
+M::::::::::M       M::::::::::M   ooooooooooo   nnnn  nnnnnnnn    iiiiiii ttttttt:::::ttttttt       ooooooooooo   rrrrr   rrrrrrrrr   
+M:::::::::::M     M:::::::::::M oo:::::::::::oo n:::nn::::::::nn  i:::::i t:::::::::::::::::t     oo:::::::::::oo r::::rrr:::::::::r  
+M:::::::M::::M   M::::M:::::::Mo:::::::::::::::on::::::::::::::nn  i::::i t:::::::::::::::::t    o:::::::::::::::or:::::::::::::::::r 
+M::::::M M::::M M::::M M::::::Mo:::::ooooo:::::onn:::::::::::::::n i::::i tttttt:::::::tttttt    o:::::ooooo:::::orr::::::rrrrr::::::r
+M::::::M  M::::M::::M  M::::::Mo::::o     o::::o  n:::::nnnn:::::n i::::i       t:::::t          o::::o     o::::o r:::::r     r:::::r
+M::::::M   M:::::::M   M::::::Mo::::o     o::::o  n::::n    n::::n i::::i       t:::::t          o::::o     o::::o r:::::r     rrrrrrr
+M::::::M    M:::::M    M::::::Mo::::o     o::::o  n::::n    n::::n i::::i       t:::::t          o::::o     o::::o r:::::r            
+M::::::M     MMMMM     M::::::Mo::::o     o::::o  n::::n    n::::n i::::i       t:::::t    tttttto::::o     o::::o r:::::r            
+M::::::M               M::::::Mo:::::ooooo:::::o  n::::n    n::::ni::::::i      t::::::tttt:::::to:::::ooooo:::::o r:::::r            
+M::::::M               M::::::Mo:::::::::::::::o  n::::n    n::::ni::::::i      tt::::::::::::::to:::::::::::::::o r:::::r            
+M::::::M               M::::::M oo:::::::::::oo   n::::n    n::::ni::::::i        tt:::::::::::tt oo:::::::::::oo  r:::::r            
+MMMMMMMM               MMMMMMMM   ooooooooooo     nnnnnn    nnnnnniiiiiiii          ttttttttttt     ooooooooooo    rrrrrrr            
+                                                                                                                                      
+                                            (version: monitor-0.0.1-SNAPSHOT)                                                                                                                                                                                                                                                                                                                                                                                                                

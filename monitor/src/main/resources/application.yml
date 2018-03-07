@@ -78,6 +78,7 @@ spring:
       
   # 开启cglib动态代理    
   aop:
+    auto: true
     proxy-target-class: true
           
   #邮箱配置

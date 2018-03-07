@@ -10,12 +10,12 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zhongda.monitor.account.model.User;
-import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.annotation.SysLogAnnotation;
 import com.zhongda.monitor.core.model.SysLog;
 import com.zhongda.monitor.core.service.SysLogService;
@@ -30,6 +30,8 @@ import com.zhongda.monitor.core.service.SysLogService;
 @Component(value="sysLogAspect")
 public class SysLogAspect {
 	
+	private final static Logger logger = LoggerFactory.getLogger(SysLogAspect.class);
+	
 	@Resource
 	private SysLogService sysLogService;
 	
@@ -37,7 +39,7 @@ public class SysLogAspect {
 	private ObjectMapper objectMapper;
 	
 	@Pointcut("@annotation(com.zhongda.monitor.core.annotation.SysLogAnnotation)")
-	public void logPointCut() { 
+	public void logPointCut() {
 		
 	}
 	
@@ -47,6 +49,7 @@ public class SysLogAspect {
 		Method method = signature.getMethod();
 		
 		SysLog sysLog = new SysLog();
+		logger.error("log=---------------------------------------------------");
 		SysLogAnnotation sysLogAnnotation = method.getAnnotation(SysLogAnnotation.class);
 		if(sysLogAnnotation != null){
 			//注解上的描述 
@@ -66,14 +69,16 @@ public class SysLogAspect {
 		}
 		
 		//用户名
-		User user = ShiroUtils.getUser();
+		/*User user = ShiroUtils.getUser();
 		
 		sysLog.setUserId(user.getUserId());
-		sysLog.setUserName(user.getUserName());
+		sysLog.setUserName(user.getUserName());*/
 		
 		sysLog.setCreateDate(new Date());
 		//保存系统日志
-		sysLogService.insertSysLog(sysLog);
+		//sysLogService.insertSysLog(sysLog);
+		
+		logger.error("log=++++++++++++++++++++++++++++++++++++");
 	}
 	
 }

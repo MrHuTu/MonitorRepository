@@ -9,12 +9,12 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -53,9 +53,9 @@ public class ShiroConfig {
 	
 	/**
 	 * shiro安全认证授权realm
-	 */
-	@Bean(name = "statelessRealm")
-	public AuthorizingRealm getAuthorizingRealm() {
+	 **/
+	@ConditionalOnMissingBean(StatelessRealm.class)
+	public StatelessRealm getAuthorizingRealm() {
 		return new StatelessRealm();
 	}
 	

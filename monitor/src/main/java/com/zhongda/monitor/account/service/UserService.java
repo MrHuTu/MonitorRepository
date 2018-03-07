@@ -64,5 +64,4 @@ public interface UserService {
 	 * @param phone 手机号码
 	 */
 	boolean validPhone(String phone);
-	
 }
