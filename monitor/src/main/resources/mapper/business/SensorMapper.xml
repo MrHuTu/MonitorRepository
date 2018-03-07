@@ -69,7 +69,7 @@
   </select>
   <select id="selectLastData" resultMap="SensorDataMap">
 	SELECT
-		mmap.monitor_point,mmap.smu_number as sen_smu_number,mmap.smu_channel as sen_smu_channel,mmap.sensor_number as sen_sensor_number,datas.total_laser_change,datas.speed_change,datas.sensor_status
+		mmap.monitor_point,mmap.smu_number as sen_smu_number,mmap.smu_channel as sen_smu_channel,mmap.sensor_number as sen_sensor_number,datas.current_data,datas.total_laser_change,datas.speed_change,datas.sensor_status
 	FROM
 		(
 			SELECT
