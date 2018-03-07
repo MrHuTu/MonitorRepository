@@ -25,9 +25,11 @@
 		<result column="alarm_status_name" jdbcType="VARCHAR" property="alarmStatusName" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		alarm_id, user_id, user_name, project_id, project_name, monitor_point,
+		alarm_id, user_id, user_name, project_id, project_name,
+		monitor_point,
 		smu_number,
-		smu_channel, sensor_number, alarm_type, alarm_context, create_time, alarm_status,
+		smu_channel, sensor_number, alarm_type,
+		alarm_context, create_time, alarm_status,
 		alarm_level, frequency
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
@@ -42,18 +44,23 @@
 		where alarm_id = #{alarmId,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.zhongda.monitor.business.model.Alarm">
-		insert into alarm (alarm_id, user_id, user_name,
+		insert into alarm (alarm_id,
+		user_id, user_name,
 		project_id, project_name, monitor_point,
 		smu_number, smu_channel, sensor_number,
-		alarm_type, alarm_context, create_time,
+		alarm_type, alarm_context,
+		create_time,
 		alarm_status, alarm_level, frequency
 		)
-		values (#{alarmId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
+		values
+		(#{alarmId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER},
 		#{userName,jdbcType=VARCHAR},
-		#{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{monitorPoint,jdbcType=VARCHAR},
+		#{projectId,jdbcType=INTEGER},
+		#{projectName,jdbcType=VARCHAR}, #{monitorPoint,jdbcType=VARCHAR},
 		#{smuNumber,jdbcType=VARCHAR}, #{smuChannel,jdbcType=VARCHAR},
 		#{sensorNumber,jdbcType=VARCHAR},
-		#{alarmType,jdbcType=INTEGER}, #{alarmContext,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+		#{alarmType,jdbcType=INTEGER},
+		#{alarmContext,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
 		#{alarmStatus,jdbcType=INTEGER}, #{alarmLevel,jdbcType=INTEGER},
 		#{frequency,jdbcType=INTEGER}
 		)
@@ -205,76 +212,96 @@
 	</update>
 	<update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.Alarm">
 		update alarm
-		set user_id = #{userId,jdbcType=INTEGER},
-		user_name = #{userName,jdbcType=VARCHAR},
-		project_id = #{projectId,jdbcType=INTEGER},
-		project_name = #{projectName,jdbcType=VARCHAR},
-		monitor_point = #{monitorPoint,jdbcType=VARCHAR},
-		smu_number = #{smuNumber,jdbcType=VARCHAR},
-		smu_channel = #{smuChannel,jdbcType=VARCHAR},
-		sensor_number = #{sensorNumber,jdbcType=VARCHAR},
-		alarm_type = #{alarmType,jdbcType=INTEGER},
-		alarm_context = #{alarmContext,jdbcType=VARCHAR},
-		create_time = #{createTime,jdbcType=TIMESTAMP},
-		alarm_status = #{alarmStatus,jdbcType=INTEGER},
-		alarm_level = #{alarmLevel,jdbcType=INTEGER},
-		frequency = #{frequency,jdbcType=INTEGER}
-		where alarm_id = #{alarmId,jdbcType=INTEGER}
+		set
+		user_id = #{userId,jdbcType=INTEGER},
+		user_name =
+		#{userName,jdbcType=VARCHAR},
+		project_id =
+		#{projectId,jdbcType=INTEGER},
+		project_name =
+		#{projectName,jdbcType=VARCHAR},
+		monitor_point =
+		#{monitorPoint,jdbcType=VARCHAR},
+		smu_number =
+		#{smuNumber,jdbcType=VARCHAR},
+		smu_channel =
+		#{smuChannel,jdbcType=VARCHAR},
+		sensor_number =
+		#{sensorNumber,jdbcType=VARCHAR},
+		alarm_type =
+		#{alarmType,jdbcType=INTEGER},
+		alarm_context =
+		#{alarmContext,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		alarm_status =
+		#{alarmStatus,jdbcType=INTEGER},
+		alarm_level =
+		#{alarmLevel,jdbcType=INTEGER},
+		frequency =
+		#{frequency,jdbcType=INTEGER}
+		where alarm_id =
+		#{alarmId,jdbcType=INTEGER}
 	</update>
 	<select id="selectPageAlarmByQuery" parameterType="java.lang.Integer"
 		resultMap="alarmTypeNametMap">
 		SELECT A.alarm_id, U.real_name, A.project_id, A.project_name,
-		 A.monitor_point,  A.smu_number
-		,  A.sensor_number,
-		CASE  A.alarm_type WHEN 1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
-		AS 'alarm_type_name', A.alarm_context,  A.create_time,
-		CASE  A.alarm_status WHEN 0 THEN '未确认' WHEN 1 THEN '已确认' ELSE '数据异常' END AS
+		A.monitor_point, A.smu_number
+		, A.sensor_number,
+		CASE A.alarm_type WHEN
+		1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
+		AS
+		'alarm_type_name', A.alarm_context, A.create_time,
+		CASE A.alarm_status
+		WHEN 0 THEN '未确认' WHEN 1 THEN '已确认' ELSE '数据异常' END AS
 		'alarm_status_name'
-		FROM alarm A, user U WHERE U.user_name = A.user_name 
-		
-			<if test="userId != null">
-				and A.user_id = #{userId,jdbcType=INTEGER}
-			</if>
-			<if test="userName != null">
-				and A.user_name = #{userName,jdbcType=VARCHAR}
-			</if>
-			<if test="projectName != null">
-				and A.project_name = #{projectName,jdbcType=VARCHAR}
-			</if>
-			<if test="monitorPoint != null">
-				and A.monitor_point = #{monitorPoint,jdbcType=VARCHAR}
-			</if>
-			<if test="smuNumber != null">
-				and A.smu_number = #{smuNumber,jdbcType=VARCHAR}
-			</if>
-			<if test="sensorNumber != null">
-				and A.sensor_number = #{sensorNumber,jdbcType=VARCHAR}
-			</if>
-			<if test="alarmType != null">
-				and A.alarm_type = #{alarmType,jdbcType=INTEGER}
-			</if>
-			<if test="alarmContext != null">
-				and A.alarm_context = #{alarmContext,jdbcType=VARCHAR}
-			</if>
-			<if test="startCreateTime != null">
-				and (A.create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP})
-			</if>
-			<if test="endCreateTime != null">
-				and (A.create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP})
-			</if>
-			<if test="alarmStatus != null">
-				and A.alarm_status = #{alarmStatus,jdbcType=INTEGER}
-			</if>
-			<if test="alarmLevel != null">
-				and A.alarm_level = #{alarmLevel,jdbcType=INTEGER}
-			</if>
+		FROM alarm A, user U WHERE U.user_name =
+		A.user_name
+
+		<if test="userId != null">
+			and A.user_id = #{userId,jdbcType=INTEGER}
+		</if>
+		<if test="userName != null">
+			and A.user_name = #{userName,jdbcType=VARCHAR}
+		</if>
+		<if test="projectName != null">
+			and A.project_name = #{projectName,jdbcType=VARCHAR}
+		</if>
+		<if test="monitorPoint != null">
+			and A.monitor_point = #{monitorPoint,jdbcType=VARCHAR}
+		</if>
+		<if test="smuNumber != null">
+			and A.smu_number = #{smuNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="sensorNumber != null">
+			and A.sensor_number = #{sensorNumber,jdbcType=VARCHAR}
+		</if>
+		<if test="alarmType != null">
+			and A.alarm_type = #{alarmType,jdbcType=INTEGER}
+		</if>
+		<if test="alarmContext != null">
+			and A.alarm_context = #{alarmContext,jdbcType=VARCHAR}
+		</if>
+		<if test="startCreateTime != null">
+			and (A.create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP})
+		</if>
+		<if test="endCreateTime != null">
+			and (A.create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP})
+		</if>
+		<if test="alarmStatus != null">
+			and A.alarm_status = #{alarmStatus,jdbcType=INTEGER}
+		</if>
+		<if test="alarmLevel != null">
+			and A.alarm_level = #{alarmLevel,jdbcType=INTEGER}
+		</if>
 		ORDER BY create_time desc
 	</select>
 
 	<update id="updateAlarmStatusByAlarmId">
 		update alarm
 		set alarm_status = 1
-		where alarm_id = #{alarmId,jdbcType=INTEGER}
+		where alarm_id =
+		#{alarmId,jdbcType=INTEGER}
 	</update>
 	<delete id="deleteAlarm" parameterType="com.zhongda.monitor.business.model.Alarm">
 		delete from alarm
@@ -309,5 +336,18 @@
 			</if>
 		</where>
 	</delete>
+	<select id="alarmCount" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		SELECT
+			COUNT(alarm_id)
+		FROM
+			alarm
+		WHERE
+			 alarm_status = 0;
+				<if test="userId !=null">
+					and  user_id = #{userId,jdbcType=INTEGER}
+				</if>
+			
+	</select>
 </mapper>
 	      

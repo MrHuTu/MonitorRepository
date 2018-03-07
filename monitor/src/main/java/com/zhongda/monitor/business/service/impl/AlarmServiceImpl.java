@@ -76,5 +76,16 @@ public class AlarmServiceImpl implements AlarmService{
 
 
 
+	@Override
+	public Result<Integer> alarmCount(Integer userId) {
+		
+		 Result<Integer > result = new Result<Integer>();
+		 int num =alarmMapper.alarmCount(userId);
+		 result.success("查询成功", num);
+		 return result;
+	}
+
+
+
 
 }

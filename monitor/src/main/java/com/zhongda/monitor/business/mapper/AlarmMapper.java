@@ -35,5 +35,8 @@ public interface AlarmMapper {
 	  * 按条件删除告警信息
 	  */
 	 int deleteAlarm(Alarm alarm);
-	
+	 /**
+	  * 统计当前用户下未确认的告警信息总条数
+	  */
+	 int alarmCount(Integer userId);
 }

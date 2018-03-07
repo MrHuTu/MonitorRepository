@@ -74,5 +74,20 @@ public class AlarmController {
 		
 		return alarmService.deleteAlarm(alarm);
 	}
-
+	@GetMapping("/queryAlarmCount")
+	@ApiOperation(value = "统计当前用户下的所有未确认的告警条数", httpMethod = "GET", response = Result.class, notes = "统计当前用户下的所有未确认的告警条数")
+	public Result<Integer> selectAlarmCount( HttpServletRequest request ){
+		
+		User user = new User();
+		Subject subject = SecurityUtils.getSubject();
+		if (!subject.hasRole(RoleSign.ADMIN)
+				&& !subject.hasRole(RoleSign.SUPER_ADMIN)) {
+			// 非管理员用户，只可查看自己的告警信息，查询条件增加userId
+			String token = HeaderUtils.getTokenFromRequest(request);
+			user = TokenUtils.getUserFromeToken(token);
+		}
+		
+		return alarmService.alarmCount(user.getUserId());
+	}
+	
 }
