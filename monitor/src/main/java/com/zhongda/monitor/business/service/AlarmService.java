@@ -31,7 +31,7 @@ public interface AlarmService {
 	/**
 	 * 根据条件删除alarm信息
 	 */
-	Result<String> deleteAlarm(Alarm alarm);
+	Result<String> deleteAlarm(Alarm alarm, Integer number);
 	/**
 	  * 统计当前用户下未确认的告警信息总条数
 	  */

@@ -1,5 +1,7 @@
 package com.zhongda.monitor.account.mapper;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.zhongda.monitor.account.model.User;
 
 public interface UserMapper {
@@ -14,6 +16,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
-
+    
+    @Cacheable(cacheNames = "userCache")
 	User selectByUserName(String userName);
 }

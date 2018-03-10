@@ -12,6 +12,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface SysLogAnnotation {
-
+	
+	/**
+	 * 可添加占位符，解析时会以对应顺序的参数替换
+	 * 占位符格式${1},大括号的数字代表该方法传入参数的索引值,索引值从0开始
+	 */
 	String value() default "";
+
 }

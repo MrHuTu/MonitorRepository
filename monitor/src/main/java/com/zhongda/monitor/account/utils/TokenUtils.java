@@ -6,12 +6,17 @@ import io.jsonwebtoken.impl.TextCodec;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.exception.NoStatelessTokenException;
-import com.zhongda.monitor.account.model.User;
+import com.zhongda.monitor.account.security.StatelessToken;
+import com.zhongda.monitor.core.utils.SpringUtils;
 
 /**
  * Title : TokenUtils管理
@@ -23,7 +28,31 @@ public class TokenUtils {
 	
 	private static final Logger logger = Logger.getLogger(TokenUtils.class);
 	
-	private static ObjectMapper objectMapper = new ObjectMapper();
+	private static ObjectMapper objectMapper = SpringUtils.getBean(ObjectMapper.class);
+	
+	/**
+	 * 获取当前请求的token字符串
+	 * @return 返回token字符串
+	 */
+	public static String getToken(){
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		return getTokenFromRequest(request);
+	}
+	
+	/**
+	 * 获取请求头中的token字符串
+	 * @param request 请求头
+	 * @return 返回token字符串
+	 */
+	public static String getTokenFromRequest(HttpServletRequest request){
+		String authorization = request.getHeader(StatelessToken.DEFAULT_TOKEN_NAME);
+		if (null != authorization && authorization.startsWith(StatelessToken.TOKEN_HEADER_PREFIX)){
+			//截取token得到jwt格式的token信息
+			return authorization.substring(StatelessToken.TOKEN_HEADER_PREFIX.length() + 1);
+		}
+		return null;
+	}
+	
 	/**
 	 * 解析token，返回token的payload部分
 	 * @param token
@@ -37,8 +66,7 @@ public class TokenUtils {
 			if(tokenArray.length != 3){
 				throw new MalformedJwtException("token令牌格式错误,验证失败...");
 			}else{
-				String payload = TextCodec.BASE64URL.decodeToString(tokenArray[1]);
-				return payload;
+				return TextCodec.BASE64URL.decodeToString(tokenArray[1]);
 			}
 		}
 	}
@@ -55,22 +83,6 @@ public class TokenUtils {
 			return objectMapper.readValue(tokenBody, javaType);
 		} catch (IOException e) {
 			logger.error("解析token的荷载部分失败,解码后的json字符串不能转换成Map集合" + e.getMessage());
-			return null;
-		}
-	}
-	
-    /**
-     * 获取token中的用户信息
-     * @param token 传入的token
-     * @return User user对象
-     */
-	public static User getUserFromeToken(String token){
-		Map<String, Object> claims = getClaimsFromeToken(token);
-		String userJsonString = (String) claims.get("userJsonString");
-		try {
-			return objectMapper.readValue(userJsonString, User.class);
-		} catch (IOException e) {
-			logger.error("解析token的荷载部分的用户信息失败失败,json字符串不能转换成User对象" + e.getMessage());
 			return null;
 		}
 	}

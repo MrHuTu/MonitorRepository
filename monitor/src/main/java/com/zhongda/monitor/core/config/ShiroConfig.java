@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.Filter;
 
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -71,12 +70,12 @@ public class ShiroConfig {
 	/**
 	 * shiro缓存管理器,使用Ehcache实现
 	 */
-	@Bean(name = "shiroEhcacheManager")
+	/*@Bean(name = "shiroEhcacheManager")
 	public EhCacheManager getEhCacheManager() {
 		EhCacheManager ehCacheManager = new EhCacheManager();
 		ehCacheManager.setCacheManagerConfigFile("classpath:ehcache/ehcache-shiro.xml");
 		return ehCacheManager;
-	}
+	}*/
 	
 	/**
 	 * shiro会话管理器
@@ -99,7 +98,7 @@ public class ShiroConfig {
 		// 替换默认的DefaultSubjectFactory，用于关闭session功能
         securityManager.setSubjectFactory(getSubjectFactory());
         securityManager.setSessionManager(getDefaultWebSessionManager());
-		securityManager.setCacheManager(getEhCacheManager());
+		//securityManager.setCacheManager(getEhCacheManager());
 		// 关闭session存储，禁用Session作为存储策略的实现，但它没有完全地禁用Session所以需要配合SubjectFactory中的context.setSessionCreationEnabled(false)
         ((DefaultSessionStorageEvaluator) ((DefaultSubjectDAO)securityManager.getSubjectDAO()).getSessionStorageEvaluator()).setSessionStorageEnabled(false);
         SecurityUtils.setSecurityManager(securityManager);

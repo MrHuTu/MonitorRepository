@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
-import com.zhongda.monitor.account.utils.TokenUtils;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
  * 
@@ -45,9 +43,9 @@ public class ProjectController {
 
 	@GetMapping("/home")
 	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "加载首页的数据")
-	public Result<Map<String, Object>> loadMap(HttpServletRequest request) {
-		String token = HeaderUtils.getTokenFromRequest(request);
-		User user = TokenUtils.getUserFromeToken(token);
+	public Result<Map<String, Object>> loadMap() {
+		User user = ShiroUtils.getCurrentUser();
+		System.out.println(user.getUserName());
 		return new Result<Map<String, Object>>().success("操作成功",
 				projectService.loadHome(user.getUserId()));
 
@@ -55,9 +53,8 @@ public class ProjectController {
 
 	@GetMapping(value = "/queryProjects")
 	@ApiOperation(value = "项目数据", httpMethod = "GET", response = Result.class, notes = "查询用户下的所有项目")
-	public Result<List<Project>> queryProject(HttpServletRequest request) {
-		String token = HeaderUtils.getTokenFromRequest(request);
-		User user = TokenUtils.getUserFromeToken(token);
+	public Result<List<Project>> queryProject() {
+		User user = ShiroUtils.getCurrentUser();
 		return new Result<List<Project>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
 				.setData(projectService.queryProjectByUserId(user.getUserId()));
@@ -75,9 +72,8 @@ public class ProjectController {
 	
 	@GetMapping("/getAllProject")
 	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息")
-	private List<Project> getAllProject(HttpServletRequest request){
-		String token = HeaderUtils.getTokenFromRequest(request);
-		User user = TokenUtils.getUserFromeToken(token);
+	private List<Project> getAllProject(){
+		User user = ShiroUtils.getCurrentUser();
 		int userId = user.getUserId();
 		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
 	//	projectSelectCondition.setUserId(userId);

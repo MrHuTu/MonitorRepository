@@ -2,6 +2,8 @@ package com.zhongda.monitor.account.mapper;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.zhongda.monitor.account.model.Role;
 
 public interface RoleMapper {
@@ -16,7 +18,8 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
-
+    
+    @Cacheable(cacheNames = "roleCache")
 	List<Role> selectRolesByUserId(Integer userId);
 
 	List<Role> selectAllRoles();

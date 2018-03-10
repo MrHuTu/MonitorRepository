@@ -1,7 +1,12 @@
 package com.zhongda.monitor.account.model;
 
-public class Role {
-    private Integer roleId;
+import java.io.Serializable;
+
+public class Role implements Serializable{
+   
+	private static final long serialVersionUID = 1L;
+
+	private Integer roleId;
 
     private String roleName;
 

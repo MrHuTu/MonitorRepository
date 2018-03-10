@@ -69,7 +69,7 @@ public class SwaggerConfig {
 		List<Parameter> paramList = new ArrayList<Parameter>();
 		tokenParam
 				.name("Authorization")
-				.defaultValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjAyMTg1MTIsInVzZXJKc29uU3RyaW5nIjoie1widXNlcklkXCI6MyxcInVzZXJOYW1lXCI6XCJhZG1pblwiLFwicGFzc3dvcmRcIjpudWxsLFwicGhvbmVcIjpcIjE4NjA4NDc5NDY3XCIsXCJlbWFpbFwiOlwiMTAxMTU5MjI4OEBxcS5jb21cIixcImNvbXBhbnlcIjpcIuS4reWkp-ajgOa1i1wiLFwicmVhbE5hbWVcIjpcImFkbWluXCIsXCJjcmVhdGVUaW1lXCI6XCIyMDE3LTA5LTI1IDE5OjQ1OjMyXCIsXCJzdGF0dXNcIjpcIuato-W4uFwifSIsImV4cCI6MTUyMDgyMzMxMn0.sBSHNKneaBQuRtlHZGZe9bDG2XyjN_d59dSl42vFFyk")
+				.defaultValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjA2Nzc4MjcsImV4cCI6MTUyMTI4MjYyNywidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6M30.aXQEsNIqjlTH2SPLY-ImEt_qmrAChlu-m9cEGrr2s-k")
 				.description("Token令牌( " + StatelessToken.TOKEN_HEADER_PREFIX + " 开头)")
 				.modelRef(new ModelRef("string")).parameterType("header")
 				.required(false).build();

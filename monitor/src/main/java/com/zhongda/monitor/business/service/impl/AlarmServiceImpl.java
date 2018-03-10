@@ -63,7 +63,7 @@ public class AlarmServiceImpl implements AlarmService{
 
 
 	@Override
-	public Result<String> deleteAlarm(Alarm alarm) {
+	public Result<String> deleteAlarm(Alarm alarm, Integer number) {
 		 int num =alarmMapper.deleteAlarm(alarm);
 		 Result<String > result = new Result<String>();
 		if(num != 0){

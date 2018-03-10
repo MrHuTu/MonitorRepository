@@ -1,11 +1,15 @@
 package com.zhongda.monitor.account.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-public class User {
-    private Integer userId;
+public class User implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
+	private Integer userId;
 
     private String userName;
 

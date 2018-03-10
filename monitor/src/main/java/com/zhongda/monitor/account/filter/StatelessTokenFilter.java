@@ -7,6 +7,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.AccessControlFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.security.StatelessToken;
+import com.zhongda.monitor.account.utils.ShiroUtils;
+import com.zhongda.monitor.account.utils.TokenUtils;
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
  * Title: 跨域访问处理(跨域资源共享) 
@@ -69,16 +71,27 @@ public class StatelessTokenFilter extends AccessControlFilter {
      */
 	@Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		HttpServletRequest req = (HttpServletRequest) request;
-		if(null != HeaderUtils.getTokenFromRequest(req)){
+		String token = TokenUtils.getTokenFromRequest((HttpServletRequest) request);
+		if(null != token){
+			//1、验证该token是否登录过
+			if(!ShiroUtils.isLogin(token)){
+				this.onLoginFail(response, "无权访问，请先登录！");
+		        return false;
+			}
 			//2、生成无状态Token
-            StatelessToken statelessToken = new StatelessToken(HeaderUtils.getTokenFromRequest(req));
+            StatelessToken statelessToken = new StatelessToken(token);
             try {
-                //3、委托给Realm进行登录
+                //3、委托给Realm进行验证
                 super.getSubject(request, response).login(statelessToken);
-            } catch (Exception e) {
-                //4、登录失败
+            } catch (AuthenticationException e) {
+                //4、验证失败
+            	logger.warn(e.getMessage());
                 onLoginFail(response, "认证失败,token无效或已失效，请重试或者重新登录！");
+                return false;
+            } catch (Exception e) {
+            	//4、验证失败
+            	logger.warn(e.getMessage());
+                onLoginFail(response, "系统错误->" + e.getMessage());
                 return false;
             }
             return true;

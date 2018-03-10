@@ -1,7 +1,5 @@
 package com.zhongda.monitor.account.security;
 
-import io.jsonwebtoken.SignatureException;
-
 import java.util.List;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,8 +10,6 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.zhongda.monitor.account.model.Permission;
@@ -23,7 +19,7 @@ import com.zhongda.monitor.account.service.PermissionService;
 import com.zhongda.monitor.account.service.RoleService;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
-import com.zhongda.monitor.account.utils.TokenUtils;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.utils.SpringUtils;
 
 /**
@@ -35,7 +31,7 @@ import com.zhongda.monitor.core.utils.SpringUtils;
 @Component("statelessRealm")
 public class StatelessRealm extends AuthorizingRealm {
 
-	private static final Logger logger = LoggerFactory.getLogger(StatelessRealm.class);
+	//private static final Logger logger = LoggerFactory.getLogger(StatelessRealm.class);
 	
 	private TokenService tokenService;
 	
@@ -63,13 +59,10 @@ public class StatelessRealm extends AuthorizingRealm {
         final List<Role> roleInfos = roleService.selectRolesByUserId(user.getUserId());
         for (Role role : roleInfos) {
             // 添加角色
-        	logger.info(role.toString());
             authorizationInfo.addRole(role.getRoleSign());
-
             final List<Permission> permissions = permissionService.selectPermissionsByRoleId(role.getRoleId());
             for (Permission permission : permissions) {
                 // 添加权限
-            	logger.info(permission.toString());
                 authorizationInfo.addStringPermission(permission.getPermissionSign());
             }
         }
@@ -80,21 +73,21 @@ public class StatelessRealm extends AuthorizingRealm {
      * 登录验证
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) {
     	tokenService = SpringUtils.getBean(TokenService.class);
     	userService = SpringUtils.getBean(UserService.class);
     	StatelessToken statelessToken = (StatelessToken) token;
-    	User user = TokenUtils.getUserFromeToken(statelessToken.getToken());
+    	User user = ShiroUtils.getUserFromToken(statelessToken.getToken());
     	if (null == user || null == user.getUserName()) { 
-    		throw new SignatureException("token令牌失效，请重新申请！"); 
+    		throw new AuthenticationException("用户名错误"); 
     	} 
 		// 通过数据库进行验证
         user = userService.selectByUserName(user.getUserName());
         if (null == user || "禁用".equals(user.getStatus())) {
-            throw new SignatureException("token令牌失效，请重新申请！");
+            throw new AuthenticationException("用户已经被禁用");
         }
-    	if (!tokenService.checkToken(statelessToken.getToken(), user.getPassword())) { 
-    		throw new SignatureException("token令牌失效，请重新申请！"); 
+    	if (!tokenService.checkToken(statelessToken.getToken(), user.getPassword())) {
+    		throw new AuthenticationException("token令牌失效，请重新申请！"); 
     	} 
         return  new SimpleAuthenticationInfo(user, statelessToken.getToken(), getName());
     }

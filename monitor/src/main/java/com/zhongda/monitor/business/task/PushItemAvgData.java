@@ -7,7 +7,6 @@ import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Controller;
 
 import com.zhongda.monitor.business.controller.ItemController;
 import com.zhongda.monitor.business.model.ItemAvgData;
@@ -20,7 +19,7 @@ import com.zhongda.monitor.core.service.WebSocketService;
  * @author huchao 2018年3月7日11:51:38
  * 项目日均值实时数据推送   
  */
-@Controller
+//@Component
 public class PushItemAvgData {
 	@Autowired
 	ItemServiceImpl ItemServiceImpl;

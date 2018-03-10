@@ -7,8 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
-import com.zhongda.monitor.account.utils.TokenUtils;
+import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.model.ItemAvgData;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
-import com.zhongda.monitor.core.utils.HeaderUtils;
 
 /**
  * 
@@ -63,16 +60,13 @@ public class ItemController {
 	@GetMapping("/getItemAvgData")
 	@ApiOperation(value = "项目信息", notes = "项目各测点平局值和平局变化率/ {支持websocket实时数据  路径:user/userid/msg,在访问websocket的时候要通过/getItemAvgData这个链接传递当前点击的poJoId,其中userid是指当前用户的userId} ", code = 200, produces = "application/json", httpMethod = "GET")
 	@ApiImplicitParam(paramType = "query", name = "poJoId", value = "项目ID", required = true, dataType = "String")
-	private List<ItemAvgData> getItemAvgData(@RequestParam String poJoId,
-			HttpServletRequest request) {
-		synchronized (request) {
-			String token = HeaderUtils.getTokenFromRequest(request);
-			User user = TokenUtils.getUserFromeToken(token);
+	private List<ItemAvgData> getItemAvgData(@RequestParam String poJoId) {
+		synchronized (this.getClass()) {
+			User user = ShiroUtils.getCurrentUser();
 			String userid = String.valueOf(user.getUserId());
 			String myPoJoId = poJoId;
 			userMsg.put(userid, myPoJoId);
 		}
-
 		return ItemServiceImpl.selectItemAvgDataByPojoId(poJoId);
 	}
 

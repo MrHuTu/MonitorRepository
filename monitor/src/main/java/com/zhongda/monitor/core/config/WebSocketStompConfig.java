@@ -41,7 +41,7 @@ public class WebSocketStompConfig extends
 	 */
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		logger.info("服务器启动成功！");
+		logger.debug("加载websocket！");
 		// 设置服务器广播消息的基础路径,这句话表示在topic和queue这两个域上服务端可以向客户端发消息
 		// enableStompBrokerRelay是代理前缀，而返回的消息将会路由到代理上，所有订阅该代理的将收到响应的消息。
 //		registry.enableStompBrokerRelay("/topic", "/queue")

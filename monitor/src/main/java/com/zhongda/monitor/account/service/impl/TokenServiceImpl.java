@@ -1,19 +1,23 @@
 package com.zhongda.monitor.account.service.impl;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mobile.device.Device;
@@ -21,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.service.TokenService;
+import com.zhongda.monitor.core.model.Result;
+import com.zhongda.monitor.core.utils.CacheUtils;
 
 /**
  * Title: Token的业务实现类
@@ -36,10 +42,8 @@ public class TokenServiceImpl implements TokenService{
 	@Resource
 	private ObjectMapper objectMapper;
 	
-	/** 创建时间标志 */
-	static final String CLAIM_KEY_CREATED = "created"; 
 	/** 过期时间标志 */
-	static final String CLAIM_KEY_EXPIRATiON = "jwtExpTime";
+	static final String CLAIM_KEY_EXPIRATiON = "exp";
 	/** 未知 */
 	private static final String AUDIENCE_UNKNOWN = "unknown";
 	/** PC端  */
@@ -57,25 +61,11 @@ public class TokenServiceImpl implements TokenService{
 	public String createToken(Map<String, Object> claims, String password) {
 		return createJsonWebToken(claims, null, password);
 	}
-	
-	@Override
-	public String createToken(String userJsonData, String password) {
-		Map<String, Object> claims = new HashMap<String, Object>();
-		claims.put("userJsonString", userJsonData);
-		return createToken(claims, password);
-	}
 
 	@Override
 	public String createToken(Map<String, Object> claims, Device device, String password) {
 		return createJsonWebToken(claims, device, password);
 	}
-	
-	@Override
-	public String createToken(String userJsonData, Device device, String password) {
-		Map<String, Object> claims = new HashMap<String, Object>();
-		claims.put("userJsonString", userJsonData);
-		return createToken(claims, device, password);
-	}	
 	
 	/**
 	 * 创建一个JsonWebToken
@@ -87,15 +77,22 @@ public class TokenServiceImpl implements TokenService{
 		long nowMillis = System.currentTimeMillis();
 		Date nowDate = new Date(nowMillis);
 		SecretKey key = getKey(password);
-		JwtBuilder builder = Jwts.builder()
-				.setIssuedAt(nowDate)
-				.addClaims(claims)
-				.signWith(SignatureAlgorithm.HS256, key);
+		JwtBuilder builder = Jwts.builder().setIssuedAt(nowDate);
 		if(null != device){
 			builder.setAudience(getAudience(device));
 		}
-		setExpTime(nowMillis, builder, claims.get(CLAIM_KEY_EXPIRATiON));
-		return builder.compact();
+		// 使用默认过期时间
+		if (JWT_EXP >= 0) {
+			long expMillis = nowMillis + JWT_EXP;
+			Date exp = new Date(expMillis);
+			builder.setExpiration(exp);
+		}
+		String token = builder.addClaims(claims) //claims中如果存在同名的参数，则会覆盖上面设置的参数
+			   .signWith(SignatureAlgorithm.HS256, key)
+			   .compact();
+		//将token放入缓存中
+		CacheUtils.put(CacheUtils.CACHE_TOKEN, token, Result.SUCCESS);
+		return token;
 	}
 	
 	/**
@@ -107,30 +104,6 @@ public class TokenServiceImpl implements TokenService{
 		byte[] encodedKey = Base64.getDecoder().decode(stringKey);
 		SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
 		return key;
-	}
-	
-	/**
-	 * 设置token过期时间
-	 * @param nowMillis   生成token的时间
-	 * @param builder     JwtBuilder对象
-	 * @param jwtExpTime  过期时间(单位毫秒)
-	 */
-	private void setExpTime(long nowMillis, JwtBuilder builder,
-			Object jwtExpTime) {
-		if (null != jwtExpTime) { // 自定义了过期时间，使用自定义过期时间
-			long jwtExpTime_ = (long) jwtExpTime;
-			if (jwtExpTime_ >= 0) {
-				long expMillis = nowMillis + jwtExpTime_;
-				Date exp = new Date(expMillis);
-				builder.setExpiration(exp);
-			}
-		} else { // 如果没有自定义过期时间，则使用默认过期时间
-			if (JWT_EXP >= 0) {
-				long expMillis = nowMillis + JWT_EXP;
-				Date exp = new Date(expMillis);
-				builder.setExpiration(exp);
-			}
-		}
 	}
 	
 	/**
@@ -157,8 +130,16 @@ public class TokenServiceImpl implements TokenService{
 	@Override
 	public String refreshToken(String token, String password) {
         final Claims claims = parseToken(token, password);
-        claims.put(CLAIM_KEY_CREATED, new Date());
-        return createToken(claims, password);
+        claims.setExpiration(DateTime.now().plusMillis(JWT_EXP).toDate());
+        JwtBuilder builder = Jwts.builder()
+      		  .addClaims(claims) //claims中如果存在同名的参数，则会覆盖上面设置的参数
+      		  .signWith(SignatureAlgorithm.HS256, getKey(password));
+        //将旧token从缓存中移除
+      	CacheUtils.remove(CacheUtils.CACHE_TOKEN, token);
+      	String refreshToken = builder.compact();
+        //将新token放入缓存中
+      	CacheUtils.put(CacheUtils.CACHE_TOKEN, refreshToken, Result.SUCCESS);
+        return refreshToken;
 	}
 
 	@Override
@@ -166,17 +147,19 @@ public class TokenServiceImpl implements TokenService{
 		try {
 			Jwts.parser().setSigningKey(getKey(password)).parseClaimsJws(token);
 			return true;
-		} catch (Exception e) {
+		} catch (ExpiredJwtException e) {
+        	logger.error("JWT token已过期..." + e.getMessage());
+        } catch (SignatureException e) {
+			logger.error("无效的JWT签名..." + e.getMessage());
+        } catch (MalformedJwtException e) {
+        	logger.error("无效的JWT token..." + e.getMessage());
+        } catch (UnsupportedJwtException e) {
+        	logger.error("不支持的JWT token..." + e.getMessage());
+        } catch (IllegalArgumentException e) {
+        	logger.error("JWT token的组成处理无效..." + e.getMessage());
+        } catch (Exception e) {
 			logger.error("token令牌无效, 验证失败..." + e.getMessage());
-			return false;
 		}
-		
-	}
-
-	@Override
-	public void deleteToken(String token, String password) {
-		 final Claims claims = parseToken(token, password);
-		 claims.put(CLAIM_KEY_EXPIRATiON, 0);
-		 createToken(claims, password);
+		return false;
 	}
 }

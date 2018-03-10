@@ -32,8 +32,9 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");// 允许的方法
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Authorization, username");
-        //response.setHeader("Access-Control-Expose-Headers", "content-type" + ", " + Constant.EXPOSE_HEADER);//如果不设置，js获取不到头信息
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");//设置后，前端可以获取该头信息的值
         response.setHeader("Access-Control-Allow-Credentials", "true");
+        //response.setHeader("Cache-Control", "no-store");//设置后，前端不从缓存中获取token
         chain.doFilter(req, res);
     }
 

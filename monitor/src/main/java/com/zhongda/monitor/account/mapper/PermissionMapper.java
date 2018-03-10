@@ -2,6 +2,8 @@ package com.zhongda.monitor.account.mapper;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.zhongda.monitor.account.model.Permission;
 
 public interface PermissionMapper {
@@ -16,7 +18,8 @@ public interface PermissionMapper {
     int updateByPrimaryKeySelective(Permission record);
 
     int updateByPrimaryKey(Permission record);
-
+    
+    @Cacheable(cacheNames = "permissionCache")
 	List<Permission> selectPermissionsByRoleId(Integer roleId);
 
 	List<Permission> selectAllPermissions();

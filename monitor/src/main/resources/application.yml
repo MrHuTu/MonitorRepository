@@ -99,6 +99,12 @@ spring:
           ssl:
             enable: true 
             required: true
+
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:cache/ehcache.xml
+                    
         
 #mybatis扫描xml以及实体路径   
 mybatis:

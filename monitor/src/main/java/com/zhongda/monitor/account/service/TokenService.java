@@ -24,29 +24,12 @@ public interface TokenService {
 	
 	/**
 	 * 创建一个token
-	 * @param data 添加到token中的信息,json格式字符串
-	 * @param password 用户密码(作为加密的密钥)
-	 * @return 返回创建好的token
-	 */
-	String createToken(String userJsonData, String password); 
-	
-	/**
-	 * 创建一个token
 	 * @param claims 添加到token中的信息,Map集合
 	 * @param device device检测访问主体
 	 * @param password 用户密码(作为加密的密钥)
 	 * @return 返回创建好的token
 	 */
 	String createToken(Map<String, Object> claims, Device device, String password);
-	
-	/**
-	 * 创建一个token
-	 * @param data 添加到token中的信息,json格式字符串
-	 * @param device device检测访问主体
-	 * @param password 用户密码(作为加密的密钥)
-	 * @return 返回创建好的token
-	 */
-	String createToken(String userJsonData, Device device, String password); 
 	
 	/**
      * 解析token
@@ -70,10 +53,4 @@ public interface TokenService {
 	 * @param password 用户密码(作为解密的密钥)
 	 */
     boolean checkToken(String token, String password);  
-    
-    /**
-	 * 使当前token失效
-	 * @param password 用户密码(作为加密解密的密钥)
-	 */
-    void deleteToken(String token, String password);
 }

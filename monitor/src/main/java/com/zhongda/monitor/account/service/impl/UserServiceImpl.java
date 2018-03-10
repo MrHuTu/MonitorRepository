@@ -10,12 +10,12 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.account.utils.ShiroUtils;
+import com.zhongda.monitor.core.annotation.SysLogAnnotation;
 import com.zhongda.monitor.core.model.Result;
 
 /**
@@ -26,7 +26,7 @@ import com.zhongda.monitor.core.model.Result;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
+	
 	@Resource
 	private UserMapper userMapper;
 	
@@ -56,31 +56,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@SysLogAnnotation("用户名为${0}的用户登录")
 	public Result<String> login(String userName, String password) {
 		Result<String> result = new Result<String>();
-		// 判断用户是否已经登录
-		if (ShiroUtils.isLogin()) {
-			result.failure("该用户已经登录");
-		}else{
-			// 通过数据库进行验证
-			final User user = userMapper.selectByUserName(userName);
-			if (user == null) {
-	            throw new UnknownAccountException("该帐号不存在！");
-	        }else if("禁用".equals(user.getStatus())){
-	        	throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
-	        }
-			//验证密码是否正确
-			password = ShiroUtils.encryptPassword(password, userName);
-			if(password.equals(user.getPassword())){
-				try {
-					user.setPassword(null);
-					result.success("登录成功", objectMapper.writeValueAsString(user));
-				} catch (JsonProcessingException e) {
-					throw new RuntimeException("用户信息异常，无法转换成json字符串，请联系管理员 -> " + e.getMessage());
-				}
-			} else {
-				throw new IncorrectCredentialsException("用户名或密码错误 ！");
-			}
+		// 通过数据库进行验证
+		final User user = userMapper.selectByUserName(userName);
+		if (user == null) {
+			throw new UnknownAccountException("该帐号不存在！");
+		}else if("禁用".equals(user.getStatus())){
+			throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
+		}
+		//验证密码是否正确
+		password = ShiroUtils.encryptPassword(password, userName);
+		if(password.equals(user.getPassword())){
+			result.success("登录成功", user.getUserId().toString());
+		} else {
+			throw new IncorrectCredentialsException("用户名或密码错误 ！");
 		}
 		return result;
 	}

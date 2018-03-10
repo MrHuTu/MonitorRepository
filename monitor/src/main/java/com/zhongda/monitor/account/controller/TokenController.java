@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.exception.ForbiddenException;
-import com.zhongda.monitor.account.security.StatelessToken;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.account.utils.ShiroUtils;
@@ -60,7 +61,11 @@ public class TokenController {
 		}		
 		Result<String> result = userService.login(userName, password);
 		if (result.getCode() == Result.SUCCESS) {
-			String token = tokenService.createToken(result.getData(), ShiroUtils.encryptPassword(password, userName));
+			Map<String, Object> claims = new HashMap<String, Object>();
+			claims.put("userId", Integer.parseInt(result.getData()));
+			claims.put("userName", userName);
+			//创建token
+			String token = tokenService.createToken(claims, ShiroUtils.encryptPassword(password, userName));
 			logger.debug(userName +" 用户登录生成的Token: " + token);
 			result.setData(token);
 		}else{
@@ -76,16 +81,9 @@ public class TokenController {
 	 */
 	@DeleteMapping("/logout")
 	@ApiOperation(value = "注销", httpMethod = "DELETE", response = Result.class, notes = "注销")
-	public Result<String> logout(HttpServletRequest request) {
-		Result<String> result = new Result<String>();
-		String token = request.getHeader(StatelessToken.DEFAULT_TOKEN_NAME);
-		//清除token
-		logger.debug("清除Token: " + token);
-		//tokenService.deleteToken(token);
+	public Result<String> logout() {
 		// 登出操作
 		ShiroUtils.logout();
-		logger.debug("注销成功");
-		result.success("注销成功");
-		return result;
+		return new Result<String>().success("注销成功");
 	}
 }
