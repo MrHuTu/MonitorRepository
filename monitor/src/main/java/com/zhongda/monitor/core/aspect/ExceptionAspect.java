@@ -176,6 +176,7 @@ public class ExceptionAspect {
 	@ExceptionHandler(Exception.class)
 	public Result<String> handleException(Exception e) {
 		logger.error("系统错误...->" + e.getMessage());
+		e.printStackTrace();
 		return new Result<String>().failure("系统错误");
 	}
 }

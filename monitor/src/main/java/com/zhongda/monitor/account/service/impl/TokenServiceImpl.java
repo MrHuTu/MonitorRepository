@@ -42,8 +42,6 @@ public class TokenServiceImpl implements TokenService{
 	@Resource
 	private ObjectMapper objectMapper;
 	
-	/** 过期时间标志 */
-	static final String CLAIM_KEY_EXPIRATiON = "exp";
 	/** 未知 */
 	private static final String AUDIENCE_UNKNOWN = "unknown";
 	/** PC端  */
@@ -90,8 +88,6 @@ public class TokenServiceImpl implements TokenService{
 		String token = builder.addClaims(claims) //claims中如果存在同名的参数，则会覆盖上面设置的参数
 			   .signWith(SignatureAlgorithm.HS256, key)
 			   .compact();
-		//将token放入缓存中
-		CacheUtils.put(CacheUtils.CACHE_TOKEN, token, Result.SUCCESS);
 		return token;
 	}
 	

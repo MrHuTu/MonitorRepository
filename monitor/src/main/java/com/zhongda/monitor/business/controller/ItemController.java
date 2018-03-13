@@ -4,11 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.annotation.Resource;
 
@@ -22,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.model.ItemAvgData;
-import com.zhongda.monitor.business.model.Project;
-import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
 import com.zhongda.monitor.core.model.Result;
@@ -74,7 +69,7 @@ public class ItemController {
 			userMsg.put(userid, myPoJoId);
 		}
 		
-		return new Result<String>().setCode(Result.SUCCESS).setMsg("操作成功").setData("操作成功，WebSocket链接成功则会向poJoId"+poJoId+"实时提供数据"); 
+		return new Result<String>().success("操作成功", "操作成功，WebSocket链接成功则会向poJoId"+poJoId+"实时提供数据"); 
 	}
 	/**
 	 * 
