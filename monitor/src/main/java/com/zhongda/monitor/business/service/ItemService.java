@@ -3,6 +3,7 @@ package com.zhongda.monitor.business.service;
 import java.util.List;
 
 import com.zhongda.monitor.business.model.ItemAvgData;
+import com.zhongda.monitor.core.model.Result;
 
 public interface ItemService {
 	/**
@@ -25,5 +26,13 @@ public interface ItemService {
 	 * @returnList<ItemAvgData>
 	 */
 	List<ItemAvgData> selectItemAvgDataByPojoId(String poJoId);
+	
+	
+	/**
+	 * 封装项目模块 实时模块右侧信息
+	 * @param poJoId
+	 * @return
+	 */
+	Result<List<ItemAvgData>> packagItemLeftData(String poJoId);
 	
 }

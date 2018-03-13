@@ -1,5 +1,9 @@
 package com.zhongda.monitor.business.model;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ItemAvgData {
 	/***
 	 * 测点类型
@@ -17,6 +21,22 @@ private double minThresholdValue;
 private double MaxThresholdValue;
 
 private String mintoMaxThresholdValue;
+
+private String projectName;
+
+private Date projectBeginTime;
+
+private String projectPrincipal; //项目负责人
+
+private int projectSensorNumber;//传感器数量
+
+private int projectSmuNumber;//传感器数量
+
+private int alCount;// 项目告警次数 数据库没有字段
+
+private String projectTypeName;// 项目类型名称
+
+private String projectAddress;
 
 public String getDetectionTypeName() {
 	return detectionTypeName;
@@ -74,14 +94,99 @@ public void setMintoMaxThresholdValue(String mintoMaxThresholdValue) {
 	this.mintoMaxThresholdValue = mintoMaxThresholdValue;
 }
 
+public String getProjectName() {
+	return projectName;
+}
+
+public void setProjectName(String projectName) {
+	this.projectName = projectName;
+}
+
+public String getProjectPrincipal() {
+	return projectPrincipal;
+}
+
+public void setProjectPrincipal(String projectPrincipal) {
+	this.projectPrincipal = projectPrincipal;
+}
+
+public Integer getProjectSensorNumber() {
+	return projectSensorNumber;
+}
+
+public void setProjectSensorNumber(Integer projectSensorNumber) {
+	this.projectSensorNumber = projectSensorNumber;
+}
+
+public Integer getProjectSmuNumber() {
+	return projectSmuNumber;
+}
+
+public void setProjectSmuNumber(Integer projectSmuNumber) {
+	this.projectSmuNumber = projectSmuNumber;
+}
+
+public Integer getAlCount() {
+	return alCount;
+}
+
+public void setAlCount(Integer alCount) {
+	this.alCount = alCount;
+}
+
+public String getProjectTypeName() {
+	return projectTypeName;
+}
+
+public void setProjectTypeName(String projectTypeName) {
+	this.projectTypeName = projectTypeName;
+}
+@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+8")
+public Date getProjectBeginTime() {
+	return projectBeginTime;
+}
+
+public void setProjectBeginTime(Date projectBeginTime) {
+	this.projectBeginTime = projectBeginTime;
+}
+
+public void setProjectSensorNumber(int projectSensorNumber) {
+	this.projectSensorNumber = projectSensorNumber;
+}
+
+public void setProjectSmuNumber(int projectSmuNumber) {
+	this.projectSmuNumber = projectSmuNumber;
+}
+
+public void setAlCount(int alCount) {
+	this.alCount = alCount;
+}
+
+public String getProjectAddress() {
+	return projectAddress;
+}
+
+public void setProjectAddress(String projectAddress) {
+	this.projectAddress = projectAddress;
+}
+
 @Override
 public String toString() {
 	return "ItemAvgData [detectionTypeName=" + detectionTypeName
 			+ ", avgCurrentData=" + avgCurrentData + ", currentLaserChange="
 			+ currentLaserChange + ", speedChange=" + speedChange
 			+ ", minThresholdValue=" + minThresholdValue
-			+ ", MaxThresholdValue=" + MaxThresholdValue + "]";
+			+ ", MaxThresholdValue=" + MaxThresholdValue
+			+ ", mintoMaxThresholdValue=" + mintoMaxThresholdValue
+			+ ", projectName=" + projectName + ", projectBeginTime="
+			+ projectBeginTime + ", projectPrincipal=" + projectPrincipal
+			+ ", projectSensorNumber=" + projectSensorNumber
+			+ ", projectSmuNumber=" + projectSmuNumber + ", alCount=" + alCount
+			+ ", projectTypeName=" + projectTypeName + ", projectAddress="
+			+ projectAddress + "]";
 }
+
+
 
 
 

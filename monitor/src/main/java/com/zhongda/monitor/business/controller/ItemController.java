@@ -4,8 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -17,7 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.model.ItemAvgData;
+import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.ProjectSelectCondition;
+import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
+import com.zhongda.monitor.core.model.Result;
 
 /**
  * 
@@ -32,43 +41,57 @@ public class ItemController {
 
 	@Autowired
 	ItemServiceImpl ItemServiceImpl;
-	
+
+	@Resource
+	private ProjectService projectService;
+
 	public static HashMap<String, String> userMsg = new HashMap<String, String>();
 
-	/*
-	 * @GetMapping("/getAllItem")
-	 * 
-	 * @ApiOperation(value = "项目信息", notes = "项目信息", code = 200, produces =
-	 * "application/json" ,httpMethod = "GET") private List<Item>
-	 * getAllItem(HttpServletRequest request){ String token =
-	 * HeaderUtils.getTokenFromRequest(request); User user =
-	 * TokenUtils.getUserFromeToken(token); int userId = user.getUserId();
-	 * return ItemServiceImpl.getAllItem(userId);
-	 * 
-	 * }
-	 */
 	/**
 	 * 
 	 * @param poJoId
 	 * @param request
 	 * @returnList<ItemAvgData> 
 	 * 通过请求获得请求用户的 userid 与点击项目列表的对应项目id 通过 userid
-	 * 和项目id 使用springboot提供的定时任务注解 和wensocket
-	 * 技术点对点的向用户提供实时数据 其中userMsg记录了全部用户，与对应用户发起该请求的项目id
+	 *                          
+     * 和项目id 使用springboot提供的定时任务注解 和wensocket
+     * 技术点对点的向用户提供实时数据 其中userMsg记录了全部用户，与对应用户发起该请求的项目id
+	 * 
+	 */
+	@GetMapping("/getWebSocket")
+	@ApiOperation(value = "项目信息", notes = "项目各测点平局值和平局变化率 支持websocket实时数据  使用websocket的必须调用接口,该接口会记录当前userId 和pojoId,websocket会读取该值，向userId 实时返回pojoId的数据} ", code = 200, produces = "application/json", httpMethod = "GET")
+	@ApiImplicitParam(paramType = "query", name = "poJoId", value = "项目ID", required = true, dataType = "String")
+	private Result<String> getItemAvgDataGet(@RequestParam String poJoId) {
+		
+		synchronized (this.getClass()) {
+			
+			User user = ShiroUtils.getCurrentUser();
+			
+			String userid = String.valueOf(user.getUserId());
+			
+			String myPoJoId = poJoId;
+			
+			userMsg.put(userid, myPoJoId);
+		}
+		
+		return new Result<String>().setCode(Result.SUCCESS).setMsg("操作成功").setData("操作成功，WebSocket链接成功则会向poJoId"+poJoId+"实时提供数据"); 
+	}
+	/**
+	 * 
+	 * @param poJoId
+	 * @param request
+	 * @returnList<ItemAvgData> 
+	 * 通过请求获得请求用户的 userid 与点击项目列表的对应项目id 通过 userid
+	 *                          
+     * 和项目id 使用springboot提供的定时任务注解 和wensocket
+     * 技术点对点的向用户提供实时数据 其中userMsg记录了全部用户，与对应用户发起该请求的项目id
 	 * 
 	 */
 	@GetMapping("/getItemAvgData")
-	@ApiOperation(value = "项目信息", notes = "项目各测点平局值和平局变化率/ {支持websocket实时数据  路径:user/userid/msg,在访问websocket的时候要通过/getItemAvgData这个链接传递当前点击的poJoId,其中userid是指当前用户的userId} ", code = 200, produces = "application/json", httpMethod = "GET")
+	@ApiOperation(value = "项目信息", notes = "项目模块右变的数据，目前数据库数据不全，平局值取得2017—10-30号的数据 ", code = 200, produces = "application/json", httpMethod = "GET")
 	@ApiImplicitParam(paramType = "query", name = "poJoId", value = "项目ID", required = true, dataType = "String")
-	private List<ItemAvgData> getItemAvgData(@RequestParam String poJoId) {
-		synchronized (this.getClass()) {
-			User user = ShiroUtils.getCurrentUser();
-			String userid = String.valueOf(user.getUserId());
-			String myPoJoId = poJoId;
-			userMsg.put(userid, myPoJoId);
-		}
-		return ItemServiceImpl.selectItemAvgDataByPojoId(poJoId);
+	private Result<List<ItemAvgData>> getItemAvgDataPost(@RequestParam String poJoId) {
+		
+		return ItemServiceImpl.packagItemLeftData(poJoId); 
 	}
-
-	
 }

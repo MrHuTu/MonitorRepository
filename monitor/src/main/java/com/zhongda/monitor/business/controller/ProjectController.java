@@ -72,12 +72,14 @@ public class ProjectController {
 	
 	@GetMapping("/getAllProject")
 	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息")
-	private List<Project> getAllProject(){
+	private Result<List<Project>> getAllProject(){
 		User user = ShiroUtils.getCurrentUser();
+		
 		int userId = user.getUserId();
+		
 		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
-	//	projectSelectCondition.setUserId(userId);
-		return projectService.getAllProject(projectSelectCondition);
+	
+		return new Result<List<Project>>().setCode(Result.SUCCESS).setMsg("操作成功").setData(projectService.getAllProject(projectSelectCondition)); 
 		
 	}
 }
