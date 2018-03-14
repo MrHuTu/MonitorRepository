@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.model.ItemAvgData;
+import com.zhongda.monitor.business.model.MyItem;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.service.ProjectService;
@@ -90,7 +91,7 @@ public class ItemController {
 	@GetMapping("/getItemAvgData")
 	@ApiOperation(value = "项目信息", notes = "项目模块右变的数据，目前数据库数据不全，平局值取得2017—10-30号的数据 ", code = 200, produces = "application/json", httpMethod = "GET")
 	@ApiImplicitParam(paramType = "query", name = "poJoId", value = "项目ID", required = true, dataType = "String")
-	private Result<List<ItemAvgData>> getItemAvgDataPost(@RequestParam String poJoId) {
+	private Result<MyItem> getItemAvgDataPost(@RequestParam String poJoId) {
 		
 		return ItemServiceImpl.packagItemLeftData(poJoId); 
 	}

@@ -3,6 +3,7 @@ package com.zhongda.monitor.business.service;
 import java.util.List;
 
 import com.zhongda.monitor.business.model.ItemAvgData;
+import com.zhongda.monitor.business.model.MyItem;
 import com.zhongda.monitor.core.model.Result;
 
 public interface ItemService {
@@ -33,6 +34,6 @@ public interface ItemService {
 	 * @param poJoId
 	 * @return
 	 */
-	Result<List<ItemAvgData>> packagItemLeftData(String poJoId);
+	 Result<MyItem> packagItemLeftData(String poJoId);
 	
 }
