@@ -1,5 +1,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" >
+           xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+           updateCheck="false" >
     <!-- 缓存位置可以是自定义的硬盘地址也可以是JVM默认使用的缓存地址,超过大小后会持久化到该位置-->
     <diskStore path="java.io.tmpdir/cache/ehcache"/>
     <!-- 默认缓存配置. -->
@@ -25,14 +26,15 @@
     -->
     <defaultCache 
     	maxElementsInMemory="1000"
-    	maxEntriesLocalHeap="100"
+    	maxEntriesLocalHeap="1000"
         eternal="false"
         timeToIdleSeconds="300"
         timeToLiveSeconds="600"
         overflowToDisk="true"
         statistics="true"
-        maxEntriesLocalDisk="100000" />
-
+        maxEntriesLocalDisk="100000">
+	</defaultCache>
+	
     <!-- 系统缓存 -->
     <cache name="sysCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
 
@@ -52,5 +54,5 @@
     <cache name="dictCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
 
     <!-- Token缓存 -->
-    <cache name="tokenCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
+    <cache name="tokenCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="1800"/>
 </ehcache>

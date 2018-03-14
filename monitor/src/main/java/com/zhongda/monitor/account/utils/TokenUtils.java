@@ -30,6 +30,9 @@ public class TokenUtils {
 	
 	private static ObjectMapper objectMapper = SpringUtils.getBean(ObjectMapper.class);
 	
+	/** 过期时间标志 */
+	public static final String CLAIM_KEY_EXPIRATiON = "exp";
+	
 	/**
 	 * 获取当前请求的token字符串
 	 * @return 返回token字符串
@@ -85,5 +88,13 @@ public class TokenUtils {
 			logger.error("解析token的荷载部分失败,解码后的json字符串不能转换成Map集合" + e.getMessage());
 			return null;
 		}
+	}
+    
+    /**
+	 * 获取当前token中荷载信息
+	 * @return Claims Map集合
+	 */
+    public static Map<String, Object> getClaims(){
+    	return getClaimsFromeToken(getToken());
 	}
 }

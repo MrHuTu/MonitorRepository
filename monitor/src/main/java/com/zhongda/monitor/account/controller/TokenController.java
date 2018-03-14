@@ -58,7 +58,7 @@ public class TokenController {
 	public Result<String> login(String userName, String password) {
 		if(StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
 			throw new ForbiddenException("用户名或密码不可为空！");
-		}		
+		}
 		Result<String> result = userService.login(userName, password);
 		if (result.getCode() == Result.SUCCESS) {
 			Map<String, Object> claims = new HashMap<String, Object>();

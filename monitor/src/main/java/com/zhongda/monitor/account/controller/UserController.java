@@ -37,7 +37,7 @@ import com.zhongda.monitor.core.utils.MailUtils;
  */
 @RestController
 @RequestMapping("/user")
-@Api(value = "用户模块", tags = { "用户操作接口" })
+@Api(tags = {"用户操作接口"})
 public class UserController {
 
 	public final Logger logger = LoggerFactory.getLogger(UserController.class);

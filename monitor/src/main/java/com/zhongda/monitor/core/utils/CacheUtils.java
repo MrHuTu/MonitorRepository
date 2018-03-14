@@ -56,6 +56,23 @@ public class CacheUtils{
 	}
 	
 	/**
+	 * 写入缓存的同时设置缓存的过期时间
+	 */
+	public static void putAndSetTimeToIdle(String cacheName, String key, Object value, int timeToLiveSeconds) {
+		Element element = new Element(key, value);
+		element.setTimeToLive(timeToLiveSeconds);;
+		getCache(cacheName).put(element);
+	}
+	
+	/**
+	 * 修改缓存的timeToLiveSeconds
+	 */
+	public static void setTimeToIdle(String cacheName, String key, int timeToLiveSeconds) {
+		Element element = getCache(cacheName).get(key);
+		element.setTimeToLive(timeToLiveSeconds);
+	}
+	
+	/**
 	 * 通过缓存名称获取对应的缓存
 	 */
 	private static Ehcache getCache(String cacheName){

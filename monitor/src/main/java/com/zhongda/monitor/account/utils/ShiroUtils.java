@@ -8,6 +8,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
+import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.CacheUtils;
 import com.zhongda.monitor.core.utils.SpringUtils;
 
@@ -79,18 +80,22 @@ public class ShiroUtils {
 		//获取缓存中的token
 		Object obj = CacheUtils.get(CacheUtils.CACHE_TOKEN, token);
 		if(null == obj){
-			return false;
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
 	 * 注销（shiro框架 ）
+	 * @throws InterruptedException 
 	 */
 	public static void logout() {
 		String token = TokenUtils.getToken();
-		//移除缓存中的token
-		CacheUtils.remove(CacheUtils.CACHE_TOKEN, token);
+		Map<String, Object> claims = TokenUtils.getClaimsFromeToken(token);
+		long expTime = (Integer) claims.get(TokenUtils.CLAIM_KEY_EXPIRATiON);
+		long nowTime = (System.currentTimeMillis()) / 1000;
+		//将该token加入缓存，并设置过期时间
+		CacheUtils.putAndSetTimeToIdle(CacheUtils.CACHE_TOKEN, token, Result.SUCCESS, (int)(expTime - nowTime));
 		logger.debug("清除Token: " + token);
 	}
 	
