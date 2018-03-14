@@ -16,7 +16,7 @@
 	<result column="project_sensorNum" property="project_sensorNum"/>
 	<result column="project_smuNum" property="project_smuNum"/>
 </resultMap>
-<resultMap id="ItemAvgDataMap" type="com.zhongda.monitor.business.model.ItemAvgData">
+<resultMap id="ItemAvgDataMap" type="com.zhongda.monitor.business.model.fictitious.ItemAvgData">
 	
 	<result column="project_name" property="detectionTypeName"/>
 	<result column="current_data1" property="avgCurrentData"/>

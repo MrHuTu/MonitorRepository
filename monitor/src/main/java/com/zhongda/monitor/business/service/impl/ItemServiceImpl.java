@@ -36,11 +36,6 @@ public class ItemServiceImpl implements ItemService {
 	private ProjectService projectService;
 
 
-	/*
-	 * @Override public List<Item> getAllItem(int userId) { // TODO
-	 * Auto-generated method stub return itemMapper.getAllItem(userId); }
-	 */
-
 	@Override
 	public ItemAvgData selectItemAvgData(String tableName, String poJoId) {
 
@@ -54,8 +49,7 @@ public class ItemServiceImpl implements ItemService {
 
 		int poJo_Id = Integer.valueOf(poJoId);
 
-		List<StatisticChart> statisticChartList = statisticChartService
-				.selectByPojoId(poJo_Id);
+		List<StatisticChart> statisticChartList = statisticChartService.selectByPojoId(poJo_Id);
 
 		for (StatisticChart v : statisticChartList) {
 
@@ -67,32 +61,25 @@ public class ItemServiceImpl implements ItemService {
 
 				itemAvgData.setDetectionTypeName(v.getDetectionTypeName());
 
-				String avgCurrentData_1 = new DecimalFormat("0.00")
-						.format(itemAvgData.getAvgCurrentData());
+				String avgCurrentData_1 = new DecimalFormat("0.00").format(itemAvgData.getAvgCurrentData());
 
 				double avgCurrentData = Double.parseDouble(avgCurrentData_1);
 
 				itemAvgData.setAvgCurrentData(avgCurrentData);
 
-				String currentLaserChange_1 = new DecimalFormat("0.00")
-						.format(itemAvgData.getCurrentLaserChange());
+				String currentLaserChange_1 = new DecimalFormat("0.00").format(itemAvgData.getCurrentLaserChange());
 
-				double currentLaserChange = Double
-						.parseDouble(currentLaserChange_1);
+				double currentLaserChange = Double.parseDouble(currentLaserChange_1);
 
 				itemAvgData.setCurrentLaserChange(currentLaserChange);
 
-				String speedChange_1 = new DecimalFormat("0.00")
-						.format(itemAvgData.getSpeedChange());
+				String speedChange_1 = new DecimalFormat("0.00").format(itemAvgData.getSpeedChange());
 
 				double speedChange = Double.parseDouble(speedChange_1);
 
 				itemAvgData.setSpeedChange(speedChange);
 
-				String mintoMaxThresholdValue = itemAvgData
-						.getMinThresholdValue()
-						+ "~"
-						+ itemAvgData.getMaxThresholdValue();
+				String mintoMaxThresholdValue = itemAvgData.getMinThresholdValue()+ "~"+ itemAvgData.getMaxThresholdValue();
 
 				itemAvgData.setMintoMaxThresholdValue(mintoMaxThresholdValue);
 
@@ -106,25 +93,21 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public Result<MyItem> packagItemLeftData(String poJoId) {
 
-	
 		MyItem myItem =new MyItem(); 
-
 		
 		ItemLeft itemLeft = new ItemLeft();
+		
 		List<ItemAvgData> ItemAvgData = selectItemAvgDataByPojoId(poJoId);
 
 		
 		// 查询用户下的项目,并且根据Pojoid帅选出项目基本的信息
-
 		User user = ShiroUtils.getCurrentUser();
 
 		int userId = user.getUserId();
 
-		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(
-				String.valueOf(userId));
+		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
 
-		List<Project> currenUserOfProject = projectService
-				.getAllProject(projectSelectCondition);
+		List<Project> currenUserOfProject = projectService.getAllProject(projectSelectCondition);
 
 		ListIterator<Project> projectList = currenUserOfProject.listIterator();
 
@@ -147,15 +130,17 @@ public class ItemServiceImpl implements ItemService {
 				itemLeft.setProjectTypeName(project.getProjectTypeName());
 				
 				itemLeft.setProjectAddress(project.getProjectAddress());
+				
 				itemLeft.setProjectDescription(project.getProjectDescription());
 				
 			}
 
 		}
 		myItem.setItemLeft(itemLeft);
+		
 		myItem.setItemAvgList(ItemAvgData);
-		return new Result<MyItem>().setCode(Result.SUCCESS)
-				.setMsg("操作成功").setData(myItem);
+		
+		return new Result<MyItem>().setCode(Result.SUCCESS).setMsg("操作成功").setData(myItem);
 	}
 
 }
