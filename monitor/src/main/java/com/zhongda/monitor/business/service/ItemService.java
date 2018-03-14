@@ -2,8 +2,8 @@ package com.zhongda.monitor.business.service;
 
 import java.util.List;
 
-import com.zhongda.monitor.business.model.ItemAvgData;
-import com.zhongda.monitor.business.model.MyItem;
+import com.zhongda.monitor.business.model.fictitious.ItemAvgData;
+import com.zhongda.monitor.business.model.fictitious.MyItem;
 import com.zhongda.monitor.core.model.Result;
 
 public interface ItemService {

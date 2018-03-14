@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.zhongda.monitor.business.controller.ItemController;
-import com.zhongda.monitor.business.model.ItemAvgData;
 import com.zhongda.monitor.business.model.WiselyResponse;
+import com.zhongda.monitor.business.model.fictitious.ItemAvgData;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
 import com.zhongda.monitor.core.service.WebSocketService;
 

@@ -1,6 +1,8 @@
 package com.zhongda.monitor.business.model;
 
 import java.util.List;
+
+import com.zhongda.monitor.business.model.fictitious.ItemAvgData;
 /**
  * 封装了前台项目日均值的实体类
  * @author Administrator

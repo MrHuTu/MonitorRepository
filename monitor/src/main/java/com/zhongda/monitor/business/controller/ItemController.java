@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.ShiroUtils;
-import com.zhongda.monitor.business.model.MyItem;
+import com.zhongda.monitor.business.model.fictitious.MyItem;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.business.service.impl.ItemServiceImpl;
 import com.zhongda.monitor.core.model.Result;

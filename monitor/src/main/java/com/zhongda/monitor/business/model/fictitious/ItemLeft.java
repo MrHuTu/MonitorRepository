@@ -1,4 +1,4 @@
-package com.zhongda.monitor.business.model;
+package com.zhongda.monitor.business.model.fictitious;
 
 import java.util.Date;
 
