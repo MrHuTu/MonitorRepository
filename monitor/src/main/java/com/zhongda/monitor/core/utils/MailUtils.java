@@ -50,4 +50,8 @@ public class MailUtils {
 	public static final String DEVICE_ALARM_TEMPLATE="DeviceAlarmTemplate";
 	
 	public static final String ALARM_SUBJECT="告警消息";
+	public static final String CODE_SUBJECT="密码修改";
+	
+	public static final String VALIDATE_CODE_TEMPLATE="ValidateCodeTemplate";
+	
 }

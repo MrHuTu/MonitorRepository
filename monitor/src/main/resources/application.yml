@@ -78,9 +78,12 @@ spring:
       
   # 开启cglib动态代理    
   aop:
-    auto: true
     proxy-target-class: true
-          
+  
+  # 设置模板引擎  
+  # thymeleaf:
+    # cache: false
+             
   #邮箱配置
   mail:
     host: smtp.hnzdjt.com.cn 
@@ -94,7 +97,7 @@ spring:
         smtp:
           auth: true
           connectiontimeout: 5000
-          timeout: 3000
+          timeout: 5000
           writetimeout: 5000
           ssl:
             enable: true 
@@ -122,7 +125,7 @@ pagehelper:
 # 日志配置    
 logging: 
   level:
-    com.zhongda.monitor: DEBUG
+    com.zhongda.monitor: debug
     
 #debug: true
 

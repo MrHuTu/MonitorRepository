@@ -2,7 +2,10 @@ package com.zhongda.monitor.business.mapper;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import com.zhongda.monitor.business.model.Alarm;
+import com.zhongda.monitor.core.utils.CacheUtils;
 
 public interface AlarmMapper {
     int deleteByPrimaryKey(Integer alarmId);
@@ -22,6 +25,7 @@ public interface AlarmMapper {
 	 * @param alarm 查询条件
 	 * 
 	 */
+    @Cacheable(cacheNames = CacheUtils.CACHE_ALARM)
     List<Alarm> selectPageAlarmByQuery(Alarm alarm);
 
 	/**

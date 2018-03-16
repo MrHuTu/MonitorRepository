@@ -144,4 +144,12 @@
       status = #{status,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+  <select id="validateUserByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT user_id,user_name,phone,real_name FROM  user WHERE phone =#{phone , jdbcType=VARCHAR }
+  </select>
+  
+   <select id="validateUserByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	SELECT user_id, user_name,email,real_name FROM  user WHERE email=#{email , jdbcType=VARCHAR }
+  </select>
+  
 </mapper>

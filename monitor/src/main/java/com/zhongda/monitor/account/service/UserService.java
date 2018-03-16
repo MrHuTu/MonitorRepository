@@ -64,4 +64,15 @@ public interface UserService {
 	 * @param phone 手机号码
 	 */
 	boolean validPhone(String phone);
+	/**
+	 * 根据邮箱 手机修改密码
+	 * 
+	 */
+	Result<String> updatePassword(String password);
+	
+	/**
+	 * 验证输入的邮箱手机是否存在用户
+	 */
+	Result<String> validateUser(String info);
+	
 }

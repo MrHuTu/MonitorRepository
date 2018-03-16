@@ -174,5 +174,28 @@ public class UserController {
 		boolean flag = userService.updateUser(user);
 		return flag ? result.success("修改成功") : result.failure("修改失败");
 	}
-
+	
+	/**
+	 * 验证输入的邮箱手机号是否有账户与之对应
+	 * 
+	 */
+	@GetMapping("/validateUserExist")
+	@ApiOperation(value = "判断是否存在该用户", httpMethod = "GET", response = Result.class, notes = "判断是否存在该用户")
+	public Result<String> validateUser(String info){
+		return userService.validateUser(info); 
+	}
+	
+	/**
+	 * 忘记密码时修改密码
+	 * 
+	 */
+	@PutMapping("/updatePassword")
+	@ApiOperation(value = "邮箱手机修改密码", httpMethod = "PUT", response = Result.class, notes = "邮箱手机修改密码")
+	@ApiImplicitParams({  
+        @ApiImplicitParam(name = "password", value = "密码",  
+                required = true, dataType = "String", paramType = "form")
+	})
+	public Result<String> updatePassword(String password){
+		return userService.updatePassword(password);
+	}
 }

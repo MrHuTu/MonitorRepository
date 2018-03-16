@@ -16,27 +16,29 @@ import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.core.annotation.SysLogAnnotation;
+import com.zhongda.monitor.core.exception.VaildCodeExpireException;
 import com.zhongda.monitor.core.model.Result;
+import com.zhongda.monitor.core.utils.CacheUtils;
 
 /**
- * Title : 用户管理实现类
- * Description : 处理用户的增删改查操作
+ * Title : 用户管理实现类 Description : 处理用户的增删改查操作
+ * 
  * @Author dengzm
  * @Date 2018年1月16日 下午3:45:14
  */
 @Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Resource
 	private UserMapper userMapper;
-	
+
 	@Resource
 	private ObjectMapper objectMapper;
-	
+
 	@Override
 	public boolean insertUser(User user) {
-		String cryptedPwd = new Md5Hash("123456", user.getUserName(),
-				1024).toString();
+		String cryptedPwd = new Md5Hash("123456", user.getUserName(), 1024)
+				.toString();
 		user.setPassword(cryptedPwd);
 		user.setStatus("正常");
 		user.setCreateTime(new Date());
@@ -63,12 +65,12 @@ public class UserServiceImpl implements UserService {
 		final User user = userMapper.selectByUserName(userName);
 		if (user == null) {
 			throw new UnknownAccountException("该帐号不存在！");
-		}else if("禁用".equals(user.getStatus())){
+		} else if ("禁用".equals(user.getStatus())) {
 			throw new DisabledAccountException("该账户已被禁用 ，请联系管理员！");
 		}
-		//验证密码是否正确
+		// 验证密码是否正确
 		password = ShiroUtils.encryptPassword(password, userName);
-		if(password.equals(user.getPassword())){
+		if (password.equals(user.getPassword())) {
 			result.success("登录成功", user.getUserId().toString());
 		} else {
 			throw new IncorrectCredentialsException("用户名或密码错误 ！");
@@ -95,4 +97,39 @@ public class UserServiceImpl implements UserService {
 	public User selectByUserName(String userName) {
 		return userMapper.selectByUserName(userName);
 	}
+
+	public Result<String> updatePassword( String password) {
+		Result<String> result = new Result<String>();
+		// 获取用户信息
+		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, "ChangePassword");
+		if(null == user){
+			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
+		}
+		String passwordCode = ShiroUtils.encryptPassword(password,
+				user.getUserName());
+		user.setPassword(passwordCode);
+		int resultNum = userMapper.updateByPrimaryKeySelective(user);
+		
+		if (resultNum == 0) {
+			return result.failure("修改失败");
+		}
+		return result.success("修改成功");
+	}
+
+	public Result<String> validateUser(String info) {
+		Result<String> result = new Result<String>();
+		User user = new User();
+		if (info.indexOf("@") != -1) {
+			user = userMapper.validateUserByEmail(info);
+		} else {
+			user = userMapper.validateUserByPhone(info);
+		}
+		// 将user放进缓存
+		if (null == user) {
+			return result.failure("该用户不存在");
+		}
+		CacheUtils.put(CacheUtils.CACHE_USER, "ChangePassword", user);
+		return result.success("存在");
+	}
+
 }

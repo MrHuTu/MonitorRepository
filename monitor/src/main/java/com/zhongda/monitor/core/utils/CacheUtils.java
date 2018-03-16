@@ -31,7 +31,9 @@ public class CacheUtils{
     public static final String CACHE_ROLE = "roleCache";
     public static final String CACHE_PERMISSION = "permissionCache";
     public static final String CACHE_TOKEN = "tokenCache";
-	
+    public static final String CACHE_ALARM = "alarmCache";
+    public static final String CACHE_VALICODE = "valiCodeCache";
+    
 	/**
 	 * 获取缓存
 	 */

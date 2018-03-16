@@ -39,7 +39,7 @@
     <cache name="sysCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
 
     <!-- 用户缓存 -->
-    <cache name="userCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
+    <cache name="userCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="1800" />
 
     <!-- 角色缓存 -->
     <cache name="roleCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
@@ -52,7 +52,13 @@
 
     <!-- 数据字典缓存 -->
     <cache name="dictCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
-
+    
+    <!-- 告警信息缓存 -->
+    <cache name="alarmCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"/>
+    
+    <!-- 验证码缓存 -->
+    <cache name="valiCodeCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="1800" />
+	
     <!-- Token缓存 -->
     <cache name="tokenCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="1800"/>
 </ehcache>

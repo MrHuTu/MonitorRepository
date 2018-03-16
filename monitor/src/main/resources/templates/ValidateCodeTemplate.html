@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+ 		<meta charset="UTF-8"/>
+        <title>密码修改</title>
+        <style type="text/css">
+        .div{
+        line-height: 20px; 
+        color: #000000; 
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-weight: bold;
+        }
+        .span{
+        color: #ff764c;
+        }
+        </style>
+</head>
+<body>
+	
+	<table  style="border-spacing: 0; color: #333333;">
+		<tr>
+			<td width="720" style="font-size: 16px; height: 40px; font-weight: bold;" ><span>尊敬的</span><span style="color: #ff764c;" th:text="${realName}"></span></td>
+		</tr>
+		<tr>
+			<td width="720">
+				<div style="line-height: 20px; font-size: 12px;">您好！</div>
+				<div style="line-height: 20px; font-size: 12px;" >
+				<span th:text="'您在'+${time}+'提交找回密码请求，下面为修改'+${userName}+'用户验证码:'"></span>
+				</div>
+		   </td>
+		</tr>
+		<tr>
+			<td width="720" style="padding-top: 10px; padding-bottom: 10px;">
+				<div style="border-top: 1px dashed #e9ecf0; border-bottom: 1px dashed #e9ecf0; color: #000000; font-size: 14px; padding-top: 10px; padding-bottom: 10px;">
+					<div style="line-height: 20px; color: green; padding-top: 5px; padding-bottom: 5px; font-weight: bold;" th:text="${code}">
+					</div>
+				</div>
+				<div class="div">
+					为了保证您帐号的安全性，该验证码有效期为<span th:text="${expireTime}"></span>分钟!
+				</div>
+				<div class="div">
+					设置并牢记密码保护问题将更好地保障您的帐号安全。
+				</div>
+				<div class="div">
+					如果您误收到此电子邮件，则可能是其他用户在尝试帐号设置时的误操作，如果您并未发起该请求，则无需再进行任何操作，并可以放心地忽略此电子邮件。
+				</div>
+				<div class="div">
+					若您担心帐号安全，建议您立即登录，在用户信息修改中修该密码。
+				</div>
+				<div class="div">
+					<span>详情请点击<a href="http://123.207.39.209/Detection" class="span">中大检测在线检测服务平台</a>查看，谢谢！</span><br/>
+					<span>公司：湖南中大检测建设工程技术有限公司</span><br/>
+					<span>地址：长沙市岳麓区学士路755号</span><br/>
+					联系电话：<span class="span">18673101894</span> 座机：<span class="span">0731-88137366</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;转<span class="span">8000 4008930909</span>(转分机号)<br/>
+					<a href="http://www.zdjtcm.com/" style="color: #ff764c;">中大检测官网网址</a>
+				</div>				
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

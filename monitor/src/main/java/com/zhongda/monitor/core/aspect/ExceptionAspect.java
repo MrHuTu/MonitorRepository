@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.zhongda.monitor.account.exception.ForbiddenException;
+import com.zhongda.monitor.core.exception.VaildCodeExpireException;
 import com.zhongda.monitor.core.model.Result;
 
 /**
@@ -156,6 +157,16 @@ public class ExceptionAspect {
 	public Result<String> handleAuthenticationException(AuthenticationException e) {
 		logger.error("权限认证异常...->" + e.getMessage());
 		return new Result<String>().failure("权限认证异常");
+	}
+	
+	/**
+	 * 500 - Internal Server Error。处理 VaildCodeExpireException 异常
+	 */
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(VaildCodeExpireException.class)
+	public Result<String> handleVaildCodeExpireException(VaildCodeExpireException e) {
+		logger.error("缓存时间过期...->" + e.getMessage());
+		return new Result<String>().failure(e.getMessage());
 	}
 	
 	/**
