@@ -2,8 +2,12 @@ package com.zhongda.monitor.account.utils;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.zhongda.monitor.account.exception.NoStatelessTokenException;
 import com.zhongda.monitor.account.mapper.UserMapper;
@@ -50,6 +54,42 @@ public class ShiroUtils {
 	}
 	
 	/**
+	 * 获取当前请求的userName的值
+	 * @return 返回userName
+	 */
+	public static String getUserName(){
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		return getUserNameFromRequest(request);
+	}
+	
+	/**
+	 * 获取请求头中的userName的值
+	 * @param request 请求头
+	 * @return 返回userName
+	 */
+	public static String getUserNameFromRequest(HttpServletRequest request){
+		String userName = request.getParameter("userName");
+		if(userName == null){
+			userName = request.getParameter("username");
+			if(userName == null){
+				userName = request.getParameter("UserName");
+			}
+		}
+		return userName;
+	}
+	
+	/**
+	 * 获取请求登录的用户
+	 */
+	public static User getUnLoginUser(){
+		String userName = getUserName();
+		if(null == userName){
+			return null;
+		}
+		return userMapper.selectByUserName(userName);
+	}
+	
+	/**
 	 * 从给定的token中获取当前登录用户（shiro框架 user）
 	 * @return
 	 */
@@ -59,7 +99,30 @@ public class ShiroUtils {
 		}
 		Map<String, Object> claims = TokenUtils.getClaimsFromeToken(token);
 		String userName = (String) claims.get("userName");
+		if(null == userName){
+			throw new NoStatelessTokenException("token无效或已失效，请重新登录认证");
+		}
 		return userMapper.selectByUserName(userName);
+	}
+	
+	/**
+	 * 判断是否注销（shiro框架 ）
+	 * @return
+	 */
+	public static boolean isLogout() {
+		String token = TokenUtils.getToken();
+		return isLogout(token);
+	}
+	
+	/**
+	 * 根据token判断是否注销（shiro框架 ）
+	 * @param token 传过来的token
+	 * @return
+	 */
+	public static boolean isLogout(String token) {
+		//获取缓存中的token
+		Object obj = CacheUtils.get(CacheUtils.CACHE_TOKEN, token);
+		return (obj != null) ? true : false;
 	}
 	
 	/**
@@ -77,13 +140,9 @@ public class ShiroUtils {
 	 * @return
 	 */
 	public static boolean isLogin(String token) {
-		//获取缓存中的token
-		Object obj = CacheUtils.get(CacheUtils.CACHE_TOKEN, token);
-		if(null == obj){
-			return true;
-		}
-		return false;
+		return (token != null && !"".equals(token.trim())) ? true : false;
 	}
+	
 	
 	/**
 	 * 注销（shiro框架 ）

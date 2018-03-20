@@ -115,9 +115,19 @@ public class SysLogAspect {
 		}
 		
 		//设置用户参数
-		User user = ShiroUtils.getCurrentUser();
-		sysLog.setUserId(user.getUserId());	
-		sysLog.setUserName(user.getUserName());		
+		User user = null;
+		if(ShiroUtils.isLogin()){ //如果用户已登录
+			user = ShiroUtils.getCurrentUser(); //获取当前登录的用户
+		} else {
+			user = ShiroUtils.getUnLoginUser(); //当前未登录，但包含用户信息
+		}
+		if(null == user){
+			sysLog.setUserId(0);	
+			sysLog.setUserName("当前操作用户未被获取");
+		} else {
+			sysLog.setUserId(user.getUserId());	
+			sysLog.setUserName(user.getUserName());	
+		}
 		sysLog.setCreateDate(new Date());
 		return sysLog;
 	}

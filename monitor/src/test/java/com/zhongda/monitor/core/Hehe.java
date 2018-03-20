@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
+import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.impl.TokenServiceImpl;
 
@@ -14,7 +15,12 @@ import com.zhongda.monitor.account.service.impl.TokenServiceImpl;
 public class Hehe {
 	
 	public static void main(String[] args) {
-		
+		User user = new User();
+		System.out.println(user);
+		int a = 10;
+		int b =3;
+		user = a>b ? user : null;
+		System.out.println(user);
 	}
 
 	public static void XXX(String[] args) {

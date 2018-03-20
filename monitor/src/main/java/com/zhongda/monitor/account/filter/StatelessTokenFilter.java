@@ -73,8 +73,8 @@ public class StatelessTokenFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		String token = TokenUtils.getTokenFromRequest((HttpServletRequest) request);
 		if(null != token){
-			//1、验证该token是否登录过
-			if(!ShiroUtils.isLogin(token)){
+			//1、验证该token是否已经注销
+			if(ShiroUtils.isLogout(token)){
 				this.onLoginFail(response, "无权访问，请先登录！");
 		        return false;
 			}

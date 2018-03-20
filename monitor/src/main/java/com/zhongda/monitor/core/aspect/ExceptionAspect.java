@@ -85,7 +85,7 @@ public class ExceptionAspect {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(SQLException.class)  
     public Result<String> handleSQLException(SQLException e) {  
-		logger.error("Sql出现错误...->" + e.getMessage());  
+		logger.error("Sql出现错误...->", e);  
 		return new Result<String>().failure("Sql出现错误");
     }  
 
@@ -96,7 +96,7 @@ public class ExceptionAspect {
 	@ExceptionHandler(LockedAccountException.class)
 	public Result<String> handleLockedAccountException(LockedAccountException e) {
 		logger.error("登录失败3次，账户已被锁定 ，请3分钟后再试...->" + e.getMessage());
-		return new Result<String>().failure("登录失败3次，账户已被锁定 ，请3分钟后再试");
+		return new Result<String>().failure(e.getMessage());
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class ExceptionAspect {
 	@ExceptionHandler(ForbiddenException.class)
 	public Result<String> handleForbiddenException(ForbiddenException e) {
 		logger.error("用户名或密码不可为空...->" + e.getMessage());
-		return new Result<String>().failure("用户名或密码不可为空");
+		return new Result<String>().failure(e.getMessage());
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class ExceptionAspect {
 	@ExceptionHandler(DisabledAccountException.class)
 	public Result<String> handleDisabledAccountException(DisabledAccountException e) {
 		logger.error("该账户已被禁用 ，请联系管理员...->" + e.getMessage());
-		return new Result<String>().failure("该账户已被禁用 ，请联系管理员");
+		return new Result<String>().failure(e.getMessage());
 	}
 	
 	/**
@@ -173,21 +173,9 @@ public class ExceptionAspect {
 	 * 500 - Internal Server Error。处理 Exception 异常
 	 */
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(NullPointerException.class)
-	public Result<String> handleNullPointerException(NullPointerException e) {
-		logger.error("系统错误...->" + e.getMessage());
-		logger.error("系统错误...->", e);
-		return new Result<String>().failure("系统错误");
-	}
-	
-	/**
-	 * 500 - Internal Server Error。处理 Exception 异常
-	 */
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class)
 	public Result<String> handleException(Exception e) {
-		logger.error("系统错误...->" + e.getMessage());
-		e.printStackTrace();
+		logger.error("系统错误...->", e);
 		return new Result<String>().failure("系统错误");
 	}
 }
