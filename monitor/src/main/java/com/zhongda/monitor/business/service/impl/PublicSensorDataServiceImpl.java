@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.zhongda.monitor.account.utils.JXLExcel;
 import com.zhongda.monitor.business.mapper.PublicSensorDataMapper;
 import com.zhongda.monitor.business.model.fictitious.DataEchart;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
@@ -32,10 +34,14 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 	@Resource
 	private PublicSensorDataMapper pSenDataMapper;
 
+	@Resource
+	private JXLExcel jxlExcel;
+
 	@Override
 	public Map<Object, Object> querySensorData(String tableName,
 			String sensorNumber, String smuNumber, String smuChannel,
 			String date) {
+		long time2 = new Date().getTime();
 		HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
 		Date today = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -91,8 +97,39 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 		hashMap.put("totalLaserChange", totalLaserChangeList);
 		hashMap.put("speedChange", speedChangeList);
 		hashMap.put("sensorData", sensorDatas);
-
+		long time = new Date().getTime();
+		System.out.println("耗时：" + (time - time2) + "ms");
 		return hashMap;
+	}
+
+	@Override
+	public void querySensorDataList(String tableName, String sensorNumber,
+			String smuNumber, String smuChannel, HttpServletResponse response,
+			String beginDate, String endDate, String monitorPoint,
+			String projectName, String moniterTypeName) {
+		System.out.println("detectionName:" + tableName);
+		System.out.println("------------------------------------");
+		System.out.println("smuCmsId:" + smuNumber + "smuCmsChannel:"
+				+ smuChannel);
+		System.out.println("------------------------------------");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		List<PublicSensorData> list = pSenDataMapper.selectSenDataByDate(
+				tableName, sensorNumber, smuNumber, smuChannel, beginDate,
+				endDate);
+		String datesnew = format.format(list.get(0).getCurrentTimes());
+		// response.setContentType("application/octet-stream");
+		// response.setContentType("application/OCTET-STREAM;charset=UTF-8");
+		response.setHeader("Content-Disposition", "attachment;filename="
+				+ datesnew + ".xls");
+		String[] head = { "初次测试值(MM)", "前次测试时间", "前次测试值(MM)", "本次检测时间",
+				"本次测试值(MM)", "单次变化量(MM)", "总变化量(MM)", "变化速率(MM/MIN)" };
+		if (null != list.get(0).getCurrentTemperature()) {
+			head = new String[] { "初次测试值(MM)", "前次测试时间", "前次测试值(MM)", "本次检测时间",
+					"本次测试值(MM)", "单次变化量(MM)", "总变化量(MM)", "变化速率(MM/MIN)",
+					"温度(℃)" };
+		}
+		jxlExcel.export_excel(response, list, head, projectName,
+				moniterTypeName, monitorPoint);
 	}
 
 }

@@ -16,6 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
 import com.zhongda.monitor.core.model.Result;
 
+/**
+ * 
+ * Title: 传感器模块
+ *
+ * Description:处理传感器数据业务
+ *
+ * @author 研发中心-LiIverson<1061734892@qq.com>
+ * @Date 2018年3月21日 上午9:48:20
+ */
 @RestController
 @RequestMapping(value = "/sensor")
 @Api(value = "传感器模块", tags = { "传感器操作接口" })

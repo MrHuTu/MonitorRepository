@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+    <result column="sensor_id" jdbcType="VARCHAR" property="sensorNumber" />
     <result column="first_time" jdbcType="TIMESTAMP" property="firstTime" />
     <result column="first_data" jdbcType="DOUBLE" property="firstData" />
     <result column="previous_time" jdbcType="TIMESTAMP" property="previousTime" />
@@ -19,6 +20,8 @@
     <result column="smu_number" jdbcType="VARCHAR" property="smuNumber" />
     <result column="smu_channel" jdbcType="VARCHAR" property="smuChannel" />
     <result column="smu_status" jdbcType="INTEGER" property="smuStatus" />
+    <result column="smu_cms_id" jdbcType="VARCHAR" property="smuNumber" />
+    <result column="smu_cms_channel" jdbcType="VARCHAR" property="smuChannel" />
   </resultMap>
   <sql id="Base_Column_List">
     id, sensor_id, first_time, first_data, previous_time, previous_data, current_times, 
