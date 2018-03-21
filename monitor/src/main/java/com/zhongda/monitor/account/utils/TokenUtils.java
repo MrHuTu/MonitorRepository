@@ -44,11 +44,25 @@ public class TokenUtils {
 	
 	/**
 	 * 获取请求头中的token字符串
-	 * @param request 请求头
+	 * @param request 请求
 	 * @return 返回token字符串
 	 */
 	public static String getTokenFromRequest(HttpServletRequest request){
 		String authorization = request.getHeader(StatelessToken.DEFAULT_TOKEN_NAME);
+		if (null != authorization && authorization.startsWith(StatelessToken.TOKEN_HEADER_PREFIX)){
+			//截取token得到jwt格式的token信息
+			return authorization.substring(StatelessToken.TOKEN_HEADER_PREFIX.length() + 1);
+		}
+		return null;
+	}
+	
+	/**
+	 * 获取请求Url中的token字符串
+	 * @param request 请求
+	 * @return 返回token字符串
+	 */
+	public static String getTokenFromRequestUrl(HttpServletRequest request){
+		String authorization = request.getParameter(StatelessToken.DEFAULT_TOKEN_NAME);
 		if (null != authorization && authorization.startsWith(StatelessToken.TOKEN_HEADER_PREFIX)){
 			//截取token得到jwt格式的token信息
 			return authorization.substring(StatelessToken.TOKEN_HEADER_PREFIX.length() + 1);

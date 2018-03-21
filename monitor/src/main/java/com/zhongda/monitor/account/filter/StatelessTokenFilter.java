@@ -71,7 +71,11 @@ public class StatelessTokenFilter extends AccessControlFilter {
      */
 	@Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-		String token = TokenUtils.getTokenFromRequest((HttpServletRequest) request);
+		HttpServletRequest req = (HttpServletRequest) request;
+		String token = TokenUtils.getTokenFromRequest(req);
+		if(null == token && req.getRequestURI().startsWith("/download/")){
+			token = TokenUtils.getTokenFromRequestUrl(req);
+		}
 		if(null != token){
 			//1、验证该token是否已经注销
 			if(ShiroUtils.isLogout(token)){

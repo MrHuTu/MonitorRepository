@@ -39,6 +39,7 @@ public class ShiroUtils {
 	 * @param password 需加密的密码
 	 * @param salt 盐
 	 * @return
+	 * 
 	 */
 	public static String encryptPassword(String password, String salt) {
 		return new SimpleHash(ALGORITHM_NAME, password, salt, HASH_ITERATIONS).toString();
