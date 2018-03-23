@@ -27,7 +27,7 @@ public class UtilController {
 	WeatherService weatherService;
 	
 	@GetMapping("/Weather")
-	@ApiOperation(value = "项目信息", notes = "项目模块右变的数据，目前数据库数据不全，平局值取得2017—10-30号的数据 ", code = 200, produces = "application/json", httpMethod = "GET")	
+	@ApiOperation(value = "项目信息", notes = "这里是天气预报", code = 200, produces = "application/json", httpMethod = "GET")	
 	@ApiImplicitParam (paramType = "query", name = "CityName", value = "城市名称", required = true, dataType = "String")
 	private Result<List<Weather>> getItemAvgDataPost(@RequestParam String CityName) {
 		
