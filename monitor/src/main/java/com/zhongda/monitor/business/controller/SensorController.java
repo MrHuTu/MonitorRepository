@@ -27,7 +27,7 @@ import com.zhongda.monitor.core.model.Result;
  */
 @RestController
 @RequestMapping(value = "/sensor")
-@Api(value = "传感器模块", tags = { "传感器操作接口" })
+@Api(tags = { "传感器操作接口" })
 public class SensorController {
 
 	@Resource

@@ -61,6 +61,7 @@
 	
     <!-- Token缓存 -->
     <cache name="tokenCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="1800"/>
-     <!-- 天气数据缓存 -->
-     <cache name="Weather" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="86400"/>
+    
+    <!-- 天气数据缓存 -->
+    <cache name="weatherCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="86400"/>
 </ehcache>

@@ -9,7 +9,6 @@ import java.util.HashMap;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +27,8 @@ import com.zhongda.monitor.core.model.Result;
  *
  */
 @RestController
-@EnableScheduling
 @RequestMapping("/Item")
-@Api(value = "项目日均值模块", tags = { "项目日均值模块" })
+@Api(tags = { "项目日均值接口" })
 public class ItemController {
 
 	@Autowired

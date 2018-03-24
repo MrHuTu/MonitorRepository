@@ -35,7 +35,7 @@ import com.zhongda.monitor.core.model.Result;
 
 @RestController()
 @RequestMapping(value = "/project")
-@Api(value = "项目模块", tags = { "项目操作接口" })
+@Api(tags = { "项目操作接口" })
 public class ProjectController {
 
 	@Resource

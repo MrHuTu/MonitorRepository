@@ -3,8 +3,11 @@ package com.zhongda.monitor.business.model.fictitious;
 import java.util.List;
 
 public class MyItem {
+	
 	private ItemLeft itemLeft;
+	
 	private List<ItemAvgData> itemAvgList;
+	
 	public ItemLeft getItemLeft() {
 		return itemLeft;
 	}

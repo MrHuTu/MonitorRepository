@@ -13,6 +13,10 @@ public class NoStatelessTokenException extends AuthenticationException {
 	private static final long serialVersionUID = 1L;
 	
 	private String msg;
+	
+	public NoStatelessTokenException() {
+		super();
+	}
 
 	public NoStatelessTokenException(String msg) {
 		super();

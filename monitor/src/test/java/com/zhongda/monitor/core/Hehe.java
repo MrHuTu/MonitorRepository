@@ -7,20 +7,32 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 
-import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.TokenService;
 import com.zhongda.monitor.account.service.impl.TokenServiceImpl;
+import com.zhongda.monitor.core.utils.SystemClock;
 
 
 public class Hehe {
 	
 	public static void main(String[] args) {
-		User user = new User();
-		System.out.println(user);
-		int a = 10;
-		int b =3;
-		user = a>b ? user : null;
-		System.out.println(user);
+		//TestCurrentTime();
+		System.out.println(DateTime.now().toString("YYYYMMdd"));
+	}
+
+	public static void TestCurrentTime() {
+		long start = System.currentTimeMillis();
+		for (int i = 0; i < 1000000000; i++) {
+			System.currentTimeMillis();
+		}
+		long end = System.currentTimeMillis();
+		System.out.println("调用System.currentTimeMillis 耗时 ： " + (end - start));
+		long start1 = SystemClock.now();
+		for (int i = 0; i < 10000; i++) {
+			System.out.println(SystemClock.now());
+		}
+		System.out.println(System.currentTimeMillis());
+		long end1 = SystemClock.now();
+		System.out.println("调用SystemClock.now 耗时 ： " + (end1 - start1));
 	}
 
 	public static void XXX(String[] args) {

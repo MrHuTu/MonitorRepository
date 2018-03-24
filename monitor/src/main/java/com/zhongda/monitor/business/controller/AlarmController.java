@@ -27,7 +27,7 @@ import com.zhongda.monitor.core.model.Result;
 
 @RestController
 @RequestMapping("/alarm")
-@Api(tags = { "告警信息操作接口" })
+@Api(tags = { "告警信息模块" })
 public class AlarmController {
 
 	@Resource

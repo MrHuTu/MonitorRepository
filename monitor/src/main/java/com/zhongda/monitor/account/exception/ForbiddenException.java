@@ -13,6 +13,10 @@ public class ForbiddenException extends AccountException{
 	private static final long serialVersionUID = 1L;
 	
 	private String msg;
+	
+	public ForbiddenException() {
+		super();
+	}
 
 	public ForbiddenException(String msg) {
 		super();
