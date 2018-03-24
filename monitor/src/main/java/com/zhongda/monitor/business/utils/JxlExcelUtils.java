@@ -1,4 +1,4 @@
-package com.zhongda.monitor.account.utils;
+package com.zhongda.monitor.business.utils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 
 @Component
-public class JXLExcel {
+public class JxlExcelUtils {
 
 	private int row;
 

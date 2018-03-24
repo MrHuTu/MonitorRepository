@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
-import com.zhongda.monitor.account.utils.JXLExcel;
 import com.zhongda.monitor.business.mapper.PublicSensorDataMapper;
 import com.zhongda.monitor.business.model.fictitious.DataEchart;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
+import com.zhongda.monitor.business.utils.JxlExcelUtils;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 	private PublicSensorDataMapper pSenDataMapper;
 
 	@Resource
-	private JXLExcel jxlExcel;
+	private JxlExcelUtils jxlExcel;
 
 	@Override
 	public Map<Object, Object> querySensorData(String tableName,
