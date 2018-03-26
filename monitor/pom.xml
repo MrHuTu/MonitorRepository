@@ -163,7 +163,6 @@
 		    <version>2.6.12</version>
 		</dependency>
 		<!-- jxl -->
-		
 	</dependencies>
 
 	<build>

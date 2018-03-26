@@ -44,15 +44,15 @@ public class ReportsContorller {
 			@ApiImplicitParam(name = "endDate", value = "结束时间", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "monitorPoint", value = "测点名称", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "projectName", value = "项目名称", required = true, dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "moniterTypeName", value = "检测指标名称", required = true, dataType = "string", paramType = "query") })
+			@ApiImplicitParam(name = "monitorTypeName", value = "检测指标名称", required = true, dataType = "string", paramType = "query") })
 	public void querySensorData(String tableName, String sensorNumber,
 			String smuNumber, String smuChannel, HttpServletResponse response,
 			String beginDate, String endDate, String monitorPoint,
-			String projectName, String moniterTypeName,
+			String projectName, String monitorTypeName,
 			HttpServletRequest request) {
 		publicSensorDataService.querySensorDataList(tableName, sensorNumber,
 				smuNumber, smuChannel, response, beginDate, endDate,
-				monitorPoint, projectName, moniterTypeName);
+				monitorPoint, projectName, monitorTypeName);
 
 	}
 
