@@ -49,7 +49,12 @@ public interface ProjectService {
 	 * @return
 	 */
 	List<MonitorIndicator> queryProMonitor(Integer projectId);
-
+	/**
+	 * 加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息
+	 * @param userId
+	 * @return 
+	 * @author huchao 2018年3月26日17:07:27
+	 */
 	List<Project> getAllProject(ProjectSelectCondition userId);
 
 }

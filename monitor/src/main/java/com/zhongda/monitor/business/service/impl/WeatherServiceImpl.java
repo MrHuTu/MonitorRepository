@@ -1,7 +1,5 @@
 package com.zhongda.monitor.business.service.impl;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +15,10 @@ import com.zhongda.monitor.core.utils.CacheUtils;
 @Service
 public class WeatherServiceImpl implements WeatherService {
 
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public List<Object> getWeather(String cityName) {
-		List<Object> weatherList = null;
+	public String getWeather(String cityName) {
+		String weatherString = null;
 		//以城市名和当前查询日期做key
 		String key = cityName + DateTime.now().toString("YYYYMMdd");
 		//从缓存中获取数据
@@ -28,15 +26,15 @@ public class WeatherServiceImpl implements WeatherService {
 		//如果缓存中没有对应的数据
 		if (null == obj) {
 			//则调用天气接口获取天气信息，并将天气信息存到缓存中
-			weatherList = WeatherUtils.getTodayWeather(cityName);
-			if(null == weatherList || weatherList.size() == 0){
+			weatherString = WeatherUtils.getTodayWeather(cityName);
+			if(null == weatherString){
 				throw new NoWeatherException("调用天气接口失败,获取不到天气信息");
 			}
-			CacheUtils.put("weatherCache", key, weatherList);
+			CacheUtils.put("weatherCache", key, weatherString);
 		} else { //如果缓存中存在对应的数据，则从缓存中取天气信息
-			weatherList =  (List<Object>) obj;
+			weatherString = obj.toString();
 		}
-		return weatherList;
+		return weatherString;
 	}
 
 }
