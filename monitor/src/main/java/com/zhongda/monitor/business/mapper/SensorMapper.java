@@ -1,6 +1,7 @@
 package com.zhongda.monitor.business.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -41,5 +42,20 @@ public interface SensorMapper {
 	List<Sensor> selectLastData(String tableName,
 			@Param(value = "projectId") Integer projectId,
 			@Param(value = "monitorType") Integer monitorType);
+
+	/**
+	 * 调用存储过程测试
+	 * 
+	 * @param tableNames
+	 * @param projectIds
+	 * @param detectionTypeIds
+	 * @param nameCount
+	 * @return
+	 */
+	List<List<Sensor>> selectHomeP(
+			@Param(value = "tableNames") String tableNames,
+			@Param(value = "projectIds") String projectIds,
+			@Param(value = "detectionTypeIds") String detectionTypeIds,
+			@Param(value = "nameCount") Integer nameCount);
 
 }

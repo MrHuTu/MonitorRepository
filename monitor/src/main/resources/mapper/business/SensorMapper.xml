@@ -67,6 +67,13 @@
 	where sen.project_id= #{projectId,jdbcType=INTEGER} and sen.monitor_type= #{monitorType,jdbcType=INTEGER} GROUP BY sen.sensor_number) ssld
 	LEFT JOIN ${_parameter.param1} sl on ssld.max_id=sl.id)
   </select>
+  <!-- 存储结构测试 -->
+  <select id="selectHomeP" statementType="CALLABLE" resultMap="SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap,SensorDataMap">
+  	call select_home_p(#{tableNames,jdbcType=VARCHAR,mode=IN},
+  	#{projectIds,jdbcType=VARCHAR,mode=IN},
+  	#{detectionTypeIds,jdbcType=VARCHAR,mode=IN},
+  	#{nameCount,jdbcType=INTEGER,mode=IN})
+  </select>
   <select id="selectLastData" resultMap="SensorDataMap">
 	SELECT
 		mmap.monitor_point,mmap.smu_number as sen_smu_number,mmap.smu_channel as sen_smu_channel,mmap.sensor_number as sen_sensor_number,datas.current_data,datas.total_laser_change,datas.speed_change,datas.sensor_status

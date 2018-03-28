@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.utils.ShiroUtils;
+import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
@@ -41,11 +43,15 @@ public class ProjectController {
 	@Resource
 	private ProjectService projectService;
 
-	@GetMapping("/home")
+	@Resource
+	private SensorMapper sensorMapper;
+
+	@GetMapping("/home.gzip")
 	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "加载首页的数据")
-	public Result<Map<String, Object>> loadMap() {
+	public Result<Map<String, Object>> loadMap(HttpServletResponse response) {
 		User user = ShiroUtils.getCurrentUser();
 		System.out.println(user.getUserName());
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		return new Result<Map<String, Object>>().success("操作成功",
 				projectService.loadHome(user.getUserId()));
 
@@ -85,5 +91,23 @@ public class ProjectController {
 				.setData(projectService.getAllProject(projectSelectCondition));
 
 	}
+
+	// @GetMapping("/querTest")
+	// @ApiOperation(value = "项目列表", httpMethod = "GET", response =
+	// Result.class, notes = "测试")
+	// private Result<List<List<Sensor>>> querTest(HttpServletResponse response)
+	// {
+	// response.setHeader("Access-Control-Allow-Origin", "*");
+	// return new Result<List<List<Sensor>>>()
+	// .setCode(Result.SUCCESS)
+	// .setMsg("操作成功")
+	// .setData(
+	// sensorMapper
+	// .selectHomeP(
+	// "static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data",
+	// "261,261,262,262,263,263,264,264",
+	// "16,17,16,17,16,17,16,17", 8));
+	//
+	// }
 
 }

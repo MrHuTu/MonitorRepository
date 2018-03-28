@@ -65,7 +65,6 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Map<String, Object> loadHome(Integer userId) {
-		long start = new Date().getTime();
 		Map<String, Object> projectMap = new HashMap<String, Object>();
 		// 创建一个统计监测类型集合
 		Multiset<String> monitorTypeMultiset = CountUtils.createMultiset();
@@ -77,12 +76,17 @@ public class ProjectServiceImpl implements ProjectService {
 					.getStatisticChartList();
 			if (null != statisticChartList && statisticChartList.size() > 0) {
 				List<MonitorIndicator> list = new ArrayList<MonitorIndicator>();
+				long time = new Date().getTime();
 				for (StatisticChart statisticChart : statisticChartList) {
 					List<Sensor> sensorList = sensorMapper
 							.selectSensorDataByProIdAndMoniType(
 									statisticChart.getTableName(),
 									project.getProjectId(),
 									statisticChart.getDetectionTypeId());
+					System.out.println("tablename:"
+							+ statisticChart.getTableName() + " projectID:"
+							+ project.getProjectId() + " detectionTypeID:"
+							+ statisticChart.getDetectionTypeId());
 					MonitorIndicator monitorType = new MonitorIndicator();
 					monitorType.setMonitorType(statisticChart
 							.getDetectionTypeId());
@@ -95,6 +99,8 @@ public class ProjectServiceImpl implements ProjectService {
 							.getDetectionTypeName());
 					list.add(monitorType);
 				}
+				long time2 = new Date().getTime();
+				System.out.println("测试：" + (time2 - time) + "ms");
 				project.setMonitorTypeList(list);
 				project.setStatisticChartList(null);
 				// 将每个项目的项目类型放入集合中
@@ -109,8 +115,6 @@ public class ProjectServiceImpl implements ProjectService {
 		projectMap.put("projectList", ProCharThList);
 		projectMap.put("monitorTypeCount", monitorTypeCountMap);
 		projectMap.put("projectTypeCount", projectTypeCountMap);
-		long end = new Date().getTime();
-		System.out.println(end - start);
 		return projectMap;
 	}
 
