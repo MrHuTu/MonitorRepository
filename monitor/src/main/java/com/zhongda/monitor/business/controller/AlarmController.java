@@ -31,7 +31,7 @@ import com.zhongda.monitor.core.model.Result;
 public class AlarmController {
 
 	@Resource
-	AlarmService alarmService;
+	private AlarmService alarmService;
 
 	@GetMapping("/queryAlarm")
 	@ApiOperation(value = "分页按条件查询当前用户下的告警信息", httpMethod = "GET", response = Result.class, notes = "分页查询当前用户下的告警信息")

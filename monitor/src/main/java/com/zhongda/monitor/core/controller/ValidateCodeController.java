@@ -1,6 +1,8 @@
 package com.zhongda.monitor.core.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import javax.annotation.Resource;
@@ -26,17 +28,18 @@ import com.zhongda.monitor.core.service.ValidateCodeService;
 @RequestMapping("/valiCode")
 @Api(tags = { "验证码操作接口" })
 public class ValidateCodeController {
+	
 	@Resource
-	ValidateCodeService validateCodeService;
-
+	private ValidateCodeService validateCodeService;
+	
 	@GetMapping("/getCode")
-
 	@ApiOperation(value = "获取图片验证码", httpMethod = "GET", notes = "获取图片验证码")
+	@ApiImplicitParams({
+		@ApiImplicitParam( dataType = "String", name = "millis", value = "获取图片的时间", required = true, paramType="query")
+	})
 	public void getValidateCode(HttpServletRequest request,
-			HttpServletResponse response) {
-
-		validateCodeService.getValiCode(request, response);
-		
+			HttpServletResponse response, String millis) {
+		validateCodeService.getValiCode(request, response, millis);
 	}
 	/**
 	 * 验证验证码是否正确
@@ -46,9 +49,12 @@ public class ValidateCodeController {
 	@PostMapping("/revisionCode")
 	@ResponseBody
 	@ApiOperation(value = "验证码比对", httpMethod = "POST", response = Result.class, notes = "验证码比对")
-	public Result<String>  revisionValiCode ( String code) {
-		
-		return validateCodeService.revisionValiCode(code);
+	@ApiImplicitParams({
+		@ApiImplicitParam( dataType = "String", name = "code", value = "验证码", required = true,paramType="query"),
+		@ApiImplicitParam( dataType = "String", name = "info", value = "验证码唯一标识", required = true  ,paramType="query")
+	})
+	public Result<String>  revisionValiCode (String code ,String info) {
+		return validateCodeService.revisionValiCode(code,info);
 	}
 	
 	/**
@@ -57,8 +63,11 @@ public class ValidateCodeController {
 	@PostMapping("/sendValidateCode")
 	@ResponseBody
 	@ApiOperation(value = "发送忘记密码验证码", httpMethod = "POST", response = Result.class, notes = "发送忘记密码验证码")
-	public Result<String> sendValidateCode(){
-		return validateCodeService.sendValidateCode();
+	@ApiImplicitParams({
+		@ApiImplicitParam( dataType = "String", name = "userId", value = "用户id", required = true,paramType="query")
+	})
+	public Result<String> sendValidateCode(String userId){
+		return validateCodeService.sendValidateCode(userId);
 	} 
 	
 }

@@ -105,8 +105,7 @@ public class ValidateCodeUtils {
 	 * @param key
 	 */
 	public String getRandomCode(HttpServletRequest request,
-			HttpServletResponse response) {
-
+			HttpServletResponse response ,String millis) {
 		// BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_BGR);
@@ -144,7 +143,7 @@ public class ValidateCodeUtils {
 			}
 
 		}
-		CacheUtils.putAndSetTimeToIdle(CacheUtils.CACHE_VALICODE, "ValiCode", randomString, CommonConstant.VALID_CODE_EXPIRE_TIME);
+		CacheUtils.putAndSetTimeToIdle(CacheUtils.CACHE_VALICODE, millis+"code", randomString, CommonConstant.VALID_CODE_EXPIRE_TIME);
 		return randomString;// 返回验证码信息
 	}
 

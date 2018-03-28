@@ -43,7 +43,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/token/login", "anon");
 		filterChainDefinitionMap.put("/webSocket/**", "anon");
 		filterChainDefinitionMap.put("/valiCode/**", "anon");
-		filterChainDefinitionMap.put("/user/forgetPassword", "anon");
+		filterChainDefinitionMap.put("/user/updatePassword", "anon");
 		filterChainDefinitionMap.put("/user/validateUserExist", "anon");
 		filterChainDefinitionMap.put("/**", "authc");
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

@@ -98,10 +98,10 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByUserName(userName);
 	}
 
-	public Result<String> updatePassword( String password) {
+	public Result<String> updatePassword( String password,String userId) {
 		Result<String> result = new Result<String>();
 		// 获取用户信息
-		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, "ChangePassword");
+		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, userId);
 		if(null == user){
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}
@@ -128,8 +128,8 @@ public class UserServiceImpl implements UserService {
 		if (null == user) {
 			return result.failure("该用户不存在");
 		}
-		CacheUtils.put(CacheUtils.CACHE_USER, "ChangePassword", user);
-		return result.success("存在");
+		CacheUtils.put(CacheUtils.CACHE_USER, user.getUserId()+"", user);
+		return result.success("用户存在", user.getUserId()+"");
 	}
 
 }

@@ -36,60 +36,64 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 	@Resource
 	private MailService mailService;
 	
-	ValidateCodeUtils validateCodeUtils = new ValidateCodeUtils();
-
-	public Result<String> revisionValiCode(String code) {
+	private ValidateCodeUtils validateCodeUtils = new ValidateCodeUtils();
+	
+	/**
+	 * @param  code 验证码 
+	 * @param info 验证码缓存key值
+	 */
+	public Result<String> revisionValiCode(String code ,String info) {
 		Result<String> result = new Result<String>();
 		String realCode = (String) CacheUtils.get(CacheUtils.CACHE_VALICODE,
-				"ValiCode");// 从缓存获取code
+				info+"code");// 从缓存获取code
 		if(null == realCode){
 			throw new VaildCodeExpireException("验证码有效期已过，请重新输入");
 		}
 		// 进行对比
-		if (realCode.endsWith(code)) {
+		if (realCode.equalsIgnoreCase(code)) {
 			result.success("验证码正确");
 		} else {
 			result.failure("验证码输入错误！");
 		}
 		return result;
 	}
-
+	
+	/**
+	 *@param  millis 毫秒数
+	 */
 	public void getValiCode(HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response  ,String millis) {
 		response.setContentType("image/jpeg");// 设置响应类型，告知浏览器输出的是图片
 		response.setHeader("Pragma", "No-cache");// 设置响应头信息，告诉浏览器不要缓存此内容
 		response.setHeader("Cache-Control", "no-cache");
 		response.setHeader("Set-Cookie", "name=value; HttpOnly");// 设置HttpOnly属性,防止Xss攻击
 		response.setDateHeader("Expire", 0);
-
 		try {
-			validateCodeUtils.getRandomCode(request, response);
+			validateCodeUtils.getRandomCode(request, response,millis);
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
-
 	}
 	/**
 	 * 
 	 * @param info 电话号码或者手机号
-	 * @return
+	 * @return 发送短信结果
 	 */
-	public Result<String> sendValidateCode( ) {
+	public Result<String> sendValidateCode(String userId ) {
 		Result< String > result  = new Result<String>();
 		//生成验证码
 		String code = (int) (Math.random() * 9000 + 1000) + "";
-		User user =  (User) CacheUtils.get(CacheUtils.CACHE_USER, "ChangePassword");
+		User user =  (User) CacheUtils.get(CacheUtils.CACHE_USER, userId);
 		if(null == user){
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}
 		//将验证码存入缓存
-		CacheUtils.putAndSetTimeToIdle(CacheUtils.CACHE_VALICODE, "ValiCode", code, CommonConstant.VALID_CODE_EXPIRE_TIME);
+		CacheUtils.putAndSetTimeToIdle(CacheUtils.CACHE_VALICODE, user.getUserId()+"code", code, CommonConstant.VALID_CODE_EXPIRE_TIME);
 		if(user.getPhone()!=null){
 			//发送短信验证码 
 			List<String> params = new ArrayList<String>();
 			params.add(code);
-			params.add(CommonConstant.VALID_CODE_EXPIRE_TIME+"");
+			params.add((CommonConstant.VALID_CODE_EXPIRE_TIME/60)+"");
 			SmsSender sms = new SmsSender();
 			sms.send(SmsContentTemplate.VerifyCode,/*user.getPhone()*/"13348658366" ,params );
 		}
@@ -105,5 +109,4 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 		}
 		return result.success("发送成功");
 	}
-
 }

@@ -25,8 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.core.exception.VaildCodeExpireException;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.service.MailService;
+import com.zhongda.monitor.core.utils.CacheUtils;
 import com.zhongda.monitor.core.utils.MailUtils;
 
 /**
@@ -187,15 +189,20 @@ public class UserController {
 	
 	/**
 	 * 忘记密码时修改密码
-	 * 
+	 * @author KCheng 
+	 * @param password
+	 * @return Map
 	 */
 	@PutMapping("/updatePassword")
 	@ApiOperation(value = "邮箱手机修改密码", httpMethod = "PUT", response = Result.class, notes = "邮箱手机修改密码")
-	@ApiImplicitParams({  
-        @ApiImplicitParam(name = "password", value = "密码",  
-                required = true, dataType = "String", paramType = "form")
-	})
-	public Result<String> updatePassword(String password){
-		return userService.updatePassword(password);
+	
+	public Result<String> updatePassword(String password,String userId){
+		String realCode = (String) CacheUtils.get(CacheUtils.CACHE_VALICODE,
+				userId+"code");// 从缓存获取code
+		if(null == realCode){
+			throw new VaildCodeExpireException("验证码有效期已过，请在有效期内完成操作");
+		}
+		return userService.updatePassword(password,userId);
+		
 	}
 }

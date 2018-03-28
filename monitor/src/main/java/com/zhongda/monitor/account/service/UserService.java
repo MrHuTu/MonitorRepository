@@ -68,7 +68,7 @@ public interface UserService {
 	 * 根据邮箱 手机修改密码
 	 * 
 	 */
-	Result<String> updatePassword(String password);
+	Result<String> updatePassword(String password ,String userId);
 	
 	/**
 	 * 验证输入的邮箱手机是否存在用户

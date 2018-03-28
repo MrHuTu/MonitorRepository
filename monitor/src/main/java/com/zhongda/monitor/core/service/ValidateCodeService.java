@@ -15,10 +15,10 @@ import com.zhongda.monitor.core.model.Result;
 public interface ValidateCodeService {
 	// 获取验证码
 	public void getValiCode(HttpServletRequest request,
-			HttpServletResponse response);
+			HttpServletResponse response ,String millis);
 
 	// 验证验证码
-	public Result<String> revisionValiCode(String code);
+	public Result<String> revisionValiCode(String code,String userId);
 	
-	public Result<String>sendValidateCode();
+	public Result<String>sendValidateCode(String userId);
 }
