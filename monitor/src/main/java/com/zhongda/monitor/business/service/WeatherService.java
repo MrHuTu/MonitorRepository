@@ -1,6 +1,5 @@
 package com.zhongda.monitor.business.service;
 
-import java.util.List;
 
 public interface WeatherService {
 	
@@ -9,5 +8,5 @@ public interface WeatherService {
 	 * @param CityName 传入的城市名
 	 * @return 返回天气信息
 	 */
-	List<Object> getWeather(String cityName);
+	String getWeather(String cityName);
 }

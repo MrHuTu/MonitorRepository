@@ -63,5 +63,5 @@
     <cache name="tokenCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="1800"/>
     
     <!-- 天气数据缓存 -->
-    <cache name="weatherCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="86400"/>
+    <cache name="weatherCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="3600"/>
 </ehcache>

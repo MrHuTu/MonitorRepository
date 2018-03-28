@@ -38,4 +38,5 @@ public interface ProjectMapper {
 	List<Project> selectProjectByUserId(@Param(value = "userId") Integer userId);
 
 	List<Project> getAllProject(ProjectSelectCondition userId);
+
 }

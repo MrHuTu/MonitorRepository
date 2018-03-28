@@ -51,6 +51,9 @@
     project_id, project_name, project_type, project_address, project_longitude, project_latitude, 
     project_begin_time, project_end_time, project_status, project_description
   </sql>
+  <select id="selectDemo" resultMap="BaseResultMap" statementType="CALLABLE">
+  	call demo_pro(#{projectId,mode=IN,jdbcType=INTEGER});
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

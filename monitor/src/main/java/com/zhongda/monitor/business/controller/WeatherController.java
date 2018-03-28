@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +25,7 @@ public class WeatherController {
 	@GetMapping("/{cityName}")
 	@ApiOperation(value = "天气信息", notes = "通过城市名获取当前时间天气", response = Result.class, httpMethod = "GET")	
 	@ApiImplicitParams({ @ApiImplicitParam(name = "cityName", value = "城市名称", required = true, dataType = "String", paramType = "path") })
-	private Result<List<Object>> getItemAvgDataPost(@PathVariable String cityName) {
-		return new Result<List<Object>>().success("查询成功", weatherService.getWeather(cityName)); 
+	private Result<String> getItemAvgDataPost(@PathVariable String cityName) {
+		return new Result<String>().success("查询成功", weatherService.getWeather(cityName)); 
 	}
 }
