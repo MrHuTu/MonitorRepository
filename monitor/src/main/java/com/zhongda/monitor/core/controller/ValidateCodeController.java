@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,13 +33,13 @@ public class ValidateCodeController {
 	@Resource
 	private ValidateCodeService validateCodeService;
 	
-	@GetMapping("/getCode")
+	@GetMapping("/{millis}")
 	@ApiOperation(value = "获取图片验证码", httpMethod = "GET", notes = "获取图片验证码")
 	@ApiImplicitParams({
 		@ApiImplicitParam( dataType = "String", name = "millis", value = "获取图片的时间", required = true, paramType="query")
 	})
 	public void getValidateCode(HttpServletRequest request,
-			HttpServletResponse response, String millis) {
+			HttpServletResponse response, @PathVariable String millis) {
 		validateCodeService.getValiCode(request, response, millis);
 	}
 	/**
@@ -67,6 +68,7 @@ public class ValidateCodeController {
 		@ApiImplicitParam( dataType = "String", name = "userId", value = "用户id", required = true,paramType="query")
 	})
 	public Result<String> sendValidateCode(String userId){
+		System.out.println(userId);
 		return validateCodeService.sendValidateCode(userId);
 	} 
 	

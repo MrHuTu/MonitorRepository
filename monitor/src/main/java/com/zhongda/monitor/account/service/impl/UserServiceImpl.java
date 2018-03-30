@@ -128,7 +128,8 @@ public class UserServiceImpl implements UserService {
 		if (null == user) {
 			return result.failure("该用户不存在");
 		}
-		CacheUtils.put(CacheUtils.CACHE_USER, user.getUserId()+"", user);
+		CacheUtils.put(CacheUtils.CACHE_USER, user.getUserId()+"user", user);
+		System.out.println(user.getUserId());
 		return result.success("用户存在", user.getUserId()+"");
 	}
 

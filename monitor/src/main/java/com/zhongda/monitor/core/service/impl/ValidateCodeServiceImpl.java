@@ -79,11 +79,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 	 * @param info 电话号码或者手机号
 	 * @return 发送短信结果
 	 */
-	public Result<String> sendValidateCode(String userId ) {
+	public Result<String> sendValidateCode(String userId) {
 		Result< String > result  = new Result<String>();
 		//生成验证码
-		String code = (int) (Math.random() * 9000 + 1000) + "";
-		User user =  (User) CacheUtils.get(CacheUtils.CACHE_USER, userId);
+		String code = (int) (Math.random() * 9000 + 1000) +"";
+		User user =  (User) CacheUtils.get(CacheUtils.CACHE_USER, userId+"user");
+		System.out.println(user);
 		if(null == user){
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}

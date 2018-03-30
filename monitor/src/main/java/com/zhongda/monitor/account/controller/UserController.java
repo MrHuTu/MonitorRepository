@@ -196,10 +196,11 @@ public class UserController {
 	@PutMapping("/updatePassword")
 	@ApiOperation(value = "邮箱手机修改密码", httpMethod = "PUT", response = Result.class, notes = "邮箱手机修改密码")
 	
-	public Result<String> updatePassword(String password,String userId){
+	public Result<String> updatePassword(String password,String userId,String code){
 		String realCode = (String) CacheUtils.get(CacheUtils.CACHE_VALICODE,
 				userId+"code");// 从缓存获取code
-		if(null == realCode){
+		
+		if(code != realCode){
 			throw new VaildCodeExpireException("验证码有效期已过，请在有效期内完成操作");
 		}
 		return userService.updatePassword(password,userId);
