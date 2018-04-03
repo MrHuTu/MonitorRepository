@@ -14,12 +14,10 @@ import javax.servlet.http.HttpServletResponseWrapper;
 public class GzipResponse extends HttpServletResponseWrapper {
 
 	private ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-	private HttpServletResponse response;
 	private PrintWriter pwrite;
 
 	public GzipResponse(HttpServletResponse response) {
 		super(response);
-		this.response = response;
 	}
 
 	@Override

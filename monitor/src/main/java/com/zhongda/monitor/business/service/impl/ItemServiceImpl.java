@@ -28,9 +28,9 @@ import com.zhongda.monitor.core.model.Result;
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired
-	ItemMapper itemMapper;
+	private ItemMapper itemMapper;
 	@Autowired
-	StatisticChartService statisticChartService;
+	private StatisticChartService statisticChartService;
 
 	@Resource
 	private ProjectService projectService;

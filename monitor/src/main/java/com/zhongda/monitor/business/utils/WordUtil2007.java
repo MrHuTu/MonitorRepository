@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -23,22 +24,17 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
 
 public class WordUtil2007 {
-
+	
+	private static final Logger logger = Logger.getLogger(WordUtil2007.class);
+	
 	/**
 	 * 
 	 * 根据指定的参数值、模板，生成 word 文档
-	 * 
-	 * 
-	 * 
 	 * @param param
-	 * 
 	 *            需要替换的变量
-	 * 
 	 * @param template
-	 * 
 	 *            模板
 	 */
-
 	public static XWPFDocument generateWord(Map<String, Object> param,String template) {
 
 		XWPFDocument doc = null;
@@ -60,11 +56,9 @@ public class WordUtil2007 {
 			}
 
 		} catch (Exception e) {
-
-			e.printStackTrace();
-
+			logger.error("替换占位符失败", e);
 		}
-
+		logger.info("替换占位符成功");
 		return doc;
 
 	}
