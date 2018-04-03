@@ -95,7 +95,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 			params.add(code);
 			params.add((CommonConstant.VALID_CODE_EXPIRE_TIME/60)+"");
 			SmsSender sms = new SmsSender();
-			sms.send(SmsContentTemplate.VerifyCode,/*user.getPhone()*/"13348658366" ,params );
+			sms.send(SmsContentTemplate.ResetVerifyCode,/*user.getPhone()*/"13348658366" ,params );
 		}
 		else{
 			//发邮件验证码

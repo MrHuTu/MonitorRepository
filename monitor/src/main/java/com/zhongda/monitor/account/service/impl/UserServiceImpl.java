@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 	public Result<String> updatePassword( String password,String userId) {
 		Result<String> result = new Result<String>();
 		// 获取用户信息
-		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, userId);
+		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, userId+"user");
 		if(null == user){
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}
