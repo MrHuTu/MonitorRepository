@@ -84,7 +84,6 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 		//生成验证码
 		String code = (int) (Math.random() * 9000 + 1000) +"";
 		User user =  (User) CacheUtils.get(CacheUtils.CACHE_USER, userId+"user");
-		System.out.println(user);
 		if(null == user){
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}
