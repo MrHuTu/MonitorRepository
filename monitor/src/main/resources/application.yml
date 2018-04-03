@@ -143,3 +143,6 @@ shiroFilter:
     /swagger-resources: anon  
     /swagger-resources/**: anon  
     /webjars/springfox-swagger-ui/**: anon  
+# 项目报告生成路径
+templatepath: d:/model1.docx
+download: d:/在线检测报告/

@@ -148,4 +148,10 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.getAllProject(userId);
 	}
 
+	@Override
+	public Project selectByPrimaryKey(String projectId) {
+		
+		return projectMapper.selectByPrimaryKey(Integer.valueOf(projectId));
+	}
+
 }

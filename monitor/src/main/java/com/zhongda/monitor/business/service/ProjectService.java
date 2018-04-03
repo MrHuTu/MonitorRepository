@@ -56,5 +56,12 @@ public interface ProjectService {
 	 * @author huchao 2018年3月26日17:07:27
 	 */
 	List<Project> getAllProject(ProjectSelectCondition userId);
+	
+	/**
+	 * 根据projectId 查询项目信息
+	 * @param projectId
+	 * @return
+	 */
+	Project selectByPrimaryKey(String projectId);
 
 }
