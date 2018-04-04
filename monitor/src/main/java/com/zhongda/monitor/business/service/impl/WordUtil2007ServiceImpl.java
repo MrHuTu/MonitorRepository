@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.model.Project;
@@ -23,13 +25,17 @@ import com.zhongda.monitor.business.utils.WordUtil2007;
  *
  */
 @Service
+@Scope(value="prototype")
 public class WordUtil2007ServiceImpl implements WordUtil2007Service {
+	private static final Logger logger = Logger.getLogger(WordUtil2007ServiceImpl.class);
+	
 	@Value("${templatepath}")
 	private String templatePath;
 	
 	@Value("${download}")
 	private String download;
-
+	
+	
 	@Autowired
 	ProjectService projectService;
 	/**
@@ -38,45 +44,60 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	@Override
 	public String generateWord(String pojoId) {
 		
-		Map<Object,Object> map= analysis(pojoId);
-		XWPFDocument doc = (XWPFDocument) map.get("doc");
+		String fileName= null;
+		
+		Map<Object,Object> map = analysis(pojoId);
+		
 		String name = (String) map.get("name");
-		FileOutputStream fopts;
-		File file = new File(download);
-		String path = download+name+"日报"+".docx";
-		if(!file.exists()){
-			file.mkdir();
-		}
+		
+		XWPFDocument doc = (XWPFDocument) map.get("doc");
+		
+		//解析之后的word文件存放的临时路径
+		fileName = download +name+".docx";		
+		
 		try {
-			fopts = new FileOutputStream(path);
+			FileOutputStream fopts = new FileOutputStream(fileName);
+						
 			doc.write(fopts);
+			
+			logger.info("word报告解析成功:"+fileName);
+			
 			fopts.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			doc.close();
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.error("word报告解析失败:"+fileName);
 		}
-		return path;
+		
+		return fileName;
 
 		
 	}
 	/**
-	 * 解析测试用模板
+	 * 解析测试用模板,替换占位符
 	 * @param pojoId
-	 * @return
+	 * @return Map 文件名，XWPFDocument对象
 	 */
 	public  Map<Object,Object> analysis(String pojoId){
+		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
+		 
 		Map<String, Object> param = new HashMap<String, Object>();
-		Project pj = projectService.selectByPrimaryKey(pojoId);		
+		
+		Project pj = projectService.selectByPrimaryKey(pojoId);	
+		
 		String name = pj.getProjectName();
-		param.put("${name}", name+"日报");		
+		
+		param.put("${name}", name+"日报");	
+		
 		XWPFDocument doc = WordUtil2007.generateWord(param, templatePath);
 		
 		map.put("doc",doc );
-		map.put("name", name);
+		
+		map.put("name", name+"日报");
+		
 		return map;
 	}
 
