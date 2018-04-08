@@ -17,6 +17,8 @@ public class Project {
 	private Integer projectType;
 
 	private String projectAddress;
+	
+	private String weatherAddress;
 
 	private String projectLongitude;
 
@@ -80,6 +82,14 @@ public class Project {
 	public void setProjectAddress(String projectAddress) {
 		this.projectAddress = projectAddress == null ? null : projectAddress
 				.trim();
+	}
+	
+	public String getWeatherAddress() {
+		return weatherAddress;
+	}
+
+	public void setWeatherAddress(String weatherAddress) {
+		this.weatherAddress = weatherAddress == null ? null : weatherAddress.trim();
 	}
 
 	public String getProjectLongitude() {

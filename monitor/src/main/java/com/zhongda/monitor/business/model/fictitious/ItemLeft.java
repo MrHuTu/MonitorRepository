@@ -21,6 +21,8 @@ public class ItemLeft {
 
 	private String projectAddress;
 	
+	private String weatherAddress; //专用于天气接口的地址，只包含市级名称
+	
 	private String projectDescription;
 
 	public String getProjectName() {
@@ -85,6 +87,14 @@ public class ItemLeft {
 
 	public void setProjectAddress(String projectAddress) {
 		this.projectAddress = projectAddress;
+	}
+	
+	public String getWeatherAddress() {
+		return weatherAddress;
+	}
+
+	public void setWeatherAddress(String weatherAddress) {
+		this.weatherAddress = weatherAddress;
 	}
 
 	public String getProjectDescription() {

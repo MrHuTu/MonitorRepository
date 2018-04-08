@@ -131,6 +131,8 @@ public class ItemServiceImpl implements ItemService {
 				
 				itemLeft.setProjectAddress(project.getProjectAddress());
 				
+				itemLeft.setWeatherAddress(project.getWeatherAddress());
+				
 				itemLeft.setProjectDescription(project.getProjectDescription());
 				
 			}

@@ -71,7 +71,7 @@ public class ReportsContorller {
 	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
 		
 		 	
-			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId),true);
+			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId), true);
 
 	}
 
