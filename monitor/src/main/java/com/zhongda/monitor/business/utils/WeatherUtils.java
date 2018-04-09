@@ -27,7 +27,7 @@ public class WeatherUtils {
 		StringBuilder sb = null;
 		try {
 			String city = java.net.URLEncoder.encode(cityName, "UTf-8");
-			URL url = new URL("http://api.map.baidu.com/telematics/v3/weather?location="+city+"&output=json&ak=6tYzTvGZSOpYB5Oc2YGGOKt8");
+			URL url = new URL("http://api.map.baidu.com/telematics/v3/weather?location="+city+"&output=json&ak=RmPOayqzya16P7YNexDjwagBavByf1fO");
 
 			URLConnection connection = url.openConnection();
 			//设置连接超时时间5秒
