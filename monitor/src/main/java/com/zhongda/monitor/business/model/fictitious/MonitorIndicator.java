@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.zhongda.monitor.business.model.Sensor;
+import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.model.Threshold;
 
 /**
@@ -17,16 +18,17 @@ import com.zhongda.monitor.business.model.Threshold;
  */
 @JsonInclude(Include.NON_NULL)
 public class MonitorIndicator {
-
 	private Integer monitorType;
 
 	private String monitorTypeName;
 
-	private Threshold threshold;
-
 	private String tableName;
 
+	private Threshold threshold;
+
 	private List<Sensor> sensorList;
+
+	private List<StatisticChart> statisticChart;
 
 	public Integer getMonitorType() {
 		return monitorType;
@@ -44,14 +46,6 @@ public class MonitorIndicator {
 		this.monitorTypeName = monitorTypeName;
 	}
 
-	public Threshold getThreshold() {
-		return threshold;
-	}
-
-	public void setThreshold(Threshold threshold) {
-		this.threshold = threshold;
-	}
-
 	public String getTableName() {
 		return tableName;
 	}
@@ -60,12 +54,36 @@ public class MonitorIndicator {
 		this.tableName = tableName;
 	}
 
+	public Threshold getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(Threshold threshold) {
+		this.threshold = threshold;
+	}
+
 	public List<Sensor> getSensorList() {
 		return sensorList;
 	}
 
 	public void setSensorList(List<Sensor> sensorList) {
 		this.sensorList = sensorList;
+	}
+
+	public List<StatisticChart> getStatisticChart() {
+		return statisticChart;
+	}
+
+	public void setStatisticChart(List<StatisticChart> statisticChart) {
+		this.statisticChart = statisticChart;
+	}
+
+	@Override
+	public String toString() {
+		return "MonitorIndicator [monitorType=" + monitorType
+				+ ", monitorTypeName=" + monitorTypeName + ", tableName="
+				+ tableName + ", threshold=" + threshold + ", sensorList="
+				+ sensorList + "]";
 	}
 
 }

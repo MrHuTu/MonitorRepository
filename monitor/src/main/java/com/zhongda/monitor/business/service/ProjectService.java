@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
-import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
+import com.zhongda.monitor.business.model.StatisticChart;
 
 /**
  * 
@@ -48,11 +48,13 @@ public interface ProjectService {
 	 * @param projectId
 	 * @return
 	 */
-	List<MonitorIndicator> queryProMonitor(Integer projectId);
+	List<StatisticChart> queryProMonitor(Integer projectId);
+
 	/**
 	 * 加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息
+	 * 
 	 * @param userId
-	 * @return 
+	 * @return
 	 * @author huchao 2018年3月26日17:07:27
 	 */
 	List<Project> getAllProject(ProjectSelectCondition userId);
@@ -63,5 +65,13 @@ public interface ProjectService {
 	 * @return
 	 */
 	Project selectByPrimaryKey(String projectId);
+
+	/**
+	 * 调用存储过程查询首页数据
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Map<String, Object> selectHomeP(Integer userId);
 
 }

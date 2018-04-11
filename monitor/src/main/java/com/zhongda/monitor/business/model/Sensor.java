@@ -158,4 +158,17 @@ public class Sensor {
 		this.itemName = itemName;
 	}
 
+	@Override
+	public String toString() {
+		return "Sensor [sensorId=" + sensorId + ", projectId=" + projectId
+				+ ", monitorPoint=" + monitorPoint + ", monitorType="
+				+ monitorType + ", smuNumber=" + smuNumber + ", smuChannel="
+				+ smuChannel + ", sensorNumber=" + sensorNumber
+				+ ", sensorType=" + sensorType + ", sensorModel=" + sensorModel
+				+ ", sensorLongitude=" + sensorLongitude + ", sensorLatitude="
+				+ sensorLatitude + ", sensorPlace=" + sensorPlace
+				+ ", sensorDepth=" + sensorDepth + ", itemName=" + itemName
+				+ ", publicSensorData=" + publicSensorData + "]";
+	}
+
 }

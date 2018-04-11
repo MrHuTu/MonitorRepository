@@ -1,11 +1,13 @@
 package com.zhongda.monitor.business.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
+import com.zhongda.monitor.business.utils.MapParam;
 
 public interface ProjectMapper {
 	int deleteByPrimaryKey(Integer projectId);
@@ -38,5 +40,7 @@ public interface ProjectMapper {
 	List<Project> selectProjectByUserId(@Param(value = "userId") Integer userId);
 
 	List<Project> getAllProject(ProjectSelectCondition userId);
+
+	Map<Object, Object> selectTest(MapParam param);
 
 }

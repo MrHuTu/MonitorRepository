@@ -93,7 +93,8 @@ from project p,`user` u,user_project up where 1=1
 	<if test="userId == 3">
 	and p.project_id = up.project_id and up.user_id=u.user_id
 	</if>	
-</select>
+	</select>
+	
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project
     where project_id = #{projectId,jdbcType=INTEGER}
