@@ -174,11 +174,49 @@ public class ProjectServiceImpl implements ProjectService {
 
 		List<List<StatisticChart>> selectLastData = statisticChartMapper
 				.selectLastData(projectId);
-		ArrayList<StatisticChart> statisticCharts = new ArrayList<StatisticChart>();
-		for (List<StatisticChart> list : selectLastData) {
-			statisticCharts.add(list.get(0));
+		List<StatisticChart> mArrayList = new ArrayList<StatisticChart>();
+		if (null != selectLastData && selectLastData.size() > 0) {
+
+			if (selectLastData.size() == 1) {
+				mArrayList.add((StatisticChart) selectLastData.get(0));
+			} else {
+				for (List<StatisticChart> list : selectLastData) {
+					mArrayList.add(list.get(0));
+				}
+			}
+
 		}
-		return statisticCharts;
+
+		// if (selectLastData.size() == 1) {
+		// MonitorIndicator monitorIndicator = new MonitorIndicator();
+		// monitorIndicator.setMonitorType(((StatisticChart) selectLastData
+		// .get(0)).getMonitorType());
+		// monitorIndicator
+		// .setMonitorTypeName(((StatisticChart) selectLastData.get(0))
+		// .getMonitorTypeName());
+		// monitorIndicator.setTableName(((StatisticChart) selectLastData
+		// .get(0)).getTableName());
+		// monitorIndicator.setSensorList(((StatisticChart) selectLastData
+		// .get(0)).getSensorList());
+		// mArrayList.add(monitorIndicator);
+		// } else {
+		// for (List<StatisticChart> list : selectLastData) {
+		// for (StatisticChart statisticChart : list) {
+		// MonitorIndicator monitorIndicator = new MonitorIndicator();
+		// monitorIndicator.setMonitorType(statisticChart
+		// .getMonitorType());
+		// monitorIndicator.setMonitorTypeName(statisticChart
+		// .getMonitorTypeName());
+		// monitorIndicator
+		// .setTableName(statisticChart.getTableName());
+		// monitorIndicator.setSensorList(statisticChart
+		// .getSensorList());
+		// mArrayList.add(monitorIndicator);
+		// }
+		// }
+		// }
+		return mArrayList;
+
 	}
 
 	@Override
@@ -188,7 +226,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public Project selectByPrimaryKey(String projectId) {
-		
+
 		return projectMapper.selectByPrimaryKey(Integer.valueOf(projectId));
 	}
 

@@ -121,4 +121,11 @@ public class StatisticChart {
 		this.sensorList = sensorList;
 	}
 
+	@Override
+	public String toString() {
+		return "StatisticChart [tableName=" + tableName + ", monitorType="
+				+ monitorType + ", monitorTypeName=" + monitorTypeName
+				+ ", sensorList=" + sensorList + "]";
+	}
+
 }

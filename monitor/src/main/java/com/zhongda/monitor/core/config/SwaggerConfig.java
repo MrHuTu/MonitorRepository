@@ -69,10 +69,13 @@ public class SwaggerConfig {
 		List<Parameter> paramList = new ArrayList<Parameter>();
 		tokenParam
 				.name("Authorization")
-				.defaultValue(StatelessToken.TOKEN_HEADER_PREFIX + " eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjMxNTczMjAsImV4cCI6MTUyMzc2MjEyMCwidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6M30.oj91gbOnyBAmgRfmol8EcgfjaZzsiEP0vNa7sxgu4_M")
-				.description("Token令牌( " + StatelessToken.TOKEN_HEADER_PREFIX + " 开头)")
-				.modelRef(new ModelRef("string")).parameterType("header")
-				.required(false).build();
+				.defaultValue(
+						StatelessToken.TOKEN_HEADER_PREFIX
+								+ " eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjM0NDMzNTcsImV4cCI6MTUyNDA0ODE1NywidXNlck5hbWUiOiJBMDIiLCJ1c2VySWQiOjd9.zf_FIraatX5vLQzQluJ8SWwiDtzWWvfSYm8FoH49W2g")
+				.description(
+						"Token令牌( " + StatelessToken.TOKEN_HEADER_PREFIX
+								+ " 开头)").modelRef(new ModelRef("string"))
+				.parameterType("header").required(false).build();
 		paramList.add(tokenParam.build());
 		return paramList;
 	}

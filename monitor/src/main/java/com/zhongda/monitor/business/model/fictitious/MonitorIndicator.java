@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.zhongda.monitor.business.model.Sensor;
-import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.model.Threshold;
 
 /**
@@ -27,8 +26,6 @@ public class MonitorIndicator {
 	private Threshold threshold;
 
 	private List<Sensor> sensorList;
-
-	private List<StatisticChart> statisticChart;
 
 	public Integer getMonitorType() {
 		return monitorType;
@@ -68,14 +65,6 @@ public class MonitorIndicator {
 
 	public void setSensorList(List<Sensor> sensorList) {
 		this.sensorList = sensorList;
-	}
-
-	public List<StatisticChart> getStatisticChart() {
-		return statisticChart;
-	}
-
-	public void setStatisticChart(List<StatisticChart> statisticChart) {
-		this.statisticChart = statisticChart;
 	}
 
 	@Override
