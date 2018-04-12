@@ -17,6 +17,8 @@ public class Project {
 	private Integer projectType;
 
 	private String projectAddress;
+	
+	private String weatherAddress;
 
 	private String projectLongitude;
 
@@ -29,17 +31,17 @@ public class Project {
 	private Integer projectStatus;
 
 	private String projectDescription;
-	
-	private String projectPrincipal; //项目负责人
-	
-	private Integer projectSensorNumber;//传感器数量
-	
-	private Integer projectSmuNumber;//传感器数量
+
+	private String projectPrincipal; // 项目负责人
+
+	private Integer projectSensorNumber;// 传感器数量
+
+	private Integer projectSmuNumber;// 传感器数量
 
 	private Integer alCount;// 项目告警次数 数据库没有字段
 
 	private String projectTypeName;// 项目类型名称
-	
+
 	private String projectStatusName;// 项目状态字符串标识
 
 	private List<MonitorIndicator> monitorTypeList; // 检测指标对象集合
@@ -80,6 +82,14 @@ public class Project {
 	public void setProjectAddress(String projectAddress) {
 		this.projectAddress = projectAddress == null ? null : projectAddress
 				.trim();
+	}
+	
+	public String getWeatherAddress() {
+		return weatherAddress;
+	}
+
+	public void setWeatherAddress(String weatherAddress) {
+		this.weatherAddress = weatherAddress == null ? null : weatherAddress.trim();
 	}
 
 	public String getProjectLongitude() {
@@ -205,6 +215,12 @@ public class Project {
 
 	public void setProjectStatusName(String projectStatusName) {
 		this.projectStatusName = projectStatusName;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", statisticChartList="
+				+ statisticChartList + "]";
 	}
 
 }

@@ -6,6 +6,7 @@
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
     <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="weather_address" jdbcType="VARCHAR" property="weatherAddress" />
     <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
     <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
     <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
@@ -18,6 +19,7 @@
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
     <result column="project_type" jdbcType="INTEGER" property="projectType" />
     <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="weather_address" jdbcType="VARCHAR" property="weatherAddress" />
     <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
     <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
     <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
@@ -48,12 +50,9 @@
     <result column="project_status_name" jdbcType="VARCHAR" property="projectStatusName" />
   </resultMap>
   <sql id="Base_Column_List">
-    project_id, project_name, project_type, project_address, project_longitude, project_latitude, 
+    project_id, project_name, project_type, project_address, weather_address, project_longitude, project_latitude, 
     project_begin_time, project_end_time, project_status, project_description
   </sql>
-  <select id="selectDemo" resultMap="BaseResultMap" statementType="CALLABLE">
-  	call demo_pro(#{projectId,mode=IN,jdbcType=INTEGER});
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -78,7 +77,7 @@
  		SELECT 
 p.project_id, p.project_name, u.real_name as project_principal, p.project_begin_time, p.project_end_time,
  (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type_name, p.project_address as project_address,
-p.project_description, (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status_name,
+p.weather_address as weather_address, p.project_description, (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status_name,
 (select COUNT(*) from alarm a where p.project_id =a.project_id and a.alarm_status=0) as al_count,  
 (	select COUNT(*) from project pr,(SELECT sen.project_id as senproject_id  from sensor sen,project po  
 	where sen.project_id =po.project_id GROUP BY  sen.smu_number,sen.project_id) a 
@@ -91,20 +90,21 @@ from project p,`user` u,user_project up where 1=1
 	<if test="userId == 3">
 	and p.project_id = up.project_id and up.user_id=u.user_id
 	</if>	
-</select>
+	</select>
+	
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from project
     where project_id = #{projectId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.Project">
     insert into project (project_id, project_name, project_type, 
-      project_address, project_longitude, project_latitude, 
-      project_begin_time, project_end_time, project_status, 
-      project_description)
+      project_address, weather_address, project_longitude, 
+      project_latitude, project_begin_time, project_end_time, 
+      project_status, project_description)
     values (#{projectId,jdbcType=INTEGER}, #{projectName,jdbcType=VARCHAR}, #{projectType,jdbcType=INTEGER}, 
-      #{projectAddress,jdbcType=VARCHAR}, #{projectLongitude,jdbcType=VARCHAR}, #{projectLatitude,jdbcType=VARCHAR}, 
-      #{projectBeginTime,jdbcType=TIMESTAMP}, #{projectEndTime,jdbcType=TIMESTAMP}, #{projectStatus,jdbcType=INTEGER}, 
-      #{projectDescription,jdbcType=VARCHAR})
+      #{projectAddress,jdbcType=VARCHAR}, #{weatherAddress,jdbcType=VARCHAR}, #{projectLongitude,jdbcType=VARCHAR}, 
+      #{projectLatitude,jdbcType=VARCHAR}, #{projectBeginTime,jdbcType=TIMESTAMP}, #{projectEndTime,jdbcType=TIMESTAMP}, 
+      #{projectStatus,jdbcType=INTEGER}, #{projectDescription,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Project">
     insert into project
@@ -120,6 +120,9 @@ from project p,`user` u,user_project up where 1=1
       </if>
       <if test="projectAddress != null">
         project_address,
+      </if>
+      <if test="weatherAddress != null">
+        weather_address,
       </if>
       <if test="projectLongitude != null">
         project_longitude,
@@ -153,6 +156,9 @@ from project p,`user` u,user_project up where 1=1
       <if test="projectAddress != null">
         #{projectAddress,jdbcType=VARCHAR},
       </if>
+      <if test="weatherAddress != null">
+        #{weatherAddress,jdbcType=VARCHAR},
+      </if>
       <if test="projectLongitude != null">
         #{projectLongitude,jdbcType=VARCHAR},
       </if>
@@ -185,6 +191,9 @@ from project p,`user` u,user_project up where 1=1
       <if test="projectAddress != null">
         project_address = #{projectAddress,jdbcType=VARCHAR},
       </if>
+      <if test="weatherAddress != null">
+        weather_address = #{weatherAddress,jdbcType=VARCHAR},
+      </if>
       <if test="projectLongitude != null">
         project_longitude = #{projectLongitude,jdbcType=VARCHAR},
       </if>
@@ -211,6 +220,7 @@ from project p,`user` u,user_project up where 1=1
     set project_name = #{projectName,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=INTEGER},
       project_address = #{projectAddress,jdbcType=VARCHAR},
+      weather_address = #{weatherAddress,jdbcType=VARCHAR},
       project_longitude = #{projectLongitude,jdbcType=VARCHAR},
       project_latitude = #{projectLatitude,jdbcType=VARCHAR},
       project_begin_time = #{projectBeginTime,jdbcType=TIMESTAMP},

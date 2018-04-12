@@ -17,14 +17,13 @@ import com.zhongda.monitor.business.model.Threshold;
  */
 @JsonInclude(Include.NON_NULL)
 public class MonitorIndicator {
-
 	private Integer monitorType;
 
 	private String monitorTypeName;
 
-	private Threshold threshold;
-
 	private String tableName;
+
+	private Threshold threshold;
 
 	private List<Sensor> sensorList;
 
@@ -44,14 +43,6 @@ public class MonitorIndicator {
 		this.monitorTypeName = monitorTypeName;
 	}
 
-	public Threshold getThreshold() {
-		return threshold;
-	}
-
-	public void setThreshold(Threshold threshold) {
-		this.threshold = threshold;
-	}
-
 	public String getTableName() {
 		return tableName;
 	}
@@ -60,12 +51,28 @@ public class MonitorIndicator {
 		this.tableName = tableName;
 	}
 
+	public Threshold getThreshold() {
+		return threshold;
+	}
+
+	public void setThreshold(Threshold threshold) {
+		this.threshold = threshold;
+	}
+
 	public List<Sensor> getSensorList() {
 		return sensorList;
 	}
 
 	public void setSensorList(List<Sensor> sensorList) {
 		this.sensorList = sensorList;
+	}
+
+	@Override
+	public String toString() {
+		return "MonitorIndicator [monitorType=" + monitorType
+				+ ", monitorTypeName=" + monitorTypeName + ", tableName="
+				+ tableName + ", threshold=" + threshold + ", sensorList="
+				+ sensorList + "]";
 	}
 
 }

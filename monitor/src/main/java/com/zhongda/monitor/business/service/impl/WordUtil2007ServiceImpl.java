@@ -1,14 +1,13 @@
 package com.zhongda.monitor.business.service.impl;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +26,8 @@ import com.zhongda.monitor.business.utils.WordUtil2007;
 @Service
 @Scope(value="prototype")
 public class WordUtil2007ServiceImpl implements WordUtil2007Service {
-	private static final Logger logger = Logger.getLogger(WordUtil2007ServiceImpl.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
 	
 	@Value("${templatepath}")
 	private String templatePath;

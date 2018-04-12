@@ -2,6 +2,8 @@ package com.zhongda.monitor.business.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.zhongda.monitor.business.model.StatisticChart;
 
 public interface StatisticChartMapper {
@@ -25,6 +27,15 @@ public interface StatisticChartMapper {
 	 */
 	List<StatisticChart> selectStatisCharByProjectId(Integer projectId);
 
-    List<StatisticChart> selectByPojoId(int poJoId);
+	List<StatisticChart> selectByPojoId(int poJoId);
+
+	/**
+	 * 调用存储过程查询传感器数据
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	List<List<StatisticChart>> selectLastData(
+			@Param(value = "projectId") Integer projectId);
 
 }

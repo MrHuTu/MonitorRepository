@@ -13,17 +13,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 
-import com.zhongda.monitor.business.service.impl.WordUtil2007ServiceImpl;
-
-@Component
 public class Download {
-	private static final Logger logger = Logger.getLogger(Download.class);
+	
+	private static final Logger logger = LoggerFactory.getLogger(Download.class);
+	
 	/**
 	 * 
 	 * @param filePath
@@ -72,13 +71,13 @@ public class Download {
 	 *            是否删除 服务器上的文件
 	 * @return
 	 */
-	public static ResponseEntity<byte[]> downloadSolve(String path,boolean delete) {
+	public static ResponseEntity<byte[]> downloadSolve(String path, boolean delete) {
 		byte[] body = null;
 		
 		File file = new File(path);
 		
 		InputStream is;
-		
+		logger.info("服务器文件生成目录:"+path);
 		try {
 			is = new FileInputStream(file);
 			
@@ -105,7 +104,7 @@ public class Download {
 
 		HttpHeaders headers = new HttpHeaders();
 		try {
-			headers.add("Content-Disposition", "attchement;filename="+ URLEncoder.encode(file.getName(), "utf-8"));
+			headers.add("Content-Disposition", "attchement;filename=\""+ new String(file.getName().getBytes("UTF-8"),"ISO8859-1") + "\";filename*=utf-8''" + URLEncoder.encode(file.getName(), "utf-8").replaceAll("\\+", "%20"));
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -56,6 +56,11 @@
     <typeAliases>
         <package name="com.zhongda.monitor.model"/>
     </typeAliases>
+	<!-- 设置mybtais返回类型为Map结构拦截器 -->
+<!-- 	<plugins>
+		<plugin interceptor="com.zhongda.monitor.business.interceptor.MapInterceptor">
+		</plugin>
+	</plugins> -->
 
    <!--   <plugins>
         配置分页插件 PageHelper5.0.0 

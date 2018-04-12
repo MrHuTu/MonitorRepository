@@ -1,5 +1,11 @@
 package com.zhongda.monitor.business.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
+@JsonInclude(Include.NON_NULL)
 public class StatisticChart {
 	private Integer statisticChartId;
 
@@ -16,6 +22,15 @@ public class StatisticChart {
 	private String sensorId;
 
 	private Threshold threshold;
+
+	// 数据库没有字段 检测指标
+	private Integer monitorType;
+
+	// 数据库没有字段 检测指标名称
+	private String monitorTypeName;
+
+	// 数据库没有字段 传感器集合
+	private List<Sensor> sensorList;
 
 	public Integer getStatisticChartId() {
 		return statisticChartId;
@@ -80,6 +95,37 @@ public class StatisticChart {
 
 	public void setThreshold(Threshold threshold) {
 		this.threshold = threshold;
+	}
+
+	public Integer getMonitorType() {
+		return monitorType;
+	}
+
+	public void setMonitorType(Integer monitorType) {
+		this.monitorType = monitorType;
+	}
+
+	public String getMonitorTypeName() {
+		return monitorTypeName;
+	}
+
+	public void setMonitorTypeName(String monitorTypeName) {
+		this.monitorTypeName = monitorTypeName;
+	}
+
+	public List<Sensor> getSensorList() {
+		return sensorList;
+	}
+
+	public void setSensorList(List<Sensor> sensorList) {
+		this.sensorList = sensorList;
+	}
+
+	@Override
+	public String toString() {
+		return "StatisticChart [tableName=" + tableName + ", monitorType="
+				+ monitorType + ", monitorTypeName=" + monitorTypeName
+				+ ", sensorList=" + sensorList + "]";
 	}
 
 }

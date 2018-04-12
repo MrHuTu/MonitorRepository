@@ -38,12 +38,11 @@ public interface SensorMapper {
 	 * @param monitorType
 	 * @return
 	 */
-	List<Sensor> selectLastData(String tableName,
-			@Param(value = "projectId") Integer projectId,
-			@Param(value = "monitorType") Integer monitorType);
+	List<List<Sensor>> selectLastData(
+			@Param(value = "projectId") Integer projectId);
 
 	/**
-	 * 调用存储过程测试
+	 * 调用存储过程查询多个表传感器数据
 	 * 
 	 * @param tableNames
 	 * @param projectIds
@@ -51,10 +50,6 @@ public interface SensorMapper {
 	 * @param nameCount
 	 * @return
 	 */
-	List<List<Sensor>> selectHomeP(
-			@Param(value = "tableNames") String tableNames,
-			@Param(value = "projectIds") String projectIds,
-			@Param(value = "detectionTypeIds") String detectionTypeIds,
-			@Param(value = "nameCount") Integer nameCount);
+	List<List<Sensor>> selectHomeP(@Param(value = "userId") Integer userId);
 
 }

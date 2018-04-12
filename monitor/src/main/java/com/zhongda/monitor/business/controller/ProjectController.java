@@ -21,7 +21,7 @@ import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
-import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
+import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
 
@@ -57,6 +57,16 @@ public class ProjectController {
 
 	}
 
+	@GetMapping("/homep.gzip")
+	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "调用存储过程加载首页的数据")
+	public Result<Map<String, Object>> loadhomep(HttpServletResponse response) {
+		User user = ShiroUtils.getCurrentUser();
+		// response.setHeader("Access-Control-Allow-Origin", "*");
+		return new Result<Map<String, Object>>().success("操作成功",
+				projectService.loadHome(user.getUserId()));
+
+	}
+
 	@GetMapping(value = "/queryProjects")
 	@ApiOperation(value = "项目数据", httpMethod = "GET", response = Result.class, notes = "查询用户下的所有项目")
 	public Result<List<Project>> queryProject() {
@@ -69,9 +79,9 @@ public class ProjectController {
 	@GetMapping(value = "/queryProMoData/{projectId}")
 	@ApiOperation(value = "传感器最近一次数据", httpMethod = "GET", response = Result.class, notes = "查询项目下所有传感器最近一次数据")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "projectId", value = "项目ID", required = true, dataType = "int", paramType = "path") })
-	public Result<List<MonitorIndicator>> queryPromonitor(
+	public Result<List<StatisticChart>> queryPromonitor(
 			@PathVariable Integer projectId) {
-		return new Result<List<MonitorIndicator>>().setCode(Result.SUCCESS)
+		return new Result<List<StatisticChart>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
 				.setData(projectService.queryProMonitor(projectId));
 	}
@@ -91,6 +101,17 @@ public class ProjectController {
 				.setData(projectService.getAllProject(projectSelectCondition));
 
 	}
+
+	// @GetMapping("/test")
+	// @ApiOperation(value = "测试", httpMethod = "GET", response = Result.class,
+	// notes = "测试")
+	// public Result<Map<Object, Object>> Tests(HttpServletResponse response) {
+	// MapParam param = new MapParam("id", "pname",
+	// MapParam.ValueClass.STRING.getCode());
+	// return new Result<Map<Object, Object>>().success("操作成功",
+	// projectService.queryTest(param));
+	//
+	// }
 
 	// @GetMapping("/querTest")
 	// @ApiOperation(value = "项目列表", httpMethod = "GET", response =

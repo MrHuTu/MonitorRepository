@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -22,10 +21,12 @@ import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WordUtil2007 {
 	
-	private static final Logger logger = Logger.getLogger(WordUtil2007.class);
+	private static final Logger logger = LoggerFactory.getLogger(WordUtil2007.class);
 	
 	/**
 	 * 

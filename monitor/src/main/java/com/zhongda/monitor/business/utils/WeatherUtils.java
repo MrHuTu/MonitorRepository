@@ -5,7 +5,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.business.exception.NoWeatherException;
 
@@ -15,7 +16,7 @@ import com.zhongda.monitor.business.exception.NoWeatherException;
  */
 public class WeatherUtils {
 	
-	private static final Logger logger = Logger.getLogger(WeatherUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(WeatherUtils.class);
 	
 	/**
 	 * 获取实时天气1<br>
