@@ -1,26 +1,19 @@
 package com.zhongda.monitor.business.controller;
 
-import java.io.IOException;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.business.service.PublicSensorDataService;
-import com.zhongda.monitor.business.service.WordUtil2007Service;
-import com.zhongda.monitor.business.utils.Download;
 import com.zhongda.monitor.core.model.Result;
 
 /**
@@ -40,8 +33,8 @@ public class ReportsContorller {
 	@Resource
 	private PublicSensorDataService publicSensorDataService;
 	
-	@Autowired	
-	private WordUtil2007Service wordUtil2007Service;
+	/*@Autowired	
+	private WordUtil2007Service wordUtil2007Service;*/
 
 	@GetMapping(value = "/downloadSenData")
 	@ApiOperation(value = "下载传感器数据", httpMethod = "GET", response = Result.class, notes = "下载按时间段查找出来的传感器数据")
@@ -66,13 +59,13 @@ public class ReportsContorller {
 
 	}
 	
-	@GetMapping("/downloadWord")
+	/*@GetMapping("/downloadWord")   ******暂时不用，请勿删除**********
 	@ApiOperation(value = "报告信息", notes = "生成当前项目报告",  httpMethod = "GET")	
 	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
 		
 		 	
 			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId), true);
 
-	}
+	}*/
 
 }

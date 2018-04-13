@@ -1,4 +1,4 @@
-/*package com.zhongda.monitor.business.service.impl;
+package com.zhongda.monitor.report.service.impl;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,14 +15,16 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
-import com.zhongda.monitor.business.service.WordUtil2007Service;
-import com.zhongda.monitor.business.utils.WordUtil2007;
-*//**
+import com.zhongda.monitor.report.service.WordUtil2007Service;
+import com.zhongda.monitor.report.utils.WordUtil2007;
+
+
+/**
  * 生成报告服务类
  * @author huchao
  * 2018年4月2日17:23:20
  *
- *//*
+ */
 @Service
 @Scope(value="prototype")
 public class WordUtil2007ServiceImpl implements WordUtil2007Service {
@@ -38,9 +40,9 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	@Autowired
 	ProjectService projectService;
-	*//**
+	/**
 	 * return String 返回报告文件路径
-	 *//*
+	 */
 	@Override
 	public String generateWord(String pojoId) {
 		
@@ -56,6 +58,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		fileName = download +name+".docx";		
 		
 		try {
+			
 			FileOutputStream fopts = new FileOutputStream(fileName);
 						
 			doc.write(fopts);
@@ -75,11 +78,11 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 
 		
 	}
-	*//**
+	/**
 	 * 解析测试用模板,替换占位符
 	 * @param pojoId
 	 * @return Map 文件名，XWPFDocument对象
-	 *//*
+	 */
 	public  Map<Object,Object> analysis(String pojoId){
 		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
@@ -102,4 +105,3 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	}
 
 }
-*/

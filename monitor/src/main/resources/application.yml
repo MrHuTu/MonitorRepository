@@ -112,7 +112,7 @@ spring:
 #mybatis扫描xml以及实体路径   
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml 
-  mapper-locations: classpath:mapper/*/*Mapper.xml
+  mapper-locations: classpath:mapper/*/*Mapper.xml  
   type-aliases-package: com.zhongda.monitor.model
 
 #pagehelper分页插件
@@ -144,5 +144,5 @@ shiroFilter:
     /swagger-resources/**: anon  
     /webjars/springfox-swagger-ui/**: anon  
 # 项目报告生成路径
-templatepath: /mnt/monitor/model/model.docx
-download: /mnt/monitor/report/
+templatepath: D:/temp/test1.docx
+download: D:/在线检测报告/

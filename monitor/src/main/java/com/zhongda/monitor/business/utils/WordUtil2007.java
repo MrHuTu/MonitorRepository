@@ -302,7 +302,7 @@ public class WordUtil2007 {
 
 		twocode.put("type", "png");
 
-		XWPFDocument doc = WordUtil2007.generateWord(param, "d:\\2007.docx");
+		XWPFDocument doc = WordUtil2007.generateWord(param, " D:/temp/test1.docx");
 
 		WordUtil2007.insertTab("${table}", doc); // /----------创建表
 
