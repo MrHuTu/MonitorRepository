@@ -32,12 +32,13 @@ public class ReportsContorller {
 
 	@Resource
 	private PublicSensorDataService publicSensorDataService;
-	
-	/*@Autowired	
-	private WordUtil2007Service wordUtil2007Service;*/
+
+	/*
+	 * @Autowired private WordUtil2007Service wordUtil2007Service;
+	 */
 
 	@GetMapping(value = "/downloadSenData")
-	@ApiOperation(value = "下载传感器数据", httpMethod = "GET", response = Result.class, notes = "下载按时间段查找出来的传感器数据")
+	@ApiOperation(value = "下载传感器数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "下载按时间段查找出来的传感器数据")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "tableName", value = "数据存放表名", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "sensorNumber", value = "传感器编号", required = true, dataType = "string", paramType = "query"),
@@ -58,14 +59,29 @@ public class ReportsContorller {
 				monitorPoint, projectName, monitorTypeName);
 
 	}
-	
-	/*@GetMapping("/downloadWord")   ******暂时不用，请勿删除**********
-	@ApiOperation(value = "报告信息", notes = "生成当前项目报告",  httpMethod = "GET")	
-	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
-		
-		 	
-			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId), true);
 
-	}*/
+	/*
+	 * @GetMapping("/downloadWord") ******暂时不用，请勿删除**********
+	 * 
+	 * @ApiOperation(value = "报告信息", notes = "生成当前项目报告", httpMethod = "GET")
+	 * private ResponseEntity<byte[]> generateWord(@RequestParam("pojoId")
+	 * String pojoId) throws IOException {
+	 * 
+	 * 
+	 * return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId),
+	 * true); =======
+	 * 
+	 * @GetMapping("/downloadWord")
+	 * 
+	 * @ApiOperation(value = "报告信息", notes = "生成当前项目报告", httpMethod = "GET")
+	 * private ResponseEntity<byte[]> generateWord(
+	 * 
+	 * @RequestParam("pojoId") String pojoId) throws IOException {
+	 * 
+	 * return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId),
+	 * true); >>>>>>> Stashed changes
+	 * 
+	 * }
+	 */
 
 }

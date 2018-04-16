@@ -34,7 +34,7 @@ public class SensorController {
 	private PublicSensorDataService publicSensorDataService;
 
 	@GetMapping(value = "/querySenData.gzip")
-	@ApiOperation(value = "传感器数据", httpMethod = "GET", response = Result.class, notes = "按时间段查找传感器数据")
+	@ApiOperation(value = "传感器数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "按时间段查找传感器数据")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "tableName", value = "数据存放表名", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "sensorNumber", value = "传感器编号", required = true, dataType = "string", paramType = "query"),
