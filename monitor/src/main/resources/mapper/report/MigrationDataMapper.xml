@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.MigrationData">
+<resultMap id="ReportData" type="com.zhongda.monitor.report.model.ReportData">
+	<!-- <id column="id" property="id"/> -->
+	 <result column="project_id" property="project_id"/>
+	<result column="current_times" property="current_times"/>
+	<result column="first_data" property="first_data"/>
+	<result column="current_data" property="current_data"/>
+	<result column="current_laser_change" property="current_laser_change"/>
+	<result column="total_laser_change" property="total_laser_change"/>	
+	<result column="detection_type_id" property="detection_type_id"/>
+</resultMap>	
+ 	<select id="selectRepotrData" resultMap="ReportData">                         	
+		select p.project_id, s.current_times, s.first_data, s.current_data, s.current_laser_change, s.total_laser_change, sc.detection_type_id  
+		from ${tableName} s, project p, report_config r, sensor sen,statistic_chart sc   
+		where s.current_times Between #{beginTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} 
+		and r.project_id = p.project_id
+		and p.project_id = sen.project_id
+		and sen.smu_channel = s.smu_cms_channel
+		and sen.sensor_number = s.sensor_id
+		and sen.smu_number = s.smu_cms_id 
+		and sen.monitor_type in(select parameter from report_para)
+		and sc.project_id = sen.project_id
+		and sc.table_name = #{tableName}
+		GROUP BY s.sensor_id
+  	</select>
+  	
+  	<insert id="insertData" >
+		  	insert into report_data (project_id,current_times,first_data,current_data,current_laser_change,total_laser_change,typ)  VALUES   
+		  	<foreach collection="reportDatas" item="reportData" separator=",">  
+            (#{reportData.project_id},
+            #{reportData.current_times},
+            #{reportData.first_data},
+            #{reportData.current_data},
+            #{reportData.current_laser_change},
+            #{reportData.total_laser_change},
+            #{reportData.detection_type_id})  
+        </foreach>  
+  	</insert>
+  
+  
+</mapper>
