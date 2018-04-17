@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.ReportParaMapper">
+	<resultMap id="ReportParaMap" type="com.zhongda.monitor.report.model.ReportPara">
+			
+		<result column="parameter" property="parameter"/>
+		
+		
+	</resultMap>	
+ 	<select id="selectReportPara" resultMap="ReportParaMap">                         	
+		select report_para.parameter from report_para
+  	</select>
+  	
+  
+  
+  
+</mapper>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhongda.monitor.report.mapper.MigrationData">
+<mapper namespace="com.zhongda.monitor.report.mapper.MigrationDataMapper">
 <resultMap id="ReportData" type="com.zhongda.monitor.report.model.ReportData">
 	<!-- <id column="id" property="id"/> -->
 	 <result column="project_id" property="project_id"/>
@@ -20,7 +20,7 @@
 		sen.smu_channel,sen.sensor_number,sen.smu_number
 		from ${tableName} s, project p, sensor sen   
 		where s.current_times Between #{beginTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} 
-		and  p.project_id in (select report_config.project_id from report_config)
+		and  p.project_id in (select report_config.project_id from report_config where report_config.switch=1)
 		and p.project_id = sen.project_id
 		and sen.smu_channel = s.smu_cms_channel
 		and sen.sensor_number = s.sensor_id

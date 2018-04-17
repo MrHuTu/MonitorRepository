@@ -2,9 +2,6 @@ package com.zhongda.monitor.report.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * 边坡类的数据头实体

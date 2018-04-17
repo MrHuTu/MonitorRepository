@@ -5,8 +5,6 @@ import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zhongda.monitor.business.service.PublicSensorDataService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.Download;
 
@@ -30,7 +27,7 @@ import com.zhongda.monitor.report.utils.Download;
 @RestController()
 @RequestMapping(value = "/download", produces = { "application/OCTET-STREAM;charset=UTF-8" })
 @Api(value = "下载模块", tags = { "下载操作接口" })
-public class ReportsContorller1 {
+public class ReportsContorllerOfWord {
 
 	
 	
@@ -40,8 +37,8 @@ public class ReportsContorller1 {
 
 	
 	
-	@GetMapping("/downloadWord")
-	@ApiOperation(value = "报告信息", notes = "生成当前项目报告",  httpMethod = "GET")	
+	@GetMapping("/downloadWordReport")
+	@ApiOperation(value = "报告信息,@author 胡超", notes = "生成当前项目报告",  httpMethod = "GET")	
 	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
 		
 		 	

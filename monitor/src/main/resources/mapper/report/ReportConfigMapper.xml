@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.ReportConfigMapper">
+	<resultMap id="ReportConfigMap" type="com.zhongda.monitor.report.model.ReportConfig">
+			
+		<result column="project_id" property="project_id"/>
+		<result column="switch" property="reportConfig_switch"/>
+		
+	</resultMap>	
+ 	<select id="selectReportConfig" resultMap="ReportConfigMap">                         	
+		SELECT rc.project_id,rc.switch from report_config rc
+  	</select>
+  	
+  
+  
+  
+</mapper>

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.zhongda.monitor.report.model.ReportData;
 
-public interface MigrationData {
+public interface MigrationDataMapper {
 	/**
 	 * 查询报告数据
 	 */

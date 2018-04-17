@@ -13,15 +13,14 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.service.StatisticChartService;
-import com.zhongda.monitor.business.utils.WeatherUtils;
-import com.zhongda.monitor.report.mapper.MigrationData;
+import com.zhongda.monitor.report.mapper.MigrationDataMapper;
 import com.zhongda.monitor.report.model.ReportData;
 import com.zhongda.monitor.report.service.MigrationDataService;
 @Service
 public class MigrationDataServiceImpl implements MigrationDataService {
 	private static final Logger logger = LoggerFactory.getLogger(MigrationDataServiceImpl.class);
 	@Autowired
-	MigrationData migrationData;
+	MigrationDataMapper migrationData;
 	
 	@Autowired 
 	StatisticChartService statisticChartService;
@@ -30,12 +29,15 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 	 */
 	@Override
 	public Map<String,List<ReportData>> selectRepotrData(String beginTime,String endTime) {
+		
 		Map<String,List<ReportData>> map  = new HashMap<String, List<ReportData>>();
+		
 		List<String> tableName = new ArrayList<String>();		
 		
 		List<StatisticChart> tables = statisticChartService.selectByPojoId(261);
 		
 		for(StatisticChart v: tables){
+			
 			tableName.add(v.getTableName());
 			
 		}
@@ -63,7 +65,9 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 		while(ite.hasNext()){
 			
 			String key  = ite.next();
+			
 			if(!Maps.get(key).isEmpty()){
+				
 				migrationData.insertData(Maps.get(key));	
 			
 			}else{
@@ -75,12 +79,7 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 		}
 		
 		logger.info("==============================================归档beginTime:"+beginTime+"到endTime:"+endTime+"=====================================================");
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 	}
 
 }
