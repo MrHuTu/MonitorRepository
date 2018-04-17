@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.Download;
+import com.zhongda.monitor.report.utils.ReportConfigOp;
 
 /**
  * 
@@ -41,9 +43,11 @@ public class ReportsContorllerOfWord {
 	@ApiOperation(value = "报告信息,@author 胡超", notes = "生成当前项目报告",  httpMethod = "GET")	
 	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
 		
-		 	
 			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId), false);
+				
 
 	}
-
+	
+	
+	
 }

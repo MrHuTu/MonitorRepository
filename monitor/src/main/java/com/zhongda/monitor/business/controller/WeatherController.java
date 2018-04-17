@@ -23,7 +23,7 @@ public class WeatherController {
 	private WeatherService weatherService;
 	
 	@GetMapping("/{cityName}")
-	@ApiOperation(value = "天气信息", notes = "通过城市名获取当前时间天气", response = Result.class, httpMethod = "GET")	
+	@ApiOperation(value = "天气信息  @author胡超", notes = "通过城市名获取当前时间天气", response = Result.class, httpMethod = "GET")	
 	@ApiImplicitParams({ @ApiImplicitParam(name = "cityName", value = "城市名称", required = true, dataType = "String", paramType = "path") })
 	private Result<String> getItemAvgDataPost(@PathVariable String cityName) {
 		return new Result<String>().success("查询成功", weatherService.getWeather(cityName)); 

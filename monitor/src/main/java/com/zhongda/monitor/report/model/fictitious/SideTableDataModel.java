@@ -1,4 +1,4 @@
-package com.zhongda.monitor.report.model;
+package com.zhongda.monitor.report.model.fictitious;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,23 +24,29 @@ public class SideTableDataModel {
 	 private String lineFiveCellTwo = "采集器通道:00";
 	 
 	 
+	 
 	public String getLineOne() {
+		
 		return lineOne;
 	}
 	public void setLineOne(String lineOne) {
+		
 		this.lineOne = lineOne;
 	}
 	public String getLineTwo() {
+		
 		return lineTwo;
 	}
 	public void setLineTwo(String lineTwo) {
+		
 		this.lineTwo = lineTwo;
 	}
 	public String getLineThreeCellone() {
+		
 		return lineThreeCellone;
 	}
 	public void setLineThreeCellone(String lineThreeCellone) {
-		System.out.println("setLineThreeCellone:"+lineThreeCellone);
+	
 		
 		this.lineThreeCellone = lineThreeCellone;
 	}
@@ -48,11 +54,12 @@ public class SideTableDataModel {
 		return lineThreeCelltwo;
 	}
 	public void setLineThreeCelltwo(String lineThreeCelltwo) {
-		System.out.println("1setLineThreeCelltwo:"+lineThreeCelltwo);
+		
 		this.lineThreeCelltwo = lineThreeCelltwo;
-		System.out.println("2setLineThreeCelltwo:"+this.lineThreeCelltwo);
+		
 	}
 	public String getLineFourCellone() {
+		
 		return lineFourCellone;
 	}
 	public void setLineFourCellone(String lineFourCellone) {
@@ -60,24 +67,27 @@ public class SideTableDataModel {
 		this.lineFourCellone = lineFourCellone;
 	}
 	public String getLineFourCellTwo() {
+		
 		return lineFourCellTwo;
 	}
 	public void setLineFourCellTwo(String lineFourCellTwo) {
-		System.out.println("setLineFourCellTwo:"+lineFourCellTwo);
+	
 		this.lineFourCellTwo = lineFourCellTwo;
 	}
 	public String getLineFiveCellOne() {
+		
 		return lineFiveCellOne;
 	}
 	public void setLineFiveCellOne(String lineFiveCellOne) {
-		System.out.println("setLineFiveCellOne:"+lineFiveCellOne);
+		
 		this.lineFiveCellOne = lineFiveCellOne;
 	}
 	public String getLineFiveCellTwo() {
+		
 		return lineFiveCellTwo;
 	}
 	public void setLineFiveCellTwo(String lineFiveCellTwo) {
-		System.out.println("setLineFiveCellTwo:"+lineFiveCellTwo);
+	
 		this.lineFiveCellTwo = lineFiveCellTwo;
 	}
 	
@@ -96,74 +106,7 @@ public class SideTableDataModel {
 	  */
 	public void unifyLength(){		 		
 		 String local = " ";
-		 String maxlocal="      ";
-		 String headLocal = "                   ";
-		/*Map<String,String> map = new  HashMap<String, String>();
-		
-		map.put("LineThreeCellone", this.lineThreeCellone);
-		
-		map.put("LineThreeCelltwo", this.lineThreeCelltwo);
-		
-		map.put("LineFourCellone", this.lineFourCellone);
-		
-		map.put("LineFourCellTwo", this.lineFourCellTwo);
-		
-		map.put("LineFiveCellOne", this.lineFiveCellOne);
-		
-		map.put("LineFiveCellTwo", this.lineFiveCellTwo);
-		
-		int max = 0;
-		String max_key= null;
-		String max_value= null;
-		Iterator<String> ite = map.keySet().iterator();
-		
-		while(ite.hasNext()){
-			
-			String key = ite.next();
-			
-			String value = map.get(key);
-			
-			if(max<value.getBytes().length){
-				
-				max = value.getBytes().length;
-				 max_key= key;
-				 max_value= value;
-			}
-			
-		}
-		System.out.println(max);
-		
-		Iterator<String> ite1 = map.keySet().iterator();
-		
-		Map<String,String> mapTemp = new  HashMap<String, String>();
-		
-		while(ite1.hasNext()){
-			
-			String key = ite1.next();
-			
-			String value = map.get(key);
-			
-			int count = max -value.getBytes().length;
-			
-			if(count>0){
-				
-				for(int j=1;j<=count;j++){
-					value=local+value;
-				}
-				
-				mapTemp.put(key, value);
-			}
-			
-			
-		}
-		
-		for(Map.Entry<String, String> v: mapTemp.entrySet()){
-			String key = v.getKey();
-			String value = v.getValue();
-			callMethod(key,value);
-		}
-		callMethod(max_key,maxlocal+max_value);*/
-		
+		 String headLocal = "                   ";		
 		callMethod("LineOne",headLocal+this.getLineOne());
 		 String temp = "";
 		for(int i=0;i<45;i++){
@@ -174,10 +117,10 @@ public class SideTableDataModel {
 	 }
 	 
 	 private void callMethod(String method,String value){
-		// String className = "com.zhongda.monitor.business.wordreport.model.SideTableDataModel";
+	
 		  String methodName = "set"+method;
-		  @SuppressWarnings("rawtypes")
-		Class clz = null;
+		  @SuppressWarnings({ "rawtypes", "unused" })
+		  Class clz = null;
 		try {
 			clz = this.getClass();
 			 //  
@@ -188,19 +131,19 @@ public class SideTableDataModel {
 			  @SuppressWarnings("unused")
 			String  result = (String) m.invoke(this, value);
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		 

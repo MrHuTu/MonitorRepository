@@ -39,7 +39,7 @@ import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
 import com.zhongda.monitor.report.configclass.tableclass.SedimentationTableClass;
-import com.zhongda.monitor.report.model.SideTableDataModel;
+import com.zhongda.monitor.report.model.fictitious.SideTableDataModel;
 import com.zhongda.monitor.report.service.BastTableClass;
 
 

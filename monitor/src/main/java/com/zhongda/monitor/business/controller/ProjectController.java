@@ -87,7 +87,7 @@ public class ProjectController {
 	}
 
 	@GetMapping("/getAllProject")
-	@ApiOperation(value = "项目列表", httpMethod = "GET", response = Result.class, notes = "加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息")
+	@ApiOperation(value = "项目列表  @author胡超", httpMethod = "GET", response = Result.class, notes = "加载非admin用户下的所有项目，用户为admin时加载全部项目，对应项目模块的信息")
 	private Result<List<Project>> getAllProject() {
 		User user = ShiroUtils.getCurrentUser();
 
