@@ -34,7 +34,7 @@ public class AlarmController {
 	private AlarmService alarmService;
 
 	@GetMapping("/queryAlarm")
-	@ApiOperation(value = "分页按条件查询当前用户下的告警信息", httpMethod = "GET", response = Result.class, notes = "分页查询当前用户下的告警信息")
+	@ApiOperation(value = "分页按条件查询当前用户下的告警信息   --cheng.kong", httpMethod = "GET", response = Result.class, notes = "分页查询当前用户下的告警信息")
 	public Result<Map<String, Object>> selectAlarmByUserId(Alarm alarm) {
 		Subject subject = SecurityUtils.getSubject();
 		if (!subject.hasRole(RoleSign.ADMIN)
@@ -49,14 +49,14 @@ public class AlarmController {
 	}
 
 	@PutMapping("/{alarmId}")
-	@ApiOperation(value = "修改告警信息状态", httpMethod = "PUT", response = Result.class, notes = "修改告警信息状态")
+	@ApiOperation(value = "修改告警信息状态   --cheng.kong", httpMethod = "PUT", response = Result.class, notes = "修改告警信息状态")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "alarmId", value = "告警id", required = true, dataType = "int", paramType = "path") })
 	public Result<Alarm> selectAlarmByUserId(@PathVariable Integer alarmId) {
 		return alarmService.updateAlarmStatusByAlarmId(alarmId);
 	}
 
 	@DeleteMapping("/deleteAlarm")
-	@ApiOperation(value = "删除告警信息   暂时没用上", httpMethod = "DELETE", response = Result.class, notes = "删除告警信息  暂时没用上")
+	@ApiOperation(value = "删除告警信息   暂时没用上  --cheng.kong", httpMethod = "DELETE", response = Result.class, notes = "删除告警信息  暂时没用上")
 	public Result<String> deleteAlarm(Alarm alarm) {// 根据条件删除告警信息
 		Subject subject = SecurityUtils.getSubject();
 		if (!subject.hasRole(RoleSign.ADMIN)
@@ -70,7 +70,7 @@ public class AlarmController {
 	}
 
 	@GetMapping("/queryAlarmCount")
-	@ApiOperation(value = "统计当前用户下的所有未确认的告警条数", httpMethod = "GET", response = Result.class, notes = "统计当前用户下的所有未确认的告警条数")
+	@ApiOperation(value = "统计当前用户下的所有未确认的告警条数  --cheng.kong", httpMethod = "GET", response = Result.class, notes = "统计当前用户下的所有未确认的告警条数")
 	public Result<Integer> selectAlarmCount() {
 		User user = new User();
 		Subject subject = SecurityUtils.getSubject();
