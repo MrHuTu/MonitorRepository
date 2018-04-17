@@ -27,7 +27,7 @@ import com.zhongda.monitor.report.utils.ReportConfigOp;
  * @Date 2018年3月21日 上午9:45:43
  */
 @RestController()
-@RequestMapping(value = "/download", produces = { "application/OCTET-STREAM;charset=UTF-8" })
+@RequestMapping(value = "/download")
 @Api(value = "下载模块", tags = { "下载操作接口" })
 public class ReportsContorllerOfWord {
 
@@ -40,8 +40,8 @@ public class ReportsContorllerOfWord {
 	
 	
 	@GetMapping("/downloadWordReport")
-	@ApiOperation(value = "报告信息,@author 胡超", notes = "生成当前项目报告",  httpMethod = "GET")	
-	private  ResponseEntity<byte[]> generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
+	@ApiOperation(value = "报告信息 --chao.hu", notes = "生成当前项目报告 --目前功能不全",  httpMethod = "GET")	
+	private Object generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
 		
 			return Download.downloadSolve(wordUtil2007Service.generateWord(pojoId), false);
 				

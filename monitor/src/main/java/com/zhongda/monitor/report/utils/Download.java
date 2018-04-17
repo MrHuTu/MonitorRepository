@@ -19,6 +19,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.zhongda.monitor.core.model.Result;
+
 public class Download {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Download.class);
@@ -68,52 +70,80 @@ public class Download {
 	 * @param path
 	 *            已文件类型结尾 比如".docx   .txt"
 	 * @param delete
-	 *            是否删除 服务器上的文件
+	 *            是否做服务文件缓存
 	 * @return
 	 */
-	public static ResponseEntity<byte[]> downloadSolve(String path, boolean delete) {
-		byte[] body = null;
+	
+	public static  Object downloadSolve(String path, boolean delete) {
 		
-		File file = new File(path);
+		Result<String> result = 	new Result<String>();
 		
-		InputStream is;
-		logger.info("服务器文件生成目录:"+path);
-		try {
-			is = new FileInputStream(file);
+		if(path.indexOf("ERROR")!=-1){//下载报告的错误码
 			
-			body = new byte[is.available()];
+			//以错误信息相应客户
+			return result.success("下载失败",path); 
 			
-			is.read(body);
+		}else if(path.equals("2")){//下载报告的错误码
 			
-			is.close();
+			//以错误信息相应客户
+			return result.success("下载失败",path); 
 			
-			if (delete) {
+		}else{
+			byte[] body = null;
+			
+			File file = new File(path);
+			
+			InputStream is;
+			
+			logger.info("服务器文件生成目录:"+path);
+			
+			try {
+				is = new FileInputStream(file);
 				
-				file.delete();
-				logger.info("服务器文件删除成功:"+path);
+				body = new byte[is.available()];
+				
+				is.read(body);
+				
+				is.close();
+				
+				if (delete) {
+					
+					file.delete();
+					logger.info("服务器文件删除成功:"+path);
+				}
+				
+			} catch (FileNotFoundException e) {
+
+				logger.error("文件下载失败"+path,e);
+				
+			} catch (IOException e) {
+
+				e.printStackTrace();
 			}
+
+			HttpHeaders headers = new HttpHeaders();
+			try {
+				
+				headers.add("Content-Disposition", "attchement;filename=\""+ new String(file.getName().getBytes("UTF-8"),"ISO8859-1") + "\";filename*=utf-8''" + URLEncoder.encode(file.getName(), "utf-8").replaceAll("\\+", "%20"));
 			
-		} catch (FileNotFoundException e) {
-
-			logger.error("文件下载失败"+path,e);
+			} catch (UnsupportedEncodingException e) {
+				
+				e.printStackTrace();
+			}
+			HttpStatus statusCode = HttpStatus.OK;
 			
-		} catch (IOException e) {
-
-			e.printStackTrace();
+			ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body,headers, statusCode);
+			
+			logger.info("用户文件下载成功:"+path);
+			
+			//以文件形式相应用户
+			return entity ;
 		}
-
-		HttpHeaders headers = new HttpHeaders();
-		try {
-			headers.add("Content-Disposition", "attchement;filename=\""+ new String(file.getName().getBytes("UTF-8"),"ISO8859-1") + "\";filename*=utf-8''" + URLEncoder.encode(file.getName(), "utf-8").replaceAll("\\+", "%20"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpStatus statusCode = HttpStatus.OK;
 		
-		ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body,headers, statusCode);
-		logger.info("用户文件下载成功:"+path);
-		return entity;
+		
+			
+		
+		
 
 	}
 
