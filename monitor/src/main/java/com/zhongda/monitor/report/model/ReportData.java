@@ -14,9 +14,13 @@ public class ReportData {
 	private double current_data;
 	private double current_laser_change;
 	private double total_laser_change;
-	private int detection_type_id;
+	private int monitor_type;
 	
-
+	
+	private String  smu_number;
+	private String  sensor_number;
+	private String smu_channel;
+	
 	/*public int getId() {
 		return id;
 	}
@@ -59,21 +63,44 @@ public class ReportData {
 	public void setTotal_laser_change(double total_laser_change) {
 		this.total_laser_change = total_laser_change;
 	}
-	public int getDetection_type_id() {
-		return detection_type_id;
+	
+	
+	public int getMonitor_type() {
+		return monitor_type;
 	}
-	public void setDetection_type_id(int detection_type_id) {
-		this.detection_type_id = detection_type_id;
+	public void setMonitor_type(int monitor_type) {
+		this.monitor_type = monitor_type;
+	}
+	public String getSmu_number() {
+		return smu_number;
+	}
+	public void setSmu_number(String smu_number) {
+		this.smu_number = smu_number;
+	}
+	public String getSensor_number() {
+		return sensor_number;
+	}
+	public void setSensor_number(String sensor_number) {
+		this.sensor_number = sensor_number;
+	}
+	public String getSmu_channel() {
+		return smu_channel;
+	}
+	public void setSmu_channel(String smu_channel) {
+		this.smu_channel = smu_channel;
 	}
 	@Override
 	public String toString() {
-		return "ReportData [id="  + ", project_id=" + project_id
-				+ ", current_times=" + current_times + ", first_data="
-				+ first_data + ", current_data=" + current_data
-				+ ", current_laser_change=" + current_laser_change
-				+ ", total_laser_change=" + total_laser_change
-				+ ", detection_type_id=" + detection_type_id + "]";
+		return "ReportData [project_id=" + project_id + ", current_times="
+				+ current_times + ", first_data=" + first_data
+				+ ", current_data=" + current_data + ", current_laser_change="
+				+ current_laser_change + ", total_laser_change="
+				+ total_laser_change + ", monitor_type=" + monitor_type
+				+ ", smu_number=" + smu_number + ", sensor_number="
+				+ sensor_number + ", smu_channel=" + smu_channel + "]";
 	}
+	
+	
 	
 
 

@@ -63,11 +63,24 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 		while(ite.hasNext()){
 			
 			String key  = ite.next();
+			if(!Maps.get(key).isEmpty()){
+				migrationData.insertData(Maps.get(key));	
 			
-			migrationData.insertData(Maps.get(key));	
-			logger.info("归档beginTime到endTime的数据");
+			}else{
+				logger.error("归档beginTime:"+beginTime+"到endTime:"+endTime+"失败"+Maps.toString());
+			
+			}
+			
+			
 		}
 		
+		logger.info("==============================================归档beginTime:"+beginTime+"到endTime:"+endTime+"=====================================================");
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
