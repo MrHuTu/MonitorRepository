@@ -49,7 +49,7 @@ public class TokenController {
 	 * @param password value
 	 */
 	@PostMapping("/login")
-	@ApiOperation(value = "登录", httpMethod = "POST", response = Result.class, notes = "根据用户名和密码登录")
+	@ApiOperation(value = "登录--zemin.deng", httpMethod = "POST", response = Result.class, notes = "根据用户名和密码登录")
 	@ApiImplicitParams({  
     	@ApiImplicitParam(name = "userName", value = "用户名",  
                 required = true, dataType = "String", paramType = "form"),
@@ -81,7 +81,7 @@ public class TokenController {
 	 * @return
 	 */
 	@DeleteMapping("/logout")
-	@ApiOperation(value = "注销", httpMethod = "DELETE", response = Result.class, notes = "注销")
+	@ApiOperation(value = "注销--zemin.deng", httpMethod = "DELETE", response = Result.class, notes = "注销")
 	public Result<String> logout() {
 		// 登出操作
 		ShiroUtils.logout();
