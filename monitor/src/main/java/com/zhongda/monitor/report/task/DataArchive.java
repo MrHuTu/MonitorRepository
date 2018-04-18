@@ -28,22 +28,22 @@ public class DataArchive {
 	@Scheduled(cron = "0 0 00 * * ?")
 	public void archive() throws Exception {	//"2018-04-10 00:00:00", "2018-04-10 00:10:00"		
 		DateTime start = DateTime.now();
-		String beginTime = start.toString("YYYY-MM-DD HH:mm:ss");
-		String endTime = start.plusMinutes(10).toString("YYYY-MM-DD HH:mm:ss");		
+		String beginTime = start.toString("YYYY-MM-dd HH:mm:ss");
+		String endTime = start.plusMinutes(10).toString("YYYY-MM-dd HH:mm:ss");		
 		migrationDataService.insertData(beginTime,endTime);
 	}	
 	@Scheduled( cron="0 0 08 * * ?")
 	public void archive1() throws Exception {	
 		DateTime start = DateTime.now();
-		String beginTime = start.toString("YYYY-MM-DD HH:mm:ss");
-		String endTime = start.plusMinutes(10).toString("YYYY-MM-DD HH:mm:ss");
+		String beginTime = start.toString("YYYY-MM-dd HH:mm:ss");
+		String endTime = start.plusMinutes(10).toString("YYYY-MM-dd HH:mm:ss");
 		migrationDataService.insertData(beginTime,endTime);
 	}	
 	@Scheduled( cron="0 0 16 * * ?")
 	public void archive2() throws Exception {
 		DateTime start = DateTime.now();
-		String beginTime = start.toString("YYYY-MM-DD HH:mm:ss");
-		String endTime = start.plusMinutes(10).toString("YYYY-MM-DD HH:mm:ss");
+		String beginTime = start.toString("YYYY-MM-dd HH:mm:ss");
+		String endTime = start.plusMinutes(10).toString("YYYY-MM-dd HH:mm:ss");
 		
 		migrationDataService.insertData(beginTime,endTime);
 	}
