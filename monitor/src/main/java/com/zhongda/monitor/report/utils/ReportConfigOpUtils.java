@@ -5,16 +5,25 @@ import java.util.List;
 
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportPara;
+import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 
-public class ReportConfigOp {
+public class ReportConfigOpUtils {
+	
+	
+	
 	public static List<ReportConfig> reportConfigs;
+	
 	public static List<ReportPara> reportParas;
+	
+	public static List<ProjectPara> projectPara;
+	
+	
 	/**
 	 * 验证项目报表开关是否开启
 	 * @param projectId
 	 * @return true 开启;false 关闭 不可用
 	 */
-	public boolean verifyreportConfig(String projectId) {
+	public static boolean verifyreportConfig(String projectId) {
 
 		Iterator<ReportConfig> paras = reportConfigs.iterator();
 		while (paras.hasNext()) {
@@ -39,16 +48,21 @@ public class ReportConfigOp {
 	 * @param para
 	 * @return
 	 */
-	public boolean verifyReportPara(String para) {
+	public static boolean verifyReportPara(String para) {
 
 		Iterator<ReportPara> paras = reportParas.iterator();
+		
 		while (paras.hasNext()) {
+			
 			ReportPara reportPara = paras.next();
+			
 			if (para.equalsIgnoreCase(reportPara.getParameter())) {
+				
 				return true;
 			}
 
 		}
 		return false;
 	}
+	
 }

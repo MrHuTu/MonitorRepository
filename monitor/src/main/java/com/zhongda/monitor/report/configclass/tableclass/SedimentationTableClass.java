@@ -16,7 +16,7 @@ import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
 import com.zhongda.monitor.report.model.fictitious.SideTableDataModel;
 import com.zhongda.monitor.report.service.BastTableClass;
-import com.zhongda.monitor.report.utils.WordUtil2007;
+import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
 
@@ -82,17 +82,17 @@ public class SedimentationTableClass implements BastTableClass {
 					
 				tblWidth.setType(STTblWidth.DXA);						
 				
-				WordUtil2007.mergeCellsHorizontal(tableOne, 0, 0, 5);
-				WordUtil2007.mergeCellsHorizontal(tableOne, 1, 0, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 0, 0, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 1, 0, 5);
 
-				WordUtil2007.mergeCellsHorizontal(tableOne, 2, 0, 2);
-				WordUtil2007.mergeCellsHorizontal(tableOne, 2, 3, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 0, 2);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 3, 5);
 
-				WordUtil2007.mergeCellsHorizontal(tableOne, 3, 0, 2);
-				WordUtil2007.mergeCellsHorizontal(tableOne, 3, 3, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 0, 2);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 3, 5);
 				
-				WordUtil2007.mergeCellsHorizontal(tableOne, 4, 0, 2);
-				WordUtil2007.mergeCellsHorizontal(tableOne, 4, 3, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 0, 2);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 3, 5);
 				
 				XWPFTableRow row = tableOne.getRow(0);
 				row.getCell(0).setText(model.getLineOne());		
@@ -145,7 +145,7 @@ public class SedimentationTableClass implements BastTableClass {
 	  
 	    XWPFTableCell 	 cell =  tableOneRowOne.getCell(0);
 		 
-	    WordUtil2007.setCellText(cell,title,"000000",9000,"微软雅黑","000000",12,true);
+	    Wordl2007Utis.setCellText(cell,title,"000000",9000,"微软雅黑","000000",12,true);
 		
 		for(int i=0;i<5;i++){
 			
@@ -153,9 +153,9 @@ public class SedimentationTableClass implements BastTableClass {
 			 
 		}
 		
-		WordUtil2007.mergeCellsHorizontal(tableOne, 0, 0, 5);
+		Wordl2007Utis.mergeCellsHorizontal(tableOne, 0, 0, 5);
 		
-		WordUtil2007.setBorder(tableOne,TableBorder.noneBorder());
+		Wordl2007Utis.setBorder(tableOne,TableBorder.noneBorder());
 	      
 	}
 	 

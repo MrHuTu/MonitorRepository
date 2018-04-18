@@ -25,7 +25,7 @@ public class DataArchive {
 	 * 
 	 * @throws Exception  cron="0 0 12 * * ?" 每天中午12点触发 
 	 */
-	@Scheduled(cron = "0 0 00 * * ?")
+	@Scheduled(cron="0 0 00 * * ?")
 	public void archive() throws Exception {	//"2018-04-10 00:00:00", "2018-04-10 00:10:00"		
 		DateTime start = DateTime.now();
 		String beginTime = start.toString("YYYY-MM-dd HH:mm:ss");

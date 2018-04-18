@@ -7,9 +7,10 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.ReportConfigService;
 import com.zhongda.monitor.report.service.ReportParaService;
-import com.zhongda.monitor.report.utils.ReportConfigOp;
+import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 
 /**
  * 服务启动的时候加载报表配置
@@ -25,14 +26,22 @@ public class BeforeStartup implements ApplicationListener<ContextRefreshedEvent>
 	
 	@Autowired
 	private ReportConfigService reportConfigService;
+	
+	@Autowired
+	private ProjectParaService projectParaService;
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-		ReportConfigOp.reportConfigs =	reportConfigService.selectReportConfig();
-		logger.info("========================================================报告开关参数加载成功==================================================================================");
-		ReportConfigOp.reportParas = reportParaService.selectReportPara();
 		
-		logger.info("========================================================报告配置参数加载成功==================================================================================");
+		ReportConfigOpUtils.reportConfigs =	reportConfigService.selectReportConfig();
+		logger.info("========================================================报告开关参数加载成功=========================================================================================");
+		ReportConfigOpUtils.reportParas = reportParaService.selectReportPara();
+		
+		logger.info("========================================================报告配置参数加载成功=========================================================================================");
+		
+		ReportConfigOpUtils.projectPara = projectParaService.selectProjectPara();
+		
+		logger.info("========================================================项目下的全部在线监测参数加载成功==================================================================================");
 	}
 
 }

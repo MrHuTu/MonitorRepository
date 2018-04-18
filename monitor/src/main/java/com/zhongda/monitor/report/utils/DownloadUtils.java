@@ -21,9 +21,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.zhongda.monitor.core.model.Result;
 
-public class Download {
+public class DownloadUtils {
 	
-	private static final Logger logger = LoggerFactory.getLogger(Download.class);
+	private static final Logger logger = LoggerFactory.getLogger(DownloadUtils.class);
 	
 	/**
 	 * 

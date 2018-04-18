@@ -3,6 +3,8 @@ package com.zhongda.monitor.report.service.impl;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -13,16 +15,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
+import com.zhongda.monitor.report.model.fictitious.ErrorCode;
+import com.zhongda.monitor.report.model.fictitious.ProjectPara;
+import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
-import com.zhongda.monitor.report.utils.ReportConfigOp;
-import com.zhongda.monitor.report.utils.WordUtil2007;
+import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
+import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
 /**
- * 生成报告服务类
+ * 生成报告总入口服务类
  * @author huchao
  * 2018年4月2日17:23:20
  *
@@ -42,9 +46,14 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	@Autowired
 	ProjectService projectService;
+	@Autowired
+	ProjectParaService projectParaService;
+	
+	
 	/**
 	 * return String 返回报告文件路径
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public String generateWord(String pojoId) {
 		
@@ -61,7 +70,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-				fileName = download +name+".docx";		
+			fileName = download +name+".docx";		
 				
 				try {
 					
@@ -85,6 +94,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			if(obj instanceof String ){
 				return (String)obj;
 			}else{
+				//不可知错误
 				return ErrorCode.ERROR3;
 			}
 			
@@ -102,15 +112,36 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 * @param pojoId
 	 * @return Map 文件名，XWPFDocument对象
 	 */
-	public  /*Map<Object,Object>*/Object analysis(String pojoId){
+	public  Object analysis(String pojoId){
 		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
 		 
 		Map<String, Object> param = new HashMap<String, Object>();
-		ReportConfigOp reportConfigOp = new ReportConfigOp();
-		if(!reportConfigOp.verifyreportConfig(pojoId)){
+		
+		if(!ReportConfigOpUtils.verifyreportConfig(pojoId)){
+			
 			return ErrorCode.ERROR1;
+			
 		}else{
+			List<ProjectPara> ProjectParas = ReportConfigOpUtils.projectPara;
+						
+			Iterator<ProjectPara>  ite = ProjectParas.iterator();
+			
+			while(ite.hasNext()){
+				
+				ProjectPara projectPara = ite.next();
+				
+				if(pojoId.equals(String.valueOf(projectPara.getProject_id()))){
+					
+					if(!ReportConfigOpUtils.verifyReportPara(String.valueOf(projectPara.getMonitor_type()))){
+						
+						return ErrorCode.ERROR2;
+						
+					};
+					
+				}
+				
+			}
 			
 			Project pj = projectService.selectByPrimaryKey(pojoId);	
 			
@@ -118,13 +149,14 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			param.put("${name}", name+"日报");	
 			
-			XWPFDocument doc = WordUtil2007.generateWord(param, templatePath);
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, templatePath);
 			
 			map.put("doc",doc );
 			
 			map.put("name", name+"日报");
 			
 			return map;
+			
 		}
 		
 	}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.ProjectParaMapper">
+	<resultMap id="ProjectParaMap" type="com.zhongda.monitor.report.model.fictitious.ProjectPara">
+			
+		<result column="project_id" property="project_id"/>
+		<result column="monitor_type" property="monitor_type"/>
+		
+	</resultMap>	
+ 	<select id="selectProjectPara" resultMap="ProjectParaMap">                         	
+		select sensor.project_id,sensor.monitor_type from sensor GROUP BY  sensor.project_id,sensor.monitor_type
+  	</select>
+  	
+  
+  
+  
+</mapper>

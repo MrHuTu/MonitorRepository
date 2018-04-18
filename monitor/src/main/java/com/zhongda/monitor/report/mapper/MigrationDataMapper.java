@@ -11,7 +11,7 @@ public interface MigrationDataMapper {
 	 * 查询报告数据
 	 */
 	
-	public List<ReportData> selectRepotrData( @Param("tableName") String tableName, @Param("beginTime") String beginTime, @Param("endTime")String endTime);
+	public List<ReportData> selectRepotrData( @Param("tableName") String tableName, @Param("beginTime") String beginTime, @Param("endTime")String endTime,@Param("pojoId")String pojoId);
 	/**
 	 * 数据迁移
 	 */

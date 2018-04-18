@@ -20,7 +20,7 @@
 		sen.smu_channel,sen.sensor_number,sen.smu_number
 		from ${tableName} s, project p, sensor sen   
 		where s.current_times Between #{beginTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} 
-		and  p.project_id in (select report_config.project_id from report_config where report_config.switch=1)
+		and  p.project_id =#{pojoId,jdbcType=VARCHAR}<!-- in (select report_config.project_id from report_config where report_config.switch=1) -->
 		and p.project_id = sen.project_id
 		and sen.smu_channel = s.smu_cms_channel
 		and sen.sensor_number = s.sensor_id

@@ -45,7 +45,7 @@ import com.zhongda.monitor.report.service.BastTableClass;
 
 
 
-public class WordUtil2007 {
+public class Wordl2007Utis {
 	
 
 	/**
@@ -783,7 +783,7 @@ public class WordUtil2007 {
 
 		twocode.put("type", "png");
 
-		XWPFDocument doc = WordUtil2007.generateWord(param,"d:/reportTemp/test1.docx");
+		XWPFDocument doc = Wordl2007Utis.generateWord(param,"d:/reportTemp/test1.docx");
 
 		// 动态插入表格
 		Map<String, List<String>> singe = new HashMap<String, List<String>>();
@@ -836,8 +836,8 @@ public class WordUtil2007 {
 		
 		
 		//在生成占位符的地方创建表格。
-		WordUtil2007.insertTab(doc,mapTable1,ReportConfig.SEDIMENTATION); // /----------创建表
-		WordUtil2007.insertTab(doc,mapTable2,ReportConfig.COVERGENCE); // /----------创建表
+		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.SEDIMENTATION); // /----------创建表
+		Wordl2007Utis.insertTab(doc,mapTable2,ReportConfig.COVERGENCE); // /----------创建表
 		 
 		//WordUtil2007.insertImage("${image}", doc); // /----------创建图
 
