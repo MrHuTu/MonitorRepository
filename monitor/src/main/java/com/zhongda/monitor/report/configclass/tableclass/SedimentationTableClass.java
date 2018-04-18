@@ -14,7 +14,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
-import com.zhongda.monitor.report.model.fictitious.SideTableDataModel;
+import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.BastTableClass;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
@@ -67,7 +67,7 @@ public class SedimentationTableClass implements BastTableClass {
     /***
      * 定制表格样式
      **/
-	public static void customizationTableClass(XWPFTable tableOne,SideTableDataModel model){
+	public static void customizationTableClass(XWPFTable tableOne,SideTableData model){
 				
 				//控制表格样式
 				String amount = "9000";

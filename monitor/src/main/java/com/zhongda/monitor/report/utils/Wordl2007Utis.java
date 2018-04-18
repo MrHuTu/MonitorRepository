@@ -39,7 +39,7 @@ import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
 import com.zhongda.monitor.report.configclass.tableclass.SedimentationTableClass;
-import com.zhongda.monitor.report.model.fictitious.SideTableDataModel;
+import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.BastTableClass;
 
 
@@ -275,8 +275,9 @@ public class Wordl2007Utis {
 										e.printStackTrace();
 									}
 								}
+								//String name = obj.getClass().getName();
 								//调用CreateTableConfig下的自定义方法，此定义方法返回一个封装了一个表格的全部数据(SideTableDataModel对象)
-								CreateTableConfig createTableConfig= callMethod(paths[1],doc2,cursor,(SideTableDataModel)obj);
+								CreateTableConfig createTableConfig= callMethod(paths[1],doc2,cursor,obj);
 							
 								//调用ReportConfig中配置生成表格的类,该配置类必须以createTable方法为入口，自动填充数据
 								callMethod(paths[0],createTableConfig);
@@ -375,7 +376,7 @@ public class Wordl2007Utis {
 	 * @param model 与之对应的表格数据信息
 	 * @return Map<String, Object> 例如  ${1}--false(表示表格标题),${2}---Object(表示表格对应的数据)
 	 */
-	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,ArrayList<SideTableDataModel> model) {
+	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,ArrayList<Object> model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<XWPFParagraph> paragraphList = doc2.getParagraphs();
 
@@ -721,7 +722,7 @@ public class Wordl2007Utis {
 		 * @return 
 		 */
 		
-		private static CreateTableConfig callMethod(String noWmethodName,XWPFDocument doc2,XmlCursor cursor,SideTableDataModel sideTableDataModel){
+		private static CreateTableConfig callMethod(String noWmethodName,XWPFDocument doc2,XmlCursor cursor,/*SideTableDataModel sideTableDataModel*/Object objP){
 			 String className = "com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig";
 			  String methodName =  noWmethodName;
 			  
@@ -733,10 +734,10 @@ public class Wordl2007Utis {
 				 //  
 				Object obj = clz.newInstance();			   		
 				  //获取方法  			
-				   Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,XmlCursor.class,SideTableDataModel.class);
+				   Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,XmlCursor.class,Object.class);
 				  //调用方法  
 				
-				     result =  (CreateTableConfig) m.invoke(obj, doc2,cursor,sideTableDataModel);
+				     result =  (CreateTableConfig) m.invoke(obj, doc2,cursor,objP);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -783,7 +784,7 @@ public class Wordl2007Utis {
 
 		twocode.put("type", "png");
 
-		XWPFDocument doc = Wordl2007Utis.generateWord(param,"d:/reportTemp/test1.docx");
+		XWPFDocument doc = Wordl2007Utis.generateWord(param,"d:/reportTemp/2007.docx");
 
 		// 动态插入表格
 		Map<String, List<String>> singe = new HashMap<String, List<String>>();
@@ -806,9 +807,9 @@ public class Wordl2007Utis {
 		listSinge.add("${11}");	
 		
 		listSinge.add("${12}");
-		//表格数据
-		ArrayList<SideTableDataModel> model = new ArrayList<SideTableDataModel>();
-		SideTableDataModel sideTableHeadModel  = new SideTableDataModel();
+		//表格数据在生成占位符的时候就已经存入了map结构,一个占位符对应一个表格数据(除了标题)
+		ArrayList<Object> model = new ArrayList<Object>();
+		SideTableData sideTableHeadModel  = new SideTableData();
 		sideTableHeadModel.unifyLength();
 	
 		model.add(sideTableHeadModel);
@@ -822,8 +823,8 @@ public class Wordl2007Utis {
 		listSinge1.add("${8}");	
 		
 		listSinge1.add("${9}");
-		ArrayList<SideTableDataModel> model1 = new ArrayList<SideTableDataModel>();
-		SideTableDataModel sideTableHeadModel1  = new SideTableDataModel();
+		ArrayList<Object> model1 = new ArrayList<Object>();
+		SideTableData sideTableHeadModel1  = new SideTableData();
 		sideTableHeadModel1.unifyLength();
 		model1.add(sideTableHeadModel1);
 		model1.add(sideTableHeadModel1);

@@ -2,13 +2,16 @@ package com.zhongda.monitor.report.model.fictitious;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
+
+import com.zhongda.monitor.report.model.ReportData;
 
 /**
  * 边坡类的数据头实体
  * @author hu.chao
  *
  */
-public class SideTableDataModel {
+public class SideTableData {
 	
 	 private String lineOne ="工程名称：广西贵港至隆安高速公路边坡在线安全监测报告";
 	 
@@ -23,6 +26,7 @@ public class SideTableDataModel {
 	 private String lineFiveCellOne = "终端编号(DTU):2017100008";
 	 private String lineFiveCellTwo = "采集器通道:00";
 	 
+	 private List<ReportData> ReportDatas;
 	 
 	 
 	public String getLineOne() {
@@ -92,16 +96,24 @@ public class SideTableDataModel {
 	}
 	
 	
+	 public List<ReportData> getReportDatas() {
+		return ReportDatas;
+	}
+	public void setReportDatas(List<ReportData> reportDatas) {
+		ReportDatas = reportDatas;
+	}
+	
 	 @Override
 	public String toString() {
-		return "SideTableHeadModel [lineOne=" + lineOne + ", lineTwo="
-				+ lineTwo + ", lineThreeCellone=" + lineThreeCellone
-				+ ", lineThreeCelltwo=" + getLineThreeCelltwo()
+		return "SideTableData [lineOne=" + lineOne + ", lineTwo=" + lineTwo
+				+ ", lineThreeCellone=" + lineThreeCellone
+				+ ", lineThreeCelltwo=" + lineThreeCelltwo
 				+ ", lineFourCellone=" + lineFourCellone + ", lineFourCellTwo="
 				+ lineFourCellTwo + ", lineFiveCellOne=" + lineFiveCellOne
-				+ ", lineFiveCellTwo=" + lineFiveCellTwo + "]";
+				+ ", lineFiveCellTwo=" + lineFiveCellTwo + ", ReportDatas="
+				+ ReportDatas + "]";
 	}
-	 /**
+	/**
 	  * 这个方法是用来统一表头内容长度的，和模拟居中的，防止表格变形的作用。注释部分如要删除请联系研发
 	  */
 	public void unifyLength(){		 		

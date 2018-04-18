@@ -3,7 +3,7 @@ package com.zhongda.monitor.report.configclass.configmodel;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.xmlbeans.XmlCursor;
 
-import com.zhongda.monitor.report.model.fictitious.SideTableDataModel;
+import com.zhongda.monitor.report.model.fictitious.SideTableData;
 
 
 
@@ -20,11 +20,11 @@ public class CreateTableConfig {
 	
 	private XmlCursor cursor;
 	
-	private int line;
+	private int line;//行
 	
-	private int row;
+	private int row;//列
 	
-	private SideTableDataModel  sideTableDataModel;
+	private SideTableData  sideTableDataModel;
 	
 	
 
@@ -32,7 +32,7 @@ public class CreateTableConfig {
 	
 	}
 
-	public CreateTableConfig(XWPFDocument doc2, XmlCursor cursor, int line,int row, SideTableDataModel sideTableDataModel) {
+	public CreateTableConfig(XWPFDocument doc2, XmlCursor cursor, int line,int row, SideTableData sideTableDataModel) {
 		super();
 		this.doc2 = doc2;
 		this.cursor = cursor;
@@ -73,11 +73,11 @@ public class CreateTableConfig {
 		this.row = row;
 	}
 
-	public SideTableDataModel getSideTableDataModel() {
+	public SideTableData getSideTableDataModel() {
 		return sideTableDataModel;
 	}
 
-	public void setSideTableDataModel(SideTableDataModel sideTableDataModel) {
+	public void setSideTableDataModel(SideTableData sideTableDataModel) {
 		this.sideTableDataModel = sideTableDataModel;
 	}
 	
@@ -92,12 +92,12 @@ public class CreateTableConfig {
 	 * 边坡类型的配置参数     沉降  和收敛的配置
 	 * @param doc2
 	 * @param cursor
-	 * @param sideTableDataModel
+	 * @param Object 填充到表格的数据
 	 * @return
 	 */
-	public static CreateTableConfig  getSideTable(XWPFDocument doc2,XmlCursor cursor,SideTableDataModel sideTableDataModel){
+	public static CreateTableConfig  getSideTable(XWPFDocument doc2,XmlCursor cursor,Object obj){
 		
-		return new CreateTableConfig( doc2,  cursor,  9, 6, sideTableDataModel);
+		return new CreateTableConfig( doc2,  cursor,  9, 6, (SideTableData)obj);
 		
 	}
 }

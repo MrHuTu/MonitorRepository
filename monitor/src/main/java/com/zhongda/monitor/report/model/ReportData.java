@@ -1,15 +1,21 @@
 package com.zhongda.monitor.report.model;
 
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 /**
  * 用来做数数据迁移，报表数据提取的实体类
  * @author Administrator
  *
  */
+@JsonInclude(Include.NON_NULL)
 public class ReportData {
 	//private int id;
 	private int project_id;
-	private Date current_times;
+	private Date current_times;	
+	private Date  first_time;	
 	private double first_data;
 	private double current_data;
 	private double current_laser_change;
@@ -33,6 +39,7 @@ public class ReportData {
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	public Date getCurrent_times() {
 		return current_times;
 	}
@@ -89,16 +96,25 @@ public class ReportData {
 	public void setSmu_channel(String smu_channel) {
 		this.smu_channel = smu_channel;
 	}
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	public Date getFirst_time() {
+		return first_time;
+	}
+	public void setFirst_time(Date first_time) {
+		this.first_time = first_time;
+	}
 	@Override
 	public String toString() {
 		return "ReportData [project_id=" + project_id + ", current_times="
-				+ current_times + ", first_data=" + first_data
-				+ ", current_data=" + current_data + ", current_laser_change="
+				+ current_times + ", first_time=" + first_time
+				+ ", first_data=" + first_data + ", current_data="
+				+ current_data + ", current_laser_change="
 				+ current_laser_change + ", total_laser_change="
 				+ total_laser_change + ", monitor_type=" + monitor_type
 				+ ", smu_number=" + smu_number + ", sensor_number="
 				+ sensor_number + ", smu_channel=" + smu_channel + "]";
 	}
+	
 	
 	
 	

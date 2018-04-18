@@ -14,9 +14,10 @@
 	<result column="smu_number" property="smu_number"/>	
 	<result column="sensor_number" property="sensor_number"/>
 	<result column="smu_channel" property="smu_channel"/>
+	<result column="first_time" property="first_time"/>
 </resultMap>	
  	<select id="selectRepotrData" resultMap="ReportData">                         	
-		select p.project_id, s.current_times, s.first_data, s.current_data, s.current_laser_change, s.total_laser_change, sen.monitor_type,
+		select p.project_id, s.current_times, s.first_data, s.current_data, s.current_laser_change, s.total_laser_change, sen.monitor_type,s.first_time,
 		sen.smu_channel,sen.sensor_number,sen.smu_number
 		from ${tableName} s, project p, sensor sen   
 		where s.current_times Between #{beginTime,jdbcType=VARCHAR} and #{endTime,jdbcType=VARCHAR} 
@@ -29,7 +30,7 @@
   	</select>
   	
   	<insert id="insertData" >
-		  	insert into report_data (project_id,current_times,first_data,current_data,current_laser_change,total_laser_change,typ,smu_number,sensor_number,smu_channel)  VALUES   
+		  	insert into report_data (project_id,current_times,first_data,current_data,current_laser_change,total_laser_change,typ,smu_number,sensor_number,smu_channel,first_time)  VALUES   
 		  	<foreach collection="reportDatas" item="reportData" separator=",">  
             (
             #{reportData.project_id},
@@ -41,7 +42,8 @@
             #{reportData.monitor_type},           
             #{reportData.smu_number},
             #{reportData.sensor_number},
-            #{reportData.smu_channel}
+            #{reportData.smu_channel},
+            #{reportData.first_time}
             )  
         </foreach>  
   	</insert>

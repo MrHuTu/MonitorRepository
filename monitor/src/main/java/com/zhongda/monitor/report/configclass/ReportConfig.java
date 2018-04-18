@@ -9,6 +9,6 @@ package com.zhongda.monitor.report.configclass;
 public class ReportConfig {//Sedimentation  Convergence
 	//沉降
 	public static final  String SEDIMENTATION ="com.zhongda.monitor.report.configclass.tableclass.SedimentationTableClass|getSideTable";
-	//收敛
+	//水平位移
 	public static final  String COVERGENCE =SEDIMENTATION;
 }

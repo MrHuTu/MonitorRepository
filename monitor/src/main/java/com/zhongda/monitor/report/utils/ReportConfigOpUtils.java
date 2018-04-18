@@ -65,4 +65,27 @@ public class ReportConfigOpUtils {
 		return false;
 	}
 	
+	/**
+	 * 获的当前项目的数据填充路径
+	 * @param pojoId
+	 * @return
+	 */
+	public static String  gitClassPath(String pojoId){
+		
+	Iterator<ReportConfig>  ite = reportConfigs.iterator();
+	
+	String path = null;
+	
+	while(ite.hasNext()){
+		
+		ReportConfig reportConfig = ite.next();
+		
+		if(pojoId.equals(String.valueOf(reportConfig.getProject_id()))){
+			
+			path = reportConfig.getClass_path();
+		}
+	}
+		return path;
+		
+	}
 }

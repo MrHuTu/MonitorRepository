@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.SideTableDataMapper">
+	<resultMap id="ReportDataMap" type="com.zhongda.monitor.report.model.ReportData">
+		    <result column="current_data"  property="current_data" />
+		    <result column="first_data"  property="first_data" />
+		    <result column="current_laser_change"  property="current_laser_change" />
+		    <result column="total_laser_change"  property="total_laser_change" />
+		    <result column="current_times"  property="current_times" />
+	</resultMap>
+	<resultMap id="SideTableMap" type="com.zhongda.monitor.report.model.fictitious.SideTableData">
+		    <result column="lineOne" property="lineOne" />
+		    <result column="lineTwo"  property="lineTwo" />
+		    <result column="lineThreeCellone"  property="lineThreeCellone" />
+		    <result column="lineThreeCelltwo"  property="lineThreeCelltwo" />
+		    <result column="lineFourCellone" property="lineFourCellone" />
+		    <result column="lineFourCellTwo" property="lineFourCellTwo" />
+		    <result column="lineFiveCellOne"  property="lineFiveCellOne" />
+		    <result column="lineFiveCellTwo"  property="lineFiveCellTwo" />  
+		    <association property="ReportDatas" resultMap="ReportDataMap"/>	    
+  </resultMap>
+ 	<select id="selectSideTableData" resultMap="SideTableMap">                         	
+		select
+			p.project_name lineOne,'中大检测' lineTwo,r.first_time  lineThreeCellone,'测试人:中大监测云平台' lineThreeCelltwo,sen.sensor_number lineFourCellone,
+			sen.monitor_point lineFourCellTwo,sen.smu_number lineFiveCellOne,sen.smu_channel lineFiveCellTwo,r.current_times,
+			r.current_data,r.first_data,r.current_laser_change,r.total_laser_change
+		from sensor sen,report_data r,project p 
+			where sen.project_id=#{pojoId}  and sen.project_id=p.project_id
+			and sen.sensor_number=r.sensor_number
+			and sen.smu_channel = r.smu_channel
+			and sen.smu_number=r.smu_number
+  	</select>
+  	
+  
+  
+  
+</mapper>
