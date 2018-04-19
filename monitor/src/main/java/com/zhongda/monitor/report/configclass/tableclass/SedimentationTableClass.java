@@ -60,15 +60,15 @@ public class SedimentationTableClass implements BastTableClass {
 		//XWPFTable tableOne = doc2.createTable(5, 6);
 
 		
-		 customizationTableClass(tableOne,config.getSideTableDataModel());
+		 customizationTableClass(tableOne,config.getObj());
 
 	}
 	
     /***
      * 定制表格样式
      **/
-	public static void customizationTableClass(XWPFTable tableOne,SideTableData model){
-				
+	public static void customizationTableClass(XWPFTable tableOne,Object obj){
+				SideTableData	model = (SideTableData)obj;
 				//控制表格样式
 				String amount = "9000";
 				
@@ -157,6 +157,12 @@ public class SedimentationTableClass implements BastTableClass {
 		
 		Wordl2007Utis.setBorder(tableOne,TableBorder.noneBorder());
 	      
+	}
+
+	@Override
+	public CreateTableConfig getTableClassConfig(XWPFDocument doc2, XmlCursor cursor,Object obj) {
+		
+		return new CreateTableConfig( doc2,  cursor,  9, 6, (SideTableData)obj);
 	}
 	 
 }

@@ -8,8 +8,8 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 
 /**
  * Title : CacheUtils管理
- * Description : 处理缓存的增删改查操作
- * @Author dengzm
+ * Description : 处理缓存的增删改查操作     缓存javaben,javaben要序列化
+ * @Author dengzm   
  * @Date 2018年3月8日 下午3:59:10
  */
 public class CacheUtils{

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.ReportDataMapper">
+		<resultMap id="ReportData" type="com.zhongda.monitor.report.model.ReportData">
+			<!-- <id column="id" property="id"/> -->
+			 <result column="project_id" property="project_id"/>
+			<result column="current_times" property="current_times"/>
+			<result column="first_data" property="first_data"/>
+			<result column="current_data" property="current_data"/>
+			<result column="current_laser_change" property="current_laser_change"/>
+			<result column="total_laser_change" property="total_laser_change"/>	
+			<result column="monitor_type" property="monitor_type"/>
+			
+			<result column="smu_number" property="smu_number"/>	
+			<result column="sensor_number" property="sensor_number"/>
+			<result column="smu_channel" property="smu_channel"/>
+			<result column="first_time" property="first_time"/>
+		</resultMap>	
+		
+	 	<select id="selectReportData" resultMap="ReportData">       
+	 	                  	select * from report_data 
+	 	                  	where report_data.smu_number=#{smu_number}
+	 	                  	and report_data.sensor_number=#{sensor_number}
+	 	                  	and report_data.smu_channel=#{smu_channel}
+	 	                  	and report_data.current_times=#{current_times}
+			
+	  	</select>
+  	
+  	
+  
+  
+</mapper>

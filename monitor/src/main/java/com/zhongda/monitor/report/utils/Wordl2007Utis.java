@@ -265,7 +265,7 @@ public class Wordl2007Utis {
 								
 								XmlCursor cursor = paragraph.getCTP().newCursor();
 								
-								String[] paths= classPath.split("\\|");
+								/*String[] paths= classPath.split("\\|");
 								
 								if(paths.length<2){
 									try {
@@ -274,13 +274,13 @@ public class Wordl2007Utis {
 									
 										e.printStackTrace();
 									}
-								}
+								}*/
 								//String name = obj.getClass().getName();
 								//调用CreateTableConfig下的自定义方法，此定义方法返回一个封装了一个表格的全部数据(SideTableDataModel对象)
-								CreateTableConfig createTableConfig= callMethod(paths[1],doc2,cursor,obj);
+								CreateTableConfig createTableConfig= callMethod(classPath,doc2,cursor,obj);
 							
 								//调用ReportConfig中配置生成表格的类,该配置类必须以createTable方法为入口，自动填充数据
-								callMethod(paths[0],createTableConfig);
+								callMethod(classPath,createTableConfig);
 								
 							}
 							
@@ -722,15 +722,14 @@ public class Wordl2007Utis {
 		 * @return 
 		 */
 		
-		private static CreateTableConfig callMethod(String noWmethodName,XWPFDocument doc2,XmlCursor cursor,/*SideTableDataModel sideTableDataModel*/Object objP){
-			 String className = "com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig";
-			  String methodName =  noWmethodName;
+		private static CreateTableConfig callMethod(String classPath,XWPFDocument doc2,XmlCursor cursor,Object objP){
+			  String methodName =  "getTableClassConfig";
 			  
 					 
 			  CreateTableConfig  result = null;
 			try {
 				@SuppressWarnings("rawtypes")
-				Class clz = Class.forName(className);
+				Class clz = Class.forName(classPath);
 				 //  
 				Object obj = clz.newInstance();			   		
 				  //获取方法  			

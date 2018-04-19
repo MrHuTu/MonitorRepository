@@ -64,4 +64,7 @@
     
     <!-- 天气数据缓存 -->
     <cache name="weatherCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="3600"/>
+    
+     <!--word报告数据迁移临时数据缓存 -->
+    <cache name="reportCache" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"  timeToIdleSeconds="42300"/>
 </ehcache>

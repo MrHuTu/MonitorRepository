@@ -26,7 +26,8 @@
 		and sen.smu_channel = s.smu_cms_channel
 		and sen.sensor_number = s.sensor_id
 		and sen.smu_number = s.smu_cms_id 
-		and sen.monitor_type in(select parameter from report_para)		
+		and sen.monitor_type in(select parameter from report_para)	
+		GROUP BY sensor_number ,smu_channel,smu_number	<!-- 2018年4月19日10:08:58补充 -->
   	</select>
   	
   	<insert id="insertData" >

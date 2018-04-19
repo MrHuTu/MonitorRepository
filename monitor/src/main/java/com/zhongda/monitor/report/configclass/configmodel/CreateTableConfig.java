@@ -24,7 +24,7 @@ public class CreateTableConfig {
 	
 	private int row;//列
 	
-	private SideTableData  sideTableDataModel;
+	private Object  obj;
 	
 	
 
@@ -32,13 +32,13 @@ public class CreateTableConfig {
 	
 	}
 
-	public CreateTableConfig(XWPFDocument doc2, XmlCursor cursor, int line,int row, SideTableData sideTableDataModel) {
+	public CreateTableConfig(XWPFDocument doc2, XmlCursor cursor, int line,int row,Object  obj) {
 		super();
 		this.doc2 = doc2;
 		this.cursor = cursor;
 		this.line = line;
 		this.row = row;
-		this.sideTableDataModel = sideTableDataModel;
+		this.obj = obj;
 	}
 
 	public XWPFDocument getDoc2() {
@@ -73,19 +73,20 @@ public class CreateTableConfig {
 		this.row = row;
 	}
 
-	public SideTableData getSideTableDataModel() {
-		return sideTableDataModel;
+	
+	public Object getObj() {
+		return obj;
 	}
 
-	public void setSideTableDataModel(SideTableData sideTableDataModel) {
-		this.sideTableDataModel = sideTableDataModel;
+	public void setObj(Object obj) {
+		this.obj = obj;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "CreateTableConfig [doc2=" + doc2 + ", cursor=" + cursor
-				+ ", line=" + line + ", row=" + row + ", sideTableDataModel="
-				+ sideTableDataModel + "]";
+				+ ", line=" + line + ", row=" + row + ", Object="
+				+ obj + "]";
 	}
 
 	/**

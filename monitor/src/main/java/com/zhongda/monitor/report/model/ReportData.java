@@ -1,5 +1,6 @@
 package com.zhongda.monitor.report.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,8 +11,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author Administrator
  *
  */
+@SuppressWarnings("serial")
 @JsonInclude(Include.NON_NULL)
-public class ReportData {
+public class ReportData implements Serializable{
 	//private int id;
 	private int project_id;
 	private Date current_times;	
@@ -39,7 +41,7 @@ public class ReportData {
 	public void setProject_id(int project_id) {
 		this.project_id = project_id;
 	}
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	public Date getCurrent_times() {
 		return current_times;
 	}
