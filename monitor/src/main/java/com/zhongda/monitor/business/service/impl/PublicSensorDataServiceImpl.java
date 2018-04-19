@@ -1,10 +1,6 @@
 package com.zhongda.monitor.business.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.mapper.PublicSensorDataMapper;
-import com.zhongda.monitor.business.model.fictitious.DataEchart;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
+import com.zhongda.monitor.business.utils.DataProcessing;
 import com.zhongda.monitor.business.utils.JxlExcelUtils;
 
 /**
@@ -37,69 +33,21 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 	@Resource
 	private JxlExcelUtils jxlExcel;
 
+	@Resource
+	private DataProcessing dataProcessing;
+
 	@Override
 	public Map<Object, Object> querySensorData(String tableName,
 			String sensorNumber, String smuNumber, String smuChannel,
 			String date) {
-		long time2 = new Date().getTime();
-		HashMap<Object, Object> hashMap = new HashMap<Object, Object>();
-		Date today = new Date();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.DATE, +1);
-		String beginDate = format.format(today);
-		String endDate = format.format(instance.getTime());
-		if ("aweek".equals(date)) {
-			instance.add(Calendar.DATE, -7);
-			instance.add(Calendar.DATE, -1);
-			beginDate = format.format(instance.getTime());
-		} else if ("amonth".equals(date)) {
-			instance.add(Calendar.MONTH, -1);
-			instance.add(Calendar.DATE, -1);
-			beginDate = format.format(instance.getTime());
-		} else if ("ayear".equals(date)) {
-			instance.add(Calendar.YEAR, -1);
-			instance.add(Calendar.DATE, -1);
-			beginDate = format.format(instance.getTime());
-		}
-		System.out.println("begindate:" + beginDate + "  endDate:" + endDate);
-		List<PublicSensorData> sensorDatas = pSenDataMapper
+		Map<String, String> timeProcessing = dataProcessing
+				.timeProcessing(date);
+
+		return dataProcessing.formatAssembly(pSenDataMapper
 				.selectSenDataByDate(tableName, sensorNumber, smuNumber,
-						smuChannel, beginDate, endDate);
-		ArrayList<DataEchart> currentLaserChangeList = new ArrayList<DataEchart>();// 单次变化
-		ArrayList<DataEchart> totalLaserChangeList = new ArrayList<DataEchart>();// 总变化量
-		ArrayList<DataEchart> speedChangeList = new ArrayList<DataEchart>();// 变化速率speedChange
-		for (PublicSensorData publicSensorData : sensorDatas) {
-			Date time = publicSensorData.getCurrentTimes();
-			Double currentData = publicSensorData.getCurrentData();
+						smuChannel, timeProcessing.get("beginTime"),
+						timeProcessing.get("endTime")));
 
-			DataEchart currentLaser = new DataEchart();
-			DataEchart totalLaserChange = new DataEchart();
-			DataEchart speedChange = new DataEchart();
-
-			currentLaser.setDate(time);
-			currentLaser.setCurrentData(currentData);
-			currentLaser.setValue(publicSensorData.getCurrentLaserChange());
-			currentLaserChangeList.add(currentLaser);
-
-			totalLaserChange.setDate(time);
-			totalLaserChange.setCurrentData(currentData);
-			totalLaserChange.setValue(publicSensorData.getTotalLaserChange());
-			totalLaserChangeList.add(totalLaserChange);
-
-			speedChange.setDate(time);
-			speedChange.setCurrentData(currentData);
-			speedChange.setValue(publicSensorData.getSpeedChange());
-			speedChangeList.add(speedChange);
-
-		}
-		hashMap.put("currentLaserChange", currentLaserChangeList);
-		hashMap.put("totalLaserChange", totalLaserChangeList);
-		hashMap.put("speedChange", speedChangeList);
-		hashMap.put("sensorData", sensorDatas);
-		long time = new Date().getTime();
-		System.out.println("耗时：" + (time - time2) + "ms");
-		return hashMap;
 	}
 
 	@Override
@@ -107,11 +55,6 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 			String smuNumber, String smuChannel, HttpServletResponse response,
 			String beginDate, String endDate, String monitorPoint,
 			String projectName, String moniterTypeName) {
-		System.out.println("detectionName:" + tableName);
-		System.out.println("------------------------------------");
-		System.out.println("smuCmsId:" + smuNumber + "smuCmsChannel:"
-				+ smuChannel);
-		System.out.println("------------------------------------");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		List<PublicSensorData> list = pSenDataMapper.selectSenDataByDate(
 				tableName, sensorNumber, smuNumber, smuChannel, beginDate,
@@ -130,6 +73,26 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 		}
 		jxlExcel.export_excel(response, list, head, projectName,
 				moniterTypeName, monitorPoint);
+	}
+
+	@Override
+	public Map<Object, Object> selectSenDataforBenchmark(String tableName,
+			String sensorNumber, String smuNumber, String smuChannel,
+			String sensorNumberBM, String smuNumberBM, String smuChannelBM,
+			String date) {
+		Map<String, String> timeProcessing = dataProcessing
+				.timeProcessing(date);
+		List<List<PublicSensorData>> datas = pSenDataMapper
+				.selectSenDataforBenchmark(tableName, sensorNumber, smuNumber,
+						smuChannel, sensorNumberBM, smuNumberBM, smuChannelBM,
+						timeProcessing.get("beginTime"),
+						timeProcessing.get("endTime"));
+		Map<String, PublicSensorData> fillingDatas = dataProcessing
+				.benchmarkProcessing(datas.get(0));
+		Map<String, PublicSensorData> fillingDataBMs = dataProcessing
+				.benchmarkProcessing(datas.get(1));
+		return dataProcessing.formatAssembly(dataProcessing.differenceData(
+				fillingDatas, fillingDataBMs));
 	}
 
 }

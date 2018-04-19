@@ -18,14 +18,15 @@ import com.zhongda.monitor.core.model.Result;
 @RequestMapping("/weather")
 @Api(tags = { "天气接口" })
 public class WeatherController {
-	
-	@Autowired	
+
+	@Autowired
 	private WeatherService weatherService;
-	
+
 	@GetMapping("/{cityName}")
-	@ApiOperation(value = "天气信息--chao.hu", notes = "通过城市名获取当前时间天气", response = Result.class, httpMethod = "GET")	
+	@ApiOperation(value = "天气信息--chao.hu", notes = "通过城市名获取当前时间天气", response = Result.class, httpMethod = "GET")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "cityName", value = "城市名称", required = true, dataType = "String", paramType = "path") })
 	private Result<String> getItemAvgDataPost(@PathVariable String cityName) {
-		return new Result<String>().success("查询成功", weatherService.getWeather(cityName)); 
+		return new Result<String>().success("查询成功",
+				weatherService.getWeather(cityName));
 	}
 }

@@ -57,8 +57,8 @@ public class ProjectController {
 
 	}
 
-	@GetMapping("/homep.gzip--maoping.li")
-	@ApiOperation(value = "首页数据", httpMethod = "GET", response = Result.class, notes = "调用存储过程加载首页的数据")
+	@GetMapping("/homep.gzip")
+	@ApiOperation(value = "首页数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "调用存储过程加载首页的数据")
 	public Result<Map<String, Object>> loadhomep(HttpServletResponse response) {
 		User user = ShiroUtils.getCurrentUser();
 		// response.setHeader("Access-Control-Allow-Origin", "*");
@@ -67,8 +67,8 @@ public class ProjectController {
 
 	}
 
-	@GetMapping(value = "/queryProjects--maoping.li")
-	@ApiOperation(value = "项目数据", httpMethod = "GET", response = Result.class, notes = "查询用户下的所有项目")
+	@GetMapping(value = "/queryProjects")
+	@ApiOperation(value = "项目数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "查询用户下的所有项目")
 	public Result<List<Project>> queryProject() {
 		User user = ShiroUtils.getCurrentUser();
 		return new Result<List<Project>>().setCode(Result.SUCCESS)
@@ -76,8 +76,8 @@ public class ProjectController {
 				.setData(projectService.queryProjectByUserId(user.getUserId()));
 	}
 
-	@GetMapping(value = "/queryProMoData/{projectId}--maoping.li")
-	@ApiOperation(value = "传感器最近一次数据", httpMethod = "GET", response = Result.class, notes = "查询项目下所有传感器最近一次数据")
+	@GetMapping(value = "/queryProMoData/{projectId}")
+	@ApiOperation(value = "传感器最近一次数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "查询项目下所有传感器最近一次数据")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "projectId", value = "项目ID", required = true, dataType = "int", paramType = "path") })
 	public Result<List<StatisticChart>> queryPromonitor(
 			@PathVariable Integer projectId) {
