@@ -37,7 +37,7 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 	@Autowired 
 	ReportDataService reportDataService;
 	
-	private  Boolean is = true;
+	
 	/**
 	 * 查询报告数据  "2018-04-10 00:00:00", "2018-04-10 00:10:00"
 	 */

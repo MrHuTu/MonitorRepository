@@ -5,5 +5,5 @@ import java.util.List;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 
 public interface SideTableDataService {
-	public List<SideTableData> selectSideTableData(int pojoId);
+	public List<SideTableData> selectSideTableData(int pojoId,String time);
 }

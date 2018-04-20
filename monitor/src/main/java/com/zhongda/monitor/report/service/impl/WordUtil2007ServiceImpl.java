@@ -10,12 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.xmlbeans.XmlCursor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,6 @@ import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
-import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
@@ -62,11 +59,11 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public String generateWord(String pojoId) {
+	public String generateWord(String pojoId,String time) {
 		
 		String fileName= null;
 		
-		Object obj = analysis(pojoId);
+		Object obj = analysis(pojoId,time);
 		String name = null;
 		XWPFDocument doc = null;
 		if(obj instanceof Map){
@@ -119,7 +116,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 * @param pojoId
 	 * @return Map 文件名，XWPFDocument对象
 	 */
-	public  Object analysis(String pojoId){
+	public  Object analysis(String pojoId,String time){
 		//这个map 存放模板文档实例，和非表格占位符
 		 Map<Object,Object> map = new HashMap<Object, Object>();
 		 
@@ -163,7 +160,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			map.put("name", name+"日报");
 			
 			
-			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId);
+			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId,time);
 			return map;
 			
 		}
@@ -176,8 +173,8 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 * @return 
 	 */
 	
-	private static CreateTableConfig callMethod(String className,XWPFDocument doc2,String pojoId){
-		ApplicationContextAware applicationContext;
+	private static CreateTableConfig callMethod(String className,XWPFDocument doc2,String pojoId,String time){
+		
 		 String methodName =  "fillData";
 		  
 				 
@@ -194,10 +191,10 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			//Object obj = clz.newInstance();		
 			
 			  //获取方法  			
-			 Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class);
+			 Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class,String.class);
 			 
 			  //调用方法  
-			 result =  (CreateTableConfig) m.invoke(obj, doc2,pojoId);
+			 result =  (CreateTableConfig) m.invoke(obj, doc2,pojoId,time);
 		} catch (IllegalAccessException e) {
 			
 			e.printStackTrace();

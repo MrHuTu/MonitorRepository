@@ -29,19 +29,28 @@ public class GitYmlParaUtils {
 	 * @return
 	 */
 	public  Map<String,String> getSetTime(int timeIndex){
+		
 		Map<String,String> map = new HashMap<String, String>();
 		
-		 String model = new DateTime().toString("YYYY-MM-dd");	 
+		String model = new DateTime().toString("YYYY-MM-dd");	 
+		
 		String[] times = repotrTime.split("\\;");
 		
 		for(int i=0;i<times.length;i++){
+			
 			if(i==timeIndex){
-				 String	timeOne   ="T"+times[i];				
-				 DateTime startTimeModel = new DateTime(model+timeOne);
-				 String start = startTimeModel.toString("YYYY-MM-dd HH:mm:ss");
-				 String end = startTimeModel.plusMinutes(Integer.parseInt(repotrTimeError)).toString("YYYY-MM-dd HH:mm:ss");
-				map.put("start", start);
-				map.put("end", end);
+				
+			 String	timeOne   ="T"+times[i];	
+			 
+			 DateTime startTimeModel = new DateTime(model+timeOne);
+			 
+			 String start = startTimeModel.toString("YYYY-MM-dd HH:mm:ss");
+			 
+			 String end = startTimeModel.plusMinutes(Integer.parseInt(repotrTimeError)).toString("YYYY-MM-dd HH:mm:ss");
+				 
+			 map.put("start", start);
+			
+			 map.put("end", end);
 			}
 		}
 		

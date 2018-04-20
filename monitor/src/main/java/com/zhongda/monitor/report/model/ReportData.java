@@ -14,10 +14,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @SuppressWarnings("serial")
 @JsonInclude(Include.NON_NULL)
 public class ReportData implements Serializable{
-	//private int id;
+	private int id;
 	private int project_id;
-	private Date current_times;	
 	private Date  first_time;	
+	private Date current_times;	
+	
 	private double first_data;
 	private double current_data;
 	private double current_laser_change;
@@ -29,12 +30,12 @@ public class ReportData implements Serializable{
 	private String  sensor_number;
 	private String smu_channel;
 	
-	/*public int getId() {
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}*/
+	}
 	public int getProject_id() {
 		return project_id;
 	}
@@ -105,6 +106,9 @@ public class ReportData implements Serializable{
 	public void setFirst_time(Date first_time) {
 		this.first_time = first_time;
 	}
+	
+	
+	
 	@Override
 	public String toString() {
 		return "ReportData [project_id=" + project_id + ", current_times="

@@ -13,6 +13,7 @@ import com.zhongda.monitor.report.model.ReportData;
  */
 public class SideTableData {
 	
+	 private String typ ;
 	 private String lineOne ="工程名称：广西贵港至隆安高速公路边坡在线安全监测报告";
 	 
 	 private String lineTwo = "测试单位:中大检测";
@@ -26,7 +27,7 @@ public class SideTableData {
 	 private String lineFiveCellOne = "终端编号(DTU):2017100008";
 	 private String lineFiveCellTwo = "采集器通道:00";
 	 
-	 private List<ReportData> ReportDatas;
+	 private List<ReportData> reportDatas;
 	 
 	 
 	public String getLineOne() {
@@ -95,23 +96,28 @@ public class SideTableData {
 		this.lineFiveCellTwo = lineFiveCellTwo;
 	}
 	
-	
-	 public List<ReportData> getReportDatas() {
-		return ReportDatas;
+	public List<ReportData> getReportDatas() {
+		return reportDatas;
 	}
 	public void setReportDatas(List<ReportData> reportDatas) {
-		ReportDatas = reportDatas;
+		this.reportDatas = reportDatas;
+	}
+	public String getTyp() {
+		return typ;
+	}
+	public void setTyp(String typ) {
+		this.typ = typ;
 	}
 	
-	 @Override
+	@Override
 	public String toString() {
-		return "SideTableData [lineOne=" + lineOne + ", lineTwo=" + lineTwo
-				+ ", lineThreeCellone=" + lineThreeCellone
-				+ ", lineThreeCelltwo=" + lineThreeCelltwo
+		return "SideTableData [typ=" + typ + ", lineOne=" + lineOne
+				+ ", lineTwo=" + lineTwo + ", lineThreeCellone="
+				+ lineThreeCellone + ", lineThreeCelltwo=" + lineThreeCelltwo
 				+ ", lineFourCellone=" + lineFourCellone + ", lineFourCellTwo="
 				+ lineFourCellTwo + ", lineFiveCellOne=" + lineFiveCellOne
 				+ ", lineFiveCellTwo=" + lineFiveCellTwo + ", ReportDatas="
-				+ ReportDatas + "]";
+				+ reportDatas + "]";
 	}
 	/**
 	  * 这个方法是用来统一表头内容长度的，和模拟居中的，防止表格变形的作用。注释部分如要删除请联系研发

@@ -12,6 +12,6 @@ import com.zhongda.monitor.report.model.fictitious.SideTableData;
  */
 public interface SideTableDataMapper {
 	
-	public List<SideTableData> selectSideTableData(@Param("pojoId")int pojoId);
+	public List<SideTableData> selectSideTableData(@Param("pojoId")int pojoId,@Param("time")String time);
 	
 }

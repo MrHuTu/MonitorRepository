@@ -18,9 +18,9 @@ public class SideTableDataServiceImpl implements SideTableDataService {
 	@Autowired
 	SideTableDataMapper sideTableDataMapper;
 	@Override
-	public List<SideTableData> selectSideTableData(int pojoId) {
+	public List<SideTableData> selectSideTableData(int pojoId,String time) {
 		
-		return sideTableDataMapper.selectSideTableData(pojoId);
+		return sideTableDataMapper.selectSideTableData(pojoId, time);
 		
 	}
 

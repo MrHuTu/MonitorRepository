@@ -9,6 +9,6 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  */
 public interface SedimentationFill {
 	
-	public void fillData(XWPFDocument doc2,String pojoId);
+	public void fillData(XWPFDocument doc2,String pojoId,String time);
 	
 }

@@ -1,6 +1,8 @@
 package com.zhongda.monitor.report.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
@@ -38,9 +40,11 @@ public class WordReportsContorller {
 	
 	@GetMapping("/downloadWordReport")
 	@ApiOperation(value = "报告信息 --chao.hu", notes = "生成当前项目报告 --目前功能不全",  httpMethod = "GET")	
-	private Object generateWord(@RequestParam("pojoId") String pojoId) throws IOException {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "pojoId", value = "项目Id", required = true, dataType = "String", paramType = "query"),
+						@ApiImplicitParam(name = "time", value = "要生成日报的日期(yyyy-MM-dd)", required = true, dataType = "String", paramType = "query")})
+	private Object generateWord(@RequestParam("pojoId") String pojoId,@RequestParam("time") String time) throws IOException {
 		
-			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId), false);
+			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time), false);
 				
 
 	}

@@ -1,6 +1,5 @@
 package com.zhongda.monitor.report.configclass.filldata.impl;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -15,14 +14,16 @@ public class SedimentationFillImpl implements SedimentationFill {
 	@Autowired
 	SideTableDataService sideTableDataService;
 	@Override
-	public void fillData(XWPFDocument doc2,String pojoId) {
-		System.out.println("******************************调用成功***************************************"+pojoId);
-		List<SideTableData> a = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId));
-		Iterator<SideTableData> b = a.iterator();
-		while(b.hasNext()){
-			SideTableData  c = b.next();
-			System.out.println(c);
+	public void fillData(XWPFDocument doc2,String pojoId,String time) {		
+		String downTime = "%"+time+"%";
+		List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId),downTime);
+		
+		
+		for(int i=0;i<sideTableDatas.size();i++){
+			System.out.println(sideTableDatas.get(i));
 		}
+		
+		
 	}
-
+	
 }

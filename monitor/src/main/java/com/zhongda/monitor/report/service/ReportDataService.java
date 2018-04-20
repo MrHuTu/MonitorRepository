@@ -1,9 +1,5 @@
 package com.zhongda.monitor.report.service;
 
-import java.util.Date;
-import java.util.List;
-
-import com.zhongda.monitor.report.model.ReportData;
 
 public interface ReportDataService {
 	

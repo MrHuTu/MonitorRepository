@@ -49,7 +49,7 @@ public class DataArchive {
 		migrationDataService.insertData(map.get("start"),map.get("end"));
 	}	
 	
-	@Scheduled( fixedRate = 1000*60*9)
+	@Scheduled( fixedRate =1000*60*9)
 	public void archive1() throws Exception {	
 		
 		Map<String,String>  map= gitYmlParaUtils.getSetTime(1);
