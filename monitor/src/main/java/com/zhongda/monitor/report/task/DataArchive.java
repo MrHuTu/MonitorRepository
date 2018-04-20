@@ -24,7 +24,7 @@ import com.zhongda.monitor.report.utils.SpringContextUtil;
 @Configuration
 public class DataArchive {
 	
-	private static final Logger logger = LoggerFactory.getLogger(DataArchive.class);
+	//private static final Logger logger = LoggerFactory.getLogger(DataArchive.class);
 	
 	@Autowired
 	 MigrationDataService migrationDataService;

@@ -14,7 +14,10 @@ import com.zhongda.monitor.report.utils.SpringContextUtil;
 public class MonitorApplication {
 
 	public static void main(String[] args) {
+		
 		ApplicationContext   monitorApplication =SpringApplication.run(MonitorApplication.class, args);
-		 SpringContextUtil.setApplicationContext(monitorApplication);  
+		
+		SpringContextUtil.setApplicationContext(monitorApplication);  
+		
 	}
 }
