@@ -19,6 +19,10 @@ public class Threshold {
 
 	private Double maxDrasticThresholdValue;
 
+	private String thresholdValue;// 数据库没有字段，阈值类型名称
+
+	private String moniterTypeName;// 数据库没有字段,检测指标名称
+
 	public Integer getThresholdId() {
 		return thresholdId;
 	}
@@ -89,5 +93,21 @@ public class Threshold {
 
 	public void setMaxDrasticThresholdValue(Double maxDrasticThresholdValue) {
 		this.maxDrasticThresholdValue = maxDrasticThresholdValue;
+	}
+
+	public String getThresholdValue() {
+		return thresholdValue;
+	}
+
+	public void setThresholdValue(String thresholdValue) {
+		this.thresholdValue = thresholdValue;
+	}
+
+	public String getMoniterTypeName() {
+		return moniterTypeName;
+	}
+
+	public void setMoniterTypeName(String moniterTypeName) {
+		this.moniterTypeName = moniterTypeName;
 	}
 }

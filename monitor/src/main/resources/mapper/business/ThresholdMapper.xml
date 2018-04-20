@@ -12,6 +12,14 @@
     <result column="min_drastic_threshold_value" jdbcType="DOUBLE" property="minDrasticThresholdValue" />
     <result column="max_drastic_threshold_value" jdbcType="DOUBLE" property="maxDrasticThresholdValue" />
   </resultMap>
+  <resultMap id="ThreDataMap" type="com.zhongda.monitor.business.model.Threshold">
+    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+    <result column="threshold_type" jdbcType="INTEGER" property="thresholdType" />
+    <result column="min_threshold_value" jdbcType="DOUBLE" property="minThresholdValue" />
+    <result column="max_threshold_value" jdbcType="DOUBLE" property="maxThresholdValue" />
+    <result column="item_value" jdbcType="VARCHAR" property="thresholdValue" />
+    <result column="item_name" jdbcType="VARCHAR" property="moniterTypeName" />
+  </resultMap>
   <sql id="Base_Column_List">
     threshold_id, user_id, project_id, project_type, monitor_type, threshold_type, min_threshold_value, 
     max_threshold_value, min_drastic_threshold_value, max_drastic_threshold_value
@@ -21,6 +29,13 @@
     <include refid="Base_Column_List" />
     from threshold
     where threshold_id = #{thresholdId,jdbcType=INTEGER}
+  </select>
+  <select id="selectThresholdDataByProId" parameterType="java.lang.Integer" resultMap="ThreDataMap">
+  	select
+  	 t.monitor_type,t.threshold_type,t.min_threshold_value,t.max_threshold_value,sc.item_value,ss.item_name
+  	 from (threshold t LEFT JOIN sys_code sc on t.threshold_type=sc.sc_id)  LEFT JOIN sys_code ss on ss.sc_id=t.monitor_type
+  	 where
+  	 t.project_id=#{projectId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from threshold

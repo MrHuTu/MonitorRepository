@@ -1,6 +1,7 @@
 package com.zhongda.monitor.business.utils;
 
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,26 +132,25 @@ public class DataProcessing {
 		for (Map.Entry<String, PublicSensorData> entry : oriDatas.entrySet()) {
 			// 如果基准点没有当前时间数据，则不处理当前时间数据
 			if (null != BMDatas.get(entry.getKey())) {
-				entry.getValue()
-						.setCurrentData(
-								Double.valueOf(nf.format(entry.getValue()
-										.getCurrentData()
+				entry.getValue().setCurrentData(
+						Double.parseDouble(new DecimalFormat("#.0")
+								.format(entry.getValue().getCurrentData()
 										- BMDatas.get(entry.getKey())
 												.getCurrentData())));
 				entry.getValue().setCurrentLaserChange(
-						Double.valueOf(nf.format(entry.getValue()
-								.getCurrentLaserChange()
-								- BMDatas.get(entry.getKey())
-										.getCurrentLaserChange())));
+						Double.parseDouble(new DecimalFormat("#.0")
+								.format(entry.getValue()
+										.getCurrentLaserChange()
+										- BMDatas.get(entry.getKey())
+												.getCurrentLaserChange())));
 				entry.getValue().setTotalLaserChange(
-						Double.valueOf(nf.format(entry.getValue()
-								.getTotalLaserChange()
-								- BMDatas.get(entry.getKey())
-										.getTotalLaserChange())));
-				entry.getValue()
-						.setSpeedChange(
-								Double.valueOf(nf.format(entry.getValue()
-										.getSpeedChange()
+						Double.parseDouble(new DecimalFormat("#.0")
+								.format(entry.getValue().getTotalLaserChange()
+										- BMDatas.get(entry.getKey())
+												.getTotalLaserChange())));
+				entry.getValue().setSpeedChange(
+						Double.parseDouble(new DecimalFormat("#.0")
+								.format(entry.getValue().getSpeedChange()
 										- BMDatas.get(entry.getKey())
 												.getSpeedChange())));
 			}
