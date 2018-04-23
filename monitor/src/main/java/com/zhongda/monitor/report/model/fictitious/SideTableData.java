@@ -32,7 +32,7 @@ public class SideTableData {
 	 
 	public String getLineOne() {
 		
-		return lineOne;
+		return "工程名称:"+lineOne;
 	}
 	public void setLineOne(String lineOne) {
 		
@@ -40,7 +40,7 @@ public class SideTableData {
 	}
 	public String getLineTwo() {
 		
-		return lineTwo;
+		return "测试单位:"+lineTwo;
 	}
 	public void setLineTwo(String lineTwo) {
 		
@@ -48,7 +48,7 @@ public class SideTableData {
 	}
 	public String getLineThreeCellone() {
 		
-		return lineThreeCellone;
+		return "初次测试时间:"+lineThreeCellone;
 	}
 	public void setLineThreeCellone(String lineThreeCellone) {
 	
@@ -56,7 +56,7 @@ public class SideTableData {
 		this.lineThreeCellone = lineThreeCellone;
 	}
 	public String getLineThreeCelltwo() {
-		return lineThreeCelltwo;
+		return "测试人:"+lineThreeCelltwo;
 	}
 	public void setLineThreeCelltwo(String lineThreeCelltwo) {
 		
@@ -65,7 +65,7 @@ public class SideTableData {
 	}
 	public String getLineFourCellone() {
 		
-		return lineFourCellone;
+		return "传感器编号:"+lineFourCellone;
 	}
 	public void setLineFourCellone(String lineFourCellone) {
 		
@@ -73,7 +73,7 @@ public class SideTableData {
 	}
 	public String getLineFourCellTwo() {
 		
-		return lineFourCellTwo;
+		return "测点名称:"+lineFourCellTwo;
 	}
 	public void setLineFourCellTwo(String lineFourCellTwo) {
 	
@@ -81,7 +81,7 @@ public class SideTableData {
 	}
 	public String getLineFiveCellOne() {
 		
-		return lineFiveCellOne;
+		return "终端编号(DTU):"+lineFiveCellOne;
 	}
 	public void setLineFiveCellOne(String lineFiveCellOne) {
 		
@@ -89,7 +89,7 @@ public class SideTableData {
 	}
 	public String getLineFiveCellTwo() {
 		
-		return lineFiveCellTwo;
+		return "采集器通道:"+lineFiveCellTwo;
 	}
 	public void setLineFiveCellTwo(String lineFiveCellTwo) {
 	

@@ -10,7 +10,7 @@ import com.zhongda.monitor.report.model.fictitious.SideTableData;
 
 
 /**
- * 动态创建表的参数类，控制表格的行，列及数据展示
+ * 动态创建表的参数类，控制表格的行，列及数据展示（做这个东西主要时我不想给一个方法传递一堆参数）
  * @author huchao
  *
  */

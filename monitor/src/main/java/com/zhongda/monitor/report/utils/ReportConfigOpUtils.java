@@ -14,7 +14,8 @@ public class ReportConfigOpUtils {
 	public static List<ReportConfig> reportConfigs;
 	
 	public static List<ReportPara> reportParas;
-	
+		
+	//全部项目的在线监测参数
 	public static List<ProjectPara> projectPara;
 	
 	
@@ -66,7 +67,7 @@ public class ReportConfigOpUtils {
 	}
 	
 	/**
-	 * 获的当前项目的数据填充路径
+	 * 获的当前项目的数据填充的bean id,这个bean由Spring管理
 	 * @param pojoId
 	 * @return
 	 */
@@ -86,6 +87,29 @@ public class ReportConfigOpUtils {
 		}
 	}
 		return path;
+		
+	}
+	
+	/**
+	 * 获取当期项目监测参数的种类
+	 */
+	public static int getObjrctPataCount(String pojoId){
+		
+		int count = 0;
+		
+		Iterator<ProjectPara> projectParas = projectPara.iterator();
+		
+		while(projectParas.hasNext()){
+			
+			ProjectPara projectPara = projectParas.next();
+			
+			if(String.valueOf(projectPara.getProject_id()).equals(pojoId)){
+
+				count++;
+				
+			}
+		}
+		return count;
 		
 	}
 }

@@ -30,10 +30,11 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
 /**
- * 生成报告总入口服务类
+ * 生成报告总入口服务类 ，看这里服务类可以基本明白怎么取开发一个word报告模板
  * @author huchao
  * 2018年4月2日17:23:20
- *
+ * 在调用generateWord时由于word文档的模板以后都会固定统一，所以文本替换直接写死了。
+ * 不同项目类型的表格he数据不一样，这里用到了反射和数据库表的配置
  */
 @Service
 @Scope(value="prototype")
@@ -63,7 +64,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		String fileName= null;
 		
-		Object obj = analysis(pojoId,time);
+		Object obj = analysis(pojoId,time);//核心处理
 		String name = null;
 		XWPFDocument doc = null;
 		if(obj instanceof Map){
@@ -114,19 +115,22 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	/**
 	 * 解析测试用模板,替换占位符
 	 * @param pojoId
-	 * @return Map 文件名，XWPFDocument对象
+	 * @return Map 文件名，XWPFDocument对象。String 错误提示信息
 	 */
 	public  Object analysis(String pojoId,String time){
-		//这个map 存放模板文档实例，和非表格占位符
+		
+		//这个map 存放模板文档实例，和非表格占位符		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
 		 
 		Map<String, Object> param = new HashMap<String, Object>();
 		
+		//用来判断该项目开关是否开启
 		if(!ReportConfigOpUtils.verifyreportConfig(pojoId)){
 			
 			return ErrorCode.ERROR1;
 			
 		}else{
+			//这个时在服务器启动时就加载了的数据，用来验证该项目下的监测参数是否支持生成报告
 			List<ProjectPara> ProjectParas = ReportConfigOpUtils.projectPara;
 						
 			Iterator<ProjectPara>  ite = ProjectParas.iterator();
@@ -147,20 +151,39 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 				
 			};
 			
+			//替换文本占位符,将来文本内容可做配置化，这一部分需要修改，以为最终模板还没确定下来
 			Project pj = projectService.selectByPrimaryKey(pojoId);	
 			
 			String name = pj.getProjectName();
 			
-			param.put("${name}", name+"日报");	
+			param.put("${name}", name+"日报");
 			
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, templatePath);
+			//解析模板，doc可以看做一个word解析之后的xml对象
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, templatePath);		
+			
+		
+			/**根据自定义的表格样式,和自定义的表格数据处理类在doc中插入对应的表格样式，和数据
+			 * ReportConfigOpUtils.gitClassPath(pojoId),这个的在服务启动时已经加载项目的配置信息,他返回一个处理表格数据bean ID.
+			 * 这个bean 就是自定义的表格数据处理类,这个处理类要实现一个接口（因为callMethod这个方法已经把掉用者的方法名称写死），在这个bean中会根据
+			 * ReportConfig中的配置信息去生成表格。ReportConfig中的配置信息就是你写的自定义的表格样式,定义的这个样式类也要实现一个接口，愿意和上面一样，在wordUtil2007。Utils
+			 * 中也用到了反射，我把被调用的方法写死了，方法名称定义在一个接口
+			 * 有些地方设计还有瑕疵，有看到和胡超提一下
+			 * 
+			 * 到目前为止 开发一个word文档报告，要做的事件在这里全部可以体现。
+			 * 第一，配置项目开关
+			 * 第二。配置可用参数
+			 * 第三，写好表格样式类实现BastTableClass,建议写到tableclass包下。和处理数据的类实现SedimentationFill接口,建有写到filldata.impl包下
+			 * 第四.将第3步的处理数据的类的beanid配置到数据库 。和第一部时同一个表
+			 * 
+			 * 
+			 * 
+			 */
+			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId,time);
 			
 			map.put("doc",doc );
 			
 			map.put("name", name+"日报");
 			
-			
-			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId,time);
 			return map;
 			
 		}
@@ -179,16 +202,10 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		  
 				 
 		  CreateTableConfig  result = null;
+		  
 		try {
-			String[]  c= className.split("\\.");
-		
 			
-			Object obj = SpringContextUtil.getBean(c[c.length-1]);
-			
-			//Class clz = Class.forName(className);
-			
-			 //取实例  
-			//Object obj = clz.newInstance();		
+			Object obj = SpringContextUtil.getBean(className);
 			
 			  //获取方法  			
 			 Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class,String.class);

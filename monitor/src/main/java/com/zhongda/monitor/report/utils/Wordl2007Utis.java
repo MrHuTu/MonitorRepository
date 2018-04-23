@@ -240,7 +240,7 @@ public class Wordl2007Utis {
 
 					String text = run.getText(0);
 
-					if (text.length()>0) {
+					if (text!=null && text.length()>0) {
 					Iterator<String> ite = 	map.keySet().iterator();
 					while(ite.hasNext()){
 						
@@ -265,17 +265,6 @@ public class Wordl2007Utis {
 								
 								XmlCursor cursor = paragraph.getCTP().newCursor();
 								
-								/*String[] paths= classPath.split("\\|");
-								
-								if(paths.length<2){
-									try {
-										throw new Exception("请检查ReportConfig配置");
-									} catch (Exception e) {
-									
-										e.printStackTrace();
-									}
-								}*/
-								//String name = obj.getClass().getName();
 								//调用CreateTableConfig下的自定义方法，此定义方法返回一个封装了一个表格的全部数据(SideTableDataModel对象)
 								CreateTableConfig createTableConfig= callMethod(classPath,doc2,cursor,obj);
 							
@@ -376,7 +365,7 @@ public class Wordl2007Utis {
 	 * @param model 与之对应的表格数据信息
 	 * @return Map<String, Object> 例如  ${1}--false(表示表格标题),${2}---Object(表示表格对应的数据)
 	 */
-	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,ArrayList<Object> model) {
+	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,List<Object> model) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<XWPFParagraph> paragraphList = doc2.getParagraphs();
 
@@ -391,16 +380,18 @@ public class Wordl2007Utis {
 					
 					XWPFRun run = runs.get(k);
 				
-					String text = run.getText(0);
+					String text = run.getText(0);										
 
-					if (text.length()>0) {
+					if (text!=null && text.length()>0) {
 
 						Iterator<String> iter = singe.keySet().iterator();
 
 						while (iter.hasNext()) {
 
 							String key = iter.next();
-
+							
+							System.out.println("text:"+text+",key"+key);
+							
 							if (text.indexOf(key) != -1) {
 							
 								List<String> listSinge = singe.get(key);

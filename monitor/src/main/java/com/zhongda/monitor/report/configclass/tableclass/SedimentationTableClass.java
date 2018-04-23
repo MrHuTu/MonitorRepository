@@ -1,12 +1,14 @@
 package com.zhongda.monitor.report.configclass.tableclass;
 
 import java.math.BigInteger;
+import java.util.List;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.apache.xmlbeans.XmlCursor;
+import org.joda.time.DateTime;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
@@ -14,6 +16,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
 
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
+import com.zhongda.monitor.report.model.ReportData;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.BastTableClass;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
@@ -119,7 +122,36 @@ public class SedimentationTableClass implements BastTableClass {
 				row5.getCell(3).setText("测定值");
 				row5.getCell(4).setText("当天沉降");
 				row5.getCell(5).setText("累计沉降");
-		       
+				
+				List<ReportData> reportDataList = model.getReportDatas();
+				
+				XWPFTableRow row6 = tableOne.getRow(6);
+				row6.getCell(0).setText("1");				
+				if(reportDataList.size()!=3) return ;
+				row6.getCell(1).setText(new DateTime(reportDataList.get(0).getCurrent_times()).toString("YYYY-MM-dd"));
+				row6.getCell(2).setText(String.valueOf(reportDataList.get(0).getFirst_data()));
+				row6.getCell(3).setText(String.valueOf(reportDataList.get(0).getCurrent_data()));
+				row6.getCell(4).setText(String.valueOf(reportDataList.get(0).getCurrent_laser_change()));
+				row6.getCell(5).setText(String.valueOf(reportDataList.get(0).getTotal_laser_change()));
+				
+				
+				XWPFTableRow row7 = tableOne.getRow(7);
+				row7.getCell(0).setText("2");				
+			
+				row7.getCell(1).setText(new DateTime(reportDataList.get(1).getCurrent_times()).toString("YYYY-MM-dd"));
+				row7.getCell(2).setText(String.valueOf(reportDataList.get(1).getFirst_data()));
+				row7.getCell(3).setText(String.valueOf(reportDataList.get(1).getCurrent_data()));
+				row7.getCell(4).setText(String.valueOf(reportDataList.get(1).getCurrent_laser_change()));
+				row7.getCell(5).setText(String.valueOf(reportDataList.get(1).getTotal_laser_change()));
+				
+				
+				XWPFTableRow row8 = tableOne.getRow(8);
+				row8.getCell(0).setText("3");				
+				row8.getCell(1).setText(new DateTime(reportDataList.get(2).getCurrent_times()).toString("YYYY-MM-dd"));
+				row8.getCell(2).setText(String.valueOf(reportDataList.get(2).getFirst_data()));
+				row8.getCell(3).setText(String.valueOf(reportDataList.get(2).getCurrent_data()));
+				row8.getCell(4).setText(String.valueOf(reportDataList.get(2).getCurrent_laser_change()));
+				row8.getCell(5).setText(String.valueOf(reportDataList.get(2).getTotal_laser_change()));
 	}
 	
 	/**

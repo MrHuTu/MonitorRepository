@@ -24,7 +24,7 @@ public class GitYmlParaUtils {
 	
 	
 	/**
-	 * 
+	 * 处理归档的时间
 	 * @param timeIndex 下标以0开始,表示取按";"之后的顺序
 	 * @return
 	 */
