@@ -5,7 +5,7 @@ import java.util.List;
 import com.zhongda.monitor.business.model.AlarmLinkman;
 
 /**
- * 告警联系人业务接口
+ * 告警联系人  业务接口
  * 
  * @author KCheng
  *

@@ -29,9 +29,9 @@ import com.zhongda.monitor.core.utils.sms.SmsSender;
 public class PushAlarm {
 
 	@Resource
-	MailService mailService;
+	private MailService mailService;
 	@Resource
-	AlarmLinkmanService alarmLinkmanService;
+	private AlarmLinkmanService alarmLinkmanService;
 	
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void sendMessage() {

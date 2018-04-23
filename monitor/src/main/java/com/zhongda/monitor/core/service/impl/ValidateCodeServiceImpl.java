@@ -104,7 +104,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 			paramsMap.put("realName",user.getRealName());
 			paramsMap.put("time", new SimpleDateFormat("yyyy年MM月dd日  HH小时mm分").format(new Date()) );
 			paramsMap.put("code", code);
-			paramsMap.put("expireTime", CommonConstant.VALID_CODE_EXPIRE_TIME+"");
+			paramsMap.put("expireTime", CommonConstant.VALID_CODE_EXPIRE_TIME/60+"");
 			mailService.sendHtmlTemplateMail(/*user.getEmail()*/"771588005@qq.com", MailUtils.CODE_SUBJECT, MailUtils.VALIDATE_CODE_TEMPLATE, paramsMap);
 		}
 		return result.success("发送成功");

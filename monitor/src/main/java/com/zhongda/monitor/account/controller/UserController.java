@@ -173,7 +173,7 @@ public class UserController {
 	 * 
 	 */
 	@GetMapping("/validateUserExist")
-	@ApiOperation(value = "判断是否存在该用户--cheng.kong", httpMethod = "GET", response = Result.class, notes = "判断是否存在该用户--")
+	@ApiOperation(value = "忘记密码时判断用户是否存在--cheng.kong", httpMethod = "GET", response = Result.class, notes = "忘记密码时判断用户是否存在")
 	public Result<String> validateUser(String info){
 		return userService.validateUser(info); 
 	}
@@ -185,7 +185,7 @@ public class UserController {
 	 * @return Map
 	 */
 	@PutMapping("/updatePassword")
-	@ApiOperation(value = "邮箱手机修改密码--cheng.kong", httpMethod = "PUT", response = Result.class, notes = "邮箱手机修改密码")
+	@ApiOperation(value = "邮箱，手机修改密码--cheng.kong", httpMethod = "PUT", response = Result.class, notes = "邮箱，手机修改密码")
 	@ApiImplicitParams({
 		@ApiImplicitParam( dataType = "String", name = "password", value = "密码", required = true, paramType="form"),
 		@ApiImplicitParam( dataType = "String", name = "userId", value = "用户id", required = true, paramType="form"),

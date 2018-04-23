@@ -50,7 +50,7 @@ public class ValidateCodeController {
 	 */
 	@PostMapping("/revisionCode")
 	@ResponseBody
-	@ApiOperation(value = "验证码比对--cheng.kong", httpMethod = "POST", response = Result.class, notes = "验证码比对")
+	@ApiOperation(value = "验证码校对--cheng.kong", httpMethod = "POST", response = Result.class, notes = "验证码校对")
 	@ApiImplicitParams({
 		@ApiImplicitParam( dataType = "String", name = "code", value = "验证码", required = true, paramType="form"),
 		@ApiImplicitParam( dataType = "String", name = "info", value = "验证码信息", required = true,  paramType="form")
@@ -64,7 +64,7 @@ public class ValidateCodeController {
 	 */
 	@PostMapping("/sendValidateCode")
 	@ResponseBody
-	@ApiOperation(value = "发送忘记密码验证码--cheng.kong", httpMethod = "POST", response = Result.class, notes = "发送忘记密码验证码" )
+	@ApiOperation(value = "发送手机或邮箱验证码--cheng.kong", httpMethod = "POST", response = Result.class, notes = "发送手机或邮箱验证码" )
 	@ApiImplicitParams({
 		@ApiImplicitParam( dataType = "String", name = "userId", value = "用户ID", required = true, paramType="form"),
 	})
