@@ -31,10 +31,10 @@ public class SedimentationFillImpl implements SedimentationFill {
 		List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId),downTime);
 		
 		//生成表格---竖向位移  16
-		verticalDisplacement(doc2,sideTableDatas,"a","16");
+		verticalDisplacement(doc2,sideTableDatas,"tablea","16");
 		
 		//生成表格---水平位移  17
-		verticalDisplacement(doc2,sideTableDatas,"b","17");
+		verticalDisplacement(doc2,sideTableDatas,"tableb","17");
 		
 	}
 	/**
@@ -65,7 +65,7 @@ public class SedimentationFillImpl implements SedimentationFill {
 			
 			for(int i=count;i<temp+2;i++){
 				
-				singeList.add(i+"t");
+				singeList.add("tab"+i);
 				
 				j++;
 				

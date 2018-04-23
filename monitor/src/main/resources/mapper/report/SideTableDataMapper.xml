@@ -24,7 +24,7 @@
 		select
 			sen.monitor_type typ,
 			p.project_name lineOne,
-			'中大检测' lineTwo,
+			'湖南中大建设工程检测技术有限公司' lineTwo,
 			r.first_time  lineThreeCellone,
 			'测试人:中大监测云平台' lineThreeCelltwo,
 			sen.sensor_number lineFourCellone,

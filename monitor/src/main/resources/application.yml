@@ -145,7 +145,7 @@ shiroFilter:
     /webjars/springfox-swagger-ui/**: anon
       
 # 项目报告生成路径
-templatepath: D:/temp/test1.docx
+templatepath: D:/temp/model2007.docx
 download: D:/在线检测报告/
 #数据归档的时间配置，以;分割 支持格式 00:00:00
 repotrTime: 00:00:00;08:00:00;16:00:00

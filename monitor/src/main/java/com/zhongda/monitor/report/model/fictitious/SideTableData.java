@@ -32,7 +32,15 @@ public class SideTableData {
 	 
 	public String getLineOne() {
 		
-		return "工程名称:"+lineOne;
+		if(lineOne.indexOf( "工程名称:")!=-1){
+			
+			return lineOne;
+			
+		}else{
+			return "工程名称:"+lineOne;
+		}
+		
+		
 	}
 	public void setLineOne(String lineOne) {
 		
@@ -40,7 +48,15 @@ public class SideTableData {
 	}
 	public String getLineTwo() {
 		
-		return "测试单位:"+lineTwo;
+		if(lineTwo.indexOf("测试单位:")!=-1){
+			
+			return lineTwo;
+			
+		}else{
+			
+			return "测试单位:"+lineTwo;
+		}
+	
 	}
 	public void setLineTwo(String lineTwo) {
 		
@@ -127,7 +143,7 @@ public class SideTableData {
 		 String headLocal = "                   ";		
 		callMethod("LineOne",headLocal+this.getLineOne());
 		 String temp = "";
-		for(int i=0;i<45;i++){
+		for(int i=0;i<25;i++){
 			temp+=local;
 		}
 		callMethod("LineTwo",temp+this.getLineTwo());
