@@ -83,11 +83,6 @@ public class DownloadUtils {
 			//以错误信息相应客户
 			return result.success("下载失败",path); 
 			
-		}else if(path.equals("2")){//下载报告的错误码
-			
-			//以错误信息相应客户
-			return result.success("下载失败",path); 
-			
 		}else{
 			byte[] body = null;
 			
@@ -196,4 +191,44 @@ public class DownloadUtils {
 		return entity;
 
 	}
+	/**
+	 * 2018年4月23日16:55:57
+	 */
+	public static void download(String fileName, String filePath,
+			 HttpServletResponse response) 
+			throws Exception {
+			    //声明本次下载状态的记录对象
+			   // DownloadRecord downloadRecord = new DownloadRecord(fileName, filePath, request);
+			    //设置响应头和客户端保存文件名
+			    response.setCharacterEncoding("utf-8");
+			    response.setContentType("multipart/form-data");
+			    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+			    //用于记录以完成的下载的数据量，单位是byte
+			    long downloadedLength = 0l;
+			    try {
+			        //打开本地文件流
+			        InputStream inputStream = new FileInputStream(filePath);
+			        //激活下载操作
+			        OutputStream os = response.getOutputStream();
+
+			        //循环写入输出流
+			        byte[] b = new byte[2048];
+			        int length;
+			        while ((length = inputStream.read(b)) > 0) {
+			            os.write(b, 0, length);
+			            downloadedLength += b.length;
+			        }
+
+			        // 这里主要关闭。
+			        os.close();
+			        inputStream.close();
+			    } catch (Exception e){
+			       // downloadRecord.setStatus(DownloadRecord.STATUS_ERROR);
+			        throw e;
+			    }
+			   /* downloadRecord.setStatus(DownloadRecord.STATUS_SUCCESS);
+			    downloadRecord.setEndTime(new Timestamp(System.currentTimeMillis()));
+			    downloadRecord.setLength(downloadedLength);*/
+			    //存储记录
+			}
 }

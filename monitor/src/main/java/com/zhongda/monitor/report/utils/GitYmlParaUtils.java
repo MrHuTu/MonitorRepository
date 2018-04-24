@@ -22,7 +22,35 @@ public class GitYmlParaUtils {
 	@Value("${repotrTimeError}")
 	private  String repotrTimeError;
 	
+
 	
+	
+	public String getRepotrTime() {
+		return repotrTime;
+	}
+
+
+	public void setRepotrTime(String repotrTime) {
+		this.repotrTime = repotrTime;
+	}
+
+
+	public String getRepotrTimeError() {
+		return repotrTimeError;
+	}
+
+
+	public void setRepotrTimeError(String repotrTimeError) {
+		this.repotrTimeError = repotrTimeError;
+	}
+
+
+	
+
+
+	
+
+
 	/**
 	 * 处理归档的时间
 	 * @param timeIndex 下标以0开始,表示取按";"之后的顺序

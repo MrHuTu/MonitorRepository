@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
+import com.zhongda.monitor.report.utils.CopyFileUtils;
+import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 import com.zhongda.monitor.report.utils.SpringContextUtil;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
@@ -42,12 +45,11 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	private static final Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
 	
-	@Value("${templatepath}")
-	private String templatePath;
+	@Value("${modelpath}")
+	private String modelpath;
 	
-	@Value("${download}")
-	private String download;
-	
+	@Value("${tempmodel}")
+	private String tempmodel;
 	
 	@Autowired
 	ProjectService projectService;
@@ -60,14 +62,39 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public String generateWord(String pojoId,String time) {
+	public synchronized String generateWord(String pojoId,String time) {
 		
+		
+		
+		//见模板复制到零时目录，防止模板文件被修改
+		CopyFileUtils.copyFile(modelpath, tempmodel);
+	
+		
+		DateTime dateTime  = new DateTime(time);
+		
+		DateTime dateTime1  = new DateTime();
+		
+		if(!dateTime.isBeforeNow()){//如果参数time超过当前日期，返回错误提示信息
+			
+			return ErrorCode.ERROR4;
+		}
+	/*	
+		if( dateTime1.getHourOfDay()<17){//当前时间小于17点，返回错误提示信息
+			
+			return ErrorCode.ERROR5;
+			
+		}*/
+				
 		String fileName= null;
 		
 		Object obj = analysis(pojoId,time);//核心处理
+		
 		String name = null;
+		
 		XWPFDocument doc = null;
+		
 		if(obj instanceof Map){
+			
 			Map<Object,Object> map1 = 	(Map<Object,Object>)obj;
 			
 			 name = (String) map1.get("name");
@@ -75,7 +102,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-			fileName = download +name+".docx";		
+			fileName = name+".docx";		
 				
 				try {
 					
@@ -97,7 +124,9 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 				
 		}else{
 			if(obj instanceof String ){
+				
 				return (String)obj;
+				
 			}else{
 				//不可知错误
 				return ErrorCode.ERROR3;
@@ -159,7 +188,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			param.put("${name}", name+"日报");
 			
 			//解析模板，doc可以看做一个word解析之后的xml对象
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, templatePath);		
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, tempmodel);		
 			
 		
 			/**根据自定义的表格样式,和自定义的表格数据处理类在doc中插入对应的表格样式，和数据

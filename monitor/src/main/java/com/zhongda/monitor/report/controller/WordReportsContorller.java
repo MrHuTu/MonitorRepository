@@ -44,6 +44,8 @@ public class WordReportsContorller {
 						@ApiImplicitParam(name = "time", value = "要生成日报的日期(yyyy-MM-dd)", required = true, dataType = "String", paramType = "query")})
 	private Object generateWord(@RequestParam("pojoId") String pojoId,@RequestParam("time") String time) throws IOException {
 		
+			
+		
 			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time), false);
 				
 
