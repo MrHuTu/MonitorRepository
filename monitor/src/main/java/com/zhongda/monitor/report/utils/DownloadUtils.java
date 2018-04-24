@@ -81,7 +81,7 @@ public class DownloadUtils {
 		if(path.indexOf("ERROR")!=-1){//下载报告的错误码
 			
 			//以错误信息相应客户
-			return result.success("下载失败",path); 
+			return result.setCode(1).success("下载失败",path); 
 			
 		}else{
 			byte[] body = null;

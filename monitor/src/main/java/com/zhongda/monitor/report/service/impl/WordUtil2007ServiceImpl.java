@@ -26,7 +26,6 @@ import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.CopyFileUtils;
-import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 import com.zhongda.monitor.report.utils.SpringContextUtil;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
@@ -71,11 +70,8 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		CopyFileUtils.copyFile(modelpath, tempmodel);
-	
-		
+			
 		DateTime dateTime  = new DateTime(time);
-		
-		DateTime dateTime1  = new DateTime();
 		
 		if(!dateTime.isBeforeNow()){//如果参数time超过当前日期，返回错误提示信息
 			
