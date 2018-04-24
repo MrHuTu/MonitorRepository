@@ -51,6 +51,9 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	@Value("${tempmodel}")
 	private String tempmodel;
 	
+	@Value("${downrepor}")
+	private String downreport;
+	
 	@Autowired
 	ProjectService projectService;
 	@Autowired
@@ -102,7 +105,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-			fileName = name+".docx";		
+			fileName = downreport+name+".docx";		
 				
 				try {
 					
