@@ -11,17 +11,21 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
+import com.zhongda.monitor.account.security.RoleSign;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.StatisticChart;
+import com.zhongda.monitor.business.service.AlarmService;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.model.Result;
 
@@ -45,6 +49,9 @@ public class ProjectController {
 
 	@Resource
 	private SensorMapper sensorMapper;
+	
+	@Resource
+	private AlarmService alarmService;
 
 	@GetMapping("/home.gzip")
 	@ApiOperation(value = "首页数据--maoping.li", httpMethod = "GET", response = Result.class, notes = "加载首页的数据")
@@ -93,9 +100,8 @@ public class ProjectController {
 
 		int userId = user.getUserId();
 
-		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(
-				String.valueOf(userId));
-
+		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
+			
 		return new Result<List<Project>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
 				.setData(projectService.getAllProject(projectSelectCondition));

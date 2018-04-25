@@ -48,6 +48,8 @@
     <result column="al_count" jdbcType="INTEGER" property="alCount" />
     <result column="project_type_name" jdbcType="VARCHAR" property="projectTypeName" />
     <result column="project_status_name" jdbcType="VARCHAR" property="projectStatusName" />
+     <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
+      <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
   </resultMap>
   <sql id="Base_Column_List">
     project_id, project_name, project_type, project_address, weather_address, project_longitude, project_latitude, 
@@ -75,7 +77,7 @@
   </select>
   <select id="getAllProject" resultMap="ProjectDetailMap" parameterType="com.zhongda.monitor.business.model.ProjectSelectCondition">
  		SELECT 
-p.project_id, p.project_name, u.real_name as project_principal, p.project_begin_time, p.project_end_time,
+p.project_id, p.project_name, u.real_name as project_principal, p.project_begin_time, p.project_end_time,p.project_longitude,p.project_latitude,
  (SELECT sc.item_name from sys_code sc where sc.sc_id = p.project_type) as project_type_name, p.project_address as project_address,
 p.weather_address as weather_address, p.project_description, (SELECT sc.item_name from  sys_code sc where sc.sc_id = p.project_status) as project_status_name,
 (select COUNT(*) from alarm a where p.project_id =a.project_id and a.alarm_status=0) as al_count,  
