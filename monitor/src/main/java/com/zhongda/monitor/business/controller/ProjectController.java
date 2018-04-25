@@ -11,15 +11,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
-import com.zhongda.monitor.account.security.RoleSign;
 import com.zhongda.monitor.account.utils.ShiroUtils;
 import com.zhongda.monitor.business.mapper.SensorMapper;
 import com.zhongda.monitor.business.model.Project;

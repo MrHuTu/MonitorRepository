@@ -204,7 +204,7 @@ public class DownloadUtils {
 			    response.setContentType("multipart/form-data");
 			    response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
 			    //用于记录以完成的下载的数据量，单位是byte
-			    long downloadedLength = 0l;
+			   // long downloadedLength = 0l;
 			    try {
 			        //打开本地文件流
 			        InputStream inputStream = new FileInputStream(filePath);
@@ -216,7 +216,7 @@ public class DownloadUtils {
 			        int length;
 			        while ((length = inputStream.read(b)) > 0) {
 			            os.write(b, 0, length);
-			            downloadedLength += b.length;
+			           // downloadedLength += b.length;
 			        }
 
 			        // 这里主要关闭。
