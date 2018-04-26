@@ -22,6 +22,7 @@ import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
@@ -154,16 +155,21 @@ public class Wordl2007Utis {
 					XWPFRun run = runs.get(i);
 				
 					String text = run.getText(0);
+					
 
 					if (text != null) {
-
+						
+						text = utilSign(text,run);
+						
+						if(text==null) continue;
+					
 						boolean isSetText = false;
 
 						for (Entry<String, Object> entry : param.entrySet()) {
 
 							String key = entry.getKey();
 
-							if (text.indexOf(key) != -1) {
+							if (text.equals(key)) {
 
 								isSetText = true;
 
@@ -205,6 +211,56 @@ public class Wordl2007Utis {
 
 		}
 
+	}
+	/**
+	 * 替换页眉处理方法
+	 */
+	public static void replaceHeader(XWPFDocument doc,Map<String,Object> map){
+		
+		List<XWPFHeader> header = doc.getHeaderList();
+		
+		boolean replace = false;
+		
+		for (int i = 0; i < header.size(); i++) {
+			
+		    List<XWPFParagraph> headerPara = header.get(i).getParagraphs();
+		    
+		    for (int j = 0; j < headerPara.size(); j++) {
+		    	
+		    		List<XWPFRun> runs = headerPara.get(j).getRuns();
+		    	
+				for(int k=0;k<runs.size();k++){
+									
+					XWPFRun run = runs.get(k);
+									
+					String text = run.getText(0);
+					
+					String temp = text.trim();
+					
+					Iterator<String> keys =  map.keySet().iterator();
+					
+					while(keys.hasNext()){
+
+						replace = true;
+
+						String key = keys.next();
+						
+						if(temp.indexOf(key)!=-1){
+							
+							text = text.replace(key,map.get(key).toString());
+							
+							
+							
+						}
+					}
+					if(replace){
+						run.setText(text, 0);
+					}
+									
+				}
+
+		    }
+		}
 	}
 
 	/**
@@ -390,7 +446,7 @@ public class Wordl2007Utis {
 
 							String key = iter.next();
 							
-							System.out.println("text:"+text+",key"+key);
+							//System.out.println("text:"+text+",key"+key);
 							
 							if (text.indexOf(key) != -1) {
 							
@@ -655,6 +711,44 @@ public class Wordl2007Utis {
 		
 		return createParagraph(titleMes, 2, "微软雅黑", "333333", 11, false, text);
 		
+	}
+	/**
+	 * 解决解析占位符混乱的问题.譬如word中的占位符${name},在程序解析的过程中会将这个占位符解析为["${","name",",","}"]这种模式,默写时候会理想解析成["${name}"]
+	 * 进而替换掉这个标签
+	 * 通过这个方法将占位符统一成["${name}"]这个模式
+	 */
+	private static String  utilSign(String text1,XWPFRun run){
+		
+		String text = text1;
+		
+				if(text.equals("${")){
+					
+					text = null;
+					
+					run.setText("", 0);
+					
+					return text;
+					
+				}else if(text.equals("}")){
+					
+					text = null;
+					
+					run.setText("", 0);
+					
+					return text;
+					
+				}
+				
+				if(text.indexOf("${")==-1){
+					
+					text = "${"+text;
+				}
+				if(text.indexOf("}")==-1){
+					
+					text = text +"}";
+				}	
+			
+				return text;
 	}
 	/**
 	 * 呼叫方法/创建表格

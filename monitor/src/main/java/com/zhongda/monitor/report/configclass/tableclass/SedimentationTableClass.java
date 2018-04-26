@@ -13,6 +13,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
@@ -30,6 +32,9 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  *
  */
 public class SedimentationTableClass implements BastTableClass {
+	
+	private static final Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
+	
 	@SuppressWarnings("unused")
 	public  void createTable(CreateTableConfig config) {
 		
@@ -127,7 +132,10 @@ public class SedimentationTableClass implements BastTableClass {
 				
 				XWPFTableRow row6 = tableOne.getRow(6);
 				row6.getCell(0).setText("1");				
-				if(reportDataList.size()!=3) return ;
+				if(reportDataList.size()!=3){
+					logger.info("当日归档数据小于3条,坚持");
+					return ;
+				} 
 				row6.getCell(1).setText(new DateTime(reportDataList.get(0).getCurrent_times()).toString("YYYY/MM/dd"));
 				row6.getCell(2).setText(String.valueOf(reportDataList.get(0).getFirst_data()));
 				row6.getCell(3).setText(String.valueOf(reportDataList.get(0).getCurrent_data()));

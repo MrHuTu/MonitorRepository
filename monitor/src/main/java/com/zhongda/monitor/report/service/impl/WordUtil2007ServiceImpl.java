@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.model.fictitious.ErrorCode;
@@ -26,13 +25,15 @@ import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.CopyFileUtils;
+import com.zhongda.monitor.report.utils.FillWordMapUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 import com.zhongda.monitor.report.utils.SpringContextUtil;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
 /**
- * 生成报告总入口服务类 ，看这里服务类可以基本明白怎么取开发一个word报告模板
+ * 生成报告总入口服务类 ，看这里服务类可以基本明白怎么取开发一个word报告模板(统一的入口方法，不建议在这里做具体模板的业务逻辑修改
+ * )
  * @author huchao
  * 2018年4月2日17:23:20
  * 在调用generateWord时由于word文档的模板以后都会固定统一，所以文本替换直接写死了。
@@ -55,6 +56,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	@Autowired
 	ProjectService projectService;
+	
 	@Autowired
 	ProjectParaService projectParaService;
 	
@@ -150,7 +152,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		//这个map 存放模板文档实例，和非表格占位符		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
 		 
-		Map<String, Object> param = new HashMap<String, Object>();
+		//Map<String, Object> param = new HashMap<String, Object>();
 		
 		//用来判断该项目开关是否开启
 		if(!ReportConfigOpUtils.verifyreportConfig(pojoId)){
@@ -179,17 +181,16 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 				
 			};
 			
-			//替换文本占位符,将来文本内容可做配置化，这一部分需要修改，以为最终模板还没确定下来
-			Project pj = projectService.selectByPrimaryKey(pojoId);	
 			
-			String name = pj.getProjectName();
-			
-			param.put("${name}", name+"日报");
-			
-			//解析模板，doc可以看做一个word解析之后的xml对象
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, tempmodel);		
-			
+						
 		
+			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId);
+			//解析模板，doc可以看做一个word解析之后的xml对象
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, tempmodel);	
+			
+			 //替换页眉
+			 Wordl2007Utis.replaceHeader(doc, param);
+			
 			/**根据自定义的表格样式,和自定义的表格数据处理类在doc中插入对应的表格样式，和数据
 			 * ReportConfigOpUtils.gitClassPath(pojoId),这个的在服务启动时已经加载项目的配置信息,他返回一个处理表格数据bean ID.
 			 * 这个bean 就是自定义的表格数据处理类,这个处理类要实现一个接口（因为callMethod这个方法已经把掉用者的方法名称写死），在这个bean中会根据
@@ -206,11 +207,12 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 * 
 			 * 
 			 */
+			//创建表格,填充数据
 			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId,time);
 			
 			map.put("doc",doc );
 			
-			map.put("name", name+"日报");
+			map.put("name", /*name+"日报"*/param.get("${name}"));
 			
 			return map;
 			
