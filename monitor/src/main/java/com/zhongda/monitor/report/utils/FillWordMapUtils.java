@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;

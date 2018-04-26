@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +24,14 @@ public class GitYmlParaUtils {
 	@Value("${repotrTimeError}")
 	private  String repotrTimeError;
 	
-
+	@Value("${modelpath}")
+	private String modelpath;
+	
+	@Value("${tempmodel}")
+	private String tempmodel;
+	
+	@Value("${downrepor}")
+	private String downreport;
 	
 	
 	public String getRepotrTime() {
@@ -44,11 +53,19 @@ public class GitYmlParaUtils {
 		this.repotrTimeError = repotrTimeError;
 	}
 
+	public String getModelpath() {
+		return modelpath;
+	}
 
-	
+
+	public String getTempmodel() {
+		return tempmodel;
+	}
 
 
-	
+	public String getDownreport() {
+		return downreport;
+	}
 
 
 	/**

@@ -14,7 +14,6 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,7 @@ import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
 import com.zhongda.monitor.report.utils.CopyFileUtils;
 import com.zhongda.monitor.report.utils.FillWordMapUtils;
+import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 import com.zhongda.monitor.report.utils.SpringContextUtil;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
@@ -45,14 +45,6 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	private static final Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
 	
-	@Value("${modelpath}")
-	private String modelpath;
-	
-	@Value("${tempmodel}")
-	private String tempmodel;
-	
-	@Value("${downrepor}")
-	private String downreport;
 	
 	@Autowired
 	ProjectService projectService;
@@ -60,6 +52,8 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	@Autowired
 	ProjectParaService projectParaService;
 	
+	@Autowired
+	GitYmlParaUtils  gitYmlParaUtils;
 	
 	/**
 	 * return String 返回报告文件路径
@@ -71,7 +65,8 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		
 		//见模板复制到零时目录，防止模板文件被修改
-		CopyFileUtils.copyFile(modelpath, tempmodel);
+		
+		CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath(), gitYmlParaUtils.getTempmodel());
 			
 		DateTime dateTime  = new DateTime(time);
 		
@@ -103,7 +98,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-			fileName = downreport+name+".docx";		
+			fileName = gitYmlParaUtils.getDownreport()+name+".docx";		
 				
 				try {
 					
@@ -152,7 +147,6 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		//这个map 存放模板文档实例，和非表格占位符		
 		 Map<Object,Object> map = new HashMap<Object, Object>();
 		 
-		//Map<String, Object> param = new HashMap<String, Object>();
 		
 		//用来判断该项目开关是否开启
 		if(!ReportConfigOpUtils.verifyreportConfig(pojoId)){
@@ -186,7 +180,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId);
 			//解析模板，doc可以看做一个word解析之后的xml对象
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, tempmodel);	
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
 			
 			 //替换页眉
 			 Wordl2007Utis.replaceHeader(doc, param);
@@ -212,7 +206,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			map.put("doc",doc );
 			
-			map.put("name", /*name+"日报"*/param.get("${name}"));
+			map.put("name", param.get("${name}"));
 			
 			return map;
 			
