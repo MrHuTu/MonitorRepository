@@ -5,18 +5,15 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value="prototype")
 /**
  * 取yml配置文件参数
  * @author Administrator
  *
  */
+
 public class GitYmlParaUtils {
 	@Value("${repotrTime}")
 	private  String repotrTime;
