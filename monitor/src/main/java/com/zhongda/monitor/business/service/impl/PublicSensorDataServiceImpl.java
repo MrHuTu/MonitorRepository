@@ -60,7 +60,7 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 				tableName, sensorNumber, smuNumber, smuChannel, beginDate,
 				endDate);
 		String datesnew = format.format(list.get(0).getCurrentTimes());
-		// response.setContentType("application/octet-stream");
+		response.setContentType("application/octet-stream");
 		// response.setContentType("application/OCTET-STREAM;charset=UTF-8");
 		response.setHeader("Content-Disposition", "attachment;filename="
 				+ datesnew + ".xls");

@@ -55,7 +55,7 @@ public class ProjectController {
 	public Result<Map<String, Object>> loadMap(HttpServletResponse response) {
 		User user = ShiroUtils.getCurrentUser();
 		System.out.println(user.getUserName());
-		response.setHeader("Access-Control-Allow-Origin", "*");
+		// response.setHeader("Access-Control-Allow-Origin", "*");
 		return new Result<Map<String, Object>>().success("操作成功",
 				projectService.loadHome(user.getUserId()));
 
