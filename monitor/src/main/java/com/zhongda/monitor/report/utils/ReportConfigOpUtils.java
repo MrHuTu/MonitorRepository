@@ -1,7 +1,6 @@
 package com.zhongda.monitor.report.utils;
 
 import java.io.File;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportPara;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
-import com.zhongda.monitor.report.service.impl.WordUtil2007ServiceImpl;
 
 public class ReportConfigOpUtils {
 	
@@ -170,9 +168,14 @@ public class ReportConfigOpUtils {
 									
 			String basis  = ClassLoader.getSystemResource("").toString();
 			
+			
+			logger.info("basis:"+basis);
+			
 			path = path.replace("\\", "/");
 			
 			basis = basis.replace("file:/", "");
+			
+			
 			
 			path = basis + path;
 			
