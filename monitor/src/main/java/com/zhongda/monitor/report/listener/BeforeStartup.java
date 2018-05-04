@@ -42,8 +42,8 @@ public class BeforeStartup implements ApplicationListener<ContextRefreshedEvent>
 		
 		logger.info("========================================================项目下的全部在线监测参数加载成功==================================================================================");
 		
-		//设置全部配置模板只读
-		ReportConfigOpUtils.setOnlyReadOnly();
+		/*//设置全部配置模板只读
+		ReportConfigOpUtils.setOnlyReadOnly();*/
 		
 	}
 

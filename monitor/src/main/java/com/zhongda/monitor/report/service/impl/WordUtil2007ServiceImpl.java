@@ -67,7 +67,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-		CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath(), gitYmlParaUtils.getTempmodel());
+	//	CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath(), gitYmlParaUtils.getTempmodel());
 			
 		DateTime dateTime  = new DateTime(time);
 		
@@ -182,12 +182,18 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 						
 		
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
-			//解析模板，doc可以看做一个word解析之后的xml对象,(第一版是将模板放在服务器,这里注释这种依赖操作系统的处理模式，将模板放到项目本身，暂时不删除，来liux上测试通过再做处理)
-			//XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
 			
+			String path = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
 			
+			File file = new File(path);
 			
-			XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
+			file.setReadOnly();
+			
+			logger.info("当前模板访问路径："+path);
+			
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
+												
+			//XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
 			
 			
 			 //替换页眉

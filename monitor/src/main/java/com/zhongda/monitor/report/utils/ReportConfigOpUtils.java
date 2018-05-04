@@ -136,13 +136,7 @@ public class ReportConfigOpUtils {
 			
 			if(String.valueOf(reportConfig.getProject_id()).equals(pojoId)){
 												
-				String basis  = ClassLoader.getSystemResource("").toString();
-				
-				basis = basis.replace("\\", "/");
-				
-				basis = basis.replace("file:/", "");
-				
-				path = basis+ reportConfig.getWord_path();
+				path  = reportConfig.getWord_path();
 				
 				logger.info(pojoId+"path:"+path);
 												
