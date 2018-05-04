@@ -67,7 +67,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-	//	CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath(), gitYmlParaUtils.getTempmodel());
+		CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId), gitYmlParaUtils.getTempmodel());
 			
 		DateTime dateTime  = new DateTime(time);
 		
@@ -183,15 +183,15 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
 			
-			String path = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
+			/*String path = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
 			
 			File file = new File(path);
 			
 			file.setReadOnly();
 			
-			logger.info("当前模板访问路径："+path);
+			logger.info("当前模板访问路径："+path);*/
 			
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
 												
 			//XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
 			

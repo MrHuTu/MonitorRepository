@@ -24,8 +24,8 @@ public class GitYmlParaUtils {
 	@Value("${modelpath}")
 	private String modelpath;
 	
-	/*@Value("${tempmodel}")
-	private String tempmodel;*/
+	@Value("${tempmodel}")
+	private String tempmodel;
 	
 	@Value("${downrepor}")
 	private String downreport;
@@ -54,10 +54,10 @@ public class GitYmlParaUtils {
 		return modelpath;
 	}
 
-/*
+
 	public String getTempmodel() {
 		return tempmodel;
-	}*/
+	}
 
 
 	public String getDownreport() {
