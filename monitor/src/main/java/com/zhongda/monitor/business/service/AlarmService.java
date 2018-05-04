@@ -1,5 +1,6 @@
 package com.zhongda.monitor.business.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.zhongda.monitor.business.model.Alarm;
@@ -32,8 +33,14 @@ public interface AlarmService {
 	 * 根据条件删除alarm信息
 	 */
 	Result<String> deleteAlarm(Alarm alarm, Integer number);
+	
 	/**
 	  * 统计当前用户下未确认的告警信息总条数
 	  */
 	Result<Integer> alarmCount(Integer userId);
+	
+	/**
+	  * 查询出距离现在某段时间内发生的所有告警信息包括对应的告警联系人的信息
+	  */
+	List<Alarm> selectAlarmAndLinkmanPeriod();
 }

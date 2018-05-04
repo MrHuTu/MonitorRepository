@@ -22,6 +22,13 @@
     from reminder
     where reminder_id = #{reminderId,jdbcType=INTEGER}
   </select>
+  <select id="selectReminderPeriod" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reminder r
+    where r.create_time &gt;= date_sub(now(), INTERVAL 10 MINUTE) and r.create_time &lt; now()
+    and r.status = 0		
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from reminder
     where reminder_id = #{reminderId,jdbcType=INTEGER}

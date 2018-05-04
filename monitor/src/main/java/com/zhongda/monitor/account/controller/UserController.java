@@ -149,6 +149,27 @@ public class UserController {
 		}
 		return result;
 	}
+	
+	/**
+	 * 根据用户名查找用户
+	 * 
+	 * @param userName
+	 *            用户名
+	 * @return
+	 */
+	@GetMapping("/findUser")
+	@ApiOperation(value = "查找用户--zemin.deng", httpMethod = "GET", response = Result.class, notes = "根据用户名查找用户")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userName", value = "用户名", required = true, dataType = "String", paramType = "query") })
+	public Result<User> selectUserByUserName(String userName) {
+		Result<User> result = new Result<User>();
+		User user = userService.selectByUserName(userName);
+		if (null != user) {
+			result.success("获取数据成功", user);
+		} else {
+			result.failure("用户名不存在");
+		}
+		return result;
+	}
 
 	/*	*//**
 	 * 输入用户信息添加用户(初始密码：123456，初始状态：正常)

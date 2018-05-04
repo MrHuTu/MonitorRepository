@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -33,6 +34,9 @@ public class Alarm implements Serializable {
 
 	@ApiModelProperty(value = "测点名")
 	private String monitorPoint;
+	
+	@ApiModelProperty(value = "监测类型")
+	private Integer monitorType;
 
 	@ApiModelProperty(value = "采集器编号")
 	private String smuNumber;
@@ -53,7 +57,7 @@ public class Alarm implements Serializable {
 	private Date createTime;
 
 	@ApiModelProperty(value = "告警状态")
-	private Integer alarmStatus;// ( 0:未确认 ; 1:已确认)
+	private Boolean alarmStatus;// ( false 0:未确认 ;true 1:已确认)
 
 	@ApiModelProperty(value = "告警等级" , hidden = true)
 	private Integer alarmLevel;// 默认为1
@@ -72,7 +76,7 @@ public class Alarm implements Serializable {
 	private Date startCreateTime;
 
 	// 数据库不存在该字段，只作为查询时判断查询条件创建时间是否在该范围内时使用
-	@ApiModelProperty(value = "根据时间查询的借宿时间")
+	@ApiModelProperty(value = "根据时间查询的结束时间")
 	private Date endCreateTime;
 
 	// 数据库不存在该字段，只作为分页时存储当前页数据时使用
@@ -84,6 +88,14 @@ public class Alarm implements Serializable {
 	private Integer pageSize;
 	
 	private String realName;
+	
+	//监测类型名称
+	private String monitorTypeName;
+	
+	//告警联系人
+	@ApiModelProperty(value = "告警联系人集合" , hidden = true)
+	private List<AlarmLinkman> alarmLinkmanList;
+	
 	public Integer getPageNum() {
 		return pageNum;
 	}
@@ -179,6 +191,14 @@ public class Alarm implements Serializable {
 	public void setMonitorPoint(String monitorPoint) {
 		this.monitorPoint = monitorPoint == null ? null : monitorPoint.trim();
 	}
+	
+	public Integer getMonitorType() {
+		return monitorType;
+	}
+
+	public void setMonitorType(Integer monitorType) {
+		this.monitorType = monitorType;
+	}
 
 	public String getSmuNumber() {
 		return smuNumber;
@@ -237,11 +257,11 @@ public class Alarm implements Serializable {
 		this.createTime = createTime;
 	}
 
-	public Integer getAlarmStatus() {
+	public Boolean getAlarmStatus() {
 		return alarmStatus;
 	}
 
-	public void setAlarmStatus(Integer alarmStatus) {
+	public void setAlarmStatus(Boolean alarmStatus) {
 		this.alarmStatus = alarmStatus;
 	}
 
@@ -259,5 +279,21 @@ public class Alarm implements Serializable {
 
 	public void setFrequency(Integer frequency) {
 		this.frequency = frequency;
+	}
+	
+	public String getMonitorTypeName() {
+		return monitorTypeName;
+	}
+
+	public void setMonitorTypeName(String monitorTypeName) {
+		this.monitorTypeName = monitorTypeName == null ? null : monitorTypeName.trim();
+	}
+
+	public List<AlarmLinkman> getAlarmLinkmanList() {
+		return alarmLinkmanList;
+	}
+
+	public void setAlarmLinkmanList(List<AlarmLinkman> alarmLinkmanList) {
+		this.alarmLinkmanList = alarmLinkmanList;
 	}
 }

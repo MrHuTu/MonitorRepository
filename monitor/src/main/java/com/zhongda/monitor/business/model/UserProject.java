@@ -7,6 +7,8 @@ public class UserProject {
 
     private Integer projectId;
 
+    private Boolean leaderFlag;
+
     public Integer getUpId() {
         return upId;
     }
@@ -29,5 +31,13 @@ public class UserProject {
 
     public void setProjectId(Integer projectId) {
         this.projectId = projectId;
+    }
+
+    public Boolean getLeaderFlag() {
+        return leaderFlag;
+    }
+
+    public void setLeaderFlag(Boolean leaderFlag) {
+        this.leaderFlag = leaderFlag;
     }
 }

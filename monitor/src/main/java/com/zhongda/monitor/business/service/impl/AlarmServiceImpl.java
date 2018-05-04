@@ -87,5 +87,12 @@ public class AlarmServiceImpl implements AlarmService{
 
 
 
+	@Override
+	public List<Alarm> selectAlarmAndLinkmanPeriod() {
+		return alarmMapper.selectAlarmAndLinkmanPeriod();
+	}
+
+
+
 
 }

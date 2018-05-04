@@ -17,7 +17,7 @@ public class MonitorApplication {
 
 	public static void main(String[] args) {
 		
-		ApplicationContext   monitorApplication =SpringApplication.run(MonitorApplication.class, args);
+		ApplicationContext monitorApplication =SpringApplication.run(MonitorApplication.class, args);
 		
 		SpringContextUtil.setApplicationContext(monitorApplication);  
 		

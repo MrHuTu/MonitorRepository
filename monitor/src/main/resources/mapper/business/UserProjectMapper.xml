@@ -5,9 +5,10 @@
     <id column="up_id" jdbcType="INTEGER" property="upId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="leader_flag" jdbcType="BIT" property="leaderFlag" />
   </resultMap>
   <sql id="Base_Column_List">
-    up_id, user_id, project_id
+    up_id, user_id, project_id, leader_flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -20,10 +21,10 @@
     where up_id = #{upId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.UserProject">
-    insert into user_project (up_id, user_id, project_id
-      )
-    values (#{upId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}
-      )
+    insert into user_project (up_id, user_id, project_id, 
+      leader_flag)
+    values (#{upId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, 
+      #{leaderFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.UserProject">
     insert into user_project
@@ -37,6 +38,9 @@
       <if test="projectId != null">
         project_id,
       </if>
+      <if test="leaderFlag != null">
+        leader_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="upId != null">
@@ -47,6 +51,9 @@
       </if>
       <if test="projectId != null">
         #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="leaderFlag != null">
+        #{leaderFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -59,13 +66,17 @@
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=INTEGER},
       </if>
+      <if test="leaderFlag != null">
+        leader_flag = #{leaderFlag,jdbcType=BIT},
+      </if>
     </set>
     where up_id = #{upId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zhongda.monitor.business.model.UserProject">
     update user_project
     set user_id = #{userId,jdbcType=INTEGER},
-      project_id = #{projectId,jdbcType=INTEGER}
+      project_id = #{projectId,jdbcType=INTEGER},
+      leader_flag = #{leaderFlag,jdbcType=BIT}
     where up_id = #{upId,jdbcType=INTEGER}
   </update>
 </mapper>

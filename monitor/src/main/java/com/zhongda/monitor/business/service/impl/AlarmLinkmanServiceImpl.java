@@ -16,6 +16,7 @@ import com.zhongda.monitor.business.service.AlarmLinkmanService;
  *
  */
 public class AlarmLinkmanServiceImpl implements AlarmLinkmanService {
+	
 	@Resource
 	private AlarmLinkmanMapper alarmLinkmanMapper;
 	public List<AlarmLinkman> selectAlarmLinkMan() {

@@ -71,7 +71,7 @@ public class SwaggerConfig {
 				.name("Authorization")
 				.defaultValue(
 						StatelessToken.TOKEN_HEADER_PREFIX
-								+ " eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjQxMDA3MDYsImV4cCI6MTUyNDcwNTUwNiwidXNlck5hbWUiOiJBMDIiLCJ1c2VySWQiOjd9.V0A_c2E3JN2CT5F3PcCw8mViS5o0O08i0eHtDEw84a8")
+								+ " eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjQ5MDUyMjMsImV4cCI6MTUyNTUxMDAyMywidXNlck5hbWUiOiJhZG1pbiIsInVzZXJJZCI6M30.TgVxUbZ9JC4ojQTgow5YgUyye4p6IuoWK_5mbZ-9uwA")
 				.description(
 						"Token令牌( " + StatelessToken.TOKEN_HEADER_PREFIX
 								+ " 开头)").modelRef(new ModelRef("string"))
