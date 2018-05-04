@@ -165,8 +165,8 @@ public class ReportConfigOpUtils {
 		while(ite.hasNext()){
 			
 		    path = ite.next().getWord_path();
-									
-			String basis  = ClassLoader.getSystemResource("").toString();
+		    logger.info("********************************************************************");	
+			String basis  = ClassLoader.getSystemResource("./").toString();
 			
 			
 			logger.info("basis:"+basis);
