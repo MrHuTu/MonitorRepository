@@ -1,6 +1,7 @@
 package com.zhongda.monitor.report.utils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,9 +16,7 @@ import com.zhongda.monitor.report.service.impl.WordUtil2007ServiceImpl;
 public class ReportConfigOpUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReportConfigOpUtils.class);
-	
-	private static final String BAISS = "/src/main/java/";
-	
+		
 	public static List<ReportConfig> reportConfigs;
 	
 	public static List<ReportPara> reportParas;
@@ -92,7 +91,7 @@ public class ReportConfigOpUtils {
 			
 			path = reportConfig.getClass_path();
 			
-			logger.info(pojoId+"path:"+path);
+			
 		}
 	}
 		return path;
@@ -125,7 +124,7 @@ public class ReportConfigOpUtils {
 	 * 取得当前模板路径,并设置当前模板只读
 	 */
 	
-	public static String getModelPath(String pojoId){
+	public  static String getModelPath(String pojoId){
 		
 		
 		
@@ -138,12 +137,16 @@ public class ReportConfigOpUtils {
 			ReportConfig reportConfig = ite.next();
 			
 			if(String.valueOf(reportConfig.getProject_id()).equals(pojoId)){
-				
-				String basis = System.getProperty("user.dir");
+												
+				String basis  = ClassLoader.getSystemResource("").toString();
 				
 				basis = basis.replace("\\", "/");
 				
-				path = basis+BAISS+ reportConfig.getWord_path();
+				basis = basis.replace("file:/", "");
+				
+				path = basis+ reportConfig.getWord_path();
+				
+				logger.info(pojoId+"path:"+path);
 												
 			}
 		}
@@ -165,11 +168,13 @@ public class ReportConfigOpUtils {
 			
 		    path = ite.next().getWord_path();
 									
-			String basis = System.getProperty("user.dir");
+			String basis  = ClassLoader.getSystemResource("").toString();
 			
 			path = path.replace("\\", "/");
 			
-			path = basis+BAISS+ path;
+			basis = basis.replace("file:/", "");
+			
+			path = basis + path;
 			
 			File file  =  new File(path);
 			
