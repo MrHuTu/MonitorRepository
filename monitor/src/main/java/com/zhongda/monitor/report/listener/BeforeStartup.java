@@ -1,5 +1,4 @@
 package com.zhongda.monitor.report.listener;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,10 @@ public class BeforeStartup implements ApplicationListener<ContextRefreshedEvent>
 		ReportConfigOpUtils.projectPara = projectParaService.selectProjectPara();
 		
 		logger.info("========================================================项目下的全部在线监测参数加载成功==================================================================================");
+		
+		//设置全部配置模板只读
+		ReportConfigOpUtils.setOnlyReadOnly();
+		
 	}
 
 }

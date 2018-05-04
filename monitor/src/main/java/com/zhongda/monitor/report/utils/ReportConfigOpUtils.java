@@ -1,15 +1,22 @@
 package com.zhongda.monitor.report.utils;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportPara;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
+import com.zhongda.monitor.report.service.impl.WordUtil2007ServiceImpl;
 
 public class ReportConfigOpUtils {
 	
+	private static final Logger logger = LoggerFactory.getLogger(ReportConfigOpUtils.class);
 	
+	private static final String BAISS = "/src/main/java/";
 	
 	public static List<ReportConfig> reportConfigs;
 	
@@ -84,6 +91,8 @@ public class ReportConfigOpUtils {
 		if(pojoId.equals(String.valueOf(reportConfig.getProject_id()))){
 			
 			path = reportConfig.getClass_path();
+			
+			logger.info(pojoId+"path:"+path);
 		}
 	}
 		return path;
@@ -110,6 +119,63 @@ public class ReportConfigOpUtils {
 			}
 		}
 		return count;
+		
+	}
+	/**
+	 * 取得当前模板路径,并设置当前模板只读
+	 */
+	
+	public static String getModelPath(String pojoId){
+		
+		
+		
+		Iterator<ReportConfig>  ite = reportConfigs.iterator();
+		
+		String path = null;
+		
+		while(ite.hasNext()){
+			
+			ReportConfig reportConfig = ite.next();
+			
+			if(String.valueOf(reportConfig.getProject_id()).equals(pojoId)){
+				
+				String basis = System.getProperty("user.dir");
+				
+				basis = basis.replace("\\", "/");
+				
+				path = basis+BAISS+ reportConfig.getWord_path();
+												
+			}
+		}
+		return path;
+		
+		
+		
+	}
+	/**
+	 * 将全部模板文件设置成只读
+	 */
+	public  static void setOnlyReadOnly(){
+		
+		Iterator<ReportConfig>  ite = reportConfigs.iterator();
+	
+		String path = null;
+		
+		while(ite.hasNext()){
+			
+		    path = ite.next().getWord_path();
+									
+			String basis = System.getProperty("user.dir");
+			
+			path = path.replace("\\", "/");
+			
+			path = basis+BAISS+ path;
+			
+			File file  =  new File(path);
+			
+			file.setReadOnly();				
+			
+		}
 		
 	}
 }

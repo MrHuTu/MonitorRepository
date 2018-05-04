@@ -5,6 +5,7 @@ public class ReportConfig {
 	 private int project_id; 	 
 	 private int reportConfig_switch;
 	 private String class_path;
+	 private String  word_path;
 	public int getId() {
 		return id;
 	}
@@ -29,6 +30,13 @@ public class ReportConfig {
 	}
 	public void setClass_path(String class_path) {
 		this.class_path = class_path;
+	}
+	
+	public String getWord_path() {
+		return word_path;
+	}
+	public void setWord_path(String word_path) {
+		this.word_path = word_path;
 	}
 	@Override
 	public String toString() {

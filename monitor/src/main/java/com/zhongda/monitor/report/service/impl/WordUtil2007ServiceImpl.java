@@ -1,5 +1,6 @@
 package com.zhongda.monitor.report.service.impl;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -70,12 +71,14 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 		DateTime dateTime  = new DateTime(time);
 		
+		DateTime dateTime1  = new DateTime();
+		
 		if(!dateTime.isBeforeNow()){//如果参数time超过当前日期，返回错误提示信息
 			
 			return ErrorCode.ERROR4;
 		}
-	/*	
-		if( dateTime1.getHourOfDay()<17){//当前时间小于17点，返回错误提示信息
+		
+		/*if( dateTime1.getHourOfDay()<17){//当前时间小于17点，返回错误提示信息
 			
 			return ErrorCode.ERROR5;
 			
@@ -178,9 +181,14 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 						
 		
-			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId);
-			//解析模板，doc可以看做一个word解析之后的xml对象
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
+			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
+			//解析模板，doc可以看做一个word解析之后的xml对象,(第一版是将模板放在服务器,这里注释这种依赖操作系统的处理模式，将模板放到项目本身，暂时不删除，来liux上测试通过再做处理)
+			//XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
+			
+			
+			
+			XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
+			
 			
 			 //替换页眉
 			 Wordl2007Utis.replaceHeader(doc, param);

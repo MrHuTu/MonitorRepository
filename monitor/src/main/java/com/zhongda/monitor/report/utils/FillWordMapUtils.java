@@ -20,9 +20,10 @@ public class FillWordMapUtils {
 	
 	private static HashMap<String , Object> param = new HashMap<String , Object>();
 
-	static {
+	
+	public static Map<String,Object> getFillMap(String pojoId,String time){
 		
-		DateTime dateTime = new DateTime();
+		DateTime dateTime = new DateTime(time);
 		
 		String 	year = String.valueOf(dateTime.getYear());
 		
@@ -35,9 +36,6 @@ public class FillWordMapUtils {
 		param.put("${month}", month);
 		
 		param.put("${daty}", daty);
-	}
-	
-	public static Map<String,Object> getFillMap(String pojoId){
 		
 		ProjectService projectService = 	(ProjectService) SpringContextUtil.getBean("projectServiceImpl");
 		
@@ -53,4 +51,6 @@ public class FillWordMapUtils {
 		return param;		
 	}
 
+	
+	
 }
