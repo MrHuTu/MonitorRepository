@@ -156,9 +156,11 @@ public class PushAlarm {
 			// 如果是数据类告警
 			if (alarm.getAlarmType() == 2) {
 				String[] contextArray = alarm.getAlarmContext().split("，");
-				String currentData = contextArray[0].split("：")[1];
-				paramsMap.put("currentData", currentData);
-				paramsList.add(currentData);
+				String[] currentData = contextArray[0].split("：");
+				paramsMap.put("thresholdType", currentData[0]);
+				paramsMap.put("currentData", currentData[1]);
+				paramsList.add(currentData[0]);
+				paramsList.add(currentData[1]);
 				String[] thresholdArray = contextArray[2].split("~");
 				String minNormal = thresholdArray[0].substring(5);
 				paramsMap.put("minNormal", minNormal);
