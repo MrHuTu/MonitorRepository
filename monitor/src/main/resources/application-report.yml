@@ -1,19 +1,22 @@
-# 模板路径
-modelpath: /mnt/monitor/model/
+# 模板路径   针对limux操作系统      /mnt/monitor/model/    /mnt/monitor/report/
+linuxmodelpath: /root/report/model/
 #模板存放的临时目录,实际要解析的模板
-tempmodel: /mnt/monitor/temp/model2017.docx
-#解析模板之后生成的word文件存放路径
-downrepor: /mnt/monitor/report/
+#tempmodel: /mnt/monitor/temp/model2017.docx
+#解析模板之后生成的word文件存放路径(缓存路径)
+linuxdownrepor:  /root/report/down/
+
+
+
+# 模板路径  针对Windows操作系统  (测试用)
+modelpath: D:/temp/
+#模板存放的临时目录,实际要解析的模板
+#tempmodel: D:/tempreport/model2017.docx
+#解析模板之后生成的word文件存放路径(缓存路径)
+downrepor: D:/a/
+
+
+
 #数据归档的时间配置，以;分割 支持格式 00:00:00
 repotrTime: 00:00:00;08:00:00;16:00:00
 #归档应答的时间误差
 repotrTimeError: 15
-
-
-# 模板路径  测试用
-#modelpath: D:/temp/
-#模板存放的临时目录,实际要解析的模板
-#tempmodel: D:/tempreport/model2017.docx
-#解析模板之后生成的word文件存放路径
-#downrepor: D:/a/
-#name: hc

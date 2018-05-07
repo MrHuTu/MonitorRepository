@@ -20,16 +20,21 @@ public class GitYmlParaUtils {
 	
 	@Value("${repotrTimeError}")
 	private  String repotrTimeError;
-	
+	//windox 下
 	@Value("${modelpath}")
 	private String modelpath;
 	
-	@Value("${tempmodel}")
-	private String tempmodel;
+	/*@Value("${tempmodel}")
+	private String tempmodel;*/
 	
 	@Value("${downrepor}")
 	private String downreport;
+	//linux下
+	@Value("${linuxmodelpath}")
+	private String linuxmodelpath;
 	
+	@Value("${linuxdownrepor}")
+	private String linuxdownrepor;
 	
 	public String getRepotrTime() {
 		return repotrTime;
@@ -55,13 +60,23 @@ public class GitYmlParaUtils {
 	}
 
 
-	public String getTempmodel() {
+	/*public String getTempmodel() {
 		return tempmodel;
-	}
+	}*/
 
 
 	public String getDownreport() {
 		return downreport;
+	}
+
+
+	public String getLinuxmodelpath() {
+		return linuxmodelpath;
+	}
+
+
+	public String getLinuxdownrepor() {
+		return linuxdownrepor;
 	}
 
 

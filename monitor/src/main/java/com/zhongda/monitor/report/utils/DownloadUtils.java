@@ -118,13 +118,12 @@ public class DownloadUtils {
 
 			HttpHeaders headers = new HttpHeaders();
 			try {
-				
 				headers.add("Content-Disposition", "attchement;filename=\""+ new String(file.getName().getBytes("UTF-8"),"ISO8859-1") + "\";filename*=utf-8''" + URLEncoder.encode(file.getName(), "utf-8").replaceAll("\\+", "%20"));
-			
 			} catch (UnsupportedEncodingException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//headers.add("Content-Disposition","attachment;Filename=" + file.getName());
 			HttpStatus statusCode = HttpStatus.OK;
 			
 			ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(body,headers, statusCode);

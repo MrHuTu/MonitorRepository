@@ -67,7 +67,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-		CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId), gitYmlParaUtils.getTempmodel());
+		//CopyFileUtils.copyFile(gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId), gitYmlParaUtils.getTempmodel());
 			
 		DateTime dateTime  = new DateTime(time);
 		
@@ -102,6 +102,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 
 			//解析之后的word文件存放的临时路径
 			fileName = gitYmlParaUtils.getDownreport()+name+".docx";		
+			 
 				
 				try {
 					
@@ -180,18 +181,43 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			
 						
-		
+			//获取模板填充数据
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
 			
-			/*String path = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
+			String path = null;
 			
-			File file = new File(path);
 			
-			file.setReadOnly();
+			//根据操作系统设置模板文件权限
+			 String osName = System.getProperty("os.name", "");  
+			 
+			 if(osName.startsWith("Windows")){
+				 
+				 path  = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
+				 
+				 File file = new File(path);
+				 					
+				 file.setReadOnly();
+					
+				logger.info("当前模板访问路径："+path);
+				
+			 }else{
+				 try {
+					   path  = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
+					   
+						logger.info("当前模板访问路径：linux下"+path);
+						
+						Runtime.getRuntime().exec("chmod +r "+path);
+						
+					} catch (IOException e) {
+						
+						logger.error("当前模板访问路径：linux下:"+path+"只读权限设置失败");
+						
+					} 
+			 }
 			
-			logger.info("当前模板访问路径："+path);*/
 			
-			XWPFDocument doc = Wordl2007Utis.generateWord(param, gitYmlParaUtils.getTempmodel());	
+			
+			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
 												
 			//XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
 			
