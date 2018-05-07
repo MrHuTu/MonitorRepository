@@ -75,4 +75,11 @@ public interface ProjectService {
 	 */
 	Map<String, Object> selectHomeP(Integer userId);
 
+	/**
+	 * 查询所有项目
+	 * 
+	 * @return
+	 */
+	List<Project> selectAll();
+
 }

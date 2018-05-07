@@ -1,43 +1,63 @@
 package com.zhongda.monitor.business.model;
 
 public class UserProject {
-    private Integer upId;
+	private Integer upId;
 
-    private Integer userId;
+	private Integer userId;
 
-    private Integer projectId;
+	private Integer projectId;
 
-    private Boolean leaderFlag;
+	private String userName;
 
-    public Integer getUpId() {
-        return upId;
-    }
+	private String projectName;
 
-    public void setUpId(Integer upId) {
-        this.upId = upId;
-    }
+	private Boolean leaderFlag;
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public Integer getUpId() {
+		return upId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setUpId(Integer upId) {
+		this.upId = upId;
+	}
 
-    public Integer getProjectId() {
-        return projectId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public Boolean getLeaderFlag() {
-        return leaderFlag;
-    }
+	public Integer getProjectId() {
+		return projectId;
+	}
 
-    public void setLeaderFlag(Boolean leaderFlag) {
-        this.leaderFlag = leaderFlag;
-    }
+	public void setProjectId(Integer projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public Boolean getLeaderFlag() {
+		return leaderFlag;
+	}
+
+	public void setLeaderFlag(Boolean leaderFlag) {
+		this.leaderFlag = leaderFlag;
+	}
 }

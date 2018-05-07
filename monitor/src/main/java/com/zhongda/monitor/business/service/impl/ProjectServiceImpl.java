@@ -230,4 +230,9 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectByPrimaryKey(Integer.valueOf(projectId));
 	}
 
+	@Override
+	public List<Project> selectAll() {
+		return projectMapper.selectAll();
+	}
+
 }

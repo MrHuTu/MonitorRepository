@@ -21,6 +21,14 @@
     from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="selectPuser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select us.user_name from user_project up LEFT JOIN user us on up.user_id=us.user_id where up.project_id=#{projectId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+  	 select 
+    <include refid="Base_Column_List" />
+    from user
+  </select>
   <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

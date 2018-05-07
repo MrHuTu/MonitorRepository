@@ -6,6 +6,8 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="leader_flag" jdbcType="BIT" property="leaderFlag" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
   </resultMap>
   <sql id="Base_Column_List">
     up_id, user_id, project_id, leader_flag
@@ -15,6 +17,12 @@
     <include refid="Base_Column_List" />
     from user_project
     where up_id = #{upId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllPuser" resultMap="BaseResultMap">
+  	select up.project_id,us.user_name from user_project up LEFT JOIN `user` us on up.user_id=us.user_id
+  </select>
+  <select id="selectAllUpro" resultMap="BaseResultMap">
+  	select up.user_id,pro.project_name from user_project up LEFT JOIN project pro on up.project_id=pro.project_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user_project

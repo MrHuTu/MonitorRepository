@@ -1,6 +1,7 @@
 package com.zhongda.monitor.account.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -98,18 +99,19 @@ public class UserServiceImpl implements UserService {
 		return userMapper.selectByUserName(userName);
 	}
 
-	public Result<String> updatePassword( String password,String userId) {
+	public Result<String> updatePassword(String password, String userId) {
 		Result<String> result = new Result<String>();
 		// 获取用户信息
-		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, userId+"user");
-		if(null == user){
+		User user = (User) CacheUtils.get(CacheUtils.CACHE_USER, userId
+				+ "user");
+		if (null == user) {
 			throw new VaildCodeExpireException("页面有效期为30分钟，您已超过有效期，请刷新重试！");
 		}
 		String passwordCode = ShiroUtils.encryptPassword(password,
 				user.getUserName());
 		user.setPassword(passwordCode);
 		int resultNum = userMapper.updateByPrimaryKeySelective(user);
-		
+
 		if (resultNum == 0) {
 			return result.failure("修改失败");
 		}
@@ -128,9 +130,19 @@ public class UserServiceImpl implements UserService {
 		if (null == user) {
 			return result.failure("该用户不存在");
 		}
-		CacheUtils.put(CacheUtils.CACHE_USER, user.getUserId()+"user", user);
+		CacheUtils.put(CacheUtils.CACHE_USER, user.getUserId() + "user", user);
 		System.out.println(user.getUserId());
-		return result.success("用户存在", user.getUserId()+"");
+		return result.success("用户存在", user.getUserId() + "");
+	}
+
+	@Override
+	public List<User> selectAll() {
+		return userMapper.selectAll();
+	}
+
+	@Override
+	public List<User> selectPuser(Integer projectId) {
+		return userMapper.selectPuser(projectId);
 	}
 
 }

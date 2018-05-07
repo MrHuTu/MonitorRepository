@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>中大云平台后台管理系统</title>
+<meta charset="utf-8" />
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div class="container-fluid">
+	
+	  <div class="row">
+	  	<div class="page-header">
+		  <h1>中大云平台后台管理系统 <small>ZhongDaYun</small></h1>
+		</div>
+	  </div>
+	
+	  <div class="row">
+	  
+	  	<!-- 导航区 -->
+		<ul id="myTab" class="nav nav-tabs" role="tablist">  
+		  <li role="presentation" class="active"><a href="#projects" role="tab" data-toggle="tab">项目</a></li> 
+		  <li role="presentation"><a href="#users" role="tab" data-toggle="tab">用户</a></li>
+		  <button type="button" class="btn btn-danger" style="float: right;">删除</button>
+		  <button type="button" class="btn btn-success" data-toggle="modal" href="#addup" style="float: right;">添加</button>
+		</ul>
+		
+		<!-- 面板区 -->  
+		<div class="tab-content">  
+		  <!-- 项目面板   -->
+		  <div role="tabpanel" class="tab-pane active" id="projects">
+		  	 	<div class="table-responsive">
+				  <table class="table table-condensed table-hover table-bordered">
+				    <thead>
+						<tr>
+							<th class="hidden">ID</th>
+							<th>项目名称</th>
+							<th>查看用户</th>
+							<th>项目类型</th>
+							<th>项目地点</th>
+							<th>天气地点</th>
+							<th>经度</th>
+							<th>纬度</th>
+							<th>项目开始时间</th>
+							<th>项目结束时间</th>
+							<th>项目状态</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pro : ${projectList}">
+							<th th:text="${pro.projectId}" class="hidden"></th>
+							<td th:text="${pro.projectName}" class="protd"></td>
+							<td>
+								<a tabindex="0" class="btn btn-lg btn-danger popovers" role="button" data-toggle="popover" data-trigger="focus" title="该项目下的所有用户:"  data-content="">查看用户</a>
+							</td>
+							<td th:text="${pro.projectTypeName}" class="protd"></td>
+							<td th:text="${pro.projectAddress}" class="protd"></td>
+							<td th:text="${pro.weatherAddress}" class="protd"></td>
+							<td th:text="${pro.projectLongitude}" class="protd"></td>
+							<td th:text="${pro.projectLatitude}" class="protd"></td>
+							<td class="protd" th:text="${pro.projectBeginTime}? ${#dates.format(pro.projectBeginTime, 'yyyy-MM-dd HH:mm:ss')} : ${pro.projectBeginTime}
+							"></td>
+							<td class="protd" th:text="${pro.projectEndTime}? ${#dates.format(pro.projectEndTime, 'yyyy-MM-dd HH:mm:ss')} : ${pro.projectEndTime}
+							"></td>
+							<td th:text="${pro.projectStatusName}" class="protd"></td>
+							
+						</tr>
+					</tbody>
+				  </table>
+				</div>
+		  </div>
+		  
+		  <!-- 用户面板   -->
+		  <div role="tabpanel" class="tab-pane" id="users">
+	  		  <table class="table table-condensed table-hover table-bordered">
+			    <thead>
+					<tr>
+						<th class="hidden">ID</th>
+						<th>用户名</th>
+						<th>查看项目</th>
+						<th>密码</th>
+						<th>电话</th>
+						<th>邮箱</th>
+						<th>公司</th>
+						<th>负责人</th>
+						<th>创建时间</th>
+						<th>用户状态</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="us : ${userList}">
+							<th th:text="${us.userId}" class="hidden"></th>
+							<td th:text="${us.userName}" class="usertd"></td>
+							<td>
+								<a tabindex="0" class="btn btn-lg btn-danger userpover" role="button" data-toggle="popover" data-trigger="focus" title="该用户下的所有项目:"  data-content="">查看项目</a>
+							</td>
+							<td th:text="${us.password}" class="usertd"></td>
+							<td th:text="${us.phone}" class="usertd"></td>
+							<td th:text="${us.email}" class="usertd"></td>
+							<td th:text="${us.company}" class="usertd"></td>
+							<td th:text="${us.realName}" class="usertd"></td>
+							<td class="usertd" th:text="${us.createTime}? ${#dates.format(us.createTime, 'yyyy-MM-dd HH:mm:ss')} : ${us.createTime}
+							"></td>
+							<td th:text="${us.status}" class="usertd"></td>
+						</tr>
+				</tbody>
+			  </table>
+		  </div>
+		    
+		    
+		</div>
+	  	
+	  </div>
+	  
+	  <!--project Large modal -->
+		<button type="button" id="projetModel" href="#projetModels" data-toggle="modal"  style="display: none;"></button>
+
+		<div id="projetModels" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	
+		    </div>
+		  </div>
+		</div>
+	  <!--project Large modal -->
+
+	   <!--user Large modal -->
+		<button type="button" id="userModel" data-toggle="modal" href="#userModels" style="display: none;"></button>
+
+		<div id="userModels" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      ...
+		    </div>
+		  </div>
+		</div>
+	  <!--user Large modal -->
+	  
+	  <!-- 添加 -->
+	  	<div id="addup" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog " role="document">
+		  
+		    
+		  <!-- 面板 -->
+		    <div class="modal-content">
+		    
+		   		<ul id="myTab" class="nav nav-tabs" role="tablist">  
+				  <li role="presentation" class="active"><a href="#addprojects" role="tab" data-toggle="tab">项目</a></li> 
+				  <li role="presentation"><a href="#addusers" role="tab" data-toggle="tab">用户</a></li>  
+				</ul>
+				
+				<div class="tab-content">  
+				  <!-- 项目添加面板   -->
+				  <div role="tabpanel" class="tab-pane active" id="addprojects">
+				      
+				      <div class="modal-body">
+				        <form action="/manage/landing">
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目名称:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目类型:</label>
+				            <select class="form-control">
+							  <option>1</option>
+							  <option>2</option>
+							  <option>3</option>
+							  <option>4</option>
+							  <option>5</option>
+							</select>
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目地点:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">天气地点:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">经度:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">纬度:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目开始时间:</label>
+				            <input type="date" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目结束时间:</label>
+				            <input type="date" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">项目状态:</label>
+				            <label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked" />1
+							</label>
+							<label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 2
+							</label>
+							<label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" /> 3
+							</label>
+							<label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" /> 1
+							</label>
+				          </div>
+				        </form>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-primary">添加</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					      </div>
+				      </div>
+				      
+				  </div>
+				  
+				  <!-- 用户添加面板   -->
+				  <div role="tabpanel" class="tab-pane" id="addusers">
+			  			<div class="modal-body">
+				        <form action="/manage/landing">
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">用户名:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">密码:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">电话:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">邮箱:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">公司:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">负责人:</label>
+				            <input type="text" class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">创建时间:</label>
+				            <input type="date"  class="form-control" id="recipient-name" />
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">用户状态:</label>
+				             <label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked" />正常
+							</label>
+							<label class="radio-inline">
+							  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" /> 冻结
+							</label>
+				          </div>
+				        </form>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-primary">添加</button>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					      </div>
+				      </div>
+				  </div>
+					
+			    </div>
+			    
+		  </div>
+		</div>
+	  </div>
+	  <!-- 添加 -->
+	  
+	</div>
+	
+</body>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript">
+	var pUser=[[${pUser}]];
+	var uPro=[[${uPro}]];
+</script>
+<script th:src="@{/js/index.js}"></script>
+</html>

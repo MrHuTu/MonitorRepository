@@ -1,0 +1,31 @@
+.header{
+	text-align: center;
+}
+
+.table th, .table td { 
+	text-align: center;
+	vertical-align: middle!important;
+}
+
+.label-input{
+	margin: 5px 5px 5px 5px;
+}
+
+.menu{
+	padding: 5px 5px 5px 5px;
+}
+
+.console {
+	height: 500px;
+	border-top-color:  red;
+	border-bottom:solid 1px black;
+}
+
+textarea {
+  	height: 280px; 
+  	width: 100%; 
+  	font-size: 12px;
+	word-wrap:break-word;
+	word-break:break-all;
+}
+

@@ -39,4 +39,11 @@ public interface ProjectMapper {
 
 	List<Project> getAllProject(ProjectSelectCondition userId);
 
+	/**
+	 * 查询所有项目
+	 * 
+	 * @return
+	 */
+	List<Project> selectAll();
+
 }

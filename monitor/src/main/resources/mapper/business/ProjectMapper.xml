@@ -14,6 +14,21 @@
     <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
     <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
   </resultMap>
+  <resultMap id="projectMap" type="com.zhongda.monitor.business.model.Project">
+    <id column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_type" jdbcType="INTEGER" property="projectType" />
+    <result column="project_address" jdbcType="VARCHAR" property="projectAddress" />
+    <result column="weather_address" jdbcType="VARCHAR" property="weatherAddress" />
+    <result column="project_longitude" jdbcType="VARCHAR" property="projectLongitude" />
+    <result column="project_latitude" jdbcType="VARCHAR" property="projectLatitude" />
+    <result column="project_begin_time" jdbcType="TIMESTAMP" property="projectBeginTime" />
+    <result column="project_end_time" jdbcType="TIMESTAMP" property="projectEndTime" />
+    <result column="project_status" jdbcType="INTEGER" property="projectStatus" />
+    <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
+    <result column="project_type_name" jdbcType="VARCHAR" property="projectTypeName" />
+    <result column="project_status_name" jdbcType="VARCHAR" property="projectStatusName" />
+  </resultMap>
   <resultMap id="ProCharThMap" type="com.zhongda.monitor.business.model.Project">
     <id column="project_id" jdbcType="INTEGER" property="projectId" />
     <result column="project_name" jdbcType="VARCHAR" property="projectName" />
@@ -60,6 +75,9 @@
     <include refid="Base_Column_List" />
     from project
     where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="projectMap">
+  	select pro.*,sc.item_name as project_type_name,ss.item_name as project_status_name from project pro LEFT JOIN sys_code sc on pro.project_type=sc.sc_id LEFT JOIN sys_code ss on pro.project_status=ss.sc_id
   </select>
   <select id="selectProCharThByUserId" parameterType="java.lang.Integer" resultMap="ProCharThMap">
   select palsc.*,th.threshold_type,th.min_drastic_threshold_value,th.max_threshold_value,th.min_drastic_threshold_value,th.max_drastic_threshold_value from (
