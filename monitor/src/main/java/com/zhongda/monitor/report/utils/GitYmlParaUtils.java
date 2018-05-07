@@ -179,9 +179,9 @@ public class GitYmlParaUtils {
 						
 						logger.info("进入linux模板路径");
 						
-						Runtime.getRuntime().exec("chmod +r "+tageParm);
+						Runtime.getRuntime().exec("chmod 555 "+tageParm);
 						
-						logger.info("linux模板路径只读权限设置成功");
+						logger.info("linux模板路径只读权限设置成功:chmod 555 "+tageParm);
 						
 					} catch (IOException e) {
 						

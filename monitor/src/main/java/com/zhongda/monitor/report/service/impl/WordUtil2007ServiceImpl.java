@@ -106,6 +106,8 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 					doc.write(fopts);
 					
 					logger.info("word报告解析成功:"+fileName);
+					
+					
 								
 					doc.close();
 					
@@ -156,6 +158,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			//解析模板的路径			
 			 String path  = gitYmlParaUtils.accordingOsGetParm("path", pojoId);
+			 
 										
 			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
 												
