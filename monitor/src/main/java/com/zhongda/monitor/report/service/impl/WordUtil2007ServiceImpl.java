@@ -1,13 +1,10 @@
 package com.zhongda.monitor.report.service.impl;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -21,10 +18,8 @@ import org.springframework.stereotype.Service;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.model.fictitious.ErrorCode;
-import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
-import com.zhongda.monitor.report.utils.CopyFileUtils;
 import com.zhongda.monitor.report.utils.FillWordMapUtils;
 import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
@@ -44,7 +39,7 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
 @Scope(value="prototype")
 public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
-	private static final Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
+	private  Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
 	
 	
 	@Autowired
@@ -101,7 +96,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-			fileName = gitYmlParaUtils.getDownreport()+name+".docx";		
+			fileName = gitYmlParaUtils.accordingOsGetParm("temp", pojoId)+name+time+".docx";		
 			 
 				
 				try {
@@ -148,75 +143,20 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 */
 	public  Object analysis(String pojoId,String time){
 		
-		//这个map 存放模板文档实例，和非表格占位符		
-		 Map<Object,Object> map = new HashMap<Object, Object>();
-		 
-		
-		//用来判断该项目开关是否开启
-		if(!ReportConfigOpUtils.verifyreportConfig(pojoId)){
-			
-			return ErrorCode.ERROR1;
-			
-		}else{
-			//这个时在服务器启动时就加载了的数据，用来验证该项目下的监测参数是否支持生成报告
-			List<ProjectPara> ProjectParas = ReportConfigOpUtils.projectPara;
-						
-			Iterator<ProjectPara>  ite = ProjectParas.iterator();
-			
-			while(ite.hasNext()){
-				
-				ProjectPara projectPara = ite.next();
-				
-				if(pojoId.equals(String.valueOf(projectPara.getProject_id()))){
-					
-					if(!ReportConfigOpUtils.verifyReportPara(String.valueOf(projectPara.getMonitor_type()))){
-						
-						return ErrorCode.ERROR2;
-						
-					};
-					
-				};
-				
-			};
-			
-			
-						
+			//这个map 存放模板文档实例，和非表格占位符		
+			 Map<Object,Object> map = new HashMap<Object, Object>();
+			 
+			 //验证报告生成条件
+			 String create = ReportConfigOpUtils.whetherCreateReport(pojoId);
+			 
+			 if(create!=null) return create;
+										
 			//获取模板填充数据
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
 			
-			String path = null;
-			
-			
-			//根据操作系统设置模板文件权限
-			 String osName = System.getProperty("os.name", "");  
-			 
-			 if(osName.startsWith("Windows")){
-				 
-				 path  = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
-				 
-				 File file = new File(path);
-				 					
-				 file.setReadOnly();
-					
-				logger.info("当前模板访问路径："+path);
-				
-			 }else{
-				 try {
-					   path  = gitYmlParaUtils.getModelpath()+ReportConfigOpUtils.getModelPath(pojoId);
-					   
-						logger.info("当前模板访问路径：linux下"+path);
-						
-						Runtime.getRuntime().exec("chmod +r "+path);
-						
-					} catch (IOException e) {
-						
-						logger.error("当前模板访问路径：linux下:"+path+"只读权限设置失败");
-						
-					} 
-			 }
-			
-			
-			
+			//解析模板的路径			
+			 String path  = gitYmlParaUtils.accordingOsGetParm("path", pojoId);
+										
 			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
 												
 			//XWPFDocument doc = Wordl2007Utis.generateWord(param,ReportConfigOpUtils.getModelPath(pojoId));	
@@ -250,7 +190,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			return map;
 			
-		}
+		//}
 		
 	}
 	 /**

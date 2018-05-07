@@ -1,6 +1,5 @@
 package com.zhongda.monitor.report.utils;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,8 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportPara;
+import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
-
+/**
+ * 验证是否配置参数
+ * @author 胡超
+ *
+ */
 public class ReportConfigOpUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReportConfigOpUtils.class);
@@ -119,13 +123,11 @@ public class ReportConfigOpUtils {
 		
 	}
 	/**
-	 * 取得当前模板路径,并设置当前模板只读
+	 * 取得当前模板类
 	 */
 	
 	public  static String getModelPath(String pojoId){
-		
-		
-		
+						
 		Iterator<ReportConfig>  ite = reportConfigs.iterator();
 		
 		String path = null;
@@ -142,42 +144,48 @@ public class ReportConfigOpUtils {
 												
 			}
 		}
-		return path;
 		
-		
+		return path;				
 		
 	}
 	/**
-	 * 将全部模板文件设置成只读
+	 * 报告生成条件检查
 	 */
-	public  static void setOnlyReadOnly(){
-		
-		Iterator<ReportConfig>  ite = reportConfigs.iterator();
 	
-		String path = null;
+	public static String whetherCreateReport(String pojoId){
 		
-		while(ite.hasNext()){
-			
-		    path = ite.next().getWord_path();
-		    logger.info("********************************************************************");	
-			String basis  = ClassLoader.getSystemResource("./").toString();
-			
-			
-			logger.info("basis:"+basis);
-			
-			path = path.replace("\\", "/");
-			
-			basis = basis.replace("file:/", "");
-			
-			
-			
-			path = basis + path;
-			
-			File file  =  new File(path);
-			
-			file.setReadOnly();				
-			
-		}
+		String create = null;
+		
+		//用来判断该项目开关是否开启
+				if(!verifyreportConfig(pojoId)){
+					
+					create =  ErrorCode.ERROR1;
+					
+				}else{
+					//这个时在服务器启动时就加载了的数据，用来验证该项目下的监测参数是否支持生成报告
+					//List<ProjectPara> ProjectParas = ReportConfigOpUtils.projectPara;
+								
+					Iterator<ProjectPara>  ite = projectPara.iterator();
+					
+					while(ite.hasNext()){
+						
+						ProjectPara projectPara = ite.next();
+						
+						if(pojoId.equals(String.valueOf(projectPara.getProject_id()))){
+							
+							if(!verifyReportPara(String.valueOf(projectPara.getMonitor_type()))){
+								
+								create =  ErrorCode.ERROR2;
+								
+							};
+							
+						};
+						
+					};
+					
+				}	
+		
+		return create;
 		
 	}
 }

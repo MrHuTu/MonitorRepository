@@ -1,20 +1,27 @@
 package com.zhongda.monitor.report.utils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 /**
  * 取yml配置文件参数
- * @author Administrator
+ * @author 胡超
  *
  */
 
 public class GitYmlParaUtils {
+	
+	private  Logger logger = LoggerFactory.getLogger(GitYmlParaUtils.class);
+	
 	@Value("${repotrTime}")
 	private  String repotrTime;
 	
@@ -112,6 +119,82 @@ public class GitYmlParaUtils {
 		}
 		
 	  return map;
+		
+	}
+	/**
+	 * 根据os获取对应参数
+	 */
+	
+	public String accordingOsGetParm(String parm,String poJoId){
+		
+		String tageParm = null;
+		
+		String osName = System.getProperty("os.name", "");  
+		
+		if(osName.startsWith("Windows")){
+			
+			logger.info("进入Windows模板路径");
+			
+			if(parm.equals("path")){
+				
+				tageParm = modelpath;
+				
+			}else if(parm.equals("temp")){
+				
+				tageParm = downreport;
+				
+			}
+			
+			if(!parm.equals("temp")){
+				
+				tageParm+=ReportConfigOpUtils.getModelPath(poJoId);
+				
+				File file  = new File(tageParm);
+				
+				file.setReadOnly();
+				
+				logger.info("Windows模板路径只读权限设置成功");
+				
+			}
+					
+		
+			
+		} else {
+			
+				if(parm.equals("path")){
+					
+					tageParm = linuxmodelpath;
+							
+				}else if(parm.equals("temp")){
+					
+					tageParm = linuxdownrepor;
+					
+				}
+				
+				if(!parm.equals("temp")){
+					
+					tageParm+=ReportConfigOpUtils.getModelPath(poJoId);
+					
+					try {
+						
+						logger.info("进入linux模板路径");
+						
+						Runtime.getRuntime().exec("chmod +r "+tageParm);
+						
+						logger.info("linux模板路径只读权限设置成功");
+						
+					} catch (IOException e) {
+						
+						logger.error("linux模板路径只读权限设置失败");
+					} 
+					
+				}
+				
+		}
+		
+		return tageParm;
+		
+		
 		
 	}
 }
