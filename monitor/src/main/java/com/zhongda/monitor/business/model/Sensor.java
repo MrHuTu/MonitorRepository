@@ -36,6 +36,10 @@ public class Sensor {
 
 	private PublicSensorData publicSensorData;// 传感器数据公共对象 数据库没有字段
 
+	private String monitorTypeName;// 检测指标名称
+
+	private String tableName;
+
 	public Integer getSensorId() {
 		return sensorId;
 	}
@@ -156,6 +160,22 @@ public class Sensor {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+
+	public String getMonitorTypeName() {
+		return monitorTypeName;
+	}
+
+	public void setMonitorTypeName(String monitorTypeName) {
+		this.monitorTypeName = monitorTypeName;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 
 	@Override

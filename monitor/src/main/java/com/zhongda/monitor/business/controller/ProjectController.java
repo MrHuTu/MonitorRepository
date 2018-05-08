@@ -46,7 +46,7 @@ public class ProjectController {
 
 	@Resource
 	private SensorMapper sensorMapper;
-	
+
 	@Resource
 	private AlarmService alarmService;
 
@@ -97,8 +97,9 @@ public class ProjectController {
 
 		int userId = user.getUserId();
 
-		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(String.valueOf(userId));
-			
+		ProjectSelectCondition projectSelectCondition = new ProjectSelectCondition(
+				String.valueOf(userId));
+
 		return new Result<List<Project>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
 				.setData(projectService.getAllProject(projectSelectCondition));

@@ -95,4 +95,12 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 				fillingDatas, fillingDataBMs));
 	}
 
+	@Override
+	public List<PublicSensorData> querySensorDatas(String tableName,
+			String sensorNumber, String smuNumber, String smuChannel,
+			String beginTime, String endTime) {
+		return pSenDataMapper.selectSenDataByDate(tableName, sensorNumber,
+				smuNumber, smuChannel, beginTime, endTime);
+	}
+
 }
