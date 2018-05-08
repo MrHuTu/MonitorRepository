@@ -35,6 +35,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STBorder;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STMerge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
@@ -46,8 +48,10 @@ import com.zhongda.monitor.report.service.BastTableClass;
 
 
 
+
 public class Wordl2007Utis {
 	
+	private static Logger logger = LoggerFactory.getLogger(Wordl2007Utis.class);
 
 	/**
 	 * 
@@ -442,6 +446,8 @@ public class Wordl2007Utis {
 					String text = run.getText(0);										
 
 					if (text!=null && text.length()>0) {
+						
+						logger.info("当期遍历字段:"+text);
 
 						Iterator<String> iter = singe.keySet().iterator();
 
@@ -452,6 +458,8 @@ public class Wordl2007Utis {
 							//System.out.println("text:"+text+",key"+key);
 							
 							if (text.indexOf(key) != -1) {
+								
+								logger.info("当期前表格占位符:"+key);
 							
 								List<String> listSinge = singe.get(key);
 								
