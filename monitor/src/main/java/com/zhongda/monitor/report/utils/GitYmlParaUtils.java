@@ -30,10 +30,7 @@ public class GitYmlParaUtils {
 	//windox 下
 	@Value("${modelpath}")
 	private String modelpath;
-	
-	/*@Value("${tempmodel}")
-	private String tempmodel;*/
-	
+		
 	@Value("${downrepor}")
 	private String downreport;
 	//linux下
@@ -65,11 +62,6 @@ public class GitYmlParaUtils {
 	public String getModelpath() {
 		return modelpath;
 	}
-
-
-	/*public String getTempmodel() {
-		return tempmodel;
-	}*/
 
 
 	public String getDownreport() {
@@ -143,21 +135,7 @@ public class GitYmlParaUtils {
 				
 				tageParm = downreport;
 				
-			}
-			
-			if(!parm.equals("temp")){
-				
-				tageParm+=ReportConfigOpUtils.getModelPath(poJoId);
-				
-				File file  = new File(tageParm);
-				
-				file.setReadOnly();
-				
-				logger.info("Windows模板路径只读权限设置成功");
-				
-			}
-					
-		
+			}									
 			
 		} else {
 			
@@ -169,26 +147,7 @@ public class GitYmlParaUtils {
 					
 					tageParm = linuxdownrepor;
 					
-				}
-				
-				if(!parm.equals("temp")){
-					
-					tageParm+=ReportConfigOpUtils.getModelPath(poJoId);
-					
-					try {
-						
-						logger.info("进入linux模板路径");
-						
-						Runtime.getRuntime().exec("chmod 555 "+tageParm);
-						
-						logger.info("linux模板路径只读权限设置成功:chmod 555 "+tageParm);
-						
-					} catch (IOException e) {
-						
-						logger.error("linux模板路径只读权限设置失败");
-					} 
-					
-				}
+				}			
 				
 		}
 		

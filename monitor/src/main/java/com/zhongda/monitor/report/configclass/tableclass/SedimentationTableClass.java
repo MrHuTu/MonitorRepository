@@ -198,7 +198,7 @@ public class SedimentationTableClass implements BastTableClass {
 		Wordl2007Utis.setBorder(tableOne,TableBorder.noneBorder());
 	      
 	}
-
+	//配置createTable的参数
 	@Override
 	public CreateTableConfig getTableClassConfig(XWPFDocument doc2, XmlCursor cursor,Object obj) {
 		

@@ -422,7 +422,9 @@ public class Wordl2007Utis {
 	 * @return Map<String, Object> 例如  ${1}--false(表示表格标题),${2}---Object(表示表格对应的数据)
 	 */
 	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,List<Object> model) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		List<XWPFParagraph> paragraphList = doc2.getParagraphs();
 
 		if (paragraphList != null && paragraphList.size() > 0) {
@@ -432,6 +434,7 @@ public class Wordl2007Utis {
 				XWPFParagraph paragraph = paragraphList.get(j);
 
 				List<XWPFRun> runs = paragraph.getRuns();
+				
 				for(int k=0;k<runs.size();k++){
 					
 					XWPFRun run = runs.get(k);
