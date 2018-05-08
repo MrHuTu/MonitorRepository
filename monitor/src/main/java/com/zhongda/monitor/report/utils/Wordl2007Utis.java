@@ -427,6 +427,8 @@ public class Wordl2007Utis {
 	 */
 	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,List<Object> model) {
 		
+		logger.info("进如占位方法:Map长度"+singe.size());
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		List<XWPFParagraph> paragraphList = doc2.getParagraphs();
@@ -456,8 +458,13 @@ public class Wordl2007Utis {
 						Iterator<String> iter = singe.keySet().iterator();
 
 						while (iter.hasNext()) {
-
+							
+							logger.info("进入循环占位符状态");
+							
 							String key = iter.next();
+							
+							logger.info("当前key:"+key+",判定状态:"+text.equals(key));
+							
 							
 							//System.out.println("text:"+text+",key"+key);
 							
