@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,9 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  */
 @Service("SedimentationFillImpl")
 public class SedimentationFillImpl implements SedimentationFill {
+	
+	private  Logger logger = LoggerFactory.getLogger(SedimentationFillImpl.class);
+	
 	@Autowired
 	SideTableDataService sideTableDataService;
 	@Override
@@ -30,6 +35,15 @@ public class SedimentationFillImpl implements SedimentationFill {
 		
 		String downTime = "%"+time+"%";
 		List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId),downTime);
+		
+		logger.info("sideTableDatas大小："+sideTableDatas.size());
+		
+		for(int i=0; i<sideTableDatas.size();i++){
+			
+			logger.info(sideTableDatas.get(i).toString());
+			//System.out.println();
+			
+		}
 		
 		//生成表格---竖向位移  16
 		verticalDisplacement(doc2,sideTableDatas,"${tablea}","16");
