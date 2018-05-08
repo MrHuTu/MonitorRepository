@@ -15,6 +15,7 @@ import com.zhongda.monitor.report.configclass.filldata.SedimentationFill;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
+
 /**
  * 填充 16,17的数据
  * @author Administrator
@@ -31,10 +32,10 @@ public class SedimentationFillImpl implements SedimentationFill {
 		List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId),downTime);
 		
 		//生成表格---竖向位移  16
-		verticalDisplacement(doc2,sideTableDatas,"tablea","16");
+		verticalDisplacement(doc2,sideTableDatas,"${tablea}","16");
 		
 		//生成表格---水平位移  17
-		verticalDisplacement(doc2,sideTableDatas,"tableb","17");
+		verticalDisplacement(doc2,sideTableDatas,"${tableb}","17");
 		
 	}
 	/**

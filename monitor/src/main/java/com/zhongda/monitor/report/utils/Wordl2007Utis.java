@@ -443,7 +443,11 @@ public class Wordl2007Utis {
 					
 					XWPFRun run = runs.get(k);
 				
-					String text = run.getText(0);										
+					String text = run.getText(0);			
+					
+					text = utilSign(text.trim(),run);
+					
+ 					if(text==null) continue;
 
 					if (text!=null && text.length()>0) {
 						
@@ -457,7 +461,7 @@ public class Wordl2007Utis {
 							
 							//System.out.println("text:"+text+",key"+key);
 							
-							if (text.indexOf(key) != -1) {
+							if (/*text.indexOf(key) != -1*/text.equals(key)) {
 								
 								logger.info("当期前表格占位符:"+key);
 							
@@ -729,6 +733,8 @@ public class Wordl2007Utis {
 	 * 通过这个方法将占位符统一成["${name}"]这个模式
 	 */
 	private static String  utilSign(String text1,XWPFRun run){
+		
+		if(text1=="" || text1==null) return null;
 		
 		String text = text1;
 		
