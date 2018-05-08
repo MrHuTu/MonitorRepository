@@ -1,8 +1,11 @@
 package com.zhongda.monitor.business.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+
+import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 
 /**
  * 
@@ -32,6 +35,26 @@ public interface PublicSensorDataService {
 	 */
 	Map<Object, Object> querySensorData(String tableName, String sensorNumber,
 			String smuNumber, String smuChannel, String date);
+
+	/**
+	 * 
+	 * @param tableName
+	 *            表名
+	 * @param sensorNumber
+	 *            传感器Id
+	 * @param smuNumber
+	 *            采集器ID
+	 * @param smuChannel
+	 *            采集器通道
+	 * @param beginTime
+	 *            开始时间
+	 * @param endTime
+	 *            结束时间
+	 * @return
+	 */
+	List<PublicSensorData> querySensorDatas(String tableName,
+			String sensorNumber, String smuNumber, String smuChannel,
+			String beginTime, String endTime);
 
 	/**
 	 * 查询传感器数据返回List

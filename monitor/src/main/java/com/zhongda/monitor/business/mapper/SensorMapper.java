@@ -52,4 +52,12 @@ public interface SensorMapper {
 	 */
 	List<List<Sensor>> selectHomeP(@Param(value = "userId") Integer userId);
 
+	/**
+	 * 查询传感器信息，通过项目ID
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	List<Sensor> selectSensorByPro(@Param(value = "projectId") Integer projectId);
+
 }

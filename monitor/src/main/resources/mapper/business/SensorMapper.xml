@@ -15,6 +15,8 @@
     <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
     <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
     <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
+    <result column="item_name" jdbcType="VARCHAR" property="monitorTypeName" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
   </resultMap>
   <resultMap id="SensorDataMap" type="com.zhongda.monitor.business.model.Sensor">
     <id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
@@ -77,6 +79,9 @@
     sensor_id, project_id, monitor_point, monitor_type, smu_number, smu_channel, sensor_number, 
     sensor_type, sensor_model, sensor_longitude, sensor_latitude, sensor_place, sensor_depth
   </sql>
+  <select id="selectSensorByPro" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select se.*,sc.item_name,ssc.table_name from sensor se LEFT JOIN sys_code sc on se.monitor_type=sc.sc_id LEFT JOIN statistic_chart ssc on se.project_id=ssc.project_id and se.monitor_type=ssc.detection_type_id where se.project_id= #{projectId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
