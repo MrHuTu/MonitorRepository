@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.filldata.SedimentationFill;
+import com.zhongda.monitor.report.model.ReportData;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
@@ -34,16 +35,16 @@ public class SedimentationFillImpl implements SedimentationFill {
 	public void fillData(XWPFDocument doc2,String pojoId,String time) {		
 		
 		String downTime = "%"+time+"%";
+		
 		List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableData(Integer.parseInt(pojoId),downTime);
 		
 		logger.info("sideTableDatas大小："+sideTableDatas.size());
 		
-		for(int i=0; i<sideTableDatas.size();i++){
+		
 			
-			logger.info(sideTableDatas.get(i).toString());
-			//System.out.println();
-			
-		}
+		logger.info(pojoId+",sideTableDatas.size()="+sideTableDatas.size());
+		
+		
 		
 		//生成表格---竖向位移  16
 		verticalDisplacement(doc2,sideTableDatas,"${tablea}","16");
@@ -69,34 +70,41 @@ public class SedimentationFillImpl implements SedimentationFill {
 		List<Object> dataList = new ArrayList<Object>();
 		 
 		List<SideTableData> sideTableDatasList = screenTyp(sideTableDatas,paraTyp);
-		
+					
 		Iterator<SideTableData> ite = sideTableDatasList.iterator();
-		
-		while(ite.hasNext()){
 			
-			int temp = count;
-			
-			int j = 0;
-			
-			for(int i=count;i<temp+2;i++){
+			while(ite.hasNext()){
 				
-				singeList.add("${tab"+i+"}");
+				int temp = count;
 				
-				j++;
+				int j = 0;
 				
-				count++;
+				for(int i=count;i<temp+2;i++){
+					
+					singeList.add("${tab"+i+"}");
+					
+					j++;
+					
+					count++;
+					
+					if(j==2) break;
+					
+				}
 				
-				if(j==2) break;
 				
+				
+				SideTableData sideTableData = ite.next();
+				
+				sideTableData.unifyLength();
+				
+				dataList.add(sideTableData);
 			}
-			singeMap.put(singe, singeList);
 			
-			SideTableData sideTableData = ite.next();
-			
-			sideTableData.unifyLength();
-			
-			dataList.add(sideTableData);
-		}
+	
+		
+		
+		
+		singeMap.put(singe, singeList);
 		
 		Map<String, Object> allDatas = Wordl2007Utis.insertTabSinge(doc2, singeMap, dataList);
 		

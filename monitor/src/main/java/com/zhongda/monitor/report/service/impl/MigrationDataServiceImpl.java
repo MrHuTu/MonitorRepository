@@ -1,6 +1,7 @@
 package com.zhongda.monitor.report.service.impl;
 
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -29,33 +30,29 @@ import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 public class MigrationDataServiceImpl implements MigrationDataService {
 	private static final Logger logger = LoggerFactory.getLogger(MigrationDataServiceImpl.class);
 	@Autowired
-	MigrationDataMapper migrationData;
+	private MigrationDataMapper migrationData;
 	
 	@Autowired 
-	StatisticChartService statisticChartService;
+	private StatisticChartService statisticChartService;
 	
 	@Autowired 
-	ReportDataService reportDataService;
-	
+	private ReportDataService reportDataService;
 	
 	/**
 	 * 查询报告数据  "2018-04-10 00:00:00", "2018-04-10 00:10:00"
 	 */
 	@Override
-	public  void selectRepotrData(String beginTime,String endTime) {
+	public synchronized HashMap<String, List<ReportData>> selectRepotrData(String beginTime,String endTime) {
+		
+		int count = 0;
 	
-		Map<String,List<ReportData>> map  = new HashMap<String, List<ReportData>>();
-		
-		//数据迁移的起始时间，和结束时间当key
-		String key =beginTime+endTime;
-		
-		Object obj = CacheUtils.get("reportCache", key);
+		HashMap<String,List<ReportData>> map  = new HashMap<String, List<ReportData>>();
 		
 		//这个对像是在服务器启动的时候生成的一个report_config表对象      
 		List<ReportConfig> reportConfig = ReportConfigOpUtils.reportConfigs;
 		
 	
-		if( reportConfig==null) return;
+		if( reportConfig==null) return null;
 		
 			for(ReportConfig c: reportConfig){
 				
@@ -65,9 +62,9 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 				//查询pojoId下的原始数据表名
 				List<StatisticChart> tables = statisticChartService.selectByPojoId(pojoId);											
 				
-				if(tables==null) return;
+				if(tables==null) return null;
 				
-				if(obj==null){
+				//if(obj==null){
 					
 					//当前归档数据的集合
 					List<ReportData> datas = null;
@@ -77,42 +74,44 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 							
 						 datas =  migrationData.selectRepotrData( V.getTableName(),beginTime,endTime,String.valueOf(V.getProjectId()));		
 						 
-						 if(datas==null) continue;
+						 
+						 if(datas.size()==0) continue;
+							 
 						
-						 map.put(V.getTableName(), datas);
+						
+						
+						 map.put(V.getTableName()+count, datas);
+						 
+						 count++;
 						 
 						logger.info(pojoId+"项目下的"+V.getTableName()+"表,查询"+beginTime+"——"+endTime+"的数据");
 					}
 					
-				}
+				
 				
 			}
 			
-			if(map.size()>0) CacheUtils.put("reportCache", key, map);
 		
 		
 		
-		//return map;
+		
+		return map;
 		
 	}
 	/**
 	 * 数据迁移
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public synchronized  void insertData(String beginTime,String endTime) {
-		
-		String key =beginTime+endTime;
-			
-		Object obj = CacheUtils.get("reportCache", key);
+	
 		
 		boolean insert = true;
-		if(obj==null){			
-				selectRepotrData(beginTime, endTime);							
-		}
+				
+		Map<String,List<ReportData>>  ReportDatas   = selectRepotrData(beginTime, endTime);							
 		
-		Map<String,List<ReportData>>  ReportDatas= (Map<String, List<ReportData>>)CacheUtils.get("reportCache", key);
+		
 		if(ReportDatas==null) return;				
+		
 		Iterator<String> ite = ReportDatas.keySet().iterator();
 			
 			while(ite.hasNext()){
@@ -156,5 +155,5 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 		
 		
 	}
-
+	
 }
