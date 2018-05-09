@@ -1,15 +1,23 @@
 package com.zhongda.monitor.report.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.formula.functions.T;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.joda.time.DateTime;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
+import com.zhongda.monitor.report.configclass.ReportConfig;
+import com.zhongda.monitor.report.model.fictitious.BasicsModel;
+import com.zhongda.monitor.report.model.fictitious.SideTableData;
 
 /**
- * 用来填充文本占位符的map集合
+ * 用来填充文本占位符的map集合,和填充表格数据的通用类
  * @author 胡超
  *
  */
@@ -51,6 +59,94 @@ public class FillWordMapUtils {
 		return param;		
 	}
 
+	/**
+	 * 
+	 * @param doc2
+	 * @param pojoId
+	 * @param singe 占位符标记
+	 * @param paraTyp 在线监测参数类型
+	 */
+	public static void verticalDisplacement(XWPFDocument doc2,List<? extends BasicsModel> basicsModel,String singe ,String paraTyp,String tableClass){
+		
+		int count = 0;
+		
+		Map<String, List<String>> singeMap = new HashMap<String, List<String>>();
+		
+		List<String> singeList = new ArrayList<String>();
+		 
+		List<Object> dataList = new ArrayList<Object>();
+		 
+		List<Object> Obj = screenTyp(basicsModel,paraTyp);
+					
+		Iterator<Object> ite = Obj.iterator();
+			
+			while(ite.hasNext()){
+				
+				int temp = count;
+				
+				int j = 0;
+				
+				for(int i=count;i<temp+2;i++){
+					
+					singeList.add("${tab"+i+"}");
+					
+					j++;
+					
+					count++;
+					
+					if(j==2) break;
+					
+				}
+				
+				
+				
+				BasicsModel objModel = (BasicsModel)ite.next();
+				
+				objModel.unifyLength();
+				
+				dataList.add(objModel);
+			}
+			
 	
+		
+		
+		
+		singeMap.put(singe, singeList);
+		
+		Map<String, Object> allDatas = Wordl2007Utis.insertTabSinge(doc2, singeMap, dataList);
+		
+		Wordl2007Utis.insertTab(doc2, allDatas, tableClass);
+				
+		
+	}
+
+	
+	/* * 将集合下面的数据按照监测类型分类
+	 * @param sideTableDatas
+	 * @param poTyp
+	 * @return*/
+	 
+	public static List<Object> screenTyp(List<? extends BasicsModel> sideTableDatas,String poTyp){
+		
+		
+		List<Object> mapTyp = new  ArrayList<Object>();
+		
+		
+		Iterator<? extends BasicsModel> sideTableDataList = sideTableDatas.iterator();
+		
+		
+		while(sideTableDataList.hasNext()){
+			
+			BasicsModel objModel =sideTableDataList.next();						
+			
+			if(objModel.getTyp().equals(poTyp)){
+				
+				mapTyp.add(objModel);
+				
+			}
+		}
+		return mapTyp;
+		
+	}
 	
 }

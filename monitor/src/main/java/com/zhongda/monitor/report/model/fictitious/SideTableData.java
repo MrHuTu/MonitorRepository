@@ -11,9 +11,9 @@ import com.zhongda.monitor.report.model.ReportData;
  * @author hu.chao
  *
  */
-public class SideTableData {
+public class SideTableData extends BasicsModel{
 	
-	 private String typ ;
+	// private String typ ;
 	 private String lineOne ="工程名称：广西贵港至隆安高速公路边坡在线安全监测报告";
 	 
 	 private String lineTwo = "测试单位:中大检测";
@@ -118,16 +118,16 @@ public class SideTableData {
 	public void setReportDatas(List<ReportData> reportDatas) {
 		this.reportDatas = reportDatas;
 	}
-	public String getTyp() {
+	/*public String getTyp() {
 		return typ;
 	}
 	public void setTyp(String typ) {
 		this.typ = typ;
-	}
+	}*/
 	
 	@Override
 	public String toString() {
-		return "SideTableData [typ=" + typ + ", lineOne=" + lineOne
+		return "SideTableData [typ="+super.getTyp() + ", lineOne=" + lineOne
 				+ ", lineTwo=" + lineTwo + ", lineThreeCellone="
 				+ lineThreeCellone + ", lineThreeCelltwo=" + lineThreeCelltwo
 				+ ", lineFourCellone=" + lineFourCellone + ", lineFourCellTwo="

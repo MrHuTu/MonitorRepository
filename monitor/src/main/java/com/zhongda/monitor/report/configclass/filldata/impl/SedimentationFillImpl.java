@@ -1,10 +1,6 @@
 package com.zhongda.monitor.report.configclass.filldata.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
@@ -13,19 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.report.configclass.ReportConfig;
-import com.zhongda.monitor.report.configclass.filldata.SedimentationFill;
-import com.zhongda.monitor.report.model.ReportData;
+import com.zhongda.monitor.report.configclass.filldata.FillBasics;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
-import com.zhongda.monitor.report.utils.Wordl2007Utis;
+import com.zhongda.monitor.report.utils.FillWordMapUtils;
 
-/**
+/**对应项目 261  262  263  264
  * 填充 16,17的数据
  * @author Administrator
  *
  */
 @Service("SedimentationFillImpl")
-public class SedimentationFillImpl implements SedimentationFill {
+public class SedimentationFillImpl implements FillBasics {
 	
 	private  Logger logger = LoggerFactory.getLogger(SedimentationFillImpl.class);
 	
@@ -47,10 +42,10 @@ public class SedimentationFillImpl implements SedimentationFill {
 		
 		
 		//生成表格---竖向位移  16
-		verticalDisplacement(doc2,sideTableDatas,"${tablea}","16");
+		FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.COVERGENCE);
 		
 		//生成表格---水平位移  17
-		verticalDisplacement(doc2,sideTableDatas,"${tableb}","17");
+		FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","17",ReportConfig.COVERGENCE);
 		
 	}
 	/**
@@ -59,7 +54,7 @@ public class SedimentationFillImpl implements SedimentationFill {
 	 * @param pojoId
 	 * @param singe 占位符标记
 	 * @param paraTyp 在线监测参数类型
-	 */
+	 *//*
 	public void verticalDisplacement(XWPFDocument doc2,List<SideTableData> sideTableDatas,String singe ,String paraTyp){
 		int count = 0;
 		
@@ -116,12 +111,12 @@ public class SedimentationFillImpl implements SedimentationFill {
 		
 	}
 
-	/**
+	*//**
 	 * 将集合下面的数据按照监测类型分类
 	 * @param sideTableDatas
 	 * @param poTyp
 	 * @return
-	 */
+	 *//*
 	public List<SideTableData> screenTyp(List<SideTableData> sideTableDatas,String poTyp){
 		
 		List<SideTableData> mapTyp = new  ArrayList<SideTableData>();
@@ -142,7 +137,7 @@ public class SedimentationFillImpl implements SedimentationFill {
 		}
 		return mapTyp;
 		
-	}
+	}*/
 	
 	
 }

@@ -7,7 +7,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  * @author 胡超 2018年4月18日15:14:13
  *
  */
-public interface SedimentationFill {
+public interface FillBasics {
 	
 	public void fillData(XWPFDocument doc2,String pojoId,String time);
 	
