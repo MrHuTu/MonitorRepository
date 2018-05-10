@@ -86,7 +86,9 @@ public class Wordl2007Utis {
 
 				processParagraphs(paragraphList, param, doc);
 				
-
+				//处理表格
+				processTable(doc,param);
+				
 			}
 
 		} catch (Exception e) {

@@ -156,7 +156,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 
 			 if(create!=null) return create;
 										
-			//获取模板填充数据
+			//获取模板填充数据 (段落类容,和固定表格的内容)
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
 			
 			//解析模板的路径

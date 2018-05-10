@@ -57,6 +57,8 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 				//report_confi配置的项目
 				int pojoId  = c.getProject_id();
 				
+				System.out.println("<<"+"当前处理线程:"+Thread.currentThread().getName()+",当前处理项目ID:"+pojoId+">>");
+				
 				//查询pojoId下的原始数据表名
 				List<StatisticChart> tables = statisticChartService.selectByPojoId(pojoId);											
 				
@@ -105,11 +107,11 @@ public class MigrationDataServiceImpl implements MigrationDataService {
 		
 		boolean insert = true;
 				
-		Map<String,List<ReportData>>  ReportDatas   = selectRepotrData(beginTime, endTime);							
+		Map<String,List<ReportData>>  ReportDatas   = selectRepotrData(beginTime, endTime);			
 		
+		if(ReportDatas==null ||  ReportDatas.isEmpty()) return;
 		
-		if(ReportDatas==null) return;				
-		
+						
 		Iterator<String> ite = ReportDatas.keySet().iterator();
 			
 			while(ite.hasNext()){
