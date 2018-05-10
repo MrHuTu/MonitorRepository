@@ -82,7 +82,7 @@ public class GitYmlParaUtils {
 	 * @param timeIndex 下标以0开始,表示取按";"之后的顺序
 	 * @return
 	 */
-	public  Map<String,String> getSetTime(int timeIndex){
+	public   synchronized  Map<String,String> getSetTime(int timeIndex){
 		
 		Map<String,String> map = new HashMap<String, String>();
 		
@@ -99,6 +99,8 @@ public class GitYmlParaUtils {
 			 DateTime startTimeModel = new DateTime(model+timeOne);
 			 
 			 String start = startTimeModel.toString("YYYY-MM-dd HH:mm:ss");
+			 
+			 System.out.println(start+"==============================================================================");
 			 
 			 String end = startTimeModel.plusMinutes(Integer.parseInt(repotrTimeError)).toString("YYYY-MM-dd HH:mm:ss");
 				 

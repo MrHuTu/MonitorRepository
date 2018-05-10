@@ -13,6 +13,8 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
@@ -31,7 +33,7 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  */
 public class SedimentationTableClass implements BastTableClass {
 	
-	//private static final Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
+	private static  Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
 	
 	@SuppressWarnings("unused")
 	public  void createTable(CreateTableConfig config) {
@@ -131,6 +133,13 @@ public class SedimentationTableClass implements BastTableClass {
 				int rowNum = 6;
 				
 				for(int i=0;i<reportDataList.size();i++){
+					
+					if(rowNum>8){
+						
+						logger.info("填充表格数据时数据过多,请检查归档程序配置");
+						
+						 break;
+					}
 				
 					XWPFTableRow row6 = tableOne.getRow(rowNum);
 					
@@ -145,6 +154,8 @@ public class SedimentationTableClass implements BastTableClass {
 					row6.getCell(4).setText(String.valueOf(reportDataList.get(i).getCurrent_laser_change()));
 					
 					row6.getCell(5).setText(String.valueOf(reportDataList.get(i).getTotal_laser_change()));
+					
+					
 					
 					rowNum++;
 					
