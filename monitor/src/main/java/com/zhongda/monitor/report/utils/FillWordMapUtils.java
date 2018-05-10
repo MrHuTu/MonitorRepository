@@ -6,15 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.joda.time.DateTime;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
-import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.model.fictitious.BasicsModel;
-import com.zhongda.monitor.report.model.fictitious.SideTableData;
 
 /**
  * 用来填充文本占位符的map集合,和填充表格数据的通用类

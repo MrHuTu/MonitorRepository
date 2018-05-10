@@ -13,8 +13,6 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
@@ -33,7 +31,7 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  */
 public class SedimentationTableClass implements BastTableClass {
 	
-	private static final Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
+	//private static final Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
 	
 	@SuppressWarnings("unused")
 	public  void createTable(CreateTableConfig config) {

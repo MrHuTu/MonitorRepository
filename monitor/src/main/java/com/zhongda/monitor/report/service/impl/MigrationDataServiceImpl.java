@@ -1,7 +1,6 @@
 package com.zhongda.monitor.report.service.impl;
 
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.service.StatisticChartService;
-import com.zhongda.monitor.core.utils.CacheUtils;
 import com.zhongda.monitor.report.mapper.MigrationDataMapper;
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportData;

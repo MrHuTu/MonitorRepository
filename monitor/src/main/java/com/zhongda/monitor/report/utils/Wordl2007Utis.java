@@ -447,7 +447,7 @@ public class Wordl2007Utis {
 				
 					String text = run.getText(0);			
 					
-					text = utilSign(text.trim(),run);
+					text = utilSign(text,run);
 					
  					if(text==null) continue;
 
@@ -742,6 +742,8 @@ public class Wordl2007Utis {
 	private static String  utilSign(String text1,XWPFRun run){
 		
 		if(text1=="" || text1==null) return null;
+		
+		if(text1.trim()=="") return null;
 		
 		String text = text1;
 		
