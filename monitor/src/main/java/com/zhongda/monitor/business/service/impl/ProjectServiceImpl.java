@@ -235,4 +235,16 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.selectAll();
 	}
 
+	@Override
+	public int addProject(Project project) {
+		return projectMapper.insertSelective(project);
+		
+	}
+	
+	@Override
+	public String deleteProjects(String projectIds) {
+		if(projectMapper.deleteProjects(projectIds)>0)
+		return "删除项目成功！";
+		return "删除项目失败！";
+	}
 }

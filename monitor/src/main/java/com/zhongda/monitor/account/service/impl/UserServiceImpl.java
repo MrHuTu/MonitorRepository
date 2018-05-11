@@ -144,5 +144,20 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectPuser(Integer projectId) {
 		return userMapper.selectPuser(projectId);
 	}
+	
+	@Override
+	public String deleteUsers(String deleteIds) {
+		if(userMapper.deleteUsers(deleteIds)>0)
+			return "删除用户成功";
+			return "删除用户失败";
+	}
 
+	@Override
+	public boolean addUser(User user) {
+		String cryptedPwd = new Md5Hash(user.getPassword(), user.getUserName(), 1024)
+		.toString();
+		user.setPassword(cryptedPwd);
+		user.setCreateTime(new Date());
+		return userMapper.insert(user)>0;
+	}
 }

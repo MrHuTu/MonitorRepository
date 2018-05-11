@@ -4,17 +4,27 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.business.model.Project;
+import com.zhongda.monitor.business.model.Sensor;
 import com.zhongda.monitor.business.service.ProjectService;
+import com.zhongda.monitor.business.service.SensorService;
 import com.zhongda.monitor.business.service.UserProjectService;
 
 @Controller
 @RequestMapping(value = "/manage")
 public class UserTemplateController {
-
+	
+	@Resource
+	private SensorService sensorService;
+	
 	@Resource
 	private ProjectService projectService;
 
@@ -43,5 +53,47 @@ public class UserTemplateController {
 			return "login";
 		}
 	}
-
+	
+	@ResponseBody
+	@RequestMapping("/addProject")
+	public Project addProject(@RequestBody Project project){
+		if(projectService.addProject(project)>0){
+			return project;
+		}else{
+			return null;
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addUser")
+	public User addUser(@RequestBody User user){
+		if(userService.addUser(user)){
+			return user;
+		};
+		return null;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addSensor")
+	public Sensor addSensor(@RequestBody Sensor sensor){
+		if(sensorService.addSensor(sensor)){
+			return sensor;
+		}else{
+		return null;}
+	}
+	
+	@ResponseBody
+	@RequestMapping("/deleteProjects")
+	public String deleteProjects(@RequestParam("idsForDelete") String ids){
+		//先不完成删除，以免删除项目
+		System.out.println(ids);
+		return null;
+	}
+	@ResponseBody
+	@RequestMapping("/deleteUsers")
+	public String deleteUsers(@RequestParam("idsForDelete") String ids){
+		//先不完成删除，以免删除项目
+		System.out.println(ids);
+		return null;
+	}
 }

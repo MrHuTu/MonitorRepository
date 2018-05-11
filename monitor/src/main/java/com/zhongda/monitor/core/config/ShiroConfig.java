@@ -40,6 +40,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/manage/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/css/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/js/**", "anon");// 对后台管理系统不拦截
+		filterChainDefinitionMap.put("/fonts/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/favicon.ico/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/swagger-ui.html", "anon");
 		filterChainDefinitionMap.put("/swagger-resources", "anon");

@@ -81,5 +81,12 @@ public interface ProjectService {
 	 * @return
 	 */
 	List<Project> selectAll();
-
+	
+	/**
+	 * 根据项目添加项目添加项目
+	 * @return
+	 */
+	int addProject(Project project);
+	
+	String deleteProjects(String projectIds);
 }

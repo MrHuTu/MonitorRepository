@@ -12,14 +12,26 @@ public interface ProjectMapper {
 
 	int insert(Project record);
 
-	int insertSelective(Project record);
-
 	Project selectByPrimaryKey(Integer projectId);
 
 	int updateByPrimaryKeySelective(Project record);
 
 	int updateByPrimaryKey(Project record);
 
+	/**
+	 * 插入项目
+	 * @param record
+	 * @return
+	 */
+	int insertSelective(Project record);
+	
+	/**
+	 * 根据项目id删除多个项目
+	 * @param projectIds
+	 * @return
+	 */
+	int deleteProjects(String projectIds);
+	
 	/**
 	 * 项目关联statistic_chart表关联threshold表，查询出项目下的预警值和传感器类型所在的表名
 	 * 

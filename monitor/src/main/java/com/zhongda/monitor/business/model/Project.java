@@ -220,8 +220,24 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return "Project [projectId=" + projectId + ", statisticChartList="
-				+ statisticChartList + "]";
+		return "Project [projectId=" + projectId + ", projectName="
+				+ projectName + ", projectType=" + projectType
+				+ ", projectAddress=" + projectAddress + ", weatherAddress="
+				+ weatherAddress + ", projectLongitude=" + projectLongitude
+				+ ", projectLatitude=" + projectLatitude
+				+ ", projectBeginTime=" + projectBeginTime
+				+ ", projectEndTime=" + projectEndTime + ", projectStatus="
+				+ projectStatus + ", projectDescription=" + projectDescription
+				+ ", projectPrincipal=" + projectPrincipal
+				+ ", projectSensorNumber=" + projectSensorNumber
+				+ ", projectSmuNumber=" + projectSmuNumber + ", alCount="
+				+ alCount + ", projectTypeName=" + projectTypeName
+				+ ", projectStatusName=" + projectStatusName
+				+ ", monitorTypeList=" + monitorTypeList
+				+ ", statisticChartList=" + statisticChartList
+				+ ", sensorList=" + sensorList + "]";
 	}
+
+	
 
 }

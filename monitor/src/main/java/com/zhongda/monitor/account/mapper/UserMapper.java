@@ -51,5 +51,6 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<User> selectPuser(@Param(value = "projectId") Integer projectId);
-
+	
+	int deleteUsers(String deleteIds);
 }

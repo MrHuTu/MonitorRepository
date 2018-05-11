@@ -102,7 +102,7 @@
     delete from sensor
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Sensor">
+  <insert id="insert" parameterType="com.zhongda.monitor.business.model.Sensor" useGeneratedKeys="true" keyProperty="sensorId">
     insert into sensor (sensor_id, project_id, monitor_point, 
       monitor_type, smu_number, smu_channel, 
       sensor_number, sensor_type, sensor_model, 

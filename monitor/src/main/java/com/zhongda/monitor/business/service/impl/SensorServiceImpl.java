@@ -43,4 +43,9 @@ public class SensorServiceImpl implements SensorService {
 		return arrayList;
 	}
 
+	@Override
+	public boolean addSensor(Sensor sensor) {
+		return sensorMapper.insert(sensor)>0;
+	}
+
 }

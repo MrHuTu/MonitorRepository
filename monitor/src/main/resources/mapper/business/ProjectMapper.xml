@@ -116,6 +116,10 @@ from project p,`user` u,user_project up where 1=1
     delete from project
     where project_id = #{projectId,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteProjects" parameterType="java.lang.String">
+  	delete * from project
+  	where project_id in (#{projectIds,jdbcType=VARCHAR})
+  </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.Project">
     insert into project (project_id, project_name, project_type, 
       project_address, weather_address, project_longitude, 
@@ -126,7 +130,7 @@ from project p,`user` u,user_project up where 1=1
       #{projectLatitude,jdbcType=VARCHAR}, #{projectBeginTime,jdbcType=TIMESTAMP}, #{projectEndTime,jdbcType=TIMESTAMP}, 
       #{projectStatus,jdbcType=INTEGER}, #{projectDescription,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Project">
+  <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.Project" useGeneratedKeys="true" keyProperty="projectId">
     insert into project
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="projectId != null">

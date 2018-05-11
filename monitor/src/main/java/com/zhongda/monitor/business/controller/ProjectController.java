@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
@@ -104,6 +106,12 @@ public class ProjectController {
 				.setMsg("操作成功")
 				.setData(projectService.getAllProject(projectSelectCondition));
 
+	}
+	
+	@RequestMapping("/addProject")
+	@ResponseBody
+	private void addProject(@RequestBody Project project){
+		projectService.addProject(project);
 	}
 
 	// @GetMapping("/test")

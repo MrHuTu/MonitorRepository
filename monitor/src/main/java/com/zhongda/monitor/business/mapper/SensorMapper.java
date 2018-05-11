@@ -8,7 +8,12 @@ import com.zhongda.monitor.business.model.Sensor;
 
 public interface SensorMapper {
 	int deleteByPrimaryKey(Integer sensorId);
-
+	
+	/**
+	 * 添加传感器
+	 * @param record
+	 * @return
+	 */
 	int insert(Sensor record);
 
 	int insertSelective(Sensor record);

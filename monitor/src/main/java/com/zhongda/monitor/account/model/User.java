@@ -99,4 +99,13 @@ public class User implements Serializable{
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
     }
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", userName=" + userName
+				+ ", password=" + password + ", phone=" + phone + ", email="
+				+ email + ", company=" + company + ", realName=" + realName
+				+ ", createTime=" + createTime + ", status=" + status + "]";
+	}
+    
 }
