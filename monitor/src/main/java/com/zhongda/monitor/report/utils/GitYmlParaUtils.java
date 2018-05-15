@@ -115,7 +115,7 @@ public class GitYmlParaUtils {
 	 * 根据os获取对应参数
 	 */
 	
-	public String accordingOsGetParm(String parm,String poJoId){
+	public String accordingOsGetParm(String parm){
 		
 		String tageParm = null;
 		

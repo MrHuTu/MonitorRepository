@@ -143,7 +143,7 @@ public class SedimentationTableClass implements BastTableClass {
 				
 					XWPFTableRow row6 = tableOne.getRow(rowNum);
 					
-					row6.getCell(0).setText(i+"");	
+					row6.getCell(0).setText(i+1+"");	
 					
 					row6.getCell(1).setText(new DateTime(reportDataList.get(i).getCurrent_times()).toString("YYYY/MM/dd"));
 				

@@ -78,7 +78,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-		CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path", pojoId)+ReportConfigOpUtils.getModelPath(pojoId),gitYmlParaUtils.accordingOsGetParm("temp", pojoId)+ReportConfigOpUtils.getModelPath(pojoId));
+		CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path")+ReportConfigOpUtils.getModelPath(pojoId),gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId));
 			
 	
 				
@@ -99,7 +99,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 doc = (XWPFDocument) map1.get("doc");
 			 
 			//解析之后的word文件存放的临时路径
-			fileName = gitYmlParaUtils.accordingOsGetParm("temp", pojoId)+name+time+".docx";		
+			fileName = gitYmlParaUtils.accordingOsGetParm("temp")+name+time+".docx";		
 			 
 				
 				try {
@@ -160,7 +160,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
 			
 			//解析模板的路径
-			 String path  =gitYmlParaUtils.accordingOsGetParm("temp", pojoId)+ReportConfigOpUtils.getModelPath(pojoId);
+			 String path  =gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId);
 			 
 										
 			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
