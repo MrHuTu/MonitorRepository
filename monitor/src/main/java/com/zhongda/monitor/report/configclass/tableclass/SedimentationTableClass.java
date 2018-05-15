@@ -146,14 +146,14 @@ public class SedimentationTableClass implements BastTableClass {
 					row6.getCell(0).setText(i+"");	
 					
 					row6.getCell(1).setText(new DateTime(reportDataList.get(i).getCurrent_times()).toString("YYYY/MM/dd"));
+				
+					row6.getCell(2).setText(reportDataList.get(i).getFirst_data());
 					
-					row6.getCell(2).setText(String.valueOf(reportDataList.get(i).getFirst_data()));
+					row6.getCell(3).setText(reportDataList.get(i).getCurrent_data());
 					
-					row6.getCell(3).setText(String.valueOf(reportDataList.get(i).getCurrent_data()));
+					row6.getCell(4).setText(reportDataList.get(i).getCurrent_laser_change());
 					
-					row6.getCell(4).setText(String.valueOf(reportDataList.get(i).getCurrent_laser_change()));
-					
-					row6.getCell(5).setText(String.valueOf(reportDataList.get(i).getTotal_laser_change()));
+					row6.getCell(5).setText(reportDataList.get(i).getTotal_laser_change());
 					
 					
 					

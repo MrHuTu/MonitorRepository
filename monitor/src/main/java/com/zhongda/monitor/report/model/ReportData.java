@@ -6,6 +6,7 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.zhongda.monitor.report.utils.FillWordMapUtils;
 /**
  * 用来做数数据迁移，报表数据提取的实体类
  * @author Administrator
@@ -49,26 +50,31 @@ public class ReportData implements Serializable{
 	public void setCurrent_times(Date current_times) {
 		this.current_times = current_times;
 	}
-	public double getFirst_data() {
-		return first_data;
+	public String getFirst_data() {
+		
+		return FillWordMapUtils.formData(first_data);
 	}
 	public void setFirst_data(double first_data) {
 		this.first_data = first_data;
 	}
-	public double getCurrent_data() {
-		return current_data;
+	public String getCurrent_data() {			
+		
+		return FillWordMapUtils.formData(current_data);
 	}
 	public void setCurrent_data(double current_data) {
 		this.current_data = current_data;
 	}
-	public double getCurrent_laser_change() {
-		return current_laser_change;
+	public String getCurrent_laser_change() {
+		
+		
+		return FillWordMapUtils.formData(current_laser_change);
 	}
 	public void setCurrent_laser_change(double current_laser_change) {
 		this.current_laser_change = current_laser_change;
 	}
-	public double getTotal_laser_change() {
-		return total_laser_change;
+	public String getTotal_laser_change() {
+				
+		return FillWordMapUtils.formData(total_laser_change);
 	}
 	public void setTotal_laser_change(double total_laser_change) {
 		this.total_laser_change = total_laser_change;

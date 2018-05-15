@@ -100,8 +100,6 @@ public class GitYmlParaUtils {
 			 
 			 String start = startTimeModel.toString("YYYY-MM-dd HH:mm:ss");
 			 
-			 System.out.println(start+"==============================================================================");
-			 
 			 String end = startTimeModel.plusMinutes(Integer.parseInt(repotrTimeError)).toString("YYYY-MM-dd HH:mm:ss");
 				 
 			 map.put("start", start);

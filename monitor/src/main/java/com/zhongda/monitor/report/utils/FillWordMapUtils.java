@@ -1,5 +1,7 @@
 package com.zhongda.monitor.report.utils;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,7 +16,7 @@ import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.report.model.fictitious.BasicsModel;
 
 /**
- * 用来填充文本占位符的map集合,和填充表格数据的通用类
+ * 用来填充文本占位符的map集合,和填充表格数据的通用类，和一些工具方法
  * @author 胡超
  *
  */
@@ -146,4 +148,19 @@ public class FillWordMapUtils {
 		
 	}
 	
+	
+	/**
+	 * 格式化数据,保留2位小数
+	 */
+	public  static String formData(double num){
+		
+		DecimalFormat df = new DecimalFormat("0.00");
+		 
+		 //设置四舍五入模式
+		df.setRoundingMode(RoundingMode.HALF_UP);
+		 
+		
+		return  df.format(num).toString();
+		
+	}
 }

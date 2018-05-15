@@ -35,7 +35,7 @@ public class DataArchive {
 	 * @throws Exception  cron="0 0 12 * * ?" 每天中午12点触发 
 	 */
 	@Scheduled( fixedRate = 1000*60*30)
-	public void archive() throws Exception {	//"2018-04-10 00:00:00", "2018-04-10 00:10:00"		
+	public void archive() throws Exception {
 
 		Map<String,String>  map= gitYmlParaUtils.getSetTime(0);
 		
@@ -50,18 +50,7 @@ public class DataArchive {
 		migrationDataService.insertData(map2.get("start"),map2.get("end"));
 	}	
 	
-	/*@Scheduled( fixedRate =1000*60*20)
-	public void archive1() throws Exception {	
-		
-		
-	}	
 	
-	@Scheduled( fixedRate = 1000*60*20)
-	public void archive2() throws Exception {
-	
-		
-		
-	}*/
 	
 	
 	
