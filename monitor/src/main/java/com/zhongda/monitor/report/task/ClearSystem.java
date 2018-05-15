@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.zhongda.monitor.report.service.impl.WordUtil2007ServiceImpl;
 import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 
 
@@ -21,9 +20,9 @@ public class ClearSystem {
 	GitYmlParaUtils gtYmlParaUtils;
 	
 	/**
-	 * 定时清理缓存的报告文件
+	 * 定时清理缓存的报告文件(每天中午12点)
 	 */
-	@Scheduled( fixedRate = 1000*60*3)
+	@Scheduled(cron ="0 0 12 * * ?")
 	private void clearFile(){
 		
 		String directoryName = gtYmlParaUtils.accordingOsGetParm("temp");
