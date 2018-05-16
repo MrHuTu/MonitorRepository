@@ -117,7 +117,7 @@ from project p,`user` u,user_project up where 1=1
     where project_id = #{projectId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteProjects" parameterType="java.lang.String">
-  	delete * from project
+  	delete from project
   	where project_id in (#{projectIds,jdbcType=VARCHAR})
   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.Project">

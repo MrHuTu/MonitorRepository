@@ -32,6 +32,14 @@ public class Sensor {
 
 	private Float sensorDepth;
 
+	private Double currentData; // 实时数据
+
+	private Double currentLaserChange;// 单次变化量
+
+	private Double totalLaserChange;// 累计变化量
+
+	private Double speedChange;// 变化速率
+
 	private String itemName;// 数据库sys_code字段
 
 	private PublicSensorData publicSensorData;// 传感器数据公共对象 数据库没有字段
@@ -176,6 +184,38 @@ public class Sensor {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+
+	public Double getCurrentData() {
+		return currentData;
+	}
+
+	public void setCurrentData(Double currentData) {
+		this.currentData = currentData;
+	}
+
+	public Double getCurrentLaserChange() {
+		return currentLaserChange;
+	}
+
+	public void setCurrentLaserChange(Double currentLaserChange) {
+		this.currentLaserChange = currentLaserChange;
+	}
+
+	public Double getTotalLaserChange() {
+		return totalLaserChange;
+	}
+
+	public void setTotalLaserChange(Double totalLaserChange) {
+		this.totalLaserChange = totalLaserChange;
+	}
+
+	public Double getSpeedChange() {
+		return speedChange;
+	}
+
+	public void setSpeedChange(Double speedChange) {
+		this.speedChange = speedChange;
 	}
 
 	@Override

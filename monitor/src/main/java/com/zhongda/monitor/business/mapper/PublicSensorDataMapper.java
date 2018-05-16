@@ -44,6 +44,30 @@ public interface PublicSensorDataMapper {
 			@Param(value = "endDate") String endDate);
 
 	/**
+	 * 查询传感器数据升序
+	 * 
+	 * @param tableName
+	 *            表名
+	 * @param sensorNumber
+	 *            传感器编号
+	 * @param smuNumber
+	 *            采集器编号
+	 * @param smuChannel
+	 *            采集器通道
+	 * @param beginDate
+	 *            开始时间
+	 * @param endDate
+	 *            结束时间
+	 * @return 传感器数据List集合
+	 */
+	List<PublicSensorData> selectSenDataByDateAdroid(String tableName,
+			@Param(value = "sensorId") String sensorNumber,
+			@Param(value = "smuNumber") String smuNumber,
+			@Param(value = "smuChannel") String smuChannel,
+			@Param(value = "beginDate") String beginDate,
+			@Param(value = "endDate") String endDate);
+
+	/**
 	 * 
 	 * @param tableName
 	 *            表名

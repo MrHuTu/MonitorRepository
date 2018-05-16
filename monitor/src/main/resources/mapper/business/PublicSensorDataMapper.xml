@@ -59,6 +59,9 @@
   <select id="selectSenDataByDate" resultMap="BaseResultMap">
   	select * from ${_parameter.param1} maps where sensor_id=#{sensorId,jdbcType=VARCHAR} and smu_cms_id=#{smuNumber,jdbcType=VARCHAR} and smu_cms_channel=#{smuChannel,jdbcType=VARCHAR} and current_times BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR} ORDER BY current_times desc
   </select>
+  <select id="selectSenDataByDateAdroid" resultMap="BaseResultMap">
+  	select * from ${_parameter.param1} maps where sensor_id=#{sensorId,jdbcType=VARCHAR} and smu_cms_id=#{smuNumber,jdbcType=VARCHAR} and smu_cms_channel=#{smuChannel,jdbcType=VARCHAR} and current_times BETWEEN #{beginDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR} ORDER BY current_times asc
+  </select>
  <select id="selectSenDataforBenchmark"  statementType="CALLABLE" resultMap="PuDataMap,PuDataMap">
   	 call select_datebenchmark_p(#{tableName,jdbcType=VARCHAR,mode=IN},
   	#{sensorId,jdbcType=VARCHAR,mode=IN},

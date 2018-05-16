@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Multiset;
 import com.zhongda.monitor.business.mapper.ProjectMapper;
 import com.zhongda.monitor.business.mapper.SensorMapper;
@@ -20,6 +22,7 @@ import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.core.utils.CountUtils;
+import com.zhongda.monitor.management.model.PaginationResult;
 
 /**
  * 
@@ -238,13 +241,38 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int addProject(Project project) {
 		return projectMapper.insertSelective(project);
-		
+
 	}
-	
+
 	@Override
-	public String deleteProjects(String projectIds) {
-		if(projectMapper.deleteProjects(projectIds)>0)
-		return "删除项目成功！";
-		return "删除项目失败！";
+	public Integer deleteProjects(String projectIds) {
+		return projectMapper.deleteProjects(projectIds);
+
+	}
+
+	@Override
+	public List<StatisticChart> selectAndroidSensorData(Integer projectId) {
+		List<List<StatisticChart>> androidSensorData = statisticChartMapper
+				.selectAndroidSensorData(projectId);
+		ArrayList<StatisticChart> arrayList = new ArrayList<StatisticChart>();
+		if (null != androidSensorData && androidSensorData.size() > 0) {
+
+			if (androidSensorData.size() == 1) {
+				arrayList.add((StatisticChart) androidSensorData.get(0));
+			} else {
+				for (List<StatisticChart> list : androidSensorData) {
+					arrayList.add(list.get(0));
+				}
+			}
+
+		}
+		return arrayList;
+	}
+
+	@Override
+	public PaginationResult selectAllProjectByPage(int offset, int limit) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<Project> projects = projectMapper.selectAll();
+		return new PaginationResult(offsetPage.getTotal(), projects);
 	}
 }

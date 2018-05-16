@@ -62,7 +62,7 @@
 		</plugin>
 	</plugins> -->
 
-   <!--   <plugins>
+    <!-- <plugins>
         配置分页插件 PageHelper5.0.0 
     	<plugin interceptor="com.github.pagehelper.PageInterceptor">
     		设置数据库类型 Oracle,Mysql,MariaDB,SQLite,Hsqldb,PostgreSQL六种数据库
@@ -74,6 +74,6 @@
         	<property name="supportMethodsArguments" value="false"/>
         	<property name="returnPageInfo" value="none"/>
     	</plugin>
-    </plugins>   -->
+    </plugins>  --> 
 
 </configuration>

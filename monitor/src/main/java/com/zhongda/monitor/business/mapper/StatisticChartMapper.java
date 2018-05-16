@@ -38,4 +38,13 @@ public interface StatisticChartMapper {
 	List<List<StatisticChart>> selectLastData(
 			@Param(value = "projectId") Integer projectId);
 
+	/**
+	 * 调用存储过程查询传感器数据
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	List<List<StatisticChart>> selectAndroidSensorData(
+			@Param(value = "projectId") Integer projectId);
+
 }

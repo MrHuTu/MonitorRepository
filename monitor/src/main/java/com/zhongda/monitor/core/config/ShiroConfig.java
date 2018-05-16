@@ -38,6 +38,7 @@ public class ShiroConfig {
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		filterChainDefinitionMap.put("/v2/api-docs", "anon");
 		filterChainDefinitionMap.put("/manage/**", "anon");// 对后台管理系统不拦截
+		filterChainDefinitionMap.put("/page/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/css/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/js/**", "anon");// 对后台管理系统不拦截
 		filterChainDefinitionMap.put("/fonts/**", "anon");// 对后台管理系统不拦截

@@ -50,11 +50,38 @@
 		    </association>
 	    </collection>
   </resultMap>
+  <resultMap id="AndroidSensorMap" type="com.zhongda.monitor.business.model.StatisticChart">
+    	<result column="detection_type_id" jdbcType="INTEGER" property="monitorType" />
+	    <result column="detection_type_name" jdbcType="VARCHAR" property="monitorTypeName" />
+	    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+	    <collection property="sensorList" javaType="java.util.List" ofType="com.zhongda.monitor.business.model.Sensor" >
+	    	<id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+		    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+		    <result column="monitor_point" jdbcType="VARCHAR" property="monitorPoint" />
+		    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+		    <result column="sen_sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+		    <result column="sen_smu_channel" jdbcType="VARCHAR" property="smuChannel" />
+		    <result column="sen_smu_number" jdbcType="VARCHAR" property="smuNumber" />
+		    <result column="sensor_number" jdbcType="VARCHAR" property="sensorNumber" />
+		    <result column="sensor_type" jdbcType="VARCHAR" property="sensorType" />
+		    <result column="sensor_model" jdbcType="VARCHAR" property="sensorModel" />
+		    <result column="sensor_longitude" jdbcType="VARCHAR" property="sensorLongitude" />
+		    <result column="sensor_latitude" jdbcType="VARCHAR" property="sensorLatitude" />
+		    <result column="sensor_place" jdbcType="VARCHAR" property="sensorPlace" />
+		    <result column="sensor_depth" jdbcType="REAL" property="sensorDepth" />
+		    <result column="current_laser_change" jdbcType="DOUBLE" property="currentLaserChange" />
+		    <result column="total_laser_change" jdbcType="DOUBLE" property="totalLaserChange" />
+		    <result column="speed_change" jdbcType="DOUBLE" property="speedChange" />
+	    </collection>
+  </resultMap>
   <sql id="Base_Column_List">
     statistic_chart_id, project_id, detection_type_id, detection_type_name, table_name, 
     attributes, sensor_id
   </sql>
-   <select id="selectLastData" statementType="CALLABLE" resultMap="StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap">
+  <select id="selectAndroidSensorData" statementType="CALLABLE" resultMap="AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap">
+  	call select_sensor_p(#{projectId,jdbcType=INTEGER,mode=IN})
+  </select>
+  <select id="selectLastData" statementType="CALLABLE" resultMap="StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap,StatisticMap">
   	call select_sensor_p(#{projectId,jdbcType=INTEGER,mode=IN})
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

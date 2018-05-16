@@ -18,6 +18,12 @@
     from sys_code
     where sc_id = #{scId,jdbcType=INTEGER}
   </select>
+  <select id="selecttypeCode" resultMap="BaseResultMap">
+  	select * from sys_code where type_code=1
+  </select>
+  <select id="selectProStatus" resultMap="BaseResultMap">
+  	select * from sys_code where type_code=4
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_code
     where sc_id = #{scId,jdbcType=INTEGER}

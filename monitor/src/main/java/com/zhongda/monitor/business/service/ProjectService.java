@@ -6,6 +6,7 @@ import java.util.Map;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.ProjectSelectCondition;
 import com.zhongda.monitor.business.model.StatisticChart;
+import com.zhongda.monitor.management.model.PaginationResult;
 
 /**
  * 
@@ -81,12 +82,30 @@ public interface ProjectService {
 	 * @return
 	 */
 	List<Project> selectAll();
-	
+
 	/**
 	 * 根据项目添加项目添加项目
+	 * 
 	 * @return
 	 */
 	int addProject(Project project);
-	
-	String deleteProjects(String projectIds);
+
+	/**
+	 * 调用存储过程查询传感器数据
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	List<StatisticChart> selectAndroidSensorData(Integer projectId);
+
+	/**
+	 * 分页查询所有项目
+	 * 
+	 * @param offset
+	 * @param limit
+	 * @return
+	 */
+	PaginationResult selectAllProjectByPage(int offset, int limit);
+
+	Integer deleteProjects(String projectIds);
 }

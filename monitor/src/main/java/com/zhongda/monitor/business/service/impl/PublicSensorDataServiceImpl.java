@@ -99,8 +99,8 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 	public List<PublicSensorData> querySensorDatas(String tableName,
 			String sensorNumber, String smuNumber, String smuChannel,
 			String beginTime, String endTime) {
-		return pSenDataMapper.selectSenDataByDate(tableName, sensorNumber,
-				smuNumber, smuChannel, beginTime, endTime);
+		return pSenDataMapper.selectSenDataByDateAdroid(tableName,
+				sensorNumber, smuNumber, smuChannel, beginTime, endTime);
 	}
 
 }

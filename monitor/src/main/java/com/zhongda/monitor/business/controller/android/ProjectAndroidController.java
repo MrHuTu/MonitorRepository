@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.zhongda.monitor.business.model.fictitious.MonitorType;
+import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
+import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
 import com.zhongda.monitor.business.service.SensorService;
 import com.zhongda.monitor.core.model.Result;
@@ -37,15 +38,18 @@ public class ProjectAndroidController {
 	private SensorService sensorService;
 
 	@Resource
+	private ProjectService projectService;
+
+	@Resource
 	private PublicSensorDataService publicSensorDataService;
 
 	@GetMapping("/monitorType")
 	@ApiOperation(value = "实时界面监测指标--maoping.li", httpMethod = "GET", response = Result.class, notes = "获取实时界面，检测指标数据")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "projectId", value = "项目ID", required = true, dataType = "int", paramType = "query") })
-	public Result<List<MonitorType>> queryMonitorType(Integer projectId) {
-		return new Result<List<MonitorType>>().setCode(Result.SUCCESS)
+	public Result<List<StatisticChart>> queryMonitorType(Integer projectId) {
+		return new Result<List<StatisticChart>>().setCode(Result.SUCCESS)
 				.setMsg("操作成功")
-				.setData(sensorService.selectSensorByPro(projectId));
+				.setData(projectService.selectAndroidSensorData(projectId));
 
 	}
 
@@ -56,8 +60,8 @@ public class ProjectAndroidController {
 			@ApiImplicitParam(name = "sensorNumber", value = "传感器编号", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "smuNumber", value = "采集器编号", required = true, dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "smuChannel", value = "采集器通道", required = true, dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "beginTime", value = "开始时间", required = false, dataType = "string", paramType = "query"),
-			@ApiImplicitParam(name = "endTime", value = "结束时间", required = false, dataType = "string", paramType = "query") })
+			@ApiImplicitParam(name = "beginTime", value = "开始时间", required = true, dataType = "string", paramType = "query"),
+			@ApiImplicitParam(name = "endTime", value = "结束时间", required = true, dataType = "string", paramType = "query") })
 	public Result<List<PublicSensorData>> querySensorData(String tableName,
 			String sensorNumber, String smuNumber, String smuChannel,
 			String beginTime, String endTime) {

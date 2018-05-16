@@ -4,10 +4,19 @@
 <head>
 <title>中大云平台后台管理系统</title>
 <meta charset="utf-8" />
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet"
-	type="text/css" />
-<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
-<link type="text/css" th:href="@{/css/bootstrapValidator.min.css}" rel="stylesheet"/>
+<!-- <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" /> -->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/bootstrap-table.css}" rel="stylesheet" type="text/css" />
+<link type="text/css" th:href="@{/css/bootstrap-editable.css}" rel="stylesheet"/>
+<!-- <link type="text/css" th:href="@{/css/bootstrapValidator.min.css}" rel="stylesheet"/> -->
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap-editable.js}"></script>
+<script th:src="@{/js/bootstrap-table.js}"></script>
+<script th:src="@{/js/bootstrap-table-editable.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -19,57 +28,20 @@
 	  </div>
 	
 	  <div class="row">
-	  
 	  	<!-- 导航区 -->
 		<ul id="myTab" class="nav nav-tabs" role="tablist">  
 		  <li role="presentation" class="active"><a href="#projects" role="tab" data-toggle="tab">项目</a></li> 
 		  <li role="presentation"><a href="#users" role="tab" data-toggle="tab">用户</a></li>
-		  <button class="btn btn-danger deleteButton" style="float: right;" data-toggle="modal">删除</button>
 		  <button type="button" class="btn btn-success" data-toggle="modal" href="#addup" style="float: right;">添加</button>
 		</ul>
 		
 		<!-- 面板区 -->  
 		<div class="tab-content">  
 		  <!-- 项目面板   -->
+		 
 		  <div role="tabpanel" class="tab-pane active" id="projects">
 		  	 	<div class="table-responsive">
-				  <table class="table table-condensed table-hover table-bordered">
-				    <thead>
-						<tr>
-							<th class="hidden">ID</th>
-							<th>项目名称</th>
-							<th>查看用户</th>
-							<th>项目类型</th>
-							<th>项目地点</th>
-							<th>天气地点</th>
-							<th>经度</th>
-							<th>纬度</th>
-							<th>项目开始时间</th>
-							<th>项目结束时间</th>
-							<th>项目状态</th>
-							<th>选择</th>
-						</tr>
-					</thead>
-					<tbody class="protbody">
-						<tr th:each="pro : ${projectList}">
-							<th th:text="${pro.projectId}" class="hidden"></th>
-							<td th:text="${pro.projectName}" class="protd"></td>
-							<th>
-								<a tabindex="0" class="btn btn-lg btn-danger popovers" role="button" data-toggle="popover" data-trigger="focus" title="该项目下的所有用户:"  data-content="">查看用户</a>
-							</th>
-							<td th:text="${pro.projectTypeName}" class="protd"></td>
-							<td th:text="${pro.projectAddress}" class="protd"></td>
-							<td th:text="${pro.weatherAddress}" class="protd"></td>
-							<td th:text="${pro.projectLongitude}" class="protd"></td>
-							<td th:text="${pro.projectLatitude}" class="protd"></td>
-							<td class="protd" th:text="${pro.projectBeginTime}? ${#dates.format(pro.projectBeginTime, 'yyyy-MM-dd HH:mm:ss')} : ${pro.projectBeginTime}
-							"></td>
-							<td class="protd" th:text="${pro.projectEndTime}? ${#dates.format(pro.projectEndTime, 'yyyy-MM-dd HH:mm:ss')} : ${pro.projectEndTime}
-							"></td>
-							<td th:text="${pro.projectStatusName}" class="protd"></td>
-							<td><input type="checkbox" class="projectForWait"/></td>
-						</tr>
-					</tbody>
+				  <table id="projectTable">
 				  </table>
 				</div>
 		  </div>
@@ -117,56 +89,10 @@
 		</div>
 	  	
 	  </div>
-		<!-- 删除项目弹出提示框 -->
-		<div class="modal fade" id="deleteProjectModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">确认删除以下项目？</h4>
-					</div>
-					<div class="modal-body modalFordeleteProject">
-						<!-- 添加删除的项目名称 -->	
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default closeDeleteProjectButton" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary deleteProjectsButton">删除项目</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
-		<!-- 删除用户弹出提示框 -->
-		<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">确认删除以下用户？</h4>
-					</div>
-					<div class="modal-body modalFordeleteUser">
-					<!-- 添加待删除的用户名称 -->
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default closeDeleteUserButton" data-dismiss="modal">关闭</button>
-						<button type="button" class="btn btn-primary deleteUsersButton">删除用户</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
 
 		<!--project Large modal -->
-		<button type="button" id="projetModel" href="#projetModels" data-toggle="modal"  style="display: none;"></button>
-
 		<div id="projetModels" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-		  <div class="modal-dialog modal-lg" role="document">
+		  <div class="modal-dialog " role="document">
 		    <div class="modal-content">
 		    	<ul id="ulproject" class="nav nav-tabs" role="tablist">  
 				  <li role="presentation" class="active"><a href="#sensorinfo" role="tab" data-toggle="tab">传感器信息</a></li> 
@@ -174,6 +100,25 @@
 				</ul>
 				
 				<div class="tab-content"> 
+				
+					<!-- 修改项目信息 -->
+					<div role="tabpanel" class="tab-pane active" id="sensorinfo">
+					
+					  <div class="modal-header">
+				        <h4 class="modal-title" id="exampleModalLabel">项目名称</h4>
+				      </div>
+				      
+				      <div class="modal-body">
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">Recipient:</label>
+				            <input type="text" class="form-control"  />
+				          </div>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary">Send message</button>
+				      </div>
+					</div>
 				
 					<!-- 传感器信息面板 -->
 					<div role="tabpanel" class="tab-pane active" id="sensorinfo">
@@ -185,7 +130,7 @@
 				      <div class="modal-body">
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">Recipient:</label>
-				            <input type="text" class="form-control" id="recipient-name" />
+				            <input type="text" class="form-control"  />
 				          </div>
 				      </div>
 				      <div class="modal-footer">
@@ -203,11 +148,11 @@
 				      <div class="modal-body">
 				      <form id="addSensorModal" action="/manage/landing">
 				      	<div class="form-group">
-				            <input type="hidden" class="form-control" id="recipient-name" name="sensor_projectId"/>
+				            <input type="hidden" class="form-control"  name="sensor_projectId"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">测点名称：</label>
-				            <input type="text" class="form-control" id="recipient-name" name="monitorPoint"/>
+				            <input type="text" class="form-control"  name="monitorPoint"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">检测指标:</label>
@@ -221,39 +166,39 @@
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">采集器编号:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="smuNumber"/>
+				            <input type="text" class="form-control"  name="smuNumber"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">采集器通道:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="smuChannel"/>
+				            <input type="text" class="form-control"  name="smuChannel"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">传感器编号:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorNumber"/>
+				            <input type="text" class="form-control"  name="sensorNumber"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">传感器类型:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorType"/>
+				            <input type="text" class="form-control"  name="sensorType"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">传感器型号:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorModel"/>
+				            <input type="text" class="form-control"  name="sensorModel"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">经度:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorLongitude"/>
+				            <input type="text" class="form-control"  name="sensorLongitude"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">纬度:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorLatitude"/>
+				            <input type="text" class="form-control"  name="sensorLatitude"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">传感器地点(可为空):</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorPlace"/>
+				            <input type="text" class="form-control"  name="sensorPlace"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">传感器深度(可为空):</label>
-				            <input type="text" class="form-control" id="recipient-name" name="sensorDepth"/>
+				            <input type="text" class="form-control"  name="sensorDepth"/>
 				          </div>
 				      </form>
 				      <div class="modal-footer">
@@ -301,56 +246,47 @@
 				        <form action="/manage/landing" id="addProjectModal">
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label" >项目名称:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="projectName"/>
+				            <input type="text" class="form-control"  name="projectName"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">项目类型:</label>
-				            <select class="form-control" name="projectType">
-							  <option value="1">1</option>
-							  <option value="2">2</option>
-							  <option value="3">3</option>
-							  <option value="4">4</option>
-							  <option value="5">5</option>
+				            <select class="form-control" name="projectType" >
+							  <option th:each="protype : ${proType}" th:value="${protype.scId}" th:text="${protype.itemName}" ></option>
 							</select>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">项目地点:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="projectAddress"/>
+				            <input type="text" class="form-control"  name="projectAddress"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">天气地点:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="weatherAddress"/>
+				            <input type="text" class="form-control"  name="weatherAddress"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">经度:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="projectLongitude"/>
+				            <input type="text" class="form-control"  name="projectLongitude"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">纬度:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="projectLatitude"/>
+				            <input type="text" class="form-control" name="projectLatitude"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">项目开始时间:</label>
-				            <input type="date" class="form-control" id="recipient-name" name="projectBeginTime"/>
+				            <input type="date" class="form-control"  name="projectBeginTime"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">项目结束时间:</label>
-				            <input type="date" class="form-control" id="recipient-name" name="projectEndTime"/>
+				            <input type="date" class="form-control"  name="projectEndTime"/>
+				          </div>
+				          <div class="form-group" id="prostatusradios">
+				            <label for="recipient-name" class="control-label">项目状态:</label>
+				            <label class="radio-inline" th:each="proStatus : ${proStatus}" >
+							  <input type="radio" name="inlineRadioOptions" th:value="${proStatus.scId}" th:text="${proStatus.itemName}" checked="checked"/>
+							</label>
 				          </div>
 				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">项目状态:</label>
-				            <label class="radio-inline">
-							  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" checked="checked"/>1
-							</label>
-							<label class="radio-inline">
-							  <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2" /> 2
-							</label>
-							<label class="radio-inline">
-							  <input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="3" /> 3
-							</label>
-							<label class="radio-inline">
-							  <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="4" /> 4
-							</label>
+				            <label for="recipient-name" class="control-label">项目描述:</label>
+				            <textarea class="form-control" rows="3" name="projectDescription"></textarea>
 				          </div>
 				        </form>
 					      <div class="modal-footer">
@@ -367,27 +303,27 @@
 				        <form action="/manage/landing" id="addUserModal">
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">用户名:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="userName"/>
+				            <input type="text" class="form-control"  name="userName"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">密码:</label>
-				            <input type="password" class="form-control" id="recipient-name" name="password"/>
+				            <input type="password" class="form-control"  name="password"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">电话:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="phone"/>
+				            <input type="text" class="form-control"  name="phone"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">邮箱:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="email"/>
+				            <input type="text" class="form-control"  name="email"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">公司:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="company"/>
+				            <input type="text" class="form-control"  name="company"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">负责人:</label>
-				            <input type="text" class="form-control" id="recipient-name" name="realName"/>
+				            <input type="text" class="form-control"  name="realName"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">用户状态:</label>
@@ -414,13 +350,15 @@
 	  <!-- 添加 -->
 	</div>
 </body>
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+
 <script type="text/javascript" th:src="@{/js/bootstrapValidator.min.js}"></script>
 <script th:inline="javascript">
 	var pUser=[[${pUser}]];
 	var uPro=[[${uPro}]];
+	var projectType=[[${proType}]];
+	var projectStatus=[[${proStatus}]];
 </script>
 <script type="text/javascript"></script>
 <script th:src="@{/js/index.js}"></script>
+<script th:src="@{/js/table.js}"></script>
 </html>

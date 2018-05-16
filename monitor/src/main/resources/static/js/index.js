@@ -4,52 +4,7 @@ $(function() {
 	    e.preventDefault();//阻止a链接的跳转行为  
 	    $(this).tab('show');//显示当前选中的链接及关联的content  
 	  });
-	  //项目
-	  var pros=$('.popovers');
-	  $(pros).each(function(index,value){
-		  var contents="";
-		  var projectId= $(value).parent().parent().find("th").eq(0).text();
-		  $(pUser[projectId]).each(function(index,value){
-			  contents+="<h4>"+value+"</h4>"
-		  })
-		  //初始化可隐藏按钮
-		  $(value).popover({
-				html : true,
-				content: contents
-		  });
-	  });
-	  //用户
-	  var upros=$('.userpover');
-	  $(upros).each(function(index,value){
-		  var contents="";
-		  var userId= $(value).parent().parent().find("th").eq(0).text();
-		  if(uPro[userId]==undefined){
-			  contents="该用户下无项目！";
-		  }else{
-			  $(uPro[userId]).each(function(index,value){
-				  contents+="<h4>"+value+"</h4>"
-			  })
-		  }
-		  //初始化可隐藏按钮
-		  $(value).popover({
-				html : true,
-				content: contents
-		  });
-	  });
-	  
-	  //td项目设置动态绑定事件
-	  $(document).on("click",".protd",function(){
-		  var proid=$(this).parent().find("th").eq(0).text();
-		  $("input[name='sensor_projectId']").removeAttr("value");
-		  $("input[name='sensor_projectId']").attr("value",proid);
-		  $("#projetModel").trigger('click');
-	  })
-	  
-	  //td用户设置动态绑定事件
-	  $(document).on("click",".usertd",function(){
-		  var proid=$(this).parent().find("th").eq(0).text();
-		  $("#userModel").trigger('click');
-	  })
+
 	  
 	  $("#addProjectModal").bootstrapValidator({
 		  message:'This value is not valid',
@@ -174,6 +129,19 @@ $(function() {
 	  var bootstrapValidator = $("#addProjectModal").data('bootstrapValidator');
 	  bootstrapValidator.validate();
 	  if(bootstrapValidator.isValid()){
+			  var projectTypeName;
+			  $(projectType).each(function(index,value){
+				  if($("[name='projectType']").val()==value.scId){
+					  projectTypeName=value.itemName;
+				  }
+			  });
+			  var projectStatusName;
+			  $(projectStatus).each(function(index,value){
+				  if($("#prostatusradios input[name='inlineRadioOptions']:checked").val()==value.scId){
+					  projectStatusName=value.itemName;
+				  }
+			  });
+			  alert(projectTypeName+"=="+projectStatusName)
 		  var project = {
 				  projectName : $("[name='projectName']").val(),
 				  projectType : $("[name='projectType']").val(),
@@ -183,7 +151,9 @@ $(function() {
 				  projectLatitude : $("[name='projectLatitude']").val(),
 				  projectBeginTime :$("[name='projectBeginTime']").val()+" 00:00:00",
 				  projectEndTime : $("[name='projectEndTime']").val()+" 00:00:00",
-				  projectStatus : $("input[name='inlineRadioOptions']:checked").val()
+				  projectStatus : $("#prostatusradios input[name='inlineRadioOptions']:checked").val(),
+				  projectTypeName : projectTypeName,
+				  projectStatusName : projectStatusName
 		  }
 		  $.ajax({
 			  type:'post',
@@ -192,7 +162,10 @@ $(function() {
 			  contentType : "application/json;charset=utf-8",
 			  data : JSON.stringify(project),
 			  success : function(data){
-				  alert("添加项目成功");
+				  $('#addup').modal('hide');
+				  //在表格添加数据
+				  $("#projectTable").bootstrapTable("prepend", data);
+				  
 			  },
 			  error : function(){
 				  alert("添加项目失败");
@@ -486,81 +459,5 @@ $(function() {
 		  document.getElementById("addSensorModal").reset();}
 	  else return;
 	  });
-	  /*删除选中的项目或者用户*/
-	  $(".deleteButton").click(function(){
-		  //判断当前栏是否为项目栏
-		  if($("#myTab").find("[class='active']").find("a").attr("href")=="#projects"){
-			  //获得待删除的项目名称。
-			  var deleteNames="";
-			  var deleteIds="";
-			  $("input[class='projectForWait']:checked").each(function(){
-				  deleteNames += $(this).parent().parent().find("td").eq(0).text()+",";
-				  deleteIds += $(this).parent().parent().find("[class='hidden']").eq(0).text()+",";
-			  })
-			  //未选中任何项目，return,清除
-			  if(deleteNames==""||deleteIds==""){
-				  alert("当前未选中任何项目");
-				  $(".deleteButton").removeAttr("data-target");
-				  return;
-			  }else{
-				  //显示对应的删除项目模态窗
-				  $(".deleteButton").removeAttr("data-target");
-				  $(".deleteButton").attr("data-target","#deleteProjectModal");
-				  //清空并显示待删除名单
-				  $(".modalFordeleteProject").empty();
-				  deleteNames = deleteNames.substr(0,deleteNames.length-1);
-				  deleteIds = deleteIds.substring(0, deleteIds.length-1);
-				  var names = deleteNames.split(",");
-				  for(var i=0;i<names.length;i++){
-					  $(".modalFordeleteProject").append(
-								"<h4>"+names[i]+"</h4>"	  
-					);
-				  };
-				  //删除项目添加异步
-				  $(".deleteProjectsButton").off("click").on("click",function(){
-					  $.post("/manage/deleteProjects",{idsForDelete:deleteIds},function(data){
-						  alert(data);
-						  $(".closeDeleteProjectButton").trigger("click");
-					  });
-				  });
-			  }
-			 
-		  }else{
-			//获得待删除的项目名称。
-			  var deleteNames="";
-			  var deleteIds="";
-			  $("input[class='userForWait']:checked").each(function(){
-				  deleteNames += $(this).parent().parent().find("td").eq(0).text()+",";
-				  deleteIds += $(this).parent().parent().find("[class='hidden']").eq(0).text()+",";
-			  })
-			  //未选中任何项目，return,清除
-			  if(deleteNames==""||deleteIds==""){
-				  alert("当前未选中任何用户");
-				  $(".deleteButton").removeAttr("data-target");
-				  return;
-			  }else{
-				  //显示对应的删除用户模态窗
-				  $(".deleteButton").removeAttr("data-target");
-				  $(".deleteButton").attr("data-target","#deleteUserModal");
-				//清空并显示待删除名单
-				  $(".modalFordeleteUser").empty();
-				  deleteNames = deleteNames.substr(0,deleteNames.length-1);
-				  deleteIds = deleteIds.substring(0, deleteIds.length-1);
-				  var names = deleteNames.split(",");
-				  for(var i=0;i<names.length;i++){
-					  $(".modalFordeleteUser").append(
-								"<h4>"+names[i]+"</h4>"	  
-					);
-				  };
-				//删除用户添加异步
-				  $(".deleteUsersButton").off("click").on("click",function(){
-					  $.post("/manage/deleteUsers",{idsForDelete:deleteIds},function(data){
-						  alert(data);
-						  $(".closeDeleteUserButton").trigger("click");
-					  });
-				  });
-			  }
-		  }
-	  })
 });
 
