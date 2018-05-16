@@ -1,4 +1,4 @@
-package com.zhongda.monitor.report.configclass.filldata.impl;
+package com.zhongda.monitor.report.configclass.filldata.impl.dayreport;
 
 import java.util.List;
 
@@ -14,15 +14,15 @@ import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
 import com.zhongda.monitor.report.utils.FillWordMapUtils;
 
-/**对应项目 261  262  263  264 176
+/**对应项目 261  262  263  264 
  * 填充 16,17的数据
  * @author Administrator
  *
  */
-@Service("SedimentationFillImpl")
-public class SedimentationFillImpl implements FillBasics {
+@Service("Project261_264FillImpl")
+public class Project261_264FillImpl implements FillBasics {
 	
-	private  Logger logger = LoggerFactory.getLogger(SedimentationFillImpl.class);
+	private  Logger logger = LoggerFactory.getLogger(Project261_264FillImpl.class);
 	
 	@Autowired
 	SideTableDataService sideTableDataService;
@@ -47,16 +47,11 @@ public class SedimentationFillImpl implements FillBasics {
 				//生成表格---竖向位移  16
 				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.COVERGENCE);
 				
-			if(pojoId.equals("176")){
-				
-				//生成表格---水平位移  17
-				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","15",ReportConfig.COVERGENCE);
-				
-			}else{
+			
 				//生成表格---水平位移  17
 				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","17",ReportConfig.COVERGENCE);
 				
-			}		
+				
 			
 				
 		}

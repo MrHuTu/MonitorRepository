@@ -57,7 +57,26 @@ public class FillWordMapUtils {
 		
 		return param;		
 	}
-
+	/**
+	 * 
+	 * @param pojoId
+	 * @param time
+	 * @return
+	 */
+	public static Map<String,Object> getFillMapD(String pojoId,String time){
+		
+		Map<String,Object> map =  getFillMap(pojoId,time);
+		
+		String name =  (String) map.get("${name}");
+		
+		
+		
+		String pname =  name.substring(0, name.indexOf("日报"));
+		
+		map.put("${pname}", pname);
+		
+		return map;
+	}
 	/**
 	 * 
 	 * @param doc2

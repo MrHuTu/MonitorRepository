@@ -6,4 +6,5 @@ public class ErrorCode {
  public static final String ERROR3 = "ERROR:报告解析异常";
  public static final String ERROR4 = "ERROR:不支持超出当前日期生成报告";
  public static final String ERROR5 = "ERROR:报告生成生成时间为17点以后";
+ public static final String ERROR6 = "ERROR:目前不支持改报告类型生成";
 }

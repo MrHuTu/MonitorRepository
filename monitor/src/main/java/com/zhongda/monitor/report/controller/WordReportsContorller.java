@@ -37,7 +37,19 @@ public class WordReportsContorller {
 	private WordUtil2007Service wordUtil2007Service;
 
 	
-	
+	/**
+	 * 
+	 * @param pojoId
+	 * @param time
+	 * @return
+	 * @throws IOException
+	 * 要增加一个参数，来表示报告文档的模式,为了暂时不影响前台的调用，这里将模式写死，接口调用方式不变
+	 * D -日报
+	 * W -周报
+	 * M -月报
+	 * Q -季报
+	 * Y -年报
+	 */
 	@GetMapping("/downloadWordReport")
 	@ApiOperation(value = "报告信息 --chao.hu", notes = "生成当前项目报告 --目前功能不全",  httpMethod = "GET")	
 	@ApiImplicitParams({ @ApiImplicitParam(name = "pojoId", value = "项目Id", required = true, dataType = "String", paramType = "query"),
@@ -46,7 +58,7 @@ public class WordReportsContorller {
 		
 			
 		
-			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time), false);
+			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time,"D"), false);
 				
 
 	}

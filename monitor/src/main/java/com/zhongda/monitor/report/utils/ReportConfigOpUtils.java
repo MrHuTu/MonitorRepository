@@ -3,6 +3,7 @@ package com.zhongda.monitor.report.utils;
 import java.util.Iterator;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -148,44 +149,5 @@ public class ReportConfigOpUtils {
 		return path;				
 		
 	}
-	/**
-	 * 报告生成条件检查
-	 */
-	
-	public static String whetherCreateReport(String pojoId){
-		
-		String create = null;
-		
-		//用来判断该项目开关是否开启
-				if(!verifyreportConfig(pojoId)){
-					
-					create =  ErrorCode.ERROR1;
-					
-				}else{
-					//这个时在服务器启动时就加载了的数据，用来验证该项目下的监测参数是否支持生成报告
-					//List<ProjectPara> ProjectParas = ReportConfigOpUtils.projectPara;
-								
-					Iterator<ProjectPara>  ite = projectPara.iterator();
-					
-					while(ite.hasNext()){
-						
-						ProjectPara projectPara = ite.next();
-						
-						if(pojoId.equals(String.valueOf(projectPara.getProject_id()))){
-							
-							if(!verifyReportPara(String.valueOf(projectPara.getMonitor_type()))){
-								
-								create =  ErrorCode.ERROR2;
-								
-							};
-							
-						};
-						
-					};
-					
-				}	
-		
-		return create;
-		
-	}
+
 }

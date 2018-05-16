@@ -25,6 +25,7 @@ import com.zhongda.monitor.report.utils.FillWordMapUtils;
 import com.zhongda.monitor.report.utils.GitYmlParaUtils;
 import com.zhongda.monitor.report.utils.ReportConfigOpUtils;
 import com.zhongda.monitor.report.utils.SpringContextUtil;
+import com.zhongda.monitor.report.utils.VerificationReport;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
@@ -35,6 +36,13 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  * 2018年4月2日17:23:20
  * 在调用generateWord时由于word文档的模板以后都会固定统一，所以文本替换直接写死了。
  * 不同项目类型的表格he数据不一样，这里用到了反射和数据库表的配置
+ * 
+ *  要增加一个参数，来表示报告文档的模式,为了暂时不影响前台的调用，这里将模式写死，接口调用方式不变
+	 * D -日报
+	 * W -周报
+	 * M -月报
+	 * Q -季报
+	 * Y -年报
  */
 @Service
 @Scope(value="prototype")
@@ -57,22 +65,13 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public synchronized String generateWord(String pojoId,String time) {
+	public synchronized String generateWord(String pojoId,String time,String repotrTyp) {
 		
-		DateTime dateTime  = new DateTime(time);
 		
-		DateTime dateTime1  = new DateTime();
-		
-		if(!dateTime.isBeforeNow()){//如果参数time超过当前日期，返回错误提示信息
-			
-			return ErrorCode.ERROR4;
-		}
-		
-		/*if( dateTime1.getHourOfDay()<17){//当前时间小于17点，返回错误提示信息
-			
-			return ErrorCode.ERROR5;
-			
-		}*/
+		//验证当前报告生成时间
+		String code = VerificationReport.whetherCreateReportTime(time);
+		 
+		if(code!=null) return code;
 		
 		
 		
@@ -84,7 +83,18 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 				
 		String fileName= null;
 		
-		Object obj = analysis(pojoId,time);//核心处理
+		Object obj = null;
+		
+		if(repotrTyp.equalsIgnoreCase("D")){
+			
+			 obj = analysisD(pojoId,time);//日报核心处理
+			
+		}else if(repotrTyp.equalsIgnoreCase("W")){
+			
+			 obj = analysisW(pojoId,time);//周核心处理
+		}
+		
+		
 		
 		String name = null;
 		
@@ -141,23 +151,25 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 
 		
 	}
+	
 	/**
+	 *  响应日报
 	 * 解析测试用模板,替换占位符
 	 * @param pojoId
 	 * @return Map 文件名，XWPFDocument对象。String 错误提示信息
 	 */
-	public  Object analysis(String pojoId,String time){
+	private  Object analysisD(String pojoId,String time){
 		
 			//这个map 存放模板文档实例，和非表格占位符		
 			 Map<Object,Object> map = new HashMap<Object, Object>();
 			 
 			 //验证报告生成条件
-			 String create = ReportConfigOpUtils.whetherCreateReport(pojoId);
+			 String create = VerificationReport.whetherCreateReportCongfig(pojoId);
 			 
 			 if(create!=null) return create;
 										
 			//获取模板填充数据 (段落类容,和固定表格的内容)
-			Map<String, Object> 	param = FillWordMapUtils.getFillMap(pojoId,time);
+			Map<String, Object> 	param = FillWordMapUtils.getFillMapD(pojoId,time);
 			
 			//解析模板的路径
 			 String path  =gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId);
@@ -195,6 +207,17 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 		//}
 		
+	}
+	/**
+	 * 响应周报
+	 * @param pojoId
+	 * @param time
+	 * @return
+	 */
+	
+	private Object analysisW(String pojoId, String time) {
+		// TODO Auto-generated method stub
+		return ErrorCode.ERROR6;
 	}
 	 /**
 	 * 呼叫方法  格式表格数据
