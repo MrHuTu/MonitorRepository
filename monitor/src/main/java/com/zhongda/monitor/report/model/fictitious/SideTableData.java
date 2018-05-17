@@ -64,7 +64,15 @@ public class SideTableData extends BasicsModel{
 	}
 	public String getLineThreeCellone() {
 		
-		return "初次测试时间:"+lineThreeCellone;
+		if(lineThreeCellone.indexOf("初次测试时间:")!=-1){
+			
+			return  lineThreeCellone;
+		}else{
+			
+			return "初次测试时间:"+lineThreeCellone;
+		}
+		
+		
 	}
 	public void setLineThreeCellone(String lineThreeCellone) {
 	
@@ -72,7 +80,16 @@ public class SideTableData extends BasicsModel{
 		this.lineThreeCellone = lineThreeCellone;
 	}
 	public String getLineThreeCelltwo() {
-		return "测试人:"+lineThreeCelltwo;
+		
+		if(lineThreeCelltwo.indexOf("测试人:")!=-1){
+			
+			return lineThreeCelltwo;
+			
+		}else{
+			
+			return lineThreeCelltwo;
+		}
+		
 	}
 	public void setLineThreeCelltwo(String lineThreeCelltwo) {
 		
@@ -80,8 +97,13 @@ public class SideTableData extends BasicsModel{
 		
 	}
 	public String getLineFourCellone() {
+		if(lineFourCellone.indexOf("传感器编号:")!=-1){
+			
+			return lineFourCellone;
+		}else{
+			return "传感器编号:"+lineFourCellone;
+		}
 		
-		return "传感器编号:"+lineFourCellone;
 	}
 	public void setLineFourCellone(String lineFourCellone) {
 		
@@ -89,7 +111,15 @@ public class SideTableData extends BasicsModel{
 	}
 	public String getLineFourCellTwo() {
 		
-		return "测点名称:"+lineFourCellTwo;
+		if(lineFourCellTwo.indexOf("测点名称:")!=-1){
+			
+			return lineFourCellTwo;
+			
+		}else{
+			return "测点名称:"+lineFourCellTwo;
+		}
+		
+		
 	}
 	public void setLineFourCellTwo(String lineFourCellTwo) {
 	
@@ -97,7 +127,15 @@ public class SideTableData extends BasicsModel{
 	}
 	public String getLineFiveCellOne() {
 		
-		return "终端编号(DTU):"+lineFiveCellOne;
+		if(lineFiveCellOne.indexOf("终端编号(DTU)")!=-1){
+			
+			return "终端编号(DTU):"+lineFiveCellOne;
+			
+		}else{
+			return lineFiveCellOne;
+		}
+		
+		
 	}
 	public void setLineFiveCellOne(String lineFiveCellOne) {
 		
@@ -105,7 +143,16 @@ public class SideTableData extends BasicsModel{
 	}
 	public String getLineFiveCellTwo() {
 		
-		return "采集器通道:"+lineFiveCellTwo;
+		if(lineFiveCellTwo.indexOf("采集器通道:")!=-1){
+			
+			return lineFiveCellTwo;
+			
+		}else{
+			
+			return "采集器通道:"+lineFiveCellTwo;
+		}
+		
+		
 	}
 	public void setLineFiveCellTwo(String lineFiveCellTwo) {
 	

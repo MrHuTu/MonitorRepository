@@ -73,7 +73,7 @@ public class StatelessTokenFilter extends AccessControlFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String token = TokenUtils.getTokenFromRequest(req);
-		if(null == token && req.getRequestURI().startsWith("/download/")){
+		if(null == token && (req.getRequestURI().startsWith("/download/")||req.getRequestURI().startsWith("/uploadfiles/"))){
 			token = TokenUtils.getTokenFromRequestUrl(req);
 		}
 		if(null != token){

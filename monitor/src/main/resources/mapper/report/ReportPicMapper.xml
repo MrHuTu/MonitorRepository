@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongda.monitor.report.mapper.ReportPicMapper">	
+
+ 	<resultMap type="com.zhongda.monitor.report.model.ReportPic" id="ReportPicMap">
+ 		<result column="path" property="path"/>
+ 	
+ 	</resultMap>
+  
+  <insert id="insertPic"  parameterType="com.zhongda.monitor.report.model.ReportPic">
+  
+  	  insert into report_pic (path) values
+   			   
+    	(#{path})   
+  
+  </insert>
+
+  
+</mapper>

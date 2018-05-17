@@ -38,6 +38,13 @@ public class GitYmlParaUtils {
 	@Value("${linuxdownrepor}")
 	private String linuxdownrepor;
 	
+	@Value("${linuxuploadfiles}")
+	private String linuxuploadfiles;
+	
+	
+	@Value("${uploadfiles}")
+	private String uploadfiles;
+	
 	public String getRepotrTime() {
 		return repotrTime;
 	}
@@ -74,6 +81,16 @@ public class GitYmlParaUtils {
 
 	public String getLinuxdownrepor() {
 		return linuxdownrepor;
+	}
+
+
+	public String getLinuxuploadfiles() {
+		return linuxuploadfiles;
+	}
+
+
+	public String getUploadfiles() {
+		return uploadfiles;
 	}
 
 
@@ -133,6 +150,10 @@ public class GitYmlParaUtils {
 				
 				tageParm = downreport;
 				
+			}else if(parm.equals("upload")){
+				
+				tageParm=uploadfiles;
+				
 			}									
 			
 		} else {
@@ -145,7 +166,11 @@ public class GitYmlParaUtils {
 					
 					tageParm = linuxdownrepor;
 					
-				}			
+				}else if(parm.equals("upload")){
+					
+					tageParm=linuxuploadfiles;
+					
+				}					
 				
 		}
 		

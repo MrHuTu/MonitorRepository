@@ -3,13 +3,11 @@ package com.zhongda.monitor.report.utils;
 import java.util.Iterator;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.zhongda.monitor.report.model.ReportConfig;
 import com.zhongda.monitor.report.model.ReportPara;
-import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.report.model.fictitious.ProjectPara;
 /**
  * 验证是否配置参数
