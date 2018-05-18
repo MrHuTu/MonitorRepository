@@ -9,8 +9,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.report.mapper.ReportPicMapper;
 import com.zhongda.monitor.report.model.ReportPic;
