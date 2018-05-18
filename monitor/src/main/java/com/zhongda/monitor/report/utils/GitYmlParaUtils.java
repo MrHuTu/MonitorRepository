@@ -45,6 +45,10 @@ public class GitYmlParaUtils {
 	@Value("${uploadfiles}")
 	private String uploadfiles;
 	
+	@Value("${pictype}")
+	
+	private String pictype;
+	
 	public String getRepotrTime() {
 		return repotrTime;
 	}
@@ -91,6 +95,11 @@ public class GitYmlParaUtils {
 
 	public String getUploadfiles() {
 		return uploadfiles;
+	}
+
+
+	public String getPictype() {
+		return pictype;
 	}
 
 

@@ -31,9 +31,10 @@ public class UploadFilesContorller {
 	
 	@PostMapping("/pic")
 	@ApiOperation(value = "图片上传 --chao.hu", notes = "文件上传",  httpMethod = "POST")
-	private Result<String> generateWord(@RequestParam("file")MultipartFile[] file) throws IOException {
-		//reportDayConfigService.selectDayConfigById();
-		return reportPicService.insertPic(file);							
+	private Result<String> generateWord(@RequestParam("file")MultipartFile[] file,@RequestParam("projectId") String projectId) throws IOException {
+		
+	
+		return reportPicService.insertPic(file,projectId);							
 
 	}
 	

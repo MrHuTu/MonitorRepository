@@ -3,17 +3,22 @@
 <mapper namespace="com.zhongda.monitor.report.mapper.ReportPicMapper">	
 
  	<resultMap type="com.zhongda.monitor.report.model.ReportPic" id="ReportPicMap">
- 		<result column="path" property="path"/>
- 	
+ 		<result column="projectId" property="projectId"/>
+ 		<result column="path" property="path"/>	
  	</resultMap>
   
   <insert id="insertPic"  parameterType="com.zhongda.monitor.report.model.ReportPic">
   
-  	  insert into report_pic (path) values
+  	  insert into report_pic (path,projectId) values
    			   
-    	(#{path})   
+    	(#{path},#{projectId})   
   
   </insert>
 
+	<select id="selectPicById"  resultMap="ReportPicMap">
+	
+		select * from report_pic where projectId=#{projectId}
+	
+	</select>
   
 </mapper>
