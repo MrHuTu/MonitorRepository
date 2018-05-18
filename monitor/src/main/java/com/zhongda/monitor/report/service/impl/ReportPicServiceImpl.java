@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.report.mapper.ReportPicMapper;
 import com.zhongda.monitor.report.model.ReportPic;
@@ -101,6 +102,34 @@ public class ReportPicServiceImpl implements ReportPicService {
 		
 	}
 	/**
+	 * 查询对应项目下的图片名
+	 */
+	@Override
+	public Result<List<String>> selectPicById(String id) {
+		
+		Result<List<String>> result  = new Result<List<String>>();
+		
+		List<String> list = new ArrayList<String>();
+		
+		List<ReportPic>  datas = reportPicMapper.selectPicById(id);
+		
+		Iterator<ReportPic> ter = datas.iterator();
+		
+		while(ter.hasNext()){
+			
+			ReportPic reportPic = ter.next();
+			
+			String path  = reportPic.getPath();
+			
+			list.add(path.substring(path.lastIndexOf("/")+1, path.length()));
+						
+		}
+		
+		result.setData(list);
+		
+		return result.setCode(Result.SUCCESS).setMsg("查询成功");
+	}
+	/**
 	 * 图片格式校验
 	 * @param type
 	 * @return
@@ -181,5 +210,6 @@ public class ReportPicServiceImpl implements ReportPicService {
 		return error_1;
 		
 	}
+	
 
 }

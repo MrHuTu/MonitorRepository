@@ -1,9 +1,9 @@
 # 模板路径   针对limux操作系统      /mnt/monitor/model/    /mnt/monitor/report/
-linuxmodelpath: /root/report/model/
+linuxmodelpath: /mnt/monitor/model/#/root/report/model/
 #解析模板之后生成的word文件存放路径(缓存路径,解析之后的报告，报告要用的图片文件等，是个大杂烩，这个目录会定时清理，不必要担心外存不够的问题)
-linuxdownrepor:  /root/report/down/
+linuxdownrepor:  /mnt/monitor/down/#/root/report/down/
 #文件上传时文件存贮的目录
-linuxuploadfiles: /root/report/upload_files/
+linuxuploadfiles: /mnt/monitor/upload_files/
 
 
 # 模板路径  针对Windows操作系统  (测试用)
