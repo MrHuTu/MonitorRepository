@@ -18,7 +18,7 @@ import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.util.Units;
-import org.apache.poi.xwpf.usermodel.BreakType;
+//import org.apache.poi.xwpf.usermodel.BreakType;
 import org.apache.poi.xwpf.usermodel.Document;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -372,6 +372,8 @@ public class Wordl2007Utis {
 					
 					String text = run.getText(0);
 					
+					System.out.println(text);
+					
 					if (text != null) {
 						
 						text = utilSign(text,run);
@@ -388,7 +390,7 @@ public class Wordl2007Utis {
 								
 								run.setText("",0);
 								
-								run.addBreak();
+								//run.addBreak();
 								
 								String path = (String) map.get(key);
 	
@@ -399,7 +401,7 @@ public class Wordl2007Utis {
 										path, Units.toEMU(500),
 										Units.toEMU(200)); // 200x200 pixels
 	
-								run.addBreak(BreakType.PAGE);
+								//run.addBreak(BreakType.PAGE);
 	
 							}
 						}

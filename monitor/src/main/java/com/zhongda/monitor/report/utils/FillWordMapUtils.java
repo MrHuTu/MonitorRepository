@@ -103,6 +103,13 @@ public class FillWordMapUtils {
 			map.put("${monitor_poit_pic}", osPath+reportContentDay.getMonitorPoitPic());
 			
 			
+			map.put("${total_laser_change_pic}", osPath+reportContentDay.getTotalLaserChangePic());
+			
+			map.put("${current_laser_change_pic}", osPath+reportContentDay.getCurrentLaserChangePic());
+			
+			map.put("${speed_change_pic}", osPath+reportContentDay.getSpeedChangePic());
+			
+			
 		}
 						
 		return map;
