@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
+import com.zhongda.monitor.report.model.ReportContentDay;
 import com.zhongda.monitor.report.model.fictitious.BasicsModel;
 import com.zhongda.monitor.report.service.ReportContentDayService;
 
@@ -58,32 +59,56 @@ public class FillWordMapUtils {
 		
 		return param;		
 	}
+	
 	/**
 	 * 
 	 * @param pojoId
 	 * @param time
 	 * @return
 	 */
-	public static Map<String,Object> getFillMapD(String pojoId,String time){
+	public static Map<String,Object> getFillContentMapD(String pojoId,String time){
 		
-		ReportContentDayService  ReportContentDayServiceImpl = (ReportContentDayService) SpringContextUtil.getBean("ReportContentDayServiceImpl");
+		ReportContentDayService  ReportContentDayServiceImpl = (ReportContentDayService) SpringContextUtil.getBean("ReportContentDayServiceImpl");		
 		
-		System.out.println(ReportContentDayServiceImpl.selectDayConfigById(pojoId).toString());
-		
+		List<ReportContentDay> reportContentDays = 	ReportContentDayServiceImpl.selectDayConfigById(pojoId);
+				
 		Map<String,Object> map =  getFillMap(pojoId,time);
 		
-		String name =  (String) map.get("${name}");
-		
-		
+		String name =  (String) map.get("${name}");				
 		
 		String pname =  name.substring(0, name.indexOf("日报"));
 		
 		map.put("${pname}", pname);
 		
-		
-		
+		if(reportContentDays.size()>0) {
+			
+			GitYmlParaUtils gitYmlParaUtils = (GitYmlParaUtils)SpringContextUtil.getBean("GitYmlParaUtils");
+			
+			String osPath  = gitYmlParaUtils.accordingOsGetParm("upload");
+			
+			
+			
+			ReportContentDay reportContentDay = reportContentDays.get(0);
+			
+			map.put("${report_write}", reportContentDay.getReportWrite());
+			
+			map.put("${project_survey}", reportContentDay.getProjectSurvey());
+			
+			map.put("${project_achievement}", reportContentDay.getProjectAchievement());
+			
+			map.put("${project_suggest}", reportContentDay.getProjectSuggest());
+			
+			map.put("${remark}", reportContentDay.getRemark());
+			
+			map.put("${monitor_poit_pic}", osPath+reportContentDay.getMonitorPoitPic());
+			
+			
+		}
+						
 		return map;
+				
 	}
+	
 	/**
 	 * 
 	 * @param doc2

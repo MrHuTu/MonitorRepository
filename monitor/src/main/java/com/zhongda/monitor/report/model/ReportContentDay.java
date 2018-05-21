@@ -37,6 +37,8 @@ public class ReportContentDay {
 	//测点图
 	private String monitorPoitPic;
 	
+	//备注
+	private String remark;
 
 	public String getProjectId() {
 		return projectId;
@@ -134,6 +136,14 @@ public class ReportContentDay {
 		this.monitorPoitPic = monitorPoitPic;
 	}
 
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	@Override
 	public String toString() {
 		return "ReportContentDay [projectId=" + projectId + ", reportMain="
@@ -145,7 +155,7 @@ public class ReportContentDay {
 				+ ", totalLaserChangePic=" + totalLaserChangePic
 				+ ", currentLaserChangePic=" + currentLaserChangePic
 				+ ", speedChangePic=" + speedChangePic + ", monitorPoitPic="
-				+ monitorPoitPic + "]";
+				+ monitorPoitPic + ", remark=" + remark + "]";
 	}
 	
 

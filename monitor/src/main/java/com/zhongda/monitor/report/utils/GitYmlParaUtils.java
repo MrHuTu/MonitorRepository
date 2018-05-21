@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("GitYmlParaUtils")
 /**
  * 取yml配置文件参数
  * @author 胡超

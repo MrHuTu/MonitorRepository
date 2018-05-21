@@ -28,6 +28,7 @@
  		<result column="current_laser_change_pic" property="currentLaserChangePic"/>
  		<result column="speed_change_pic" property="speedChangePic"/>
  		<result column="monitor_poit_pic" property="monitorPoitPic"/>	
+ 		<result column="remark" property="remark"/>
  	</resultMap>
   
  <!--  <insert id="insertDayConfig"  parameterType="com.zhongda.monitor.report.model.ReportContentDay">

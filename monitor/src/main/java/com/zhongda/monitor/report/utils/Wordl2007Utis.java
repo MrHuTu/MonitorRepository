@@ -163,7 +163,7 @@ public class Wordl2007Utis {
 					String text = run.getText(0);
 					
 
-					if (text != null) {
+					if (text != null && text.indexOf("_pic")<=0) {
 						
 						text = utilSign(text,run);
 						
@@ -354,7 +354,7 @@ public class Wordl2007Utis {
 	 * @param key
 	 * @param doc
 	 */
-	public static void insertImage(String key, XWPFDocument doc) {
+	public static void insertImage(Map<String,Object> map, XWPFDocument doc) {
 
 		List<XWPFParagraph> paragraphList = doc.getParagraphs();
 
@@ -365,32 +365,52 @@ public class Wordl2007Utis {
 				for (XWPFParagraph paragraph : paragraphList) {
 
 					List<XWPFRun> runs = paragraph.getRuns();
-
-					for (XWPFRun run : runs) {
-
-						String text = run.getText(0);
-
-						if (text != null) {
-
-							if (text.indexOf(key) >= 0) {
+					
+				for(int i=0;i<runs.size();i++){
+					
+					XWPFRun run = runs.get(i);
+					
+					String text = run.getText(0);
+					
+					if (text != null) {
+						
+						text = utilSign(text,run);
+						
+						if(text==null) continue;
+						
+						Iterator<String> ite = map.keySet().iterator();
+						
+						while(ite.hasNext()){
+							
+							String key = ite.next();
+							
+							if (text.equals(key)) {
 								
 								run.setText("",0);
 								
 								run.addBreak();
-
+								
+								String path = (String) map.get(key);
+	
 								run.addPicture(
-
-								new FileInputStream("D:/hc.jpg"),
+	
+								new FileInputStream(path),
 										Document.PICTURE_TYPE_JPEG,
-										"D:/hc.jpg", Units.toEMU(200),
+										path, Units.toEMU(500),
 										Units.toEMU(200)); // 200x200 pixels
-
+	
 								run.addBreak(BreakType.PAGE);
-
+	
 							}
-
+						}
+						
+						
+					
+							
+						
 						}
 
+						
 					}
 
 				}

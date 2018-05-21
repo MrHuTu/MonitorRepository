@@ -168,16 +168,19 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 if(create!=null) return create;
 										
 			//获取模板填充数据 (段落类容,和固定表格的内容)
-			Map<String, Object> 	param = FillWordMapUtils.getFillMapD(pojoId,time);
+			Map<String, Object> 	param = FillWordMapUtils.getFillContentMapD(pojoId,time);
 			
 			//解析模板的路径
 			 String path  =gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId);
 			 
-										
+			//处理文本填充,表格占位符信息填充							
 			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
 																		
 			 //替换页眉
 			 Wordl2007Utis.replaceHeader(doc, param);
+			 
+			 //处理图片
+			 Wordl2007Utis.insertImage(param,doc);
 			
 			/**根据自定义的表格样式,和自定义的表格数据处理类在doc中插入对应的表格样式，和数据
 			 * ReportConfigOpUtils.gitClassPath(pojoId),这个的在服务启动时已经加载项目的配置信息,他返回一个处理表格数据bean ID.
