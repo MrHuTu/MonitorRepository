@@ -4,10 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.zhongda.monitor.core.model.Result;
-import com.zhongda.monitor.report.service.ReportDayConfigService;
+import com.zhongda.monitor.report.service.ReportContentDayService;
 
 @Service
-public class ReportDayConfigServiceImpl implements ReportDayConfigService {
+public class ReportDayConfigServiceImpl implements ReportContentDayService {
 
 	@Override
 	public Result<String> addPic(MultipartFile file) {

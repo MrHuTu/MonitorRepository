@@ -1,6 +1,6 @@
 package com.zhongda.monitor.report.model;
 
-public class ReportDayConfig {
+public class ReportContentDay {
 	//项目ID
 	private String projectId;
 	

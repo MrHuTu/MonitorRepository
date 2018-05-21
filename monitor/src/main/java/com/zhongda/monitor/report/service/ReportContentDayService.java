@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zhongda.monitor.core.model.Result;
 
-public interface ReportDayConfigService {
+public interface ReportContentDayService {
 	
 	public  Result<String> addPic(MultipartFile file);
 	

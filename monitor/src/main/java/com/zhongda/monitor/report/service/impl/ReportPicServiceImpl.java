@@ -40,11 +40,13 @@ public class ReportPicServiceImpl implements ReportPicService {
 		try {
 			for(MultipartFile v: file){
 				
-			
+			if(v.isEmpty()) return new Result<String>().setCode(Result.FAILURE).setMsg("请选中上传图片");
 			
 			String fileName = v.getOriginalFilename();		
 			
 			error = verifyPicType(fileName,error);
+			
+			
 			
 			//如果不符合上面if的判断则跳过下面的逻辑代码,将格式文件不对的文件名全部加入error集合
 			if(error.size()>0) continue;
@@ -136,14 +138,19 @@ public class ReportPicServiceImpl implements ReportPicService {
 		
 		
 		String picType = gitYmlParaUtils.getPictype();
-				
-		String ctype = type.substring(type.lastIndexOf("."), type.length());
 		
-		if(picType.indexOf(ctype)<0){
+		if(!type.isEmpty()){
 			
-			error.add(type);
+			String ctype = type.substring(type.lastIndexOf("."), type.length());
 			
+			if(picType.indexOf(ctype)<0){
+				
+				error.add(type);
+				
+			}
 		}
+				
+		
 		
 	
 		return error;

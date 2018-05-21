@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhongda.monitor.report.mapper.ReportDayConfigMapper">
+<mapper namespace="com.zhongda.monitor.report.mapper.ReportContentDayMapper">
 <!-- <resultMap id="ReportData" type="com.zhongda.monitor.report.model.ReportData">
 	<id column="id" property="id"/>
 	 <result column="project_id" property="project_id"/>
@@ -16,12 +16,12 @@
 	<result column="smu_channel" property="smu_channel"/>
 	<result column="first_time" property="first_time"/>
 </resultMap> -->	
- 	<resultMap type="com.zhongda.monitor.report.model.ReportDayConfig" id="ReportDayConfigMap">
+ 	<resultMap type="com.zhongda.monitor.report.model.ReportContentDay" id="ReportDayConfigMap">
  		<result column="monitor_pic" property="monitorPic"/>
  	
  	</resultMap>
   
-  <insert id="insertDayConfig"  parameterType="com.zhongda.monitor.report.model.ReportDayConfig">
+  <insert id="insertDayConfig"  parameterType="com.zhongda.monitor.report.model.ReportContentDay">
   
   	  insert into report_dayconfig (monitor_pic) values
    			   
