@@ -16,21 +16,30 @@
 	<result column="smu_channel" property="smu_channel"/>
 	<result column="first_time" property="first_time"/>
 </resultMap> -->	
- 	<resultMap type="com.zhongda.monitor.report.model.ReportContentDay" id="ReportDayConfigMap">
- 		<result column="monitor_pic" property="monitorPic"/>
- 	
+ 	<resultMap type="com.zhongda.monitor.report.model.ReportContentDay" id="ReportContentDay">
+ 		<result column="report_main" property="reportMain"/>
+ 		<result column="report_write" property="reportWrite"/>
+ 		<result column="report_approval" property="reportApproval"/>
+ 		<result column="report_ratify" property="reportRatify"/>
+ 		<result column="project_survey" property="projectSurvey"/>
+ 		<result column="project_achievement" property="projectAchievement"/>
+ 		<result column="project_suggest" property="projectSuggest"/>
+ 		<result column="total_laser_change_pic" property="totalLaserChangePic"/>
+ 		<result column="current_laser_change_pic" property="currentLaserChangePic"/>
+ 		<result column="speed_change_pic" property="speedChangePic"/>
+ 		<result column="monitor_poit_pic" property="monitorPoitPic"/>	
  	</resultMap>
   
-  <insert id="insertDayConfig"  parameterType="com.zhongda.monitor.report.model.ReportContentDay">
+ <!--  <insert id="insertDayConfig"  parameterType="com.zhongda.monitor.report.model.ReportContentDay">
   
   	  insert into report_dayconfig (monitor_pic) values
    			   
     	(#{monitorPic})   
   
-  </insert>
+  </insert> -->
   
-  <select id="selectDayConfigById" resultMap="ReportDayConfigMap">
-   	select * from report_dayconfig
+  <select id="selectDayConfigById" resultMap="ReportContentDay">
+   	select * from report_content_day
   </select>
   
 </mapper>

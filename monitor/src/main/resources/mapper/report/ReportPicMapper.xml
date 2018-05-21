@@ -15,9 +15,16 @@
   
   </insert>
 
+
 	<select id="selectPicById"  resultMap="ReportPicMap">
 	
 		select * from report_pic where projectId=#{projectId}
+	
+	</select>
+	
+	<select id="selectPic"  resultMap="ReportPicMap">
+	
+		select * from report_pic
 	
 	</select>
   

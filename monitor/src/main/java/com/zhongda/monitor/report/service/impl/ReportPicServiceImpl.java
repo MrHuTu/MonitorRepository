@@ -53,7 +53,7 @@ public class ReportPicServiceImpl implements ReportPicService {
 			
 			String path  = gitYmlParaUtils.accordingOsGetParm("upload")+fileName;
 			
-			error_1	= verifyPic(projectId,path,error_1);
+			error_1	= verifyPic(path,error_1);
 			//如果不符合上面if的判断则跳过下面的逻辑代码,域服与务器上同名文件的文件名全部加入error1集合
 			if(error_1.size()>0) continue;
 			
@@ -84,7 +84,7 @@ public class ReportPicServiceImpl implements ReportPicService {
 		
 		if(error.size()>0) return analysisError(error,"上传失败,上传类型只支持 :"+gitYmlParaUtils.getPictype()+"格式式图片");
 		
-		if(error_1.size()>0) return analysisError(error_1,"上传失败,请不要重复上传,或者对该图片重命名");
+		if(error_1.size()>0) return analysisError(error_1,"上传失败,改文件名已经被占用,请重新命名");
 		
 		if(success){
 			
@@ -184,7 +184,7 @@ public class ReportPicServiceImpl implements ReportPicService {
 			
 			}
 			
-			return new Result<String>().setCode(Result.FAILURE).setMsg(errorMsg+"请检查:《"+msg+"》");
+			return new Result<String>().setCode(Result.FAILURE).setMsg(errorMsg+",请检查:《"+msg+"》");
 		}
 		
 		return null;
@@ -193,9 +193,9 @@ public class ReportPicServiceImpl implements ReportPicService {
 	/**
 	 * 校验统一项目下,图片信息是否重复
 	 */
-	private List<String> verifyPic(String projectId,String path,List<String> error_1){
+	private List<String> verifyPic(String path,List<String> error_1){
 				
-		List<ReportPic> datas = reportPicMapper.selectPicById(projectId);
+		List<ReportPic> datas = reportPicMapper.selectPic();
 
 		Iterator<ReportPic> ite = datas.iterator();
 		
@@ -214,6 +214,11 @@ public class ReportPicServiceImpl implements ReportPicService {
 		
 		return error_1;
 		
+	}
+	@Override
+	public List<ReportPic> selectPic() {
+		
+		return reportPicMapper.selectPic();
 	}
 	
 

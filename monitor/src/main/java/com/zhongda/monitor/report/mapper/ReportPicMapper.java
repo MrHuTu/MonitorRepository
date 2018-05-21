@@ -9,4 +9,8 @@ public interface ReportPicMapper {
 	public boolean insertPic(ReportPic reportPic);
 	
     public List<ReportPic> selectPicById(String projectId);
+    
+    public List<ReportPic> selectPic();
+    
+    
 }

@@ -133,6 +133,20 @@ public class ReportContentDay {
 	public void setMonitorPoitPic(String monitorPoitPic) {
 		this.monitorPoitPic = monitorPoitPic;
 	}
+
+	@Override
+	public String toString() {
+		return "ReportContentDay [projectId=" + projectId + ", reportMain="
+				+ reportMain + ", reportWrite=" + reportWrite
+				+ ", reportApproval=" + reportApproval + ", reportRatify="
+				+ reportRatify + ", projectSurvey=" + projectSurvey
+				+ ", projectAchievement=" + projectAchievement
+				+ ", projectSuggest=" + projectSuggest
+				+ ", totalLaserChangePic=" + totalLaserChangePic
+				+ ", currentLaserChangePic=" + currentLaserChangePic
+				+ ", speedChangePic=" + speedChangePic + ", monitorPoitPic="
+				+ monitorPoitPic + "]";
+	}
 	
 
 }

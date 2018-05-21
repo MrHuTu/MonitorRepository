@@ -455,17 +455,17 @@ public class Wordl2007Utis {
 
 					if (text!=null && text.length()>0) {
 						
-						logger.info("当期遍历字段:"+text);
+						//logger.info("当期遍历字段:"+text);
 
 						Iterator<String> iter = singe.keySet().iterator();
 
 						while (iter.hasNext()) {
 							
-							logger.info("进入循环占位符状态");
+							//logger.info("进入循环占位符状态");
 							
 							String key = iter.next();
 							
-							logger.info("当前key:"+key+",判定状态:"+text.equals(key));
+							//logger.info("当前key:"+key+",判定状态:"+text.equals(key));
 							
 							
 							//System.out.println("text:"+text+",key"+key);
@@ -489,7 +489,9 @@ public class Wordl2007Utis {
 											 map.put(listSinge.get(i),model.get(0));
 											 model.remove(0);
 										 }catch(IndexOutOfBoundsException e){
-											System.out.println("插入表格占位符时,必须传入相匹配的数据源");
+											 
+											 logger.error("插入表格占位符时,必须传入相匹配的数据源");
+										
 										 }
 										
 									 }

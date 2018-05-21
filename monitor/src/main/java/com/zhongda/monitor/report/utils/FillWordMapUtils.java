@@ -14,6 +14,7 @@ import org.joda.time.DateTime;
 import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.report.model.fictitious.BasicsModel;
+import com.zhongda.monitor.report.service.ReportContentDayService;
 
 /**
  * 用来填充文本占位符的map集合,和填充表格数据的通用类，和一些工具方法
@@ -65,6 +66,10 @@ public class FillWordMapUtils {
 	 */
 	public static Map<String,Object> getFillMapD(String pojoId,String time){
 		
+		ReportContentDayService  ReportContentDayServiceImpl = (ReportContentDayService) SpringContextUtil.getBean("ReportContentDayServiceImpl");
+		
+		System.out.println(ReportContentDayServiceImpl.selectDayConfigById(pojoId).toString());
+		
 		Map<String,Object> map =  getFillMap(pojoId,time);
 		
 		String name =  (String) map.get("${name}");
@@ -74,6 +79,8 @@ public class FillWordMapUtils {
 		String pname =  name.substring(0, name.indexOf("日报"));
 		
 		map.put("${pname}", pname);
+		
+		
 		
 		return map;
 	}
