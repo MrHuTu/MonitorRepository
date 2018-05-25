@@ -92,9 +92,19 @@ public class Alarm implements Serializable {
 	//监测类型名称
 	private String monitorTypeName;
 	
+	//操作
+	private String operate;
+	
 	//告警联系人
 	@ApiModelProperty(value = "告警联系人集合" , hidden = true)
 	private List<AlarmLinkman> alarmLinkmanList;
+	
+	public String getOperate( ){
+		return operate;
+	}
+	public void setOperate(String operate){
+		this.operate = operate;
+	}
 	
 	public Integer getPageNum() {
 		return pageNum;

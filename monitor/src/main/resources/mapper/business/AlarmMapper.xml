@@ -23,6 +23,7 @@
 		<result column="real_name" jdbcType="VARCHAR" property="realName" />
 		<result column="alarm_type_name" jdbcType="VARCHAR" property="alarmTypeName" />
 		<result column="alarm_status_name" jdbcType="VARCHAR" property="alarmStatusName" />
+		<result column="oprerate" jdbcType="VARCHAR" property="oprerate" />
 	</resultMap>
 	<resultMap id="WithLinkmanResultMap" type="com.zhongda.monitor.business.model.Alarm" extends="BaseResultMap">
 		<result column="monitor_type_name" jdbcType="VARCHAR" property="monitorTypeName" />
@@ -278,7 +279,7 @@
 		resultMap="alarmTypeNametMap">
 		SELECT A.alarm_id, U.real_name, A.project_id, A.project_name,
 		A.monitor_point, A.smu_number
-		, A.sensor_number,
+		, A.sensor_number,'操作'AS operate,
 		CASE A.alarm_type WHEN
 		1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
 		AS
@@ -380,11 +381,10 @@
 		FROM
 			alarm
 		WHERE
-			 alarm_status = 0;
+			 alarm_status = 0
 				<if test="userId !=null">
 					and  user_id = #{userId,jdbcType=INTEGER}
 				</if>
-			
 	</select>
 </mapper>
 	      

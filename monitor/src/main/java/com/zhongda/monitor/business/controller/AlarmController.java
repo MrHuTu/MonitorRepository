@@ -54,6 +54,13 @@ public class AlarmController {
 	public Result<Alarm> selectAlarmByUserId(@PathVariable Integer alarmId) {
 		return alarmService.updateAlarmStatusByAlarmId(alarmId);
 	}
+	
+	@GetMapping("/updateAlarm")
+	@ApiOperation(value = "修改告警信息状态app   --cheng.kong", httpMethod = "GET", response = Result.class, notes = "修改告警信息状态app")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "alarmId", value = "告警id", required = true, dataType = "int", paramType = "query") })
+	public Result<Alarm> updateAlarmByUserId( Integer alarmId) {
+		return alarmService.updateAlarmStatusByAlarmId(alarmId);
+	}
 
 	@DeleteMapping("/deleteAlarm")
 	@ApiOperation(value = "删除告警信息   暂时没用上  --cheng.kong", httpMethod = "DELETE", response = Result.class, notes = "删除告警信息  暂时没用上")
