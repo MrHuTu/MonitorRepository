@@ -20,6 +20,17 @@ public interface StatisticChartMapper {
 	int updateByPrimaryKey(StatisticChart record);
 
 	/**
+	 * 删除数据通过项目Id和检测指标
+	 * 
+	 * @param projectId
+	 * @param monitorType
+	 * @return
+	 */
+	int deleteStatisChaByProAndMT(
+			@Param(value = "projectId") Integer projectId,
+			@Param(value = "monitorType") Integer monitorType);
+
+	/**
 	 * 查询StatisticChart表通过项目ID
 	 * 
 	 * @param projectId
@@ -46,5 +57,15 @@ public interface StatisticChartMapper {
 	 */
 	List<List<StatisticChart>> selectAndroidSensorData(
 			@Param(value = "projectId") Integer projectId);
+
+	/**
+	 * 根据项目ID和检测指标查询个数
+	 * 
+	 * @param projectId
+	 * @param detectionTypeId
+	 * @return
+	 */
+	int selectCountByproAndMT(@Param(value = "projectId") Integer projectId,
+			@Param(value = "detectionTypeId") Integer detectionTypeId);
 
 }

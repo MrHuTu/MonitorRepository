@@ -21,6 +21,7 @@ import com.zhongda.monitor.business.model.Sensor;
 import com.zhongda.monitor.business.model.StatisticChart;
 import com.zhongda.monitor.business.model.fictitious.MonitorIndicator;
 import com.zhongda.monitor.business.service.ProjectService;
+import com.zhongda.monitor.core.mapper.SysCodeMapper;
 import com.zhongda.monitor.core.utils.CountUtils;
 import com.zhongda.monitor.management.model.PaginationResult;
 
@@ -44,6 +45,9 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Resource
 	private StatisticChartMapper statisticChartMapper;
+
+	@Resource
+	private SysCodeMapper sysCodeMapper;
 
 	/*
 	 * @Override public List<Project> loadHome(Integer userId) { List<Project>
@@ -241,7 +245,6 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public int addProject(Project project) {
 		return projectMapper.insertSelective(project);
-
 	}
 
 	@Override
@@ -270,9 +273,21 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public PaginationResult selectAllProjectByPage(int offset, int limit) {
+	public PaginationResult selectAllProjectByPage(int offset, int limit,
+			String condition) {
 		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
-		List<Project> projects = projectMapper.selectAll();
+		List<Project> projects = null;
+		// 如果输入了查询条件，则按条件搜索
+		if (condition.length() > 0 && null != condition) {
+			projects = projectMapper.selectSearchBymanage(condition);
+		} else {
+			projects = projectMapper.selectAll();
+		}
 		return new PaginationResult(offsetPage.getTotal(), projects);
+	}
+
+	@Override
+	public int updateProjectManeger(Project project) {
+		return projectMapper.updateByPrimaryKeySelective(project);
 	}
 }

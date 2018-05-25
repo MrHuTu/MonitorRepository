@@ -9,20 +9,41 @@
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
     <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
   </resultMap>
+  <resultMap id="syscodeTNMap" type="com.zhongda.monitor.core.model.SysCode">
+    <id column="sc_id" jdbcType="INTEGER" property="scId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="type_value" jdbcType="VARCHAR" property="typeValue" />
+    <result column="type_code" jdbcType="INTEGER" property="typeCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+    <result column="table_name" jdbcType="VARCHAR" property="tableName" />
+  </resultMap>
   <sql id="Base_Column_List">
     sc_id, type_name, type_value, type_code, item_name, item_value
   </sql>
+  <select id="selectViewDataType" resultMap="BaseResultMap">
+  	SELECT * FROM `sys_code` where sc_id=28;
+  </select>
+  <select id="selectMoniTyTableName" resultMap="syscodeTNMap">
+  	SELECT sc.*,sys.item_value as table_name FROM sys_code sc LEFT JOIN (select * from sys_code where type_code=5) sys on sc.item_name=sys.item_name where sc.type_code=2
+  </select>
+  <select id="selectMoniTyTableNameByscid" resultMap="syscodeTNMap">
+  	SELECT sc.*,sys.item_value as table_name FROM sys_code sc LEFT JOIN (select * from sys_code where type_code=5) sys on sc.item_name=sys.item_name where sc.sc_id= #{scId,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from sys_code
     where sc_id = #{scId,jdbcType=INTEGER}
   </select>
-  <select id="selecttypeCode" resultMap="BaseResultMap">
-  	select * from sys_code where type_code=1
+  <select id="selectscByTypeCode" resultMap="BaseResultMap">
+  	select * from sys_code where type_code= #{typeCode,jdbcType=INTEGER}
   </select>
-  <select id="selectProStatus" resultMap="BaseResultMap">
-  	select * from sys_code where type_code=4
+  <select id="selectSCByTypeCodes" resultMap="BaseResultMap">
+  	select * from sys_code where type_code in
+  	<foreach collection="scids" item="item" index="index" open="(" close=")" separator=",">  
+            #{item}  
+    </foreach> 
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_code

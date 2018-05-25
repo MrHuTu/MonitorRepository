@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zhongda.monitor.account.model.User;
@@ -107,40 +105,5 @@ public class ProjectController {
 				.setData(projectService.getAllProject(projectSelectCondition));
 
 	}
-	
-	@RequestMapping("/addProject")
-	@ResponseBody
-	private void addProject(@RequestBody Project project){
-		projectService.addProject(project);
-	}
-
-	// @GetMapping("/test")
-	// @ApiOperation(value = "测试", httpMethod = "GET", response = Result.class,
-	// notes = "测试")
-	// public Result<Map<Object, Object>> Tests(HttpServletResponse response) {
-	// MapParam param = new MapParam("id", "pname",
-	// MapParam.ValueClass.STRING.getCode());
-	// return new Result<Map<Object, Object>>().success("操作成功",
-	// projectService.queryTest(param));
-	//
-	// }
-
-	// @GetMapping("/querTest")
-	// @ApiOperation(value = "项目列表", httpMethod = "GET", response =
-	// Result.class, notes = "测试")
-	// private Result<List<List<Sensor>>> querTest(HttpServletResponse response)
-	// {
-	// response.setHeader("Access-Control-Allow-Origin", "*");
-	// return new Result<List<List<Sensor>>>()
-	// .setCode(Result.SUCCESS)
-	// .setMsg("操作成功")
-	// .setData(
-	// sensorMapper
-	// .selectHomeP(
-	// "static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data,static_level_data,pull_line_displacement_data",
-	// "261,261,262,262,263,263,264,264",
-	// "16,17,16,17,16,17,16,17", 8));
-	//
-	// }
 
 }

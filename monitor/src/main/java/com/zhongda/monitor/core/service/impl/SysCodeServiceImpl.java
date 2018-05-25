@@ -18,12 +18,30 @@ public class SysCodeServiceImpl implements SysCodeService {
 
 	@Override
 	public List<SysCode> selecttypeCode() {
-		return sysCodeMapper.selecttypeCode();
+		return sysCodeMapper.selectscByTypeCode(1);
 	}
 
 	@Override
 	public List<SysCode> selectProStatus() {
-		return sysCodeMapper.selectProStatus();
+		return sysCodeMapper.selectscByTypeCode(4);
+	}
+
+	@Override
+	public String[] selectViewDataType() {
+		SysCode sysCode = sysCodeMapper.selectViewDataType();
+		String itemName = sysCode.getItemName();
+		return itemName.split(",");
+	}
+
+	@Override
+	public List<SysCode> selectscByTypeCode(Integer typeCode) {
+		return sysCodeMapper.selectscByTypeCode(typeCode);
+	}
+
+	@Override
+	public List<SysCode> selectMoniTyTableName() {
+		System.out.println(sysCodeMapper.selectMoniTyTableName());
+		return sysCodeMapper.selectMoniTyTableName();
 	}
 
 }

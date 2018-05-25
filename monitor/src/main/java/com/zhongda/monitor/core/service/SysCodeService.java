@@ -20,4 +20,25 @@ public interface SysCodeService {
 	 */
 	List<SysCode> selectProStatus();
 
+	/**
+	 * 查询项目通过code
+	 * 
+	 * @return
+	 */
+	List<SysCode> selectscByTypeCode(Integer typeCode);
+
+	/**
+	 * 查询数据展示类型
+	 * 
+	 * @return
+	 */
+	String[] selectViewDataType();
+
+	/**
+	 * 代表名
+	 * 
+	 * @return
+	 */
+	List<SysCode> selectMoniTyTableName();
+
 }

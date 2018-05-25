@@ -76,6 +76,15 @@
     from project
     where project_id = #{projectId,jdbcType=INTEGER}
   </select>
+  <select id="selectSearchBymanage" resultMap="projectMap">
+  	select pr.*,sc.item_name as project_type_name,sys.item_name as project_status_name from project pr LEFT JOIN sys_code sc on pr.project_type=sc.sc_id LEFT JOIN sys_code sys on project_status=sys.sc_id where
+  	 project_id like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  	 project_name like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  	 sc.item_name like concat('%',#{condition,jdbcType=VARCHAR},'%') || 
+  	 project_address like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  	 DATE_FORMAT(project_begin_time,'%Y-%m-%d %H:%i:%s') like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  	 sys.item_name like concat('%',#{condition,jdbcType=VARCHAR},'%') 
+  </select>
   <select id="selectAll" resultMap="projectMap">
   	select pro.*,sc.item_name as project_type_name,ss.item_name as project_status_name from project pro LEFT JOIN sys_code sc on pro.project_type=sc.sc_id LEFT JOIN sys_code ss on pro.project_status=ss.sc_id
   </select>

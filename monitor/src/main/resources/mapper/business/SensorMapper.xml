@@ -79,6 +79,43 @@
     sensor_id, project_id, monitor_point, monitor_type, smu_number, smu_channel, sensor_number, 
     sensor_type, sensor_model, sensor_longitude, sensor_latitude, sensor_place, sensor_depth
   </sql>
+  <select id="selectSensorCountByProAndMT" resultType="java.lang.Integer">
+  	SELECT count(*) FROM sensor where project_id=#{projectId,jdbcType=INTEGER} and monitor_type=#{monitorType,jdbcType=INTEGER}
+  </select>
+  <select id="selectSensorSearchByManage" resultMap="BaseResultMap">
+	 select * from 
+	(select se.*,sc.item_name from sensor se left join sys_code sc on se.monitor_type=sc.sc_id where se.project_id=#{projectId,jdbcType=INTEGER}
+	 	<if test="monitorType != null">
+	  		and se.monitor_type= #{monitorType,jdbcType=INTEGER}
+  		</if>
+	 ) senmap where
+	 senmap.monitor_point like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.item_name like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.smu_number like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.smu_channel like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.sensor_number like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.sensor_place like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.sensor_depth like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+	 senmap.sensor_model like concat('%',#{condition,jdbcType=VARCHAR},'%') 
+  </select>
+  <select id="selectSensorByProjectId" resultMap="BaseResultMap">
+  		select se.*,sc.item_name from sensor se LEFT JOIN sys_code sc on se.monitor_type=sc.sc_id where project_id= #{projectId,jdbcType=INTEGER} 
+  		<if test="monitorType != null">
+	  	and se.monitor_type= #{monitorType,jdbcType=INTEGER}
+  		</if>
+  		<if test="smuNumber != null">
+	  	and se.smu_number= #{smuNumber,jdbcType=VARCHAR}
+  		</if>
+  		<if test="smuChannel != null">
+	  	and se.smu_channel= #{smuChannel,jdbcType=VARCHAR}
+  		</if>
+  		<if test="sensorNumber != null">
+	  	and se.sensor_number= #{sensorNumber,jdbcType=VARCHAR}
+  		</if>
+  </select>
+  <select id="selectMonitorTypeByPro" resultMap="BaseResultMap">
+  	select se.*,sc.item_name from sensor se LEFT JOIN sys_code sc on se.monitor_type=sc.sc_id where project_id=#{projectId,jdbcType=INTEGER} GROUP BY monitor_type
+  </select>
   <select id="selectSensorByPro" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select se.*,sc.item_name,ssc.table_name from sensor se LEFT JOIN sys_code sc on se.monitor_type=sc.sc_id LEFT JOIN statistic_chart ssc on se.project_id=ssc.project_id and se.monitor_type=ssc.detection_type_id where se.project_id= #{projectId,jdbcType=INTEGER}
   </select>

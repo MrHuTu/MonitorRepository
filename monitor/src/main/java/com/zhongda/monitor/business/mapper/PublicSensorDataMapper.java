@@ -20,6 +20,15 @@ public interface PublicSensorDataMapper {
 	int updateByPrimaryKey(PublicSensorData record);
 
 	/**
+	 * 查询数据库正在使用的所有采集器
+	 * 
+	 * @param tableName
+	 * @return
+	 */
+	List<PublicSensorData> selectSmuidGroupBySmuId(
+			@Param(value = "tableName") String tableName);
+
+	/**
 	 * 查询传感器数据
 	 * 
 	 * @param tableName
@@ -99,4 +108,33 @@ public interface PublicSensorDataMapper {
 			@Param(value = "smuChannelBM") String smuChannelBM,
 			@Param(value = "beginDate") String beginDate,
 			@Param(value = "endDate") String endDate);
+
+	/**
+	 * 查询传感器数据通过传入条件
+	 * 
+	 * @param publicSensorData
+	 * @return
+	 */
+	List<PublicSensorData> selectSensorDataByAllContia(String tableName,
+			@Param(value = "sensorNumber") String sensorNumber,
+			@Param(value = "beginTimes") String beginTimes,
+			@Param(value = "endTimes") String endTimes,
+			@Param(value = "smuNumber") String smuNumber,
+			@Param(value = "smuChannel") String smuChannel);
+
+	/**
+	 * 修改数据表第一次数据
+	 * 
+	 * @param tableName
+	 * @param smuCmsId
+	 * @param beginTimes
+	 * @param endTimes
+	 * @param sensorNumber
+	 * @return
+	 */
+	int updatefirstData(String tableName, @Param("smuCmsId") String smuCmsId,
+			@Param("beginTimes") String beginTimes,
+			@Param("endTimes") String endTimes,
+			@Param("sensorNumber") String sensorNumber);
+
 }

@@ -3,6 +3,7 @@ package com.zhongda.monitor.account.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.zhongda.monitor.account.model.User;
@@ -17,6 +18,7 @@ public interface UserMapper {
 	User selectByPrimaryKey(Integer userId);
 
 	// 修改用户信息
+	@CacheEvict(value = "userCache", allEntries = true)
 	int updateByPrimaryKeySelective(User record);
 
 	int updateByPrimaryKey(User record);
@@ -51,6 +53,15 @@ public interface UserMapper {
 	 * @return
 	 */
 	List<User> selectPuser(@Param(value = "projectId") Integer projectId);
-	
-	int deleteUsers(String deleteIds);
+
+	/**
+	 * 后台管理，根据搜索框条件查询用户
+	 * 
+	 * @param condition
+	 * @return
+	 */
+	List<User> seelctSearchUserByManege(
+			@Param(value = "condition") String condition);
+
+	int deleteUsers(List<Integer> userIds);
 }

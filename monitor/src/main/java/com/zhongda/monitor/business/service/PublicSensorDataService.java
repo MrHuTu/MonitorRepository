@@ -112,4 +112,17 @@ public interface PublicSensorDataService {
 			String sensorNumberBM, String smuNumberBM, String smuChannelBM,
 			String date);
 
+	/**
+	 * 修改数据表第一次数据
+	 * 
+	 * @param tableName
+	 * @param smuCmsId
+	 * @param beginTimes
+	 * @param endTimes
+	 * @param sensorNumber
+	 * @return
+	 */
+	boolean updatefirstData(String tableName, String smuCmsId,
+			String beginTimes, String endTimes, String sensorNumber);
+
 }

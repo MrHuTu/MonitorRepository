@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.core.model.Result;
+import com.zhongda.monitor.management.model.PaginationResult;
 
 /**
  * Title : 用户管理接口 Description : 处理用户的增删改查操作
@@ -39,14 +40,15 @@ public interface UserService {
 	 * @return true代表插入成功 ;false代表插入失败
 	 */
 	boolean insertUser(User user);
-	
+
 	/**
 	 * 后台管理添加用户
+	 * 
 	 * @param user
 	 * @return
 	 */
 	boolean addUser(User user);
-	
+
 	/**
 	 * 修改用户信息
 	 * 
@@ -107,16 +109,25 @@ public interface UserService {
 	List<User> selectAll();
 
 	/**
+	 * 分页查询所有user
+	 * 
+	 * @return
+	 */
+	PaginationResult selectAllUser(int offset, int limit, String condition);
+
+	/**
 	 * 查询项目下的所有用户
 	 * 
 	 * @return
 	 */
 	List<User> selectPuser(@Param(value = "projectId") Integer projectId);
-	
+
 	/**
 	 * 删除对应id的用户们
+	 * 
 	 * @param deleteIds
 	 * @return
 	 */
-	String deleteUsers(String deleteIds);
+	boolean deleteUsers(Integer userId);
+
 }

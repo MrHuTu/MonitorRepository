@@ -87,6 +87,7 @@ public interface ProjectService {
 	 * 根据项目添加项目添加项目
 	 * 
 	 * @return
+	 * @throws Exception
 	 */
 	int addProject(Project project);
 
@@ -105,7 +106,25 @@ public interface ProjectService {
 	 * @param limit
 	 * @return
 	 */
-	PaginationResult selectAllProjectByPage(int offset, int limit);
+	PaginationResult selectAllProjectByPage(int offset, int limit,
+			String condition);
+
+	/**
+	 * 修改项目信息
+	 * 
+	 * @param projectId
+	 * @param projectName
+	 * @param projectType
+	 * @param projectAddress
+	 * @param weatherAddress
+	 * @param projectLongitude
+	 * @param projectLatitude
+	 * @param projectBeginTime
+	 * @param projectEndTime
+	 * @param projectStatus
+	 * @return
+	 */
+	int updateProjectManeger(Project project);
 
 	Integer deleteProjects(String projectIds);
 }

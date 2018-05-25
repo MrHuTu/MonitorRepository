@@ -78,6 +78,9 @@
     statistic_chart_id, project_id, detection_type_id, detection_type_name, table_name, 
     attributes, sensor_id
   </sql>
+  <select id="selectCountByproAndMT" resultType="java.lang.Integer">
+  	SELECT count(*) FROM statistic_chart where project_id=#{projectId,jdbcType=INTEGER} and detection_type_id=#{detectionTypeId,jdbcType=INTEGER}
+  </select>
   <select id="selectAndroidSensorData" statementType="CALLABLE" resultMap="AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap,AndroidSensorMap">
   	call select_sensor_p(#{projectId,jdbcType=INTEGER,mode=IN})
   </select>
@@ -97,6 +100,10 @@
     delete from statistic_chart
     where statistic_chart_id = #{statisticChartId,jdbcType=INTEGER}
   </delete>
+   <delete id="deleteStatisChaByProAndMT" parameterType="java.lang.Integer">
+  	delete from statistic_chart
+    where project_id = #{projectId,jdbcType=INTEGER} and detection_type_id= #{monitorType,jdbcType=INTEGER}
+   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.business.model.StatisticChart">
     insert into statistic_chart (statistic_chart_id, project_id, detection_type_id, 
       detection_type_name, table_name, attributes, 

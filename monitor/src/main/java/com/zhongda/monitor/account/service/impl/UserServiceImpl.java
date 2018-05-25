@@ -12,6 +12,8 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
@@ -20,6 +22,7 @@ import com.zhongda.monitor.core.annotation.SysLogAnnotation;
 import com.zhongda.monitor.core.exception.VaildCodeExpireException;
 import com.zhongda.monitor.core.model.Result;
 import com.zhongda.monitor.core.utils.CacheUtils;
+import com.zhongda.monitor.management.model.PaginationResult;
 
 /**
  * Title : 用户管理实现类 Description : 处理用户的增删改查操作
@@ -144,20 +147,34 @@ public class UserServiceImpl implements UserService {
 	public List<User> selectPuser(Integer projectId) {
 		return userMapper.selectPuser(projectId);
 	}
-	
+
 	@Override
-	public String deleteUsers(String deleteIds) {
-		if(userMapper.deleteUsers(deleteIds)>0)
-			return "删除用户成功";
-			return "删除用户失败";
+	public boolean deleteUsers(Integer userId) {
+		if (userMapper.deleteByPrimaryKey(userId) > 0)
+			return true;
+		return false;
 	}
 
 	@Override
 	public boolean addUser(User user) {
-		String cryptedPwd = new Md5Hash(user.getPassword(), user.getUserName(), 1024)
-		.toString();
-		user.setPassword(cryptedPwd);
+		// 密码加密
+		String encryptPassword = ShiroUtils.encryptPassword(user.getPassword(),
+				user.getUserName());
+		user.setPassword(encryptPassword);
 		user.setCreateTime(new Date());
-		return userMapper.insert(user)>0;
+		return userMapper.insert(user) > 0;
+	}
+
+	@Override
+	public PaginationResult selectAllUser(int offset, int limit,
+			String condition) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<User> users = null;
+		if (condition.length() > 0 && null != condition) {
+			users = userMapper.seelctSearchUserByManege(condition);
+		} else {
+			users = userMapper.selectAll();
+		}
+		return new PaginationResult(offsetPage.getTotal(), users);
 	}
 }

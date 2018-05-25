@@ -48,6 +48,8 @@ public class Sensor {
 
 	private String tableName;
 
+	private String attributes;// 数据库没有字段，数据展示类型
+
 	public Integer getSensorId() {
 		return sensorId;
 	}
@@ -218,17 +220,30 @@ public class Sensor {
 		this.speedChange = speedChange;
 	}
 
+	public String getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(String attributes) {
+		this.attributes = attributes;
+	}
+
 	@Override
 	public String toString() {
-		return "Sensor [sensorId=" + sensorId + ", projectId=" + projectId
-				+ ", monitorPoint=" + monitorPoint + ", monitorType="
-				+ monitorType + ", smuNumber=" + smuNumber + ", smuChannel="
-				+ smuChannel + ", sensorNumber=" + sensorNumber
-				+ ", sensorType=" + sensorType + ", sensorModel=" + sensorModel
+		return "Sensor [projectId=" + projectId + ", monitorPoint="
+				+ monitorPoint + ", monitorType=" + monitorType
+				+ ", smuNumber=" + smuNumber + ", smuChannel=" + smuChannel
+				+ ", sensorNumber=" + sensorNumber + ", sensorType="
+				+ sensorType + ", sensorModel=" + sensorModel
 				+ ", sensorLongitude=" + sensorLongitude + ", sensorLatitude="
 				+ sensorLatitude + ", sensorPlace=" + sensorPlace
-				+ ", sensorDepth=" + sensorDepth + ", itemName=" + itemName
-				+ ", publicSensorData=" + publicSensorData + "]";
+				+ ", sensorDepth=" + sensorDepth + ", currentData="
+				+ currentData + ", currentLaserChange=" + currentLaserChange
+				+ ", totalLaserChange=" + totalLaserChange + ", speedChange="
+				+ speedChange + ", itemName=" + itemName
+				+ ", publicSensorData=" + publicSensorData
+				+ ", monitorTypeName=" + monitorTypeName + ", tableName="
+				+ tableName + ", attributes=" + attributes + "]";
 	}
 
 }

@@ -50,6 +50,9 @@
     current_data, current_temperature, current_laser_change, total_laser_change, speed_change, 
     sensor_status, create_type, smu_cms_id, smu_cms_channel, smu_status
   </sql>
+  <select id="selectSmuidGroupBySmuId" resultMap="BaseResultMap" >
+  	select sld.smu_cms_id from ${_parameter.param1} sld GROUP BY sld.smu_cms_id
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -91,6 +94,23 @@
       #{sensorStatus,jdbcType=INTEGER}, #{createType,jdbcType=VARCHAR}, #{smuCmsId,jdbcType=VARCHAR}, 
       #{smuCmsChannel,jdbcType=VARCHAR}, #{smuStatus,jdbcType=INTEGER})
   </insert>
+  <select id="selectSensorDataByAllContia" resultMap="BaseResultMap" >
+    select * from ${_parameter.param1} sld 
+    <where>
+      <if test="sensorNumber != null and sensorNumber !=''">
+        sensor_id = #{sensorNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="smuNumber != null and smuNumber !=''">
+       and smu_cms_id = #{smuNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="smuChannel != null and smuChannel !=''">
+        and smu_cms_channel = #{smuChannel,jdbcType=VARCHAR}
+      </if>
+      <if test="beginTimes != null and endTimes !=null ">
+        and current_times BETWEEN #{beginTimes,jdbcType=VARCHAR} and #{endTimes,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
   <insert id="insertSelective" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     insert into PublicSensorData
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -200,6 +220,14 @@
       </if>
     </trim>
   </insert>
+  <update id="updatefirstData">
+  	update ${_parameter.param1} sld SET sld.first_data =
+	(select t.avgs from
+	(select avg(current_data) avgs from ${_parameter.param1} 
+	where smu_cms_id=#{smuCmsId,jdbcType=VARCHAR} and
+	 current_times BETWEEN #{beginTimes,jdbcType=VARCHAR} and #{endTimes,jdbcType=VARCHAR} and
+	 sensor_id=#{sensorNumber,jdbcType=VARCHAR}) t )where smu_cms_id=#{smuCmsId,jdbcType=VARCHAR} and sensor_id=#{sensorNumber,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.zhongda.monitor.business.model.fictitious.PublicSensorData">
     update PublicSensorData
     <set>

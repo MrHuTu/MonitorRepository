@@ -4,23 +4,64 @@
 <head>
 <title>中大云平台后台管理系统</title>
 <meta charset="utf-8" />
-<!-- <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css" /> -->
-<link th:href="@{/css/bootstrap.css}" rel="stylesheet" type="text/css" />
-<link th:href="@{/css/bootstrap-table.css}" rel="stylesheet" type="text/css" />
-<link type="text/css" th:href="@{/css/bootstrap-editable.css}" rel="stylesheet"/>
-<!-- <link type="text/css" th:href="@{/css/bootstrapValidator.min.css}" rel="stylesheet"/> -->
+<!-- <link th:href="@{/management/css/index.css}" rel="stylesheet" type="text/css" /> -->
+<link th:href="@{/management/css/bootstrap.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/management/css/bootstrap-table.css}" rel="stylesheet" type="text/css" />
+<link type="text/css" th:href="@{/management/css/bootstrap-editable.css}" rel="stylesheet"/>
+<link type="text/css" th:href="@{/management/css/bootstrap-datetimepicker.css}" rel="stylesheet"/>
+<link type="text/css" th:href="@{/management/css/sweetalert.css}" rel="stylesheet"/>
+<!-- <link type="text/css" th:href="@{/management/css/bootstrapValidator.min.css}" rel="stylesheet"/> -->
 
 
-<script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/bootstrap-editable.js}"></script>
-<script th:src="@{/js/bootstrap-table.js}"></script>
-<script th:src="@{/js/bootstrap-table-editable.js}"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
+<script th:src="@{/management/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/management/js/bootstrap-table.js}"></script>
+<script th:src="@{/management/js/bootstrap.min.js}"></script>
+<script th:src="@{/management/js/bootstrap-editable.js}"></script>
+<script th:src="@{/management/js/bootstrap-datetimepicker.js}"></script>
+<script th:src="@{/management/js/bootstrap-datetimepicker.zh-CN.js}"></script>
+<script th:src="@{/management/js/bootstrap-table-editable.js}"></script>
+<script th:src="@{/management/js/bootstrap-table-zh-CN.js}"></script>
 </head>
 <body>
 	<div class="container-fluid">
-	
+	<!-- 自定义toolbar -->
+	<form class="form-inline" id="divmonitorType" style="display:none">
+	  <div class="form-group">
+	    <select  class="form-control"  id="selectmonitorType">
+		  <option>所有</option>
+	    </select>
+	  </div>
+	  <button id="enableSensor" class="btn btn-default" onclick="enableSensors()" type="button">编辑</button>
+	</form>
+	<button id="enableproject" class="btn btn-default" onclick="enableProject()">编辑</button>
+	<button id="enableuser" class="btn btn-default" onclick="enableuser()">编辑</button>
+	<!-- 数据查询toolbar -->
+	<form class="form-inline" id="divsensorDataquery">
+	  <div class="form-group col-xs-3">
+	    <select class="form-control" id="s_tableName" >
+		  <option  th:each="monitorTypes : ${monitorType}"  th:value="${monitorTypes.scId}" th:text="${monitorTypes.itemName}" ></option>
+		</select>
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="text" class="form-control" id="s_sensorNumber"  placeholder="传感器编号"/>
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="text" class="form-control" id="s_smuNumber"  placeholder="终端编号"/>
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="text" class="form-control" id="s_smuChannel"  placeholder="传感器通道"/>
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="text" class="form-control" id="beginTimes" readonly="" placeholder="起始时间"/>
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="text" class="form-control" id="endTimes" readonly="" placeholder="结束时间" />
+	  </div>
+	  <div class="form-group col-xs-3">
+	    <input type="button" class="btn btn-info" onclick="querySensotData()" value="查询" />
+	  </div>
+	</form>
+	  
 	  <div class="row">
 	  	<div class="page-header">
 		  <h1>中大云平台后台管理系统 <small>ZhongDaYun</small></h1>
@@ -31,60 +72,81 @@
 	  	<!-- 导航区 -->
 		<ul id="myTab" class="nav nav-tabs" role="tablist">  
 		  <li role="presentation" class="active"><a href="#projects" role="tab" data-toggle="tab">项目</a></li> 
-		  <li role="presentation"><a href="#users" role="tab" data-toggle="tab">用户</a></li>
+		  <li role="presentation"><a href="#users" id="userLiclick" role="tab" data-toggle="tab">用户</a></li>
+		  <li role="presentation"><a href="#sensordata"  role="tab" data-toggle="tab">查询传感器数据</a></li>
+		  <li role="presentation"><a href="#up_firstData"  role="tab" data-toggle="tab">修改第一次数据</a></li>
 		  <button type="button" class="btn btn-success" data-toggle="modal" href="#addup" style="float: right;">添加</button>
 		</ul>
 		
 		<!-- 面板区 -->  
 		<div class="tab-content">  
 		  <!-- 项目面板   -->
-		 
 		  <div role="tabpanel" class="tab-pane active" id="projects">
-		  	 	<div class="table-responsive">
-				  <table id="projectTable">
+		 	<div class="modal-body">
+		  	 	<!-- <div class="table-responsive"> -->
+				  <table id="projectTable" >
 				  </table>
-				</div>
+				<!-- </div> -->
+			</div>
 		  </div>
+		 
 		  
 		  <!-- 用户面板   -->
 		  <div role="tabpanel" class="tab-pane" id="users">
-	  		  <table class="table table-condensed table-hover table-bordered">
-			    <thead>
-					<tr>
-						<th class="hidden">ID</th>
-						<th>用户名</th>
-						<th>查看项目</th>
-						<th>密码</th>
-						<th>电话</th>
-						<th>邮箱</th>
-						<th>公司</th>
-						<th>负责人</th>
-						<th>创建时间</th>
-						<th>用户状态</th>
-						<th>选择</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="us : ${userList}">
-							<th th:text="${us.userId}" class="hidden"></th>
-							<td th:text="${us.userName}" class="usertd"></td>
-							<td>
-								<a tabindex="0" class="btn btn-lg btn-danger userpover" role="button" data-toggle="popover" data-trigger="focus" title="该用户下的所有项目:"  data-content="">查看项目</a>
-							</td>
-							<td th:text="${us.password}" class="usertd"></td>
-							<td th:text="${us.phone}" class="usertd"></td>
-							<td th:text="${us.email}" class="usertd"></td>
-							<td th:text="${us.company}" class="usertd"></td>
-							<td th:text="${us.realName}" class="usertd"></td>
-							<td class="usertd" th:text="${us.createTime}? ${#dates.format(us.createTime, 'yyyy-MM-dd HH:mm:ss')} : ${us.createTime}
-							"></td>
-							<td th:text="${us.status}" class="usertd"></td>
-							<td><input type="checkbox" class="userForWait"/></td>
-						</tr>
-				</tbody>
-			  </table>
+		  		
+	  		  <div class="modal-body">
+		  	 	<!-- <div class="table-responsive"> -->
+				  <table id="userTable">
+				  </table>
+				<!-- </div> -->
+			</div>
 		  </div>
-		    
+		  
+		  <!-- 查询传感器信息 -->
+		  <div role="tabpanel" class="tab-pane" id="sensordata">
+	  		  <div class="modal-body">
+	  		  	<table id="querySensorDataTable">
+				  </table>
+			  </div>
+		  </div>
+		  
+		  <!-- 修改第一次数据 -->
+		  <div role="tabpanel" class="tab-pane" id="up_firstData">
+		  	<div class="modal-dialog" role="document">
+	  		  <div class="modal-body">
+	  		  		<form>
+	  		  			<div class="form-group " >
+	  		  				<label for="recipient-name" class="control-label">检测指标：</label>
+						    <select class="form-control" id="up_tableName" >
+						      <option id="one"></option>
+							  <option  th:each="monitorTypes : ${monitorType}"  th:value="${monitorTypes.scId}" th:text="${monitorTypes.itemName}" ></option>
+							</select>
+							<label id="up_mo_error"  for="recipient-name" class="control-label" style="color: red;display:block">此检测指标无相关表，请联系相关人员建立表！</label>
+						 </div>
+				         <div class="form-group">
+				            <label for="recipient-name" class="control-label">终端编号：</label>
+				            <select class="form-control" id="up_smuNumber" >
+							</select>
+				         </div>
+				      	 <div class="form-group">
+				            <label for="recipient-name" class="control-label">传感器编号：</label>
+				            <input type="text" class="form-control" id="up_sensorNumber" disabled=""  />
+				         </div>
+				         <div class="form-group">
+				            <label for="recipient-name" class="control-label">起始时间：</label>
+				            <input type="text" class="form-control" id="up_beginTimes" readonly="" />
+				         </div>
+				         <div class="form-group">
+				            <label for="recipient-name" class="control-label">结束时间：</label>
+				            <input type="text" class="form-control" id="up_endTimes" readonly=""  />
+				         </div>
+				    </form>
+			  </div>
+			  <div class="modal-footer">
+		        <input type="button" class="btn btn-info" onclick="up_firstdata()" value="修改" id="updata_" disabled="disabled" />
+		      </div>
+		     </div>
+		  </div>
 		    
 		</div>
 	  	
@@ -92,50 +154,23 @@
 
 		<!--project Large modal -->
 		<div id="projetModels" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-		  <div class="modal-dialog " role="document">
+		  <div class="modal-dialog modal-lg" role="document">
 		    <div class="modal-content">
 		    	<ul id="ulproject" class="nav nav-tabs" role="tablist">  
-				  <li role="presentation" class="active"><a href="#sensorinfo" role="tab" data-toggle="tab">传感器信息</a></li> 
+				  <li role="presentation" class="active"><a href="#sensorinfo" id="sensorinfotable" role="tab" data-toggle="tab">传感器信息</a></li> 
 				  <li role="presentation"><a href="#addSensor" role="tab" data-toggle="tab">添加传感器</a></li>  
 				</ul>
 				
 				<div class="tab-content"> 
 				
-					<!-- 修改项目信息 -->
-					<div role="tabpanel" class="tab-pane active" id="sensorinfo">
-					
-					  <div class="modal-header">
-				        <h4 class="modal-title" id="exampleModalLabel">项目名称</h4>
-				      </div>
-				      
-				      <div class="modal-body">
-				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">Recipient:</label>
-				            <input type="text" class="form-control"  />
-				          </div>
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Send message</button>
-				      </div>
-					</div>
-				
 					<!-- 传感器信息面板 -->
 					<div role="tabpanel" class="tab-pane active" id="sensorinfo">
-					
 					  <div class="modal-header">
-				        <h4 class="modal-title" id="exampleModalLabel">项目名称</h4>
+			  				<h4 id="ps_info" class="modal-title" name="projsenName"></h4>
 				      </div>
-				      
 				      <div class="modal-body">
-				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">Recipient:</label>
-				            <input type="text" class="form-control"  />
-				          </div>
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Send message</button>
+				          <table id="sensorTable" class="text-nowrap" >
+				  		  </table>
 				      </div>
 					</div>
 					
@@ -143,12 +178,13 @@
 					<div role="tabpanel" class="tab-pane" id="addSensor">
 						
 					  <div class="modal-header">
-				        <h4 class="modal-title" id="exampleModalLabel">项目名称</h4>
+				        <h4 class="modal-title" name="projsenName"></h4>
 				      </div> 
 				      <div class="modal-body">
 				      <form id="addSensorModal" action="/manage/landing">
-				      	<div class="form-group">
-				            <input type="hidden" class="form-control"  name="sensor_projectId"/>
+				      	  <div class="form-group" hidden="true">
+				            <label for="recipient-name" class="control-label">项目Id：</label>
+				            <input type="text" class="form-control" id="sensorProId" name="projectId"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">测点名称：</label>
@@ -156,12 +192,8 @@
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">检测指标:</label>
-				            <select class="form-control" name="monitorType">
-							  <option value="1">1</option>
-							  <option value="2">2</option>
-							  <option value="3">3</option>
-							  <option value="4">4</option>
-							  <option value="5">5</option>
+				            <select class="form-control" name="sensorMonitorType" >
+							  <option  th:each="monitorTypes : ${monitorType}"  th:value="${monitorTypes.scId}" th:text="${monitorTypes.itemName}" ></option>
 							</select>
 				          </div>
 				          <div class="form-group">
@@ -200,10 +232,16 @@
 				            <label for="recipient-name" class="control-label">传感器深度(可为空):</label>
 				            <input type="text" class="form-control"  name="sensorDepth"/>
 				          </div>
+				          <div class="form-group" id="provdtcheckbox">
+				            <label for="recipient-name" class="control-label">数据展示类型:</label>
+				            <label class="checkbox-inline" th:each="vdts : ${vdt}">
+							  <input type="checkbox" name="vdtCheckbox" th:value="${vdts}" th:text="${vdts}" checked="checked" /> 
+							</label>
+				          </div>
 				      </form>
 				      <div class="modal-footer">
+				        <button type="button" class="btn btn-primary" id="addSensorButton">添加</button>
 				        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				        <button type="button" class="btn btn-primary" id="addSensorButton">添加传感器</button>
 				      </div>
 				      </div>
 					</div>
@@ -351,14 +389,16 @@
 	</div>
 </body>
 
-<script type="text/javascript" th:src="@{/js/bootstrapValidator.min.js}"></script>
+<script type="text/javascript" th:src="@{/management/js/bootstrapValidator.min.js}"></script>
 <script th:inline="javascript">
 	var pUser=[[${pUser}]];
 	var uPro=[[${uPro}]];
 	var projectType=[[${proType}]];
 	var projectStatus=[[${proStatus}]];
+	var senMT=[[${monitorType}]];
 </script>
+<script th:src="@{/management/js/sweetalert.min.js}"></script>
 <script type="text/javascript"></script>
-<script th:src="@{/js/index.js}"></script>
-<script th:src="@{/js/table.js}"></script>
+<script th:src="@{/management/js/validator.js}"></script>
+<script th:src="@{/management/js/table.js}"></script>
 </html>

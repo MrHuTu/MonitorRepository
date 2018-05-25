@@ -60,4 +60,14 @@ public interface ProjectMapper {
 	 */
 	List<Project> selectAll();
 
+	/**
+	 * 后台搜索功能，通过搜索条件查询数据
+	 * 
+	 * @param condition
+	 *            搜索条件
+	 * @return
+	 */
+	List<Project> selectSearchBymanage(
+			@Param(value = "condition") String condition);
+
 }

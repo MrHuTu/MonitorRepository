@@ -141,7 +141,8 @@ $(function() {
 					  projectStatusName=value.itemName;
 				  }
 			  });
-			  alert(projectTypeName+"=="+projectStatusName)
+
+			  
 		  var project = {
 				  projectName : $("[name='projectName']").val(),
 				  projectType : $("[name='projectType']").val(),
@@ -153,7 +154,7 @@ $(function() {
 				  projectEndTime : $("[name='projectEndTime']").val()+" 00:00:00",
 				  projectStatus : $("#prostatusradios input[name='inlineRadioOptions']:checked").val(),
 				  projectTypeName : projectTypeName,
-				  projectStatusName : projectStatusName
+				  projectStatusName : projectStatusName,
 		  }
 		  $.ajax({
 			  type:'post',
@@ -162,13 +163,27 @@ $(function() {
 			  contentType : "application/json;charset=utf-8",
 			  data : JSON.stringify(project),
 			  success : function(data){
-				  $('#addup').modal('hide');
-				  //在表格添加数据
-				  $("#projectTable").bootstrapTable("prepend", data);
-				  
+				  swal({
+						title: "太帅了",
+			            text: "小手一抖就成功了",
+			            type: "success",
+	                    confirmButtonColor: "#A7D5EA",
+	                    confirmButtonText: "OK",
+	                }, function () {
+	                	  $('#addup').modal('hide');
+	  				  	  //在表格添加数据
+		  				  $("#projectTable").bootstrapTable("prepend", data);
+		  				  if($("#enableproject").text()=="编辑"){
+		  					  $('#projectTable .editable').editable('toggleDisabled');
+		  				  }
+					});
 			  },
-			  error : function(){
-				  alert("添加项目失败");
+			  error:function(){
+				  swal({
+	                    title: "操作失败",
+	                    text: "添加失败，请尝试重新操作",
+	                    type: "error"
+	               });
 			  }
 		  });
 		  //重置表单验证状态以及表单数据
@@ -288,9 +303,30 @@ $(function() {
 			  contentType : "application/json;charset=utf-8",
 			  data : JSON.stringify(user),
 			  success :function(data){
-				  alert(data);
-				  },
-			  });
+				  swal({
+						title: "太帅了",
+			            text: "小手一抖就成功了",
+			            type: "success",
+	                    confirmButtonColor: "#A7D5EA",
+	                    confirmButtonText: "OK",
+	                }, function () {
+	                	 $('#addup').modal('hide');
+		   				  //在表格添加数据
+		   				  $("#userLiclick").trigger('click');
+		   				  $("#userTable").bootstrapTable("prepend", data);
+		   				  if($("#enableuser").text()=="编辑"){
+		   					  $('#userTable .editable').editable('toggleDisabled');
+		   				  }
+					});
+			  },
+			  error:function(){
+				  swal({
+	                    title: "操作失败",
+	                    text: "添加失败，请尝试重新操作",
+	                    type: "error"
+	               });
+			  }
+		  });
 		  $("#addUserModal").bootstrapValidator('resetForm'); 
 		  document.getElementById("addUserModal").reset();}
 	  else return;
@@ -430,10 +466,24 @@ $(function() {
 	  var bootstrapValidator = $("#addSensorModal").data('bootstrapValidator');
 	  bootstrapValidator.validate();
 	  if(bootstrapValidator.isValid()){
+		  var monitorTypeName;
+		  var sen_tableName;
+		  $(senMT).each(function(index,value){
+			  if($("[name='sensorMonitorType']").val()==value.scId){
+				  monitorTypeName=value.itemName;
+				  sen_tableName=value.tableName;
+			  }
+		  });
+		  var vdt="";
+		  $("input:checkbox[name='vdtCheckbox']:checked").each(function() {
+				vdt += $(this).val() + ",";
+				
+			});
+		  vdt=vdt.substring(0,vdt.length-1);
 		  var sensor = {
-				  projectId : $("input[name='sensor_projectId']").attr("value"),
+				  projectId : $("#sensorProId").val(),
 				  monitorPoint : $("input[name='monitorPoint']").val(),
-				  monitorType : $("select[name='monitorType'] option:selected").val(),
+				  monitorType : $("[name='sensorMonitorType']").val(),
 				  smuNumber : $("input[name='smuNumber']").val(),
 				  smuChannel : $("input[name='smuChannel']").val(),
 				  sensorNumber : $("input[name='sensorNumber']").val(),
@@ -443,6 +493,9 @@ $(function() {
 				  sensorLatitude : $("input[name='sensorLatitude']").val(),
 				  sensorPlace : $("input[name='sensorPlace']").val(),
 				  sensorDepth : $("input[name='sensorDepth']").val(),
+				  monitorTypeName:monitorTypeName,
+				  tableName:sen_tableName,
+				  attributes:vdt,
 		  };
 		  $.ajax({
 			  type:'post',
@@ -451,9 +504,28 @@ $(function() {
 			  contentType : "application/json;charset=utf-8",
 			  data : JSON.stringify(sensor),
 			  success :function(data){
-				  alert(data);
-				  },
-			  });
+				  swal({
+						title: "太帅了",
+			            text: "小手一抖就成功了",
+			            type: "success",
+	                    confirmButtonColor: "#A7D5EA",
+	                    confirmButtonText: "OK",
+	                }, function () {
+		                	$("#sensorinfotable").trigger('click');
+						    $("#sensorTable").bootstrapTable("prepend", data);
+						    if($("#enableSensor").text()=="编辑"){
+							  $('#sensorTable .editable').editable('toggleDisabled');
+						    }
+					   });
+			  },
+			  error:function(){
+				  swal({
+	                    title: "操作失败",
+	                    text: "添加失败，请尝试重新操作",
+	                    type: "error"
+	               });
+			  }
+		   });
 		  //重置表单验证状态以及表单数据
 		  $("#addSensorModal").bootstrapValidator('resetForm'); 
 		  document.getElementById("addSensorModal").reset();}
@@ -461,3 +533,4 @@ $(function() {
 	  });
 });
 
+	

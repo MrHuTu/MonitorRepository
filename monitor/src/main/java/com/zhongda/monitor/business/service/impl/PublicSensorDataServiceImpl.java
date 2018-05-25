@@ -103,4 +103,11 @@ public class PublicSensorDataServiceImpl implements PublicSensorDataService {
 				sensorNumber, smuNumber, smuChannel, beginTime, endTime);
 	}
 
+	@Override
+	public boolean updatefirstData(String tableName, String smuCmsId,
+			String beginTimes, String endTimes, String sensorNumber) {
+		return (pSenDataMapper.updatefirstData(tableName, smuCmsId, beginTimes,
+				endTimes, sensorNumber)) > 0 ? true : false;
+	}
+
 }

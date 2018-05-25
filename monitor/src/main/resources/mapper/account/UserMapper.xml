@@ -21,6 +21,15 @@
     from user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="seelctSearchUserByManege" resultMap="BaseResultMap">
+  		select * from `user` where user_name like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		phone like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		email like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		company like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		real_name like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%s') like concat('%',#{condition,jdbcType=VARCHAR},'%') ||
+  		`status` like concat('%',#{condition,jdbcType=VARCHAR},'%') 
+  </select>
   <select id="selectPuser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
   	select us.user_name from user_project up LEFT JOIN user us on up.user_id=us.user_id where up.project_id=#{projectId,jdbcType=INTEGER}
   </select>
@@ -39,9 +48,12 @@
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteUsers" parameterType="java.lang.String">
+  <delete id="deleteUsers" parameterType="java.util.List">
   	delete * from user
-  	where user_id in (#{deleteIds,jdbcType=VARCHAR})
+  	where user_id in 
+	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">     
+        #{item}     
+    </foreach>
   </delete>
   <insert id="insert" parameterType="com.zhongda.monitor.account.model.User" useGeneratedKeys="true" keyProperty="userId">
     insert into user (user_id, user_name, password, 

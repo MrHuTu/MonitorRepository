@@ -43,6 +43,10 @@ public class PublicSensorData {
 
 	private Integer smuStatus;
 
+	private String beginTimes;
+
+	private String endTimes;
+
 	public Integer getId() {
 		return id;
 	}
@@ -182,6 +186,22 @@ public class PublicSensorData {
 		this.smuStatus = smuStatus;
 	}
 
+	public String getBeginTimes() {
+		return beginTimes;
+	}
+
+	public void setBeginTimes(String beginTimes) {
+		this.beginTimes = beginTimes;
+	}
+
+	public String getEndTimes() {
+		return endTimes;
+	}
+
+	public void setEndTimes(String endTimes) {
+		this.endTimes = endTimes;
+	}
+
 	@Override
 	public String toString() {
 		return "PublicSensorData [id=" + id + ", sensorNumber=" + sensorNumber
@@ -194,7 +214,8 @@ public class PublicSensorData {
 				+ ", speedChange=" + speedChange + ", sensorStatus="
 				+ sensorStatus + ", createType=" + createType + ", smuNumber="
 				+ smuNumber + ", smuChannel=" + smuChannel + ", smuStatus="
-				+ smuStatus + "]";
+				+ smuStatus + ", beginTimes=" + beginTimes + ", endTimes="
+				+ endTimes + "]";
 	}
 
 }

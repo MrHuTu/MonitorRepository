@@ -1,63 +1,73 @@
 package com.zhongda.monitor.core.model;
 
 public class SysCode {
-    private Integer scId;
+	private Integer scId;
 
-    private String typeName;
+	private String typeName;
 
-    private String typeValue;
+	private String typeValue;
 
-    private Integer typeCode;
+	private Integer typeCode;
 
-    private String itemName;
+	private String itemName;
 
-    private String itemValue;
+	private String itemValue;
 
-    public Integer getScId() {
-        return scId;
-    }
+	private String tableName;
 
-    public void setScId(Integer scId) {
-        this.scId = scId;
-    }
+	public Integer getScId() {
+		return scId;
+	}
 
-    public String getTypeName() {
-        return typeName;
-    }
+	public void setScId(Integer scId) {
+		this.scId = scId;
+	}
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName == null ? null : typeName.trim();
-    }
+	public String getTypeName() {
+		return typeName;
+	}
 
-    public String getTypeValue() {
-        return typeValue;
-    }
+	public void setTypeName(String typeName) {
+		this.typeName = typeName == null ? null : typeName.trim();
+	}
 
-    public void setTypeValue(String typeValue) {
-        this.typeValue = typeValue == null ? null : typeValue.trim();
-    }
+	public String getTypeValue() {
+		return typeValue;
+	}
 
-    public Integer getTypeCode() {
-        return typeCode;
-    }
+	public void setTypeValue(String typeValue) {
+		this.typeValue = typeValue == null ? null : typeValue.trim();
+	}
 
-    public void setTypeCode(Integer typeCode) {
-        this.typeCode = typeCode;
-    }
+	public Integer getTypeCode() {
+		return typeCode;
+	}
 
-    public String getItemName() {
-        return itemName;
-    }
+	public void setTypeCode(Integer typeCode) {
+		this.typeCode = typeCode;
+	}
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName == null ? null : itemName.trim();
-    }
+	public String getItemName() {
+		return itemName;
+	}
 
-    public String getItemValue() {
-        return itemValue;
-    }
+	public void setItemName(String itemName) {
+		this.itemName = itemName == null ? null : itemName.trim();
+	}
 
-    public void setItemValue(String itemValue) {
-        this.itemValue = itemValue == null ? null : itemValue.trim();
-    }
+	public String getItemValue() {
+		return itemValue;
+	}
+
+	public void setItemValue(String itemValue) {
+		this.itemValue = itemValue == null ? null : itemValue.trim();
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 }

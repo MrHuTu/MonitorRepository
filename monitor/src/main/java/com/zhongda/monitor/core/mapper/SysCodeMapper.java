@@ -2,6 +2,8 @@ package com.zhongda.monitor.core.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.zhongda.monitor.core.model.SysCode;
 
 public interface SysCodeMapper {
@@ -22,12 +24,36 @@ public interface SysCodeMapper {
 	 * 
 	 * @return
 	 */
-	List<SysCode> selecttypeCode();
+	List<SysCode> selectscByTypeCode(@Param(value = "typeCode") Integer typeCode);
 
 	/**
-	 * 查询项目状态
+	 * 代表名
 	 * 
 	 * @return
 	 */
-	List<SysCode> selectProStatus();
+	List<SysCode> selectMoniTyTableName();
+
+	/**
+	 * 根据scid查询表名和检测指标
+	 * 
+	 * @param scId
+	 * @return
+	 */
+	SysCode selectMoniTyTableNameByscid(@Param(value = "scId") Integer scId);
+
+	/**
+	 * 查询数据展示类型
+	 * 
+	 * @return
+	 */
+	SysCode selectViewDataType();
+
+	/**
+	 * 查询字典数据通过TypeCode
+	 * 
+	 * @param scids
+	 * @return
+	 */
+	List<SysCode> selectSCByTypeCodes(
+			@Param(value = "scids") List<Integer> scids);
 }
