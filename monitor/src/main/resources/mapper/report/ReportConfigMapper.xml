@@ -7,10 +7,10 @@
 		<result column="switch" property="reportConfig_switch"/>
 		<result column="class_path" property="class_path"/>
 		<result column="word_path" property="word_path"/>
-		
+		<result column="report_typ" property="report_typ"/>
 	</resultMap>	
  	<select id="selectReportConfig" resultMap="ReportConfigMap">                         	
-		SELECT rc.project_id,rc.switch,class_path , word_path from report_config rc
+		SELECT rc.project_id,rc.switch,class_path , word_path ,rc.report_typ from report_config rc
   	</select>
   	
   

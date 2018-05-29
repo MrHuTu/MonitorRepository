@@ -78,7 +78,7 @@ public class ReportConfigOpUtils {
 	 * @param pojoId
 	 * @return
 	 */
-	public static String  gitClassPath(String pojoId){
+	public static String  gitClassPath(String pojoId,String reportTyp){
 		
 	Iterator<ReportConfig>  ite = reportConfigs.iterator();
 	
@@ -88,7 +88,7 @@ public class ReportConfigOpUtils {
 		
 		ReportConfig reportConfig = ite.next();
 		
-		if(pojoId.equals(String.valueOf(reportConfig.getProject_id()))){
+		if(pojoId.equals(String.valueOf(reportConfig.getProject_id())) &&  reportConfig.getReport_typ().contains(reportTyp)){
 			
 			path = reportConfig.getClass_path();
 			
@@ -125,7 +125,7 @@ public class ReportConfigOpUtils {
 	 * 取得当前模板类
 	 */
 	
-	public  static String getModelPath(String pojoId){
+	public  static String getModelPath(String pojoId,String reportTyp){
 						
 		Iterator<ReportConfig>  ite = reportConfigs.iterator();
 		
@@ -135,7 +135,7 @@ public class ReportConfigOpUtils {
 			
 			ReportConfig reportConfig = ite.next();
 			
-			if(String.valueOf(reportConfig.getProject_id()).equals(pojoId)){
+			if(String.valueOf(reportConfig.getProject_id()).equals(pojoId) && reportConfig.getReport_typ().contains(reportTyp) ){
 												
 				path  = reportConfig.getWord_path();
 				

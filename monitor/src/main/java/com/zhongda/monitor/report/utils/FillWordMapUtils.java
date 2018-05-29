@@ -115,7 +115,13 @@ public class FillWordMapUtils {
 		return map;
 				
 	}
-	
+	public static Map<String,Object> getFillContentMapW(String pojoId,String time){
+		
+		Map<String,Object> map =  getFillMap(pojoId,time);
+		
+		return map;
+		
+	}
 	/**
 	 * 
 	 * @param doc2

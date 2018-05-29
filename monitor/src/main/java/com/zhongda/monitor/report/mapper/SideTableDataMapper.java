@@ -14,4 +14,9 @@ public interface SideTableDataMapper {
 	
 	public List<SideTableData> selectSideTableData(@Param("pojoId")int pojoId,@Param("time")String time);
 	
+	
+	public List<SideTableData> selectSideTableDataOfWeek(@Param("begin")String pojoId,@Param("end")String time,@Param("pointB")String pointB, @Param("pointE")String pointE);
+	
+	
+	
 }

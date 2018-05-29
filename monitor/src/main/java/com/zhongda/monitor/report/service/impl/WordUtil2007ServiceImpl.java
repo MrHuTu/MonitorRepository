@@ -49,6 +49,11 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	private  Logger logger = LoggerFactory.getLogger(WordUtil2007ServiceImpl.class);
 	
+	private static final  String TYPD="D";
+	
+	private static final  String TYPW="W";
+	
+	private static final  String TYPM="M";
 	
 	@Autowired
 	ProjectService projectService;
@@ -76,7 +81,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-		CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path")+ReportConfigOpUtils.getModelPath(pojoId),gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId));
+		CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp),gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp));
 			
 	
 				
@@ -84,16 +89,9 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		Object obj = null;
 		
-		if(repotrTyp.equalsIgnoreCase("D")){
 			
-			 obj = analysisD(pojoId,time);//日报核心处理
-			
-		}else if(repotrTyp.equalsIgnoreCase("W")){
-			
-			 obj = analysisW(pojoId,time);//周核心处理
-		}
-		
-		
+		obj = analysis(pojoId,time,repotrTyp);//日报核心处理
+						
 		
 		String name = null;
 		
@@ -157,7 +155,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 * @param pojoId
 	 * @return Map 文件名，XWPFDocument对象。String 错误提示信息
 	 */
-	private  Object analysisD(String pojoId,String time){
+	private  Object analysis(String pojoId,String time,String repotrTyp){
 		
 			//这个map 存放模板文档实例，和非表格占位符		
 			 Map<Object,Object> map = new HashMap<Object, Object>();
@@ -166,12 +164,23 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 String create = VerificationReport.whetherCreateReportCongfig(pojoId);
 			 
 			 if(create!=null) return create;
+			 
+			 Map<String, Object> 	param  = null;
 										
 			//获取模板填充数据 (段落类容,和固定表格的内容)
-			Map<String, Object> 	param = FillWordMapUtils.getFillContentMapD(pojoId,time);
+			 if(TYPD.equalsIgnoreCase(repotrTyp)){
+				 
+				param = FillWordMapUtils.getFillContentMapD(pojoId,time);
+				 
+			 }else if(TYPW.equalsIgnoreCase(repotrTyp)){
+				 
+					param = FillWordMapUtils.getFillContentMapW(pojoId,time);
+				 
+			 }
+			
 			
 			//解析模板的路径
-			 String path  =gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId);
+			 String path  =gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp);
 			 
 			//处理文本填充,表格占位符信息填充							
 			XWPFDocument doc = Wordl2007Utis.generateWord(param, path);	
@@ -199,7 +208,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 * 
 			 */
 			//创建表格,填充数据
-			callMethod(ReportConfigOpUtils.gitClassPath(pojoId),doc,pojoId,time);
+			callMethod(ReportConfigOpUtils.gitClassPath(pojoId,repotrTyp),doc,pojoId,time);
 			
 			map.put("doc",doc );
 			
@@ -209,17 +218,6 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 		//}
 		
-	}
-	/**
-	 * 响应周报
-	 * @param pojoId
-	 * @param time
-	 * @return
-	 */
-	
-	private Object analysisW(String pojoId, String time) {
-		// TODO Auto-generated method stub
-		return ErrorCode.ERROR6;
 	}
 	 /**
 	 * 呼叫方法  格式表格数据

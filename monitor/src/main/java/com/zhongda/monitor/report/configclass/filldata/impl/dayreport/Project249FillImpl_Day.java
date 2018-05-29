@@ -14,10 +14,10 @@ import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
 import com.zhongda.monitor.report.utils.FillWordMapUtils;
 
-@Component("Project249FillImpl")
-public class Project249FillImpl implements FillBasics{
+@Component("Project249FillImpl_Day")
+public class Project249FillImpl_Day implements FillBasics{
 	
-	private  Logger logger = LoggerFactory.getLogger(Project249FillImpl.class);
+	private  Logger logger = LoggerFactory.getLogger(Project249FillImpl_Day.class);
 	
 	@Autowired
 	SideTableDataService sideTableDataService;
@@ -38,7 +38,7 @@ public class Project249FillImpl implements FillBasics{
 		
 		
 			//生成表格---竖向位移  16
-			FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.COVERGENCE);
+			FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.DAY_COVERGENCE);
 			
 		
 	}

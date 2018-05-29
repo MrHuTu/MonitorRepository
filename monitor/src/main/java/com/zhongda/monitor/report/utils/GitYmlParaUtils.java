@@ -45,9 +45,12 @@ public class GitYmlParaUtils {
 	@Value("${uploadfiles}")
 	private String uploadfiles;
 	
-	@Value("${pictype}")
-	
+	@Value("${pictype}")	
 	private String pictype;
+	
+	@Value("${setweek}")		
+	private String setweek;
+	
 	
 	public String getRepotrTime() {
 		return repotrTime;
@@ -100,6 +103,11 @@ public class GitYmlParaUtils {
 
 	public String getPictype() {
 		return pictype;
+	}
+
+
+	public String getSetweek() {
+		return setweek;
 	}
 
 

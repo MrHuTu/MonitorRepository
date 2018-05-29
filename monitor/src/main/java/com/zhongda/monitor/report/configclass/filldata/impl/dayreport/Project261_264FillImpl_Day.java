@@ -19,10 +19,10 @@ import com.zhongda.monitor.report.utils.FillWordMapUtils;
  * @author Administrator
  *
  */
-@Service("Project261_264FillImpl")
-public class Project261_264FillImpl implements FillBasics {
+@Service("Project261_264FillImpl_Day")
+public class Project261_264FillImpl_Day implements FillBasics {
 	
-	private  Logger logger = LoggerFactory.getLogger(Project261_264FillImpl.class);
+	private  Logger logger = LoggerFactory.getLogger(Project261_264FillImpl_Day.class);
 	
 	@Autowired
 	SideTableDataService sideTableDataService;
@@ -45,11 +45,11 @@ public class Project261_264FillImpl implements FillBasics {
 			
 			
 				//生成表格---竖向位移  16
-				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.COVERGENCE);
+				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","16",ReportConfig.DAY_COVERGENCE);
 				
 			
 				//生成表格---水平位移  17
-				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","17",ReportConfig.COVERGENCE);
+				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","17",ReportConfig.DAY_COVERGENCE);
 				
 				
 			

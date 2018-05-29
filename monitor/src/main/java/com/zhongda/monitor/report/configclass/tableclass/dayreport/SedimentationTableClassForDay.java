@@ -1,4 +1,4 @@
-package com.zhongda.monitor.report.configclass.tableclass;
+package com.zhongda.monitor.report.configclass.tableclass.dayreport;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -31,9 +31,9 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
  * @author huchao
  *
  */
-public class SedimentationTableClass implements BastTableClass {
+public class SedimentationTableClassForDay implements BastTableClass {
 	
-	private static  Logger logger = LoggerFactory.getLogger(SedimentationTableClass.class);
+	private static  Logger logger = LoggerFactory.getLogger(SedimentationTableClassForDay.class);
 	
 	@SuppressWarnings("unused")
 	public  void createTable(CreateTableConfig config) {

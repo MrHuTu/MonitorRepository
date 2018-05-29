@@ -41,12 +41,16 @@ import org.slf4j.LoggerFactory;
 import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
 import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
-import com.zhongda.monitor.report.configclass.tableclass.SedimentationTableClass;
+import com.zhongda.monitor.report.configclass.tableclass.dayreport.SedimentationTableClassForDay;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.BastTableClass;
 
 
-
+/**
+ * 沉降收敛日报用的格式
+ * @author huchao
+ *
+ */
 
 
 public class Wordl2007Utis {
@@ -316,7 +320,7 @@ public class Wordl2007Utis {
 								
 								XmlCursor cursor = paragraph.getCTP().newCursor();
 								
-								SedimentationTableClass.createTableSpance(doc2, cursor,"("+count+")");
+								SedimentationTableClassForDay.createTableSpance(doc2, cursor,"("+count+")");
 								
 								count++;
 							 }
@@ -973,8 +977,8 @@ public class Wordl2007Utis {
 		
 		
 		//在生成占位符的地方创建表格。
-		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.SEDIMENTATION); // /----------创建表
-		Wordl2007Utis.insertTab(doc,mapTable2,ReportConfig.COVERGENCE); // /----------创建表
+		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.DAY_SEDIMENTATION); // /----------创建表
+		Wordl2007Utis.insertTab(doc,mapTable2,ReportConfig.DAY_SEDIMENTATION); // /----------创建表
 		 
 		//WordUtil2007.insertImage("${image}", doc); // /----------创建图
 

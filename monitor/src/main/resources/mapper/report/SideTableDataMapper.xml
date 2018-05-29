@@ -20,6 +20,7 @@
 			    <result column="total_laser_change"  property="total_laser_change" />
 			</collection> 
   </resultMap>
+  <!--取日报数据  -->
  	<select id="selectSideTableData" resultMap="SideTableMap">                         	
 		select
 			sen.monitor_type typ,
@@ -44,8 +45,34 @@
 			and sen.smu_number=r.smu_number
 			and r.current_times like #{time}
   	</select>
-  	
-  
+  	<!--取周报数据 '2018-05-28 00:15:00' -->
+	<select id="selectSideTableDataOfWeek" resultMap="SideTableMap">                        	
+	select
+			sen.monitor_type typ,
+			p.project_name lineOne,
+			'湖南中大建设工程检测技术有限公司' lineTwo,
+			r.first_time  lineThreeCellone,
+			'测试人:中大监测云平台' lineThreeCelltwo,
+			sen.sensor_number lineFourCellone,
+			sen.monitor_point lineFourCellTwo,
+			sen.smu_number lineFiveCellOne,
+			sen.smu_channel lineFiveCellTwo,
+			r.current_times,
+			r.current_data,
+			r.first_data,
+			r.current_laser_change,
+			r.total_laser_change
+		from sensor sen,report_data r,project p 
+			where sen.project_id=176  and sen.project_id=p.project_id
+			and sen.monitor_type = r.typ
+			and sen.sensor_number=r.sensor_number
+			and sen.smu_channel = r.smu_channel
+			and sen.smu_number=r.smu_number
+			and r.current_times Between #{begin} and #{end}
+			and date_format(r.current_times,'%T') Between #{pointB} and #{pointE}
+
+			
+		</select>
   
   
 </mapper>

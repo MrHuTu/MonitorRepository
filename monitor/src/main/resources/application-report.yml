@@ -10,15 +10,20 @@ linuxuploadfiles: /mnt/monitor/upload_files/
 modelpath: D:/temp/
 #解析模板之后生成的word文件存放路径(缓存路径,解析之后的报告，报告要用的图片文件等，是个大杂烩，这个目录会定时清理，不必要担心外存不够的问题)
 downrepor: D:/a/
+
 #文件上传时文件存贮的目录
 uploadfiles: D:/pic/
 
 #图片上传时支持的格式
 pictype: .jpg;.png;.gif
 
-
-
 #数据归档的时间配置，以;分割 支持格式 00:00:00
 repotrTime: 00:00:00;09:00:00;16:00:00
-#归档应答的时间误差
+
+#归档应答的时间误差（格式00）
 repotrTimeError: 15
+
+#周表取数时间点
+setweek: 09:00:00;09:00:15
+
+
