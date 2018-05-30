@@ -290,4 +290,28 @@ public class ProjectServiceImpl implements ProjectService {
 	public int updateProjectManeger(Project project) {
 		return projectMapper.updateByPrimaryKeySelective(project);
 	}
+	@Override
+	public PaginationResult selectProjectsByUser(int offset, int limit,
+			String condition, Integer userId) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<Project> projects = null;
+		if(null!=condition&&condition.length()>0){
+			projects = projectMapper.selectProjectsByUserIdCondition(condition,userId);
+		}else{
+			projects = projectMapper.selectProjectsByUserId(userId);
+		}
+		return new PaginationResult(offsetPage.getTotal(),projects);
+	}
+	@Override
+	public PaginationResult selectNoProjectsByUser(int offset, int limit,
+			String condition, Integer userId) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<Project> projects = null;
+		if(null!=condition&&condition.length()>0){
+			projects = projectMapper.selectNoProjectsByUserIdCondition(condition,userId);
+		}else{
+			projects = projectMapper.selectNoProjectsByUserId(userId);
+		}
+		return new PaginationResult(offsetPage.getTotal(),projects);
+	}
 }

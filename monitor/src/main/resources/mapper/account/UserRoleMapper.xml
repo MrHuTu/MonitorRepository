@@ -68,4 +68,5 @@
       role_id = #{roleId,jdbcType=INTEGER}
     where ur_id = #{urId,jdbcType=INTEGER}
   </update>
+
 </mapper>

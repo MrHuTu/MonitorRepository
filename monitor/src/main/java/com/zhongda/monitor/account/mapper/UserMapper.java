@@ -64,4 +64,32 @@ public interface UserMapper {
 			@Param(value = "condition") String condition);
 
 	int deleteUsers(List<Integer> userIds);
+	/**
+	 * 查询项目下用户--by：kx
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectUsersByProjectId(Integer projectId);
+	/**
+	 * 查询项目下未拥有用户
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectNoUsersByProjectId(Integer projectId);
+	/**
+	 * 带条件查询项目下所有用户
+	 * @param condition
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectUsersByProjectIdCondition(@Param(value="condition")String condition,
+			@Param(value="projectId")Integer projectId);
+	/**
+	 * 带项目查询项目下所有未拥有用户
+	 * @param condition
+	 * @param projectId
+	 * @return
+	 */
+	List<User> selectNoUsersByProjectIdCondition(@Param(value="condition")String condition,
+			@Param(value="projectId")Integer projectId);
 }

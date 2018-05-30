@@ -38,6 +38,26 @@
     <include refid="Base_Column_List" />
     from user
   </select>
+  <select id="selectUsersByProjectId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+  	select * from user where user_id in (SELECT user_id FROM user_project where project_id = #{projectId,jdbcType=INTEGER})
+  </select>
+  <select id="selectNoUsersByProjectId" parameterType="java.lang.Integer" resultMap="BaseResultMap" >
+  	select * from user where user_id not in (SELECT user_id FROM user_project where project_id = #{projectId,jdbcType=INTEGER})
+  </select>
+  <select id="selectUsersByProjectIdCondition" resultMap="BaseResultMap" >
+  	select * from user where user_id in (SELECT user_id FROM user_project where project_id = #{projectId,jdbcType=INTEGER})
+  	&amp;&amp; user_id like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| user_name like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| real_name like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| status like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="selectNoUsersByProjectIdCondition" resultMap="BaseResultMap" >
+  	select * from user where user_id not in (SELECT user_id FROM user_project where project_id = #{projectId,jdbcType=INTEGER})
+  	&amp;&amp; user_id like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| user_name like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| real_name like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  	|| status like concat('%',#{condition,jdbcType=VARCHAR},'%')
+  </select>
   <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

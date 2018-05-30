@@ -116,6 +116,24 @@ public interface UserService {
 	PaginationResult selectAllUser(int offset, int limit, String condition);
 
 	/**
+	 * 分页查询当前项目下所有用户
+	 * @param offset
+	 * @param limit
+	 * @param condidtion
+	 * @return
+	 */
+	PaginationResult selectUsersByProject(int offset,int limit,String condition,Integer projectId);
+	
+	/**
+	 * 分页查询当前项目下没有的所有用户
+	 * @param offset
+	 * @param limit
+	 * @param condidtion
+	 * @return
+	 */
+	PaginationResult selectNoUsersByProject(int offset,int limit,String condition,Integer projectId);
+	
+	/**
 	 * 查询项目下的所有用户
 	 * 
 	 * @return
@@ -129,5 +147,4 @@ public interface UserService {
 	 * @return
 	 */
 	boolean deleteUsers(Integer userId);
-
 }

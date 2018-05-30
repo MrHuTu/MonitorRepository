@@ -2,6 +2,8 @@ package com.zhongda.monitor.business.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.zhongda.monitor.business.model.UserProject;
 
 public interface UserProjectMapper {
@@ -30,4 +32,8 @@ public interface UserProjectMapper {
 	 * @return
 	 */
 	List<UserProject> selectAllUpro();
+
+	int remove(@Param(value="projectId")int projectId,@Param(value="userId")int userId);
+
+	int add(@Param(value="projectId")int projectId,@Param(value="userId")int userId);
 }

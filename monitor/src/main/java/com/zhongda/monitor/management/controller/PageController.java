@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
+import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.business.model.Sensor;
 import com.zhongda.monitor.business.model.fictitious.PublicSensorData;
 import com.zhongda.monitor.business.service.ProjectService;
@@ -58,6 +60,30 @@ public class PageController {
 		return userService.selectAllUser(offset, limit, condition);
 	}
 
+	@ResponseBody
+	@RequestMapping("/queryUsersByProject")
+	public PaginationResult queryUsersByProject(int offset,int limit,String condition,Integer projectId){
+		return userService.selectUsersByProject(offset, limit, condition, projectId);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/queryNoUsersByProject")
+	public PaginationResult queryNoUsersByProject(int offset,int limit,String condition,Integer projectId){
+		return userService.selectNoUsersByProject(offset, limit, condition, projectId);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/queryProjectsByUser")
+	public PaginationResult queryProjectsByUser(int offset,int limit,String condition,Integer userId){
+		return projectService.selectProjectsByUser(offset, limit, condition, userId);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/queryNoProjectsByUser")
+	public PaginationResult queryNoProjectsByUser(int offset,int limit,String condition,Integer userId){
+		return projectService.selectNoProjectsByUser(offset, limit, condition, userId);
+	}
+	
 	@RequestMapping(value = "/queryMoniType")
 	public @ResponseBody List<Sensor> queryMoniType(Integer projectId) {
 		return sensorService.selectMonitorTypeByPro(projectId);
@@ -92,6 +118,18 @@ public class PageController {
 		return managerService.querySmuidGroup(tableName);
 	}
 
+	@RequestMapping("/queryProjectNames")
+	@ResponseBody
+	public List<Project> queryProjectNames(){
+		return projectService.selectAll();
+	}
+	
+	@RequestMapping("/queryUserNames")
+	@ResponseBody
+	public List<User> queryUserNames(){
+		return userService.selectAll();
+	}
+	
 	public boolean isAllFieldNull(Object obj) throws Exception {
 		Class stuCla = (Class) obj.getClass();// 得到类对象
 		Field[] fs = stuCla.getDeclaredFields();// 得到属性集合

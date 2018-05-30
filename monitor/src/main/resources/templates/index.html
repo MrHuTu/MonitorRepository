@@ -35,6 +35,34 @@
 	</form>
 	<button id="enableproject" class="btn btn-default" onclick="enableProject()">编辑</button>
 	<button id="enableuser" class="btn btn-default" onclick="enableuser()">编辑</button>
+	<!-- 项目一栏 -->
+	 <form class="form-inline" id="enableProjectAndUserTool">
+	  <div class="form-group col-xs-3">
+	    <select class="form-control" id="enableProjectAndUser" >
+		</select>
+	  <input type="button" value="当前已有用户" class="btn btn-success"/>
+	  </div>
+	</form>
+
+	<form class="form-inline" id="enableUserAndProjectTool">
+	  <div class="form-group col-xs-3">
+	  <input type="button" value="未拥有用户" class="btn btn-warning"/>
+	  </div>
+	</form>
+	<!-- 用户一栏 -->
+	 <form class="form-inline" id="enableProjectAndUserTool2">
+	  <div class="form-group col-xs-3">
+	    <select class="form-control" id="enableProjectAndUser2" >
+		</select>
+	  <input type="button" value="当前已有项目" class="btn btn-success"/>
+	  </div>
+	</form>
+
+	<form class="form-inline" id="enableUserAndProjectTool2">
+	  <div class="form-group col-xs-3">
+	  <input type="button" value="未拥有项目" class="btn btn-warning"/>
+	  </div>
+	</form>
 	<!-- 数据查询toolbar -->
 	<form class="form-inline" id="divsensorDataquery">
 	  <div class="form-group col-xs-3">
@@ -75,6 +103,7 @@
 		  <li role="presentation"><a href="#users" id="userLiclick" role="tab" data-toggle="tab">用户</a></li>
 		  <li role="presentation"><a href="#sensordata"  role="tab" data-toggle="tab">查询传感器数据</a></li>
 		  <li role="presentation"><a href="#up_firstData"  role="tab" data-toggle="tab">修改第一次数据</a></li>
+		  <li role="presentation"><a href="#projectAndUser"  role="tab" data-toggle="tab">项目/用户双向关系</a></li>
 		  <button type="button" class="btn btn-success" data-toggle="modal" href="#addup" style="float: right;">添加</button>
 		</ul>
 		
@@ -147,9 +176,35 @@
 		      </div>
 		     </div>
 		  </div>
-		    
+		  
+		  <!-- 项目用户双向 -->
+		    <div role="tabpanel" class="tab-pane" id="projectAndUser">
+	  		  <div class="tabbable">
+						<ul  class="nav nav-pills" id="navigateForProjectAndUser">
+							<li role="presentation" class="active"><a href="#projectPaneForProjectAndUser"
+								role="tab" data-toggle="tab" class="projectInProjectAndUser">项目</a></li>
+							<li role="presentation"><a href="#userPaneForProjectAndUser"
+								role="tab" data-toggle="tab" class="userInProjectAndUser">用户</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="tab-pane fade active in" id="projectPaneForProjectAndUser">
+                          		<table id="projectAndUserTable" >
+								</table>
+								<hr/>
+								<table id="projectAndUserTableForAdd" >
+								</table>
+                      		</div>
+							<div class="tab-pane fade in" id="userPaneForProjectAndUser">
+                          		<table id="userAndProjectTable"  class="chooseProjectOrUserTag">
+								</table>
+								<hr/>
+								<table id="userAndProjectTableForAdd" >
+								</table>
+                      		</div>
+						</div>
+			  </div>
+		  </div>
 		</div>
-	  	
 	  </div>
 
 		<!--project Large modal -->

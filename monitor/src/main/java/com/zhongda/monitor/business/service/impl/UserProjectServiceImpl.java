@@ -50,5 +50,12 @@ public class UserProjectServiceImpl implements UserProjectService {
 		}
 		return hashMap;
 	}
-
+	@Override
+	public boolean remove(int projectId, int userId) {
+		return userProjectMapper.remove(projectId,userId)>0;
+	}
+	@Override
+	public boolean add(int projectId, int userId) {System.out.println(1);
+		return userProjectMapper.add(projectId,userId)>0;
+	}
 }

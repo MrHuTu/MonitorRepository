@@ -18,5 +18,18 @@ public interface UserProjectService {
 	 * @return
 	 */
 	Map<Integer, List<String>> selectAllUpro();
-
+	/**
+	 * 根据项目id，用户id删除项目用户表
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 */
+	boolean remove(int projectId,int userId);
+	/**
+	 * 添加项目用户关系到项目用户表
+	 * @param projectId
+	 * @param userId
+	 * @return
+	 */
+	boolean add(int projectId, int userId);
 }

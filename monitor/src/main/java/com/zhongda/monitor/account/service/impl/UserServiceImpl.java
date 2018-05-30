@@ -18,6 +18,7 @@ import com.zhongda.monitor.account.mapper.UserMapper;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
 import com.zhongda.monitor.account.utils.ShiroUtils;
+import com.zhongda.monitor.business.model.Project;
 import com.zhongda.monitor.core.annotation.SysLogAnnotation;
 import com.zhongda.monitor.core.exception.VaildCodeExpireException;
 import com.zhongda.monitor.core.model.Result;
@@ -177,4 +178,31 @@ public class UserServiceImpl implements UserService {
 		}
 		return new PaginationResult(offsetPage.getTotal(), users);
 	}
+
+	@Override
+	public PaginationResult selectUsersByProject(int offset, int limit,
+			String condition,Integer projectId) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<User> users = null;
+		if(null!=condition&&condition.length()>0){
+			users = userMapper.selectUsersByProjectIdCondition(condition,projectId);
+		}else{
+			users = userMapper.selectUsersByProjectId(projectId);
+		}
+		return new PaginationResult(offsetPage.getTotal(),users);
+	}
+	
+	@Override
+	public PaginationResult selectNoUsersByProject(int offset, int limit,
+			String condition, Integer projectId) {
+		Page<Object> offsetPage = PageHelper.offsetPage(offset, limit);
+		List<User> users = null;
+		if(null!=condition&&condition.length()>0){
+			users = userMapper.selectNoUsersByProjectIdCondition(condition,projectId);
+		}else{
+			users = userMapper.selectNoUsersByProjectId(projectId);
+		}
+		return new PaginationResult(offsetPage.getTotal(),users);
+	}
+
 }

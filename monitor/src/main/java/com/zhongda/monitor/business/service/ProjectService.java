@@ -127,4 +127,26 @@ public interface ProjectService {
 	int updateProjectManeger(Project project);
 
 	Integer deleteProjects(String projectIds);
+
+	/**
+	 * 分页查询当前用户下已有所有项目
+	 * @param offset
+	 * @param limit
+	 * @param condition
+	 * @param userId
+	 * @return
+	 */
+	PaginationResult selectProjectsByUser(int offset, int limit,
+			String condition, Integer userId);
+
+	/**
+	 * 分页查询当前用户下未拥有项目
+	 * @param offset
+	 * @param limit
+	 * @param condition
+	 * @param userId
+	 * @return
+	 */
+	PaginationResult selectNoProjectsByUser(int offset, int limit,
+			String condition, Integer userId);
 }

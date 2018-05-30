@@ -87,4 +87,10 @@
       leader_flag = #{leaderFlag,jdbcType=BIT}
     where up_id = #{upId,jdbcType=INTEGER}
   </update>
+    <delete id="remove">
+  	delete from user_project where user_id = #{userId,jdbcType=INTEGER} &amp;&amp; project_id = #{projectId,jdbcType=INTEGER}
+  </delete>
+  <insert id="add">
+  	insert into user_project (user_id,project_id,leader_flag) values (#{userId,jdbcType=INTEGER},#{projectId,jdbcType=INTEGER},0)
+  </insert>
 </mapper>

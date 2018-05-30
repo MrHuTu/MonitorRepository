@@ -944,7 +944,6 @@
 			if(s_tablename==null){
 				alert("此检测指标无相关表，请联系相关人员建立表！")
 			}else{
-				
 				$('#querySensorDataTable').bootstrapTable('refresh',{url:'/page/querySensorData'});
 			}
 		}
@@ -1111,3 +1110,445 @@
 			        }
 			    });
 		}
+		//用户和项目--by kx
+		//定义项目id
+		var proId;
+		//初始化双向关系项目下拉框
+		$.ajax({
+			url:'/page/queryProjectNames',
+			  dataType:'json',
+			  success : function(datas){
+				  for(var data in datas){
+					  $('#enableProjectAndUser').append(
+							 "<option value='"+datas[data].projectId+"'>"+datas[data].projectName+"</option>"
+					  )
+				  };
+				  proId = $("#enableProjectAndUser").find("option:selected").attr("value");
+				  refreshInProject();
+			  }
+		})
+		
+		//项目下拉绑定查询事件
+		 $('#enableProjectAndUser').change(function(){
+//			 alert($("#enableProjectAndUser").find("option:selected").attr("value"));
+			 proId = $("#enableProjectAndUser").find("option:selected").attr("value");
+			 refreshInProject();
+		 });
+		
+		//初始化项目用户表
+		$('#projectAndUserTable').bootstrapTable({
+			url: '/page/queryUsersByProject',
+		    queryParams: function (params) {
+		        var param =  {
+		            offset: params.offset,
+		            limit: params.limit,
+		            condition:params.search,
+		            projectId:proId,
+		        };
+		        return param;
+		    },
+		    columns: [{
+		        field: 'userId',
+		        title: '用户Id', 
+		    }, {
+		    	field: 'userName',
+		        title: '用户名称',
+		       
+		    },  {
+		        field: 'realName',
+		        title: '真实姓名',
+		        
+		    },{
+		        field: 'status',
+		        title: '用户状态',
+	            
+		    }, {
+		        formatter: function (value, row, index) {
+		            return [
+		                '<a href="javascript:delPerInProject(' + row.userId + ')">' +
+		                    '<i class="glyphicon glyphicon-remove"></i>移出当前项目' +
+		                '</a>'
+		            ].join('');
+		        },
+		        title: '操作'
+		    }],
+		    striped: true,
+		    pagination: true,
+		    sidePagination: 'server',
+		    pageSize: 5,
+		    pageList: [5, 10, 25, 50, 100],
+		    clickToSelect: true,
+		    toolbar: '#enableProjectAndUserTool',                //工具按钮用哪个容器
+		    cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		    sortable: false,                     //是否启用排序
+		    sortOrder: "asc",                   //排序方式
+		    pageNumber: 1,                       //初始化加载第一页，默认第一页
+		    search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+		    contentType: "application/x-www-form-urlencoded",
+		    strictSearch: true,
+		    showColumns: true,                  //是否显示所有的列
+		    showRefresh: true,                  //是否显示刷新按钮
+		    minimumCountColumns: 2,             //最少允许的列数
+		    clickToSelect: true,                //是否启用点击选中行
+		    uniqueId: "no",                     //每一行的唯一标识，一般为主键列
+		    showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+		    cardView: false,                    //是否显示详细视图
+		    detailView: false, 
+		});
+		
+		//刷新项目和用户双向中的项目
+		function refreshInProject(){
+			$('#projectAndUserTable').bootstrapTable("refresh",'/page/queryUsersByProject');
+			$('#projectAndUserTableForAdd').bootstrapTable("refresh",'/page/queryNoUsersByProject');
+		};
+		//移除项目下已有用户
+		function delPerInProject(userId){
+			swal({
+		        title: "您确定要移除该用户吗",
+		        text: "移除后如需添加，请通过下方添加操作！",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "是的，我要移除！",
+		        cancelButtonText: "取消",
+		        closeOnConfirm: false,
+		        closeOnCancel: false
+		    },function (isConfirm) {
+		        if (isConfirm) {
+		        	$.ajax({
+		        		  url:'/manage/delPerInProject',
+						  dataType:'json',
+						  contentType : "application/json;charset=utf-8",
+						  data : 'userId='+userId+'&projectId='+proId,
+						  success : function(data){
+							  if(data){
+								  swal("移除成功！", "success");
+								  refreshInProject();
+							  }else{
+								  swal("移除失败", "请您重新尝试。", "error");
+							  }
+						  },
+						  error : function(){
+							  swal("移除失败", "请您重新尝试。", "error");
+						  }
+					})
+		        } else {
+		            swal("已取消", "您取消了移除操作！", "error");
+		        }
+		    });
+		}
+		
+		//初始化添加项目用户表
+		$('#projectAndUserTableForAdd').bootstrapTable({
+			url: '/page/queryNoUsersByProject',
+		    queryParams: function (params) {
+		        var param =  {
+		            offset: params.offset,
+		            limit: params.limit,
+		            condition:params.search,
+		            projectId:proId,
+		        };
+		        return param;
+		    },
+		    columns: [{
+		        field: 'userId',
+		        title: '用户Id', 
+		    }, {
+		    	field: 'userName',
+		        title: '用户名称',
+		       
+		    }, {
+		        field: 'realName',
+		        title: '真实姓名',
+		        
+		    }, {
+		        field: 'status',
+		        title: '用户状态',
+	            
+		    }, {
+		        formatter: function (value, row, index) {
+		            return [
+		                '<a href="javascript:addUserInProject(' + row.userId + ')">' +
+		                    '<i class="glyphicon glyphicon-check"></i>添入当前项目' +
+		                '</a>'
+		            ].join('');
+		        },
+		        title: '操作'
+		    }],
+		    striped: true,
+		    pagination: true,
+		    sidePagination: 'server',
+		    pageSize: 5,
+		    pageList: [5, 10, 25, 50, 100],
+		    clickToSelect: true,
+		    toolbar: '#enableUserAndProjectTool',                //工具按钮用哪个容器
+		    cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+		    sortable: false,                     //是否启用排序
+		    sortOrder: "asc",                   //排序方式
+		    pageNumber: 1,                       //初始化加载第一页，默认第一页
+		    search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+		    contentType: "application/x-www-form-urlencoded",
+		    strictSearch: true,
+		    showColumns: true,                  //是否显示所有的列
+		    showRefresh: true,                  //是否显示刷新按钮
+		    minimumCountColumns: 2,             //最少允许的列数
+		    clickToSelect: true,                //是否启用点击选中行
+		    uniqueId: "no",                     //每一行的唯一标识，一般为主键列
+		    showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+		    cardView: false,                    //是否显示详细视图
+		    detailView: false, 
+		});
+		
+		//添加用户到当前项目
+		function addUserInProject(userId){
+			swal({
+		        title: "您确定要添加该用户吗",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "是的，我要添加！",
+		        cancelButtonText: "取消",
+		        closeOnConfirm: false,
+		        closeOnCancel: false
+		    },function (isConfirm) {
+		        if (isConfirm) {
+		        	$.ajax({
+		        		  url:'/manage/addUserInProject',
+						  dataType:'json',
+						  contentType : "application/json;charset=utf-8",
+						  data : 'userId='+userId+'&projectId='+proId,
+						  success : function(data){
+							  if(data){
+								  swal("添加成功！", "success");
+								  refreshInProject();
+							  }else{
+								  swal("添加失败", "请您重新尝试。", "error");
+							  }
+						  },
+						  error : function(){
+							  swal("添加失败", "请您重新尝试。", "error");
+						  }
+					})
+		        } else {
+		            swal("已取消", "您取消了添加操作！", "error");
+		        }
+		    });
+		}
+		
+		//定义用户id
+		var userId;
+		//初始化双向关系用户下拉框
+		$.ajax({
+			url:'/page/queryUserNames',
+			  dataType:'json',
+			  success : function(datas){
+				  for(var data in datas){
+					  $('#enableProjectAndUser2').append(
+							 "<option value='"+datas[data].userId+"'>"+datas[data].userName+"---"+datas[data].realName+"</option>"
+					  )
+				  };
+				  userId = $("#enableProjectAndUser2").find("option:selected").attr("value");
+				  //引用刷新
+				  refreshInUser();
+			  }
+		})
+		//刷新双向中用户一栏数据
+		function refreshInUser(){
+			$('#userAndProjectTable').bootstrapTable("refresh",'/page/queryProjectsByUser');
+			$('#userAndProjectTableForAdd').bootstrapTable("refresh",'/page/queryNoProjectsByUser');
+		};
+		//用户下拉绑定查询事件
+		 $('#enableProjectAndUser2').change(function(){
+//			 alert($("#enableProjectAndUser").find("option:selected").attr("value"));
+			 userId = $("#enableProjectAndUser2").find("option:selected").attr("value");
+			 refreshInUser();
+		 });
+		//用户项目表初始化
+		$('#userAndProjectTable').bootstrapTable({
+			url: '/page/queryProjectsByUser',
+			queryParams: function (params) {
+				var param =  {
+						offset: params.offset,
+						limit: params.limit,
+						condition:params.search,
+						userId:userId,
+				};
+				return param;
+			},
+			columns: [{
+				field: 'projectId',
+				title: '项目id', 
+			}, {
+				field: 'projectName',
+				title: '项目名称',
+				
+			}, {
+				field: 'projectAddress',
+				title: '项目地址',
+				
+			}, {
+				formatter: function (value, row, index) {
+					return [
+					        '<a href="javascript:delProjectInUser(' + row.projectId + ')">' +
+					        '<i class="glyphicon glyphicon-remove"></i>移除' +
+					        '</a>'
+					        ].join('');
+				},
+				title: '操作'
+			}],
+			striped: true,
+			pagination: true,
+			sidePagination: 'server',
+			pageSize: 5,
+			pageList: [5, 10, 25, 50, 100],
+			clickToSelect: true,
+			toolbar: '#enableProjectAndUserTool2',                //工具按钮用哪个容器
+			cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+			sortable: false,                     //是否启用排序
+			sortOrder: "asc",                   //排序方式
+			pageNumber: 1,                       //初始化加载第一页，默认第一页
+			search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+			contentType: "application/x-www-form-urlencoded",
+			strictSearch: true,
+			showColumns: true,                  //是否显示所有的列
+			showRefresh: true,                  //是否显示刷新按钮
+			minimumCountColumns: 2,             //最少允许的列数
+			clickToSelect: true,                //是否启用点击选中行
+			uniqueId: "no",                     //每一行的唯一标识，一般为主键列
+			showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+			cardView: false,                    //是否显示详细视图
+			detailView: false, 
+		});
+		
+		//用户项目添加表初始化
+		$('#userAndProjectTableForAdd').bootstrapTable({
+			url: '/page/queryNoProjectsByUser',
+			queryParams: function (params) {
+				var param =  {
+						offset: params.offset,
+						limit: params.limit,
+						condition:params.search,
+						userId:userId,
+				};
+				return param;
+			},
+			columns: [{
+				field: 'projectId',
+				title: '项目id', 
+			}, {
+				field: 'projectName',
+				title: '项目名称',
+				
+			}, {
+				field: 'projectAddress',
+				title: '项目地址',
+				
+			}, {
+				formatter: function (value, row, index) {
+					return [
+					        '<a href="javascript:addProjectInUser(' + row.projectId + ')">' +
+					        '<i class="glyphicon glyphicon-check"></i>加入当前用户' +
+					        '</a>'
+					        ].join('');
+				},
+				title: '操作'
+			}],
+			striped: true,
+			pagination: true,
+			sidePagination: 'server',
+			pageSize: 5,
+			pageList: [5, 10, 25, 50, 100],
+			clickToSelect: true,
+			toolbar: '#enableUserAndProjectTool2',                //工具按钮用哪个容器
+			cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+			sortable: false,                     //是否启用排序
+			sortOrder: "asc",                   //排序方式
+			pageNumber: 1,                       //初始化加载第一页，默认第一页
+			search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+			contentType: "application/x-www-form-urlencoded",
+			strictSearch: true,
+			showColumns: true,                  //是否显示所有的列
+			showRefresh: true,                  //是否显示刷新按钮
+			minimumCountColumns: 2,             //最少允许的列数
+			clickToSelect: true,                //是否启用点击选中行
+			uniqueId: "no",                     //每一行的唯一标识，一般为主键列
+			showToggle: true,                    //是否显示详细视图和列表视图的切换按钮
+			cardView: false,                    //是否显示详细视图
+			detailView: false, 
+		});
+		
+		//添加项目到当前用户
+		function addProjectInUser(projectId){
+			swal({
+		        title: "您确定要添加该项目吗",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "是的，我要添加！",
+		        cancelButtonText: "取消",
+		        closeOnConfirm: false,
+		        closeOnCancel: false
+		    },function (isConfirm) {
+		        if (isConfirm) {
+		        	$.ajax({
+		        		  url:'/manage/addProjectInUser',
+						  dataType:'json',
+						  contentType : "application/json;charset=utf-8",
+						  data : 'projectId='+projectId+'&userId='+userId,
+						  success : function(data){
+							  if(data){
+								  swal("添加成功！", "success");
+								  refreshInUser();
+							  }else{
+								  swal("添加失败", "请您重新尝试。", "error");
+							  }
+						  },
+						  error : function(){
+							  swal("添加失败", "请您重新尝试。", "error");
+						  }
+					})
+		        } else {
+		            swal("已取消", "您取消了添加操作！", "error");
+		        }
+		    });
+		}
+		
+		//移除用户下已有项目
+		function delProjectInUser(projectId){
+			swal({
+		        title: "您确定要移除该项目吗",
+		        text: "移除后如需添加，请通过下方添加操作！",
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "是的，我要移除！",
+		        cancelButtonText: "取消",
+		        closeOnConfirm: false,
+		        closeOnCancel: false
+		    },function (isConfirm) {
+		        if (isConfirm) {
+		        	$.ajax({
+		        		  url:'/manage/delProjectInUser',
+						  dataType:'json',
+						  contentType : "application/json;charset=utf-8",
+						  data : 'projectId='+projectId+'&userId='+userId,
+						  success : function(data){
+							  if(data){
+								  swal("移除成功！", "success");
+								  refreshInUser();
+							  }else{
+								  swal("移除失败", "请您重新尝试。", "error");
+							  }
+						  },
+						  error : function(){
+							  swal("移除失败", "请您重新尝试。", "error");
+						  }
+					})
+		        } else {
+		            swal("已取消", "您取消了移除操作！", "error");
+		        }
+		    });
+		}
+		//用户和项目 end--by kx
+		
+		

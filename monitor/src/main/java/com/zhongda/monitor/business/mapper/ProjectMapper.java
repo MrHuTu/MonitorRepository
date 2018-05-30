@@ -69,5 +69,33 @@ public interface ProjectMapper {
 	 */
 	List<Project> selectSearchBymanage(
 			@Param(value = "condition") String condition);
+	/**
+	 * 根据用户id查询已有项目
+	 * @param userId
+	 * @return
+	 */
+	List<Project> selectProjectsByUserId(Integer userId);
+	
+	/**
+	 * 根据用户id查询未拥有项目
+	 * @param userId
+	 * @return
+	 */
+	List<Project> selectNoProjectsByUserId(Integer userId);
+	/**
+	 * 带搜索条件查询已有项目
+	 * @param condition
+	 * @param userId
+	 * @return
+	 */
+	List<Project> selectProjectsByUserIdCondition(@Param(value="condition")String condition,@Param(value="userId")Integer userId);
+	/**
+	 * 带条件查询未有项目
+	 * @param condition
+	 * @param userId
+	 * @return
+	 */
+	List<Project> selectNoProjectsByUserIdCondition(@Param(value="condition")String condition,
+			@Param(value="userId")Integer userId);
 
 }
