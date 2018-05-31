@@ -169,21 +169,31 @@
 			<artifactId>poi-excelant</artifactId>
 			<version>3.16</version>
 		</dependency>
+		
+		<!-- 极光推送 -->
 		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-core</artifactId>
-			<version>1.0.0</version>
+		    <groupId>cn.jpush.api</groupId>
+		    <artifactId>jpush-client</artifactId>
+		    <version>3.3.6</version>
 		</dependency>
 		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>2.11.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>2.11.0</version>
-		</dependency>
+	        <groupId>cn.jpush.api</groupId>
+	        <artifactId>jiguang-common</artifactId>
+	        <version>1.1.1</version>
+	    </dependency>
+	    <dependency>
+	        <groupId>io.netty</groupId>
+	        <artifactId>netty-all</artifactId>
+	        <version>4.1.6.Final</version>
+	        <scope>compile</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>com.google.code.gson</groupId>
+	        <artifactId>gson</artifactId>
+	        <version>2.3</version>
+	    </dependency>
+		<!-- 极光推送 -->
+		
 	</dependencies>
 
 	<build>

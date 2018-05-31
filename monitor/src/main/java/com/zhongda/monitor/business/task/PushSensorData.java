@@ -1,5 +1,6 @@
 package com.zhongda.monitor.business.task;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +10,8 @@ import javax.annotation.Resource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.zhongda.monitor.core.config.JpushConfig;
 
 /**
  * 
@@ -36,6 +39,15 @@ public class PushSensorData {
 						entry.getKey() + "你好呀!");
 			}
 		}
+	}
+
+	@Scheduled(cron = "0 2/10 * * * ?")
+	public void pushAndroid() {
+		System.out.println("定时器begin----------------");
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("msg", "当前检测指标已经更新数据，请及时查看！");
+		JpushConfig.jpushAndroid(hashMap);
+		System.out.println("定时器End----------------");
 	}
 
 }

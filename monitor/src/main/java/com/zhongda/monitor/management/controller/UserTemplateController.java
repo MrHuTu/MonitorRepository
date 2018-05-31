@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import scala.annotation.meta.getter;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zhongda.monitor.account.model.User;
 import com.zhongda.monitor.account.service.UserService;
@@ -196,27 +194,32 @@ public class UserTemplateController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				dateFormat, true));
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/delPerInProject")
-	public void delPerInProject(int userId,int projectId,HttpServletResponse resp) throws IOException{
+	public void delPerInProject(int userId, int projectId,
+			HttpServletResponse resp) throws IOException {
 		resp.getWriter().print(userProjectService.remove(projectId, userId));
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/addUserInProject")
-	public void addUserInProject(int userId,int projectId,HttpServletResponse resp) throws IOException{
+	public void addUserInProject(int userId, int projectId,
+			HttpServletResponse resp) throws IOException {
 		resp.getWriter().print(userProjectService.add(projectId, userId));
 	}
+
 	@ResponseBody
 	@RequestMapping("/addProjectInUser")
-	public void addProjectInUser(int projectId,int userId,HttpServletResponse resp) throws IOException{
+	public void addProjectInUser(int projectId, int userId,
+			HttpServletResponse resp) throws IOException {
 		resp.getWriter().print(userProjectService.add(projectId, userId));
 	}
-	
+
 	@ResponseBody
 	@RequestMapping("/delProjectInUser")
-	public void delProjectInUser(int projectId,int userId,HttpServletResponse resp) throws IOException{
+	public void delProjectInUser(int projectId, int userId,
+			HttpServletResponse resp) throws IOException {
 		resp.getWriter().print(userProjectService.remove(projectId, userId));
 	}
 }
