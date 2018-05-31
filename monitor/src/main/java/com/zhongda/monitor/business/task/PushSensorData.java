@@ -41,7 +41,7 @@ public class PushSensorData {
 		}
 	}
 
-	@Scheduled(cron = "0 2/10 * * * ?")
+	// @Scheduled(cron = "0 2/10 * * * ?")
 	public void pushAndroid() {
 		System.out.println("定时器begin----------------");
 		HashMap<String, String> hashMap = new HashMap<String, String>();
