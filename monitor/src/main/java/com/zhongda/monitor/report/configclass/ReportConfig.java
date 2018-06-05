@@ -20,4 +20,5 @@ public class ReportConfig {//Sedimentation  Convergence public static final  Str
 	 */
 	//沉降,水平位移
 	public static final  String WEEK_SEDIMENTATION ="com.zhongda.monitor.report.configclass.tableclass.weekreport.SedimentationTableClassForWeek";
+	public static final  String WEEK_SEDIMENTATION_BANK ="com.zhongda.monitor.report.configclass.tableclass.weekreport.SedimentationTableClassForWeek_Bank2";
 }

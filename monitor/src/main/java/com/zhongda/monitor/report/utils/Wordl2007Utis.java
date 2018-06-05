@@ -573,7 +573,7 @@ public class Wordl2007Utis {
 	 * @param fromRow
 	 * @param toRow
 	 */
-	public void mergeCellsVertically(XWPFTable table, int col, int fromRow,int toRow) {
+	public static void mergeCellsVertically(XWPFTable table, int col, int fromRow,int toRow) {
 		for (int rowIndex = fromRow; rowIndex <= toRow; rowIndex++) {
 			XWPFTableCell cell = table.getRow(rowIndex).getCell(col);
 			if (rowIndex == fromRow) {
@@ -912,18 +912,6 @@ public class Wordl2007Utis {
 
 		Map<String, Object> param = new HashMap<String, Object>();
 
-		param.put("${name}", "哈哈哈哈");
-		
-		//param.put("${T_1}", "xxxxx报告");  大标题以T_开头
-
-		Map<String, Object> twocode = new HashMap<String, Object>();
-
-		twocode.put("width", 100);
-
-		twocode.put("height", 100);
-
-		twocode.put("type", "png");
-
 		XWPFDocument doc = Wordl2007Utis.generateWord(param,"d:/reportTemp/2007.docx");
 
 		// 动态插入表格
@@ -931,56 +919,31 @@ public class Wordl2007Utis {
 
 		List<String> listSinge = new ArrayList<String>();		
 		
-		
-		Map<String, List<String>> singe1 = new HashMap<String, List<String>>();
-
-		List<String> listSinge1 = new ArrayList<String>();	
 		//占位符，奇数为标题，偶数为表格
 		listSinge.add("${2}");	
 		
 		listSinge.add("${3}");
 		
-		listSinge.add("${4}");	
-		
-		listSinge.add("${5}");
-		
-		listSinge.add("${11}");	
-		
-		listSinge.add("${12}");
+	
 		//表格数据在生成占位符的时候就已经存入了map结构,一个占位符对应一个表格数据(除了标题)
 		ArrayList<Object> model = new ArrayList<Object>();
 		SideTableData sideTableHeadModel  = new SideTableData();
 		sideTableHeadModel.unifyLength();
 	
 		model.add(sideTableHeadModel);
-		model.add(sideTableHeadModel);
-		model.add(sideTableHeadModel);
 		//**************************************//
-		listSinge1.add("${6}");	
 		
-		listSinge1.add("${7}");
 		
-		listSinge1.add("${8}");	
-		
-		listSinge1.add("${9}");
-		ArrayList<Object> model1 = new ArrayList<Object>();
-		SideTableData sideTableHeadModel1  = new SideTableData();
-		sideTableHeadModel1.unifyLength();
-		model1.add(sideTableHeadModel1);
-		model1.add(sideTableHeadModel1);
-		
-		singe.put("${singe}", listSinge);
-		singe1.put("${singe1}", listSinge1);
+		singe.put("${tablea}", listSinge);
+
 		//在模板中的指定位置。插入2中类型的占位符--相对位移 和水平位移
-		Map<String,Object> mapTable1 = insertTabSinge(doc, singe,model);
-		Map<String,Object> mapTable2 =insertTabSinge(doc, singe1,model1);
-		
+		Map<String,Object> mapTable1 = insertTabSinge(doc, singe,model);			
 		
 		//在生成占位符的地方创建表格。
-		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.DAY_SEDIMENTATION); // /----------创建表
-		Wordl2007Utis.insertTab(doc,mapTable2,ReportConfig.DAY_SEDIMENTATION); // /----------创建表
+		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.WEEK_SEDIMENTATION_BANK); // /----------创建表
+		
 		 
-		//WordUtil2007.insertImage("${image}", doc); // /----------创建图
+	
 
 	
 		FileOutputStream fopts = new FileOutputStream("d:/在线检测报告/2007-2.docx");

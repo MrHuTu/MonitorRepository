@@ -27,13 +27,13 @@ import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
 
 /**
- * 沉降样式   必须实现BastTableClass接口
+ * 周报统一样式
  * @author huchao
  *
  */
-public class SedimentationTableClassForWeek implements BastTableClass {
+public class SedimentationTableClassForWeek_Bank2 implements BastTableClass {
 	
-	private static  Logger logger = LoggerFactory.getLogger(SedimentationTableClassForWeek.class);
+	private static  Logger logger = LoggerFactory.getLogger(SedimentationTableClassForWeek_Bank2.class);
 	
 	@SuppressWarnings("unused")
 	public  void createTable(CreateTableConfig config) {
@@ -76,7 +76,7 @@ public class SedimentationTableClassForWeek implements BastTableClass {
      * 定制表格样式
      **/
 	public static void customizationTableClass(XWPFTable tableOne,Object obj){
-				SideTableData	model = (SideTableData)obj;
+				//SideTableData	model = (SideTableData)obj;
 				//控制表格样式
 				String amount = "9000";
 				
@@ -88,21 +88,27 @@ public class SedimentationTableClassForWeek implements BastTableClass {
 				 
 				tblWidth.setW(new BigInteger(amount));
 					
-				tblWidth.setType(STTblWidth.DXA);						
+				tblWidth.setType(STTblWidth.DXA);			
+				
+				//合并行单元格
 				
 				Wordl2007Utis.mergeCellsHorizontal(tableOne, 0, 0, 5);
 				Wordl2007Utis.mergeCellsHorizontal(tableOne, 1, 0, 5);
 
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 0, 2);
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 3, 5);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 0, 3);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 4, 5);
 
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 0, 2);
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 3, 5);
+				//Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 0, 2);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 1, 5);//3-7
 				
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 0, 2);
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 3, 5);
 				
-				XWPFTableRow row = tableOne.getRow(0);
+				//合并列单元格
+				Wordl2007Utis.mergeCellsVertically(tableOne,0,3,7);
+				
+				/*Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 0, 2);
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 4, 3, 5);*/
+				
+				/*XWPFTableRow row = tableOne.getRow(0);
 				row.getCell(0).setText(model.getLineOne());		
 				
 				XWPFTableRow row1 = tableOne.getRow(1);
@@ -159,7 +165,7 @@ public class SedimentationTableClassForWeek implements BastTableClass {
 					
 					rowNum++;
 					
-				}
+				}*/
 				
 	}
 	
@@ -203,7 +209,7 @@ public class SedimentationTableClassForWeek implements BastTableClass {
 	@Override
 	public CreateTableConfig getTableClassConfig(XWPFDocument doc2, XmlCursor cursor,Object obj) {
 		
-		return new CreateTableConfig( doc2,  cursor,  9, 6, (SideTableData)obj);
+		return new CreateTableConfig( doc2,  cursor,  15, 6, (SideTableData)obj);
 	}
 	 
 }

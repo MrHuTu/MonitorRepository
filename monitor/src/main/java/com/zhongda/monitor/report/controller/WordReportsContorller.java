@@ -58,7 +58,7 @@ public class WordReportsContorller {
 		
 			
 		
-			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time,"D"), false);
+			return DownloadUtils.downloadSolve(wordUtil2007Service.generateWord(pojoId,time,"W"), false);
 				
 
 	}

@@ -143,7 +143,11 @@ public class ReportConfigOpUtils {
 												
 			}
 		}
-		
+		if(path==null){
+			
+			logger.error("请在表report_config中配置"+pojoId+"相关信息");
+			
+		}
 		return path;				
 		
 	}

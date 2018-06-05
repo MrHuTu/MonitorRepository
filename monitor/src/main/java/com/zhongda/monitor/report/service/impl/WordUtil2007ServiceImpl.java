@@ -81,7 +81,17 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 		
 		//见模板复制到零时目录，防止模板文件被修改
 		
-		CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp),gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp));
+		String mpdelName = ReportConfigOpUtils.getModelPath(pojoId,repotrTyp);
+		
+		if(mpdelName!=null){
+			
+			CopyFileUtils.copyFile(gitYmlParaUtils.accordingOsGetParm("path")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp),gitYmlParaUtils.accordingOsGetParm("temp")+ReportConfigOpUtils.getModelPath(pojoId,repotrTyp));
+			
+		}else{
+			 return ErrorCode.ERROR7;
+		}
+		
+	
 			
 	
 				
