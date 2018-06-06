@@ -20,6 +20,17 @@
 			    <result column="total_laser_change"  property="total_laser_change" />
 			</collection> 
   </resultMap>
+  <resultMap type="com.zhongda.monitor.report.model.fictitious.ReportWeekData_Head" id="weekMap">
+  			<result property="sensorNumber" column="sensorNumber"/>
+  			<result property="smuNumber" column="smuNumber"/>
+  			<result property="smuChannel" column="smuChannel"/>
+  			<result property="monitorPoint" column="monitorPoint"/>
+  			<collection property="reportWeekDataDates" ofType="com.zhongda.monitor.report.model.fictitious.ReportWeekData_Dates">
+  				<result property="totalLaserChange" column="totalLaserChange"/>
+  				<result property="time" column="time"/>
+  			</collection>
+  
+  </resultMap>
   <!--取日报数据  -->
  	<select id="selectSideTableData" resultMap="SideTableMap">                         	
 		select
@@ -72,6 +83,21 @@
 			and date_format(r.current_times,'%T') Between #{pointB} and #{pointE}
 
 			
+		</select>
+		
+		
+		<select id="selectReportOfWeek" resultMap="weekMap">		
+			select 
+				r.sensor_number sensorNumber ,r.smu_number smuNumber ,r.smu_channel smuChannel ,s.monitor_point monitorPoint,  date_format(r.current_times ,'%Y/%m/%d') time,r.total_laser_change totalLaserChange
+			from 
+				report_data r ,sensor s		
+			where 
+				r.project_id=#{projectId} and r.project_id = s.project_id
+				and r.sensor_number = s.sensor_number
+				and r.smu_number =s.smu_number
+				and r.smu_channel = s.smu_channel
+				and r.current_times Between #{begin} and #{end}
+				and date_format(r.current_times,'%T') Between #{pointB} and #{pointE}			
 		</select>
   
   

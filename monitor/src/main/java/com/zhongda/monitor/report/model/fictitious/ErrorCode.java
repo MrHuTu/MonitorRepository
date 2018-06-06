@@ -8,4 +8,5 @@ public class ErrorCode {
  public static final String ERROR5 = "ERROR:报告生成生成时间为17点以后";
  public static final String ERROR6 = "ERROR:目前不支持改报告类型生成";
  public static final String ERROR7 = "ERROR:改项目没有被管理配置，请联系开发";
+ public static final String ERROR8 = "ERROR:系统错误，报告解析异常";
 }

@@ -15,7 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.zhongda.monitor.business.service.ProjectService;
-import com.zhongda.monitor.report.configclass.configmodel.CreateTableConfig;
+import com.zhongda.monitor.report.configclass.filldata.FillBasics;
+import com.zhongda.monitor.report.exception.ImplErrorException;
 import com.zhongda.monitor.report.model.fictitious.ErrorCode;
 import com.zhongda.monitor.report.service.ProjectParaService;
 import com.zhongda.monitor.report.service.WordUtil2007Service;
@@ -218,13 +219,25 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			 * 
 			 */
 			//创建表格,填充数据
-			callMethod(ReportConfigOpUtils.gitClassPath(pojoId,repotrTyp),doc,pojoId,time);
+			 boolean succes = callMethod(ReportConfigOpUtils.gitClassPath(pojoId,repotrTyp),doc,pojoId,time, repotrTyp);
 			
-			map.put("doc",doc );
+			if(!succes){
+				
+				return ErrorCode.ERROR8;
+				
+			}else{
+				
+				map.put("doc",doc );
+				
+				map.put("name", param.get("${name}"));
+				
+				return map;
+				
+				
+			}
 			
-			map.put("name", param.get("${name}"));
 			
-			return map;
+		
 			
 		//}
 		
@@ -236,22 +249,52 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	 * @return 
 	 */
 	
-	private static CreateTableConfig callMethod(String className,XWPFDocument doc2,String pojoId,String time){
+	@SuppressWarnings("unchecked")
+	private  boolean callMethod(String className,XWPFDocument doc2,String pojoId,String time,String repotrTyp){
+		
+		boolean  succeed = false;
 		
 		 String methodName =  "fillData";
-		  
+		 
+		 Object obj = SpringContextUtil.getBean(className);
+		 
+		 @SuppressWarnings("rawtypes")
+		Class superclass =  FillBasics.class;
+				
+		if(!superclass.isAssignableFrom(obj.getClass())){					
+									
+			//ImplErrorException implErrorException = new 	ImplErrorException();
+			
+			 try {
+				 new  ImplErrorException().f("className没有实现com.zhongda.monitor.report.configclass.filldata.FillBasics接口");
 				 
-		  CreateTableConfig  result = null;
-		  
+			 }catch(ImplErrorException e){
+				 
+				 e.printStackTrace();
+				 
+			 }
+										
+			return succeed;
+		}		
+		 		  
 		try {
-			
-			Object obj = SpringContextUtil.getBean(className);
-			
-			  //获取方法  			
-			 Method m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class,String.class);
+									
+			 Method m = null;
 			 
-			  //调用方法  
-			 result =  (CreateTableConfig) m.invoke(obj, doc2,pojoId,time);
+			if(TYPD.equals(repotrTyp)){
+				
+				  m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class,String.class);
+				  
+				  m.invoke(obj, doc2,pojoId,time);
+			}else if(TYPW.equals(repotrTyp)){
+				
+				  m = obj.getClass().getMethod(methodName,XWPFDocument.class,String.class);
+				  
+				   m.invoke(obj, doc2,pojoId);
+			}
+			
+			succeed = true;
+			 
 		} catch (IllegalAccessException e) {
 			
 			e.printStackTrace();
@@ -268,7 +311,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 			
 			e.printStackTrace();
 		}
-		return result;
+		return succeed;
 		 
 	 }
 }

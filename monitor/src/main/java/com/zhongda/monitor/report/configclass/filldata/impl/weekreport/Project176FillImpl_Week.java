@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.zhongda.monitor.report.configclass.ReportConfig;
 import com.zhongda.monitor.report.configclass.filldata.FillBasics;
+import com.zhongda.monitor.report.model.fictitious.ReportWeekData_Head;
 import com.zhongda.monitor.report.model.fictitious.SideTableData;
 import com.zhongda.monitor.report.service.SideTableDataService;
 import com.zhongda.monitor.report.utils.FillWordMapUtils;
@@ -23,30 +24,25 @@ public class Project176FillImpl_Week implements FillBasics{
 	@Autowired
 	SideTableDataService sideTableDataService;
 	@Override
-	public void fillData(XWPFDocument doc2,String pojoId,String time) {		
-		synchronized (this) {
+	public void fillData(XWPFDocument doc2,String pojoId,String time) {							
 			
-			List<SideTableData> sideTableDatas = sideTableDataService.selectSideTableDataOfWeek();
+		List<ReportWeekData_Head> ReportWeekDatas = sideTableDataService.selectReportOfWeek(pojoId);
+		
+		for(ReportWeekData_Head v: ReportWeekDatas ){
 			
-			logger.info("sideTableDatas大小："+sideTableDatas.size());
+			System.out.println(v);
 			
-			System.out.println(sideTableDatas);
-				
-			logger.info(pojoId+",sideTableDatas.size()="+sideTableDatas.size());
+		}
 			
-			
-			
-				//生成表格---竖向位移  16
-				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tableb}","16",ReportConfig.WEEK_SEDIMENTATION);
-				
-			
-				//生成表格---水平位移  17
-				FillWordMapUtils.verticalDisplacement(doc2,sideTableDatas,"${tablea}","15",ReportConfig.WEEK_SEDIMENTATION);
-				
-				
-			
-				
-		}		
+		
+								
+		
+	}
+	
+	//当下载周报师会调用该方法,为了保持依旧实现FillBasics接口的定义规则，此处做个方法代理
+	public void fillData(XWPFDocument doc2,String pojoId){
+		
+		fillData(doc2,pojoId,null);
 		
 	}
 

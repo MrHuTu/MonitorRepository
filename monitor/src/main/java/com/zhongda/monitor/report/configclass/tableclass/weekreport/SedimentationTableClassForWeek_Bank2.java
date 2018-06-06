@@ -95,11 +95,9 @@ public class SedimentationTableClassForWeek_Bank2 implements BastTableClass {
 				Wordl2007Utis.mergeCellsHorizontal(tableOne, 0, 0, 5);
 				Wordl2007Utis.mergeCellsHorizontal(tableOne, 1, 0, 5);
 
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 0, 3);
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 4, 5);
-
+			
 				//Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 0, 2);
-				Wordl2007Utis.mergeCellsHorizontal(tableOne, 3, 1, 5);//3-7
+				Wordl2007Utis.mergeCellsHorizontal(tableOne, 2, 1, 5);//3-7
 				
 				
 				//合并列单元格
@@ -209,7 +207,7 @@ public class SedimentationTableClassForWeek_Bank2 implements BastTableClass {
 	@Override
 	public CreateTableConfig getTableClassConfig(XWPFDocument doc2, XmlCursor cursor,Object obj) {
 		
-		return new CreateTableConfig( doc2,  cursor,  15, 6, (SideTableData)obj);
+		return new CreateTableConfig( doc2,  cursor,  14, 6, (SideTableData)obj);
 	}
 	 
 }

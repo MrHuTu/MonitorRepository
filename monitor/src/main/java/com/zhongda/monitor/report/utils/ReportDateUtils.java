@@ -48,8 +48,8 @@ public class ReportDateUtils {
 	     String imptimeEnd = sdf.format(cal.getTime());  
 	     
 	     
-	     dataMap.put("begin", imptimeBegin);
-	     dataMap.put("end", imptimeEnd);
+	     dataMap.put("begin", imptimeBegin+" 00:00:00");
+	     dataMap.put("end", imptimeEnd+" 23:59:59");
 	     
 	     // System.out.println("所在周星期日的日期：" + imptimeEnd);  
 	     return dataMap;  
