@@ -26,7 +26,7 @@ public interface AlarmService {
 	 * @param alarmId 告警id
 	 * 
 	 */
-	Result<Alarm> updateAlarmStatusByAlarmId(Integer alarmId);
+	Result<String> updateAlarmStatusByAlarmId(Integer alarmId);
 	
 	 
 	/**

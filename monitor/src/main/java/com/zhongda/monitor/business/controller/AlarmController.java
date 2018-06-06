@@ -51,14 +51,14 @@ public class AlarmController {
 	@PutMapping("/{alarmId}")
 	@ApiOperation(value = "修改告警信息状态   --cheng.kong", httpMethod = "PUT", response = Result.class, notes = "修改告警信息状态")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "alarmId", value = "告警id", required = true, dataType = "int", paramType = "path") })
-	public Result<Alarm> selectAlarmByUserId(@PathVariable Integer alarmId) {
+	public Result<String> selectAlarmByUserId(@PathVariable Integer alarmId) {
 		return alarmService.updateAlarmStatusByAlarmId(alarmId);
 	}
 	
 	@GetMapping("/updateAlarm")
 	@ApiOperation(value = "修改告警信息状态app   --cheng.kong", httpMethod = "GET", response = Result.class, notes = "修改告警信息状态app")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "alarmId", value = "告警id", required = true, dataType = "int", paramType = "query") })
-	public Result<Alarm> updateAlarmByUserId( Integer alarmId) {
+	public Result<String> updateAlarmByUserId( Integer alarmId) {
 		return alarmService.updateAlarmStatusByAlarmId(alarmId);
 	}
 

@@ -281,7 +281,7 @@
 		A.monitor_point, A.smu_number
 		, A.sensor_number,'操作'AS operate,
 		CASE A.alarm_type WHEN
-		1 THEN '数据类告警' when 2 then '设备类告警' ELSE '其他类告警' END
+		1 THEN '设备类告警' when 2 then '数据类告警' ELSE '其他类告警' END
 		AS
 		'alarm_type_name', A.alarm_context, A.create_time,
 		CASE A.alarm_status

@@ -48,13 +48,13 @@ public class AlarmServiceImpl implements AlarmService{
 
 
 	
-	public Result<Alarm>  updateAlarmStatusByAlarmId(Integer alarmId) {
+	public Result<String>  updateAlarmStatusByAlarmId(Integer alarmId) {
 		int index = alarmMapper.updateAlarmStatusByAlarmId(alarmId);
-		Result<Alarm> result = new Result<Alarm>();
+		Result<String> result = new Result<String>();
 		if(index > 0){
-			result.success("修改状态成功");
+			result.success("修改成功", "修改成功");
 		}else{
-			result.failure("修改状态失败");
+			result.failure("修改状态失败", "修改状态失败");
 		}
 		return result;
 	
@@ -67,9 +67,9 @@ public class AlarmServiceImpl implements AlarmService{
 		 int num =alarmMapper.deleteAlarm(alarm);
 		 Result<String > result = new Result<String>();
 		if(num != 0){
-			result.success("删除成功");
+			result.success("删除成功", "删除成功");
 		}else{
-			result.failure("条件有误");
+			result.failure("条件有误", "条件有误");
 		}
 		return result;
 	}
