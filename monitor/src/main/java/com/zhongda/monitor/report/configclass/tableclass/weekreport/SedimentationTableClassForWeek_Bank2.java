@@ -19,6 +19,7 @@ import com.zhongda.monitor.report.configclass.configmodel.TableBorder;
 import com.zhongda.monitor.report.model.fictitious.ReportWeekData_Dates;
 import com.zhongda.monitor.report.model.fictitious.ReportWeekData_Head;
 import com.zhongda.monitor.report.service.BastTableClass;
+import com.zhongda.monitor.report.utils.FillWordMapUtils;
 import com.zhongda.monitor.report.utils.ReportDateUtils;
 import com.zhongda.monitor.report.utils.Wordl2007Utis;
 
@@ -161,9 +162,8 @@ public class SedimentationTableClassForWeek_Bank2 implements BastTableClass {
 								XWPFTableCell rowTemp = tableOne.getRow(i).getCell(j);
 								
 								XWPFTableCell rowTemp0 = tableOne.getRow(i).getCell(0);
-								
-							
-								rowTemp.setText(reportWeekData_Date.getTotalLaserChange());
+															
+								rowTemp.setText(FillWordMapUtils.formData(Double.parseDouble(reportWeekData_Date.getTotalLaserChange())));
 								
 								//日期只填充一次，mybatis查询出的数据已经按照时间排序了,当某列数据缺少了某天的数据时，缺少的这条数据会插入与之匹配的位置,将会个时间栏位的日期对应，
 								//不会打乱顺序出现日期和数据对应不上的情况。 会将缺少的数据用"无数据"替代,

@@ -87,8 +87,9 @@ public class FillWordMapUtils {
 			String osPath  = gitYmlParaUtils.accordingOsGetParm("upload");
 			
 			
-			
-			ReportContentDay reportContentDay = reportContentDays.get(0);
+			ReportContentDay reportContentDay = reportContentDays.size()>0?reportContentDays.get(0):null;
+		
+			if(reportContentDay==null) return map;			
 			
 			map.put("${report_write}", reportContentDay.getReportWrite());
 			
