@@ -3,6 +3,7 @@ package com.zhongda.monitor.management.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.zhongda.monitor.business.service.ProjectService;
 import com.zhongda.monitor.business.service.PublicSensorDataService;
 import com.zhongda.monitor.business.service.SensorService;
 import com.zhongda.monitor.business.service.UserProjectService;
+import com.zhongda.monitor.core.config.JpushConfig;
 import com.zhongda.monitor.core.service.SysCodeService;
 
 @Controller
@@ -53,6 +55,19 @@ public class UserTemplateController {
 	@RequestMapping(value = "/login")
 	public String login() {
 		return "login";
+	}
+
+	@RequestMapping(value = "/zhongjie")
+	public String zhongjie() {
+		return "zhongjie";
+	}
+
+	@RequestMapping(value = "/fuckme")
+	@ResponseBody
+	public void fuck() {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("msg", "麦迪.zhongjie");
+		JpushConfig.jpushAndroid(hashMap);
 	}
 
 	@RequestMapping("/landing")
