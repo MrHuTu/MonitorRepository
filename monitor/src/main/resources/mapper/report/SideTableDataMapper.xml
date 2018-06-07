@@ -25,6 +25,7 @@
   			<result property="smuNumber" column="smuNumber"/>
   			<result property="smuChannel" column="smuChannel"/>
   			<result property="monitorPoint" column="monitorPoint"/>
+  			<result property="projectName" column="project_name"/>
   			<collection property="reportWeekDataDates" ofType="com.zhongda.monitor.report.model.fictitious.ReportWeekData_Dates">
   				<result property="totalLaserChange" column="totalLaserChange"/>
   				<result property="time" column="time"/>
@@ -88,11 +89,13 @@
 		
 		<select id="selectReportOfWeek" resultMap="weekMap">		
 			select 
-				r.sensor_number sensorNumber ,r.smu_number smuNumber ,r.smu_channel smuChannel ,s.monitor_point monitorPoint,  date_format(r.current_times ,'%Y/%m/%d') time,r.total_laser_change totalLaserChange
+				r.sensor_number sensorNumber ,r.smu_number smuNumber ,r.smu_channel smuChannel ,
+				s.monitor_point monitorPoint,  date_format(r.current_times ,'%Y/%m/%d') time,r.total_laser_change totalLaserChange,
+				r.project_id,p.project_name
 			from 
-				report_data r ,sensor s		
+				report_data r ,sensor s	,project p
 			where 
-				r.project_id=#{projectId} and r.project_id = s.project_id
+				r.project_id=#{projectId} and r.project_id = s.project_id and p.project_id = r.project_id
 				and r.sensor_number = s.sensor_number
 				and r.smu_number =s.smu_number
 				and r.smu_channel = s.smu_channel

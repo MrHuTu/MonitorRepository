@@ -54,7 +54,7 @@ public class WordUtil2007ServiceImpl implements WordUtil2007Service {
 	
 	private static final  String TYPW="W";
 	
-	private static final  String TYPM="M";
+	//private static final  String TYPM="M";
 	
 	@Autowired
 	ProjectService projectService;

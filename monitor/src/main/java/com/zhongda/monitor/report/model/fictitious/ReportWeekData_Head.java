@@ -25,6 +25,9 @@ public class ReportWeekData_Head{
 	//测点	
 	String monitorPoint;
 	
+	//项目id
+	private String projectName;
+	
 	//具体数据
 	List<ReportWeekData_Dates> reportWeekDataDates;
 
@@ -68,13 +71,24 @@ public class ReportWeekData_Head{
 		this.reportWeekDataDates = reportWeekDataDates;
 	}
 
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
 	@Override
 	public String toString() {
 		return "ReportWeekData_Head [sensorNumber=" + sensorNumber
 				+ ", smuNumber=" + smuNumber + ", smuChannel=" + smuChannel
-				+ ", monitorPoint=" + monitorPoint + ", reportWeekDataDates="
-				+ reportWeekDataDates + "]";
+				+ ", monitorPoint=" + monitorPoint + ", projectName="
+				+ projectName + ", reportWeekDataDates=" + reportWeekDataDates
+				+ "]";
 	}
+	
+	
 	
 	
 	

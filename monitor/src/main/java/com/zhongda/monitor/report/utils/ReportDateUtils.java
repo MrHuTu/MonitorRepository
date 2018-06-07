@@ -54,5 +54,21 @@ public class ReportDateUtils {
 	     // System.out.println("所在周星期日的日期：" + imptimeEnd);  
 	     return dataMap;  
 	}  
-
+	
+	/**
+	 * 取date是当前一周的第几天，对应星期几
+	 * @return
+	 */
+	public static int getDayOfWeek(Date date){
+		
+		  Calendar cal = Calendar.getInstance();  
+		  
+		  cal.setTime(date);
+					
+		  int dayWeek = cal.get(Calendar.DAY_OF_WEEK)-1;
+		  
+		  if(dayWeek==0) dayWeek=7;
+		  
+		  return dayWeek;
+	}
 }

@@ -176,7 +176,7 @@ public class FillWordMapUtils {
 		
 		singeMap.put(singe, singeList);
 		
-		Map<String, Object> allDatas = Wordl2007Utis.insertTabSinge(doc2, singeMap, dataList);
+		Map<String, Object> allDatas = Wordl2007Utis.insertTabSinge(doc2, singeMap, dataList,"D");
 		
 		Wordl2007Utis.insertTab(doc2, allDatas, tableClass);
 				

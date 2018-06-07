@@ -453,7 +453,9 @@ public class Wordl2007Utis {
 	 * @param model 与之对应的表格数据信息
 	 * @return Map<String, Object> 例如  ${1}--false(表示表格标题),${2}---Object(表示表格对应的数据)
 	 */
-	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,List<Object> model) {
+	public static Map<String, Object> insertTabSinge(XWPFDocument doc2,Map<String, List<String>> singe,List<Object> model,String repotrTyp) {
+		
+		int index = 0;
 		
 		logger.info("进如占位方法:Map长度"+singe.size());
 		
@@ -496,6 +498,7 @@ public class Wordl2007Utis {
 							
 							//System.out.println("text:"+text+",key"+key);
 							
+							
 							if (/*text.indexOf(key) != -1*/text.equals(key)) {
 								
 								logger.info("当期前表格占位符:"+key);
@@ -511,13 +514,38 @@ public class Wordl2007Utis {
 									 if((i+1)%2!=0){
 										 map.put(listSinge.get(i),false);
 									 }else{
-										 try{
-											 map.put(listSinge.get(i),model.get(0));
-											 model.remove(0);
-										 }catch(IndexOutOfBoundsException e){
+										 if(repotrTyp.equals("D")){
+											 try{
+												 map.put(listSinge.get(i),model.get(0));
+												 
+												 model.remove(0);
+											 }catch(IndexOutOfBoundsException e){
+												 
+												 logger.error("插入表格占位符时,必须传入相匹配的数据源");
+											
+											 }
+										 }else if(repotrTyp.equals("W")){
 											 
-											 logger.error("插入表格占位符时,必须传入相匹配的数据源");
-										
+											 List<Object>  list  =  new ArrayList<Object>();
+											 
+											 //每次取出参数model中的5条数据放入map中，填充周报表格数据
+											 for(int z=index;z<index+5;z++){
+													
+													if(z>model.size()-1){
+														
+														break;
+														
+													}else{
+														
+														list.add(model.get(z));					
+														
+													}								
+													
+												}
+											 	//记录下次遍历model的下标
+												index=index+5;
+											 
+												map.put(listSinge.get(i),list);
 										 }
 										
 									 }
@@ -528,6 +556,7 @@ public class Wordl2007Utis {
 								}
 
 							}
+						
 							
 						}
 
@@ -937,7 +966,7 @@ public class Wordl2007Utis {
 		singe.put("${tablea}", listSinge);
 
 		//在模板中的指定位置。插入2中类型的占位符--相对位移 和水平位移
-		Map<String,Object> mapTable1 = insertTabSinge(doc, singe,model);			
+		Map<String,Object> mapTable1 = insertTabSinge(doc, singe,model,"D");			
 		
 		//在生成占位符的地方创建表格。
 		Wordl2007Utis.insertTab(doc,mapTable1,ReportConfig.WEEK_SEDIMENTATION_BANK); // /----------创建表

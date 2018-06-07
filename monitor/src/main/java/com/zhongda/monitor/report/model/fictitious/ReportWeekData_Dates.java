@@ -1,22 +1,24 @@
 package com.zhongda.monitor.report.model.fictitious;
 
-import org.joda.time.DateTime;
-
-import com.zhongda.monitor.report.utils.FillWordMapUtils;
-
+/**
+ * 记录周报数据
+ * @author 胡超
+ * 2018年6月7日08:48:57
+ *
+ */
 public class ReportWeekData_Dates {
 	//累计变化量
-	private double totalLaserChange;
+	private String totalLaserChange;
 	
 	private String time;
 
 	public String getTotalLaserChange() {
 		
-		return FillWordMapUtils.formData(totalLaserChange);
+		return totalLaserChange;
 	
 	}
 
-	public void setTotalLaserChange(double totalLaserChange) {
+	public void setTotalLaserChange(String totalLaserChange) {
 		
 	
 		this.totalLaserChange = totalLaserChange;
@@ -24,7 +26,7 @@ public class ReportWeekData_Dates {
 
 	public String getTime() {
 		
-		return	new DateTime(time).toString("YYYY/MM/dd");
+		return	time;
 		
 	}
 	
@@ -37,5 +39,7 @@ public class ReportWeekData_Dates {
 		return "ReportWeekData_Dates [totalLaserChange=" + totalLaserChange
 				+ ", time=" + time + "]";
 	}
-
+	
+	
+	
 }
